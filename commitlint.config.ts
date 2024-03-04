@@ -273,9 +273,6 @@ export default {
           },
         },
       },
-      scope: {
-        description: "원랜 scope인데 그냥 건너뛰세요",
-      },
       subject: {
         description:
           "제목(subject)을 작성하세요 ex) 클래스의 구조 변경 및 엔티티 관리 기능 강화",
