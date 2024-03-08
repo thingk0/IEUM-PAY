@@ -1,5 +1,5 @@
 // src/mocks/handlers.ts
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from 'msw';
 
 export type Todo = {
   id: number;
@@ -7,23 +7,23 @@ export type Todo = {
 };
 
 const todos: Todo[] = [
-  { id: 1, name: "할일1" },
-  { id: 2, name: "할일2" },
-  { id: 3, name: "할일2" },
+  { id: 1, name: '할일1' },
+  { id: 2, name: '할일2' },
+  { id: 3, name: '할일2' },
 ];
 
 export const handlers = [
   // TODOLIST - GET
-  http.get("/todos", () => {
+  http.get('/todos', () => {
     return HttpResponse.json(todos, {
       status: 201,
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
   }),
   // TODOLIST ADD - POST
-  http.post("/todos", async ({ request }) => {
+  http.post('/todos', async ({ request }) => {
     const requestData = await request.json();
     const name = requestData?.toString();
 
