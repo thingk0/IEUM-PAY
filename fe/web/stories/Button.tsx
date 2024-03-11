@@ -30,7 +30,7 @@ interface ButtonProps {
 export default function Button({
   primary = false,
   size = 'medium',
-  backgroundColor = '#ffffff',
+  backgroundColor,
   label,
   onClick,
   ...props
@@ -56,11 +56,3 @@ export default function Button({
     </button>
   );
 }
-
-Button.defaultProps = {
-  primary: false,
-  backgroundColor: '#ffffff',
-  size: 'medium' as 'medium',
-  label: '버튼',
-  onClick: () => {}, // defaultProps로 기본값 설정
-};
