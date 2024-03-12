@@ -10,7 +10,8 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@RestController("/api/card")
+@RestController
+@RequestMapping("/api/card")
 public class CardController {
     @PutMapping("/main")
     public ResponseEntity<HttpStatus> cardMain(@RequestBody CardMainRequestDTO cardMainRequestDTO){
