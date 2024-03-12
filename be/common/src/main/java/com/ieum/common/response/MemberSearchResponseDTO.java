@@ -5,10 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class MemberResponseDTO {
-    Long memberId;
+public class MemberSearchResponseDTO {
     String name;
-    String nickname;
-    int gradeCode;
-    String gradeName;
+    String phoneNumber;
 }
