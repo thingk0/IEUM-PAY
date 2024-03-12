@@ -5,10 +5,8 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class MemberResponseDTO {
+public class MemberRegistResponseDTO {
     Long memberId;
     String name;
     String nickname;
-    int gradeCode;
-    String gradeName;
 }
