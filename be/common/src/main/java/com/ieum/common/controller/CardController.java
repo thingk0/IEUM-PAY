@@ -1,7 +1,7 @@
 package com.ieum.common.controller;
 
 import com.ieum.common.request.CardMainRequestDTO;
-import com.ieum.common.request.CardRegisterRequestDTO;
+import com.ieum.common.request.CardRegisterRequesterDTO;
 import com.ieum.common.request.CardUpdateRequestDTO;
 import com.ieum.common.response.CardOcrResponseDTO;
 import org.springframework.http.HttpStatus;
@@ -38,7 +38,7 @@ public class CardController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<HttpStatus> cardRegister(@RequestBody CardRegisterRequestDTO cardRegisterRequestDTO){
+    public ResponseEntity<HttpStatus> cardRegister(@RequestBody CardRegisterRequesterDTO cardRegisterRequesterDTO){
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -4,7 +4,7 @@ import com.ieum.common.request.MemberLoginRequestDTO;
 import com.ieum.common.request.MemberLoginpwUpdateRequestDTO;
 import com.ieum.common.request.MemberNicknameRequestDTO;
 import com.ieum.common.request.MemberPaypwUpdateRequestDTO;
-import com.ieum.common.request.MemberRegistRequestDTO;
+import com.ieum.common.request.MemberRegisterRequestDTO;
 import com.ieum.common.request.MemberSearchRequestDTO;
 import com.ieum.common.response.FundingInfoDTO;
 import com.ieum.common.response.MemberExistResponseDTO;
@@ -43,7 +43,8 @@ public class MemberController {
     }
 
     @PostMapping("/regist")
-    public ResponseEntity<MemberRegistResponseDTO> registMember (@RequestBody MemberRegistRequestDTO request)
+    public ResponseEntity<MemberRegistResponseDTO> registerMember(
+        @RequestBody MemberRegisterRequestDTO request)
     {
         MemberRegistResponseDTO response = MemberRegistResponseDTO.builder()
             .memberId(1L)

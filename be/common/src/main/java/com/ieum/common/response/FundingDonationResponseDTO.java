@@ -3,12 +3,8 @@ package com.ieum.common.response;
 import lombok.Builder;
 import lombok.Getter;
 
-@Builder
 @Getter
-public class FundingInfoDTO {
-
-    String img;
+@Builder
+public class FundingDonationResponseDTO {
     Long fundingId;
-    int fundingAmount;
-    boolean ongoing;
 }
