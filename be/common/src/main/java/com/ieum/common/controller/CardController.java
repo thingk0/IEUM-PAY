@@ -17,7 +17,7 @@ public class CardController {
     public ResponseEntity<HttpStatus> cardMain(@RequestBody CardMainRequestDTO cardMainRequestDTO){
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @PostMapping
+    @PostMapping("/ocr")
     public ResponseEntity<CardOcrResponseDTO> cardOcr(@RequestParam("img") MultipartFile img) {
         // 파일의 확장자 추출
         String originalFileExtension;
