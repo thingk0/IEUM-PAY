@@ -210,7 +210,7 @@ public class FundingController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/list/complete")
+    @GetMapping("/list/ongoing")
     public ResponseEntity<List<FundingOngoingInfoResponseDTO>> getFundingOngoingList () {
         List<FundingOngoingInfoResponseDTO> response = new ArrayList<>();
 

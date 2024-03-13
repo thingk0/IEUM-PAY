@@ -1,5 +1,7 @@
 package com.ieum.common.controller;
 
+import com.ieum.common.request.MemberDeleteRequestDTO;
+import com.ieum.common.request.MemberExistRequestDTO;
 import com.ieum.common.request.MemberLoginRequestDTO;
 import com.ieum.common.request.MemberLoginpwUpdateRequestDTO;
 import com.ieum.common.request.MemberNicknameRequestDTO;
@@ -55,11 +57,11 @@ public class MemberController {
     }
 
     @PutMapping("/delete")
-    public ResponseEntity<HttpStatus> deleteMember (@RequestBody String authenticationKey
+    public ResponseEntity<HttpStatus> deleteMember (@RequestBody MemberDeleteRequestDTO request
             // @AuthenticationPrincipal Long memberId
         ) {
         // 더미데이터 AuthenticationKey - 1 들어오면 성공 1이외 다른 값이 들어오면 실패
-        if (!"ok".equals(authenticationKey)) {
+        if (!"ok".equals(request.getAuthenticationKey())) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } else {
             return new ResponseEntity<>(HttpStatus.OK);
@@ -67,10 +69,10 @@ public class MemberController {
     }
 
     @PostMapping("/exist")
-    public ResponseEntity<MemberExistResponseDTO> checkMember (@RequestBody String phoneNumber) {
+    public ResponseEntity<MemberExistResponseDTO> checkMember (@RequestBody MemberExistRequestDTO request) {
 
         // 번호 010-1234-1234 가 들어오면 멤버 존재
-        if (phoneNumber.equals("010-1234-1234")) {
+        if (request.getPhoneNumber().equals("010-1234-1234")) {
             MemberExistResponseDTO response = MemberExistResponseDTO.builder()
                 .exist(true)
                 .build();
