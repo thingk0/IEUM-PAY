@@ -1,0 +1,5 @@
+[gerrit]
+host=j10b103.p.ssafy.io
+port=8989
+project=S10P22B103
+defaultbranch=develop
