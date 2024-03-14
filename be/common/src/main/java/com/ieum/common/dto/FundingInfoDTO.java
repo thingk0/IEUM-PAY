@@ -1,4 +1,4 @@
-package com.ieum.common.response;
+package com.ieum.common.dto;
 
 import lombok.Builder;
 import lombok.Getter;
