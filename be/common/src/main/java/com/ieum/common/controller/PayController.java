@@ -6,6 +6,9 @@ import com.ieum.common.response.PayBalanceResponseDTO;
 import com.ieum.common.response.PayHistoryPeriodResponseDTO;
 import com.ieum.common.response.PayHistoryRemittanceResponseDTO;
 import com.ieum.common.response.PayRemittancePaymoneyResponseDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +19,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/pay")
+@Tag(name = "pay", description = "페이 API - 목업")
 public class PayController {
+
+    @Operation(summary = "결제 잔액 조회", description = "사용자의 결제 잔액을 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "결제 잔액 조회 성공")
     @GetMapping("balance")
     public ResponseEntity<PayBalanceResponseDTO> getPaymoney (){
         PayBalanceResponseDTO result = PayBalanceResponseDTO.builder()
@@ -24,6 +31,8 @@ public class PayController {
                 .build();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+    @Operation(summary = "사용 내역 조회", description = "지정된 기간 동안의 사용 내역을 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "사용 내역 조회 성공")
     @GetMapping("history/{period}")
     public ResponseEntity<List<PayHistoryPeriodResponseDTO>> getHistoryList(@PathVariable("period") String period){
         List<PayHistoryPeriodResponseDTO> result = new ArrayList<>();
@@ -119,6 +128,9 @@ public class PayController {
         result.add(history5);
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
+
+    @Operation(summary = "송금 내역 조회", description = "특정 송금 내역을 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "송금 내역 조회 성공")
     @GetMapping("history/remittance/{historyId}")
     public ResponseEntity<PayHistoryRemittanceResponseDTO> getHistory(@PathVariable("historyId") Long id){
         PayHistoryRemittanceResponseDTO result = PayHistoryRemittanceResponseDTO.builder()
@@ -127,6 +139,9 @@ public class PayController {
                 .build();
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
+
+    @Operation(summary = "페이머니 송금", description = "페이머니를 송금합니다.")
+    @ApiResponse(responseCode = "200", description = "페이머니 송금 성공")
     @PostMapping("remittance/paymoney")
     public ResponseEntity<PayRemittancePaymoneyResponseDTO> sendPaymoney(@RequestBody PayRemittancePaymoneyRequestDTO request){
         PayRemittancePaymoneyResponseDTO result = PayRemittancePaymoneyResponseDTO.builder()

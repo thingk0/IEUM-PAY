@@ -8,13 +8,18 @@ import com.ieum.common.request.MemberNicknameRequestDTO;
 import com.ieum.common.request.MemberPaypwUpdateRequestDTO;
 import com.ieum.common.request.MemberRegisterRequestDTO;
 import com.ieum.common.request.MemberSearchRequestDTO;
-import com.ieum.common.response.FundingInfoDTO;
+import com.ieum.common.dto.FundingInfoDTO;
 import com.ieum.common.response.MemberExistResponseDTO;
 import com.ieum.common.response.MemberLoginResponseDTO;
 import com.ieum.common.response.MemberRegistResponseDTO;
 import com.ieum.common.response.MemberResponseDTO;
 import com.ieum.common.response.MemberSearchResponseDTO;
 import com.ieum.common.response.MemberSummaryResponseDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.Arrays;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +32,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/member")
+@Tag(name = "members", description = "멤버 API - 목업")
 public class MemberController {
 
-    @GetMapping()
+    @Operation(summary = "회원 정보 조회", description = "회원의 상세 정보를 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "회원 정보 조회 성공, 회원 정보 반환")
+    @GetMapping
     public ResponseEntity<MemberResponseDTO> getMemberInfo (
         // @AuthenticationPrincipal Long memberId
     ) {
@@ -44,6 +52,8 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "회원 등록", description = "새로운 회원을 등록합니다.")
+    @ApiResponse(responseCode = "200", description = "회원 등록 성공, 이름, 닉네임 반환")
     @PostMapping("/regist")
     public ResponseEntity<MemberRegistResponseDTO> registerMember(
         @RequestBody MemberRegisterRequestDTO request)
@@ -56,6 +66,9 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "회원 삭제", description = "회원을 삭제합니다.")
+    @ApiResponse(responseCode = "200", description = "회원 삭제 성공")
+    @ApiResponse(responseCode = "401", description = "인증 실패")
     @PutMapping("/delete")
     public ResponseEntity<HttpStatus> deleteMember (@RequestBody MemberDeleteRequestDTO request
             // @AuthenticationPrincipal Long memberId
@@ -68,6 +81,8 @@ public class MemberController {
         }
     }
 
+    @Operation(summary = "회원 존재 여부 확인", description = "회원의 존재 여부를 확인합니다.")
+    @ApiResponse(responseCode = "200", description = "회원 존재 여부 exist:true/false")
     @PostMapping("/exist")
     public ResponseEntity<MemberExistResponseDTO> checkMember (@RequestBody MemberExistRequestDTO request) {
 
@@ -86,6 +101,8 @@ public class MemberController {
         }
     }
 
+    @Operation(summary = "회원 로그인", description = "회원 로그인을 처리합니다.")
+    @ApiResponse(responseCode = "200", description = "멤버ID, 이름, 닉네임 반환")
     @PostMapping("/login")
     public ResponseEntity<MemberLoginResponseDTO> login (@RequestBody MemberLoginRequestDTO request) {
         MemberLoginResponseDTO response = MemberLoginResponseDTO.builder()
@@ -97,21 +114,29 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "로그인 비밀번호 변경", description = "회원의 로그인 비밀번호를 변경합니다.")
+    @ApiResponse(responseCode = "200", description = "로그인 비밀번호 변경 성공")
     @PutMapping("/login-pw/update")
     public ResponseEntity<HttpStatus> updateLoginPassword (@RequestBody MemberLoginpwUpdateRequestDTO request) {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @Operation(summary = "닉네임 변경", description = "회원의 닉네임을 변경합니다.")
+    @ApiResponse(responseCode = "200", description = "닉네임 변경 성공")
     @PutMapping("/nickname")
     public ResponseEntity<HttpStatus> updateNickname (@RequestBody MemberNicknameRequestDTO request) {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @Operation(summary = "결제 비밀번호 변경", description = "회원의 결제 비밀번호를 변경합니다.")
+    @ApiResponse(responseCode = "200", description = "결제 비밀번호 변경 성공")
     @PutMapping("/pay-pw/update")
     public ResponseEntity<HttpStatus> updatePaymentPassword (@RequestBody MemberPaypwUpdateRequestDTO request) {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @Operation(summary = "회원 검색", description = "회원을 검색합니다.")
+    @ApiResponse(responseCode = "200", description = "회원 검색 성공 - 회원 이름, 전화번호")
     @PostMapping("/search")
     public ResponseEntity<MemberSearchResponseDTO> searchMember (@RequestBody MemberSearchRequestDTO request)
     {
@@ -123,6 +148,8 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "회원 요약 정보 조회", description = "회원의 요약 정보를 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "회원 정보 요약(기부내역 포함)")
     @PostMapping("/summary")
     public ResponseEntity<MemberSummaryResponseDTO> getMemberSummary (
         // @AuthenticationPrincipal Long memberId

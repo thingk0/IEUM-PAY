@@ -1,5 +1,6 @@
 package com.ieum.common.response;
 
+import com.ieum.common.dto.FundingInfoDTO;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
