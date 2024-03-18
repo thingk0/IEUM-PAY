@@ -1,6 +1,3 @@
-footer {
-  background-color: white;
-}
 ul {
   list-style-type: none;
   margin: 0;
@@ -24,6 +21,8 @@ ul {
     'Segoe UI Symbol',
     sans-serif;
   justify-content: space-around;
+  padding: 0.625rem;
+  background: white;
 }
 a {
   text-decoration: none;
