@@ -1,11 +1,33 @@
 import React from 'react';
-
 import './input.css';
 
-export default function Input () {
-  const size = 'medium'
+interface inputProps {
+  inputValue: (value: string) => string,
+  labelValue: string,
+  isPassword: boolean,
+}
+
+const Input = ({ inputValue, labelValue, isPassword} : inputProps) => {
 
   return (
-    <input type="text" className={`input ${size}`} />
-  );
-}
+    <>
+    <div className="divTag container">
+      <input 
+        type="text" 
+        className={`inputTag`}
+        // value={inputValue}
+        id={labelValue}
+        onChange={(event)=> inputValue(event.target.value)}
+        required
+      />
+      <label className={`labelTag`} htmlFor={labelValue}>
+        {labelValue}
+      </label>
+      <span className="spanTag"></span>
+    </div>
+    </>
+  )
+  ;
+};
+
+export default Input;

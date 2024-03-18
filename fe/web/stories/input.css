@@ -1,24 +1,60 @@
-.input {
-    display: block;
-    width: 400px;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    border: 1px solid;
-    border-color: inherit;
-    background-color: #fff;
-  }
-  
-  .small {
-    height: 20px;
-    font-size: 0.865rem;
-  }
-  
-  .medium {
-    height: 2.5rem;
-    font-size: 1rem;
-  }
-  
-  .large {
-    height: 3rem;
-    font-size: 1.25rem;
-  }
+.container {
+  position: relative;
+  width: 100%;
+  margin-top: 1.875rem;
+  margin-left: 1.125rem;
+}
+
+.inputTag {
+  font-size: 1.25rem;
+  color: #222222;
+  width: 100%;
+  caret-color: #8035f9;
+  /* height: 4rem; */
+  border: none;
+  border-bottom: solid #aaaaaa 1px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  position: relative;
+  background: none;
+  z-index: 5;
+  transition: border-bottom-color 0.3s, transform 0.3s;
+}
+
+.input::placeholder {color: #aaaaaa}
+.inputTag:focus {
+  outline: none;
+  /* bottom: 0rem; */
+}
+
+.spanTag {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #8035f9;
+  width: 0;
+  height: 0.125rem;
+  border-radius: 0.125rem;
+  transition: width 0.3s;
+}
+
+.labelTag {
+  position: absolute;
+  color: #aaa;
+  font-size: 1.25rem;
+  bottom: 0.625rem;
+  left: 10px;
+  transition: all .2s;
+}
+
+.inputTag:focus ~ .labelTag, .inputTag:valid ~ .labelTag {
+  bottom: 2.75rem;
+  font-size: 1rem;
+  color: #666;
+  font-weight: bold;
+}
+
+.inputTag:focus ~ .spanTag, .inputTag:valid ~ .spanTag {
+  width: 100%;
+}
