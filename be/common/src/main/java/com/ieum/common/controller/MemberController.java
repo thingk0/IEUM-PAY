@@ -15,12 +15,15 @@ import com.ieum.common.response.MemberRegistResponseDTO;
 import com.ieum.common.response.MemberResponseDTO;
 import com.ieum.common.response.MemberSearchResponseDTO;
 import com.ieum.common.response.MemberSummaryResponseDTO;
+import com.ieum.common.service.MailService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.Arrays;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,9 +35,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/member")
+@AllArgsConstructor
 @Tag(name = "members", description = "멤버 API - 목업")
 public class MemberController {
 
+    private MailService mailService;
     @Operation(summary = "회원 정보 조회", description = "회원의 상세 정보를 조회합니다.")
     @ApiResponse(responseCode = "200", description = "회원 정보 조회 성공, 회원 정보 반환")
     @GetMapping
@@ -86,16 +91,18 @@ public class MemberController {
     @PostMapping("/exist")
     public ResponseEntity<MemberExistResponseDTO> checkMember (@RequestBody MemberExistRequestDTO request) {
 
+        String phoneNumber = request.getPhoneNumber();
         // 번호 010-1234-1234 가 들어오면 멤버 존재
-        if (request.getPhoneNumber().equals("010-1234-1234")) {
+        if (phoneNumber.equals("010-1234-1234")) {
             MemberExistResponseDTO response = MemberExistResponseDTO.builder()
-                .exist(true)
+                .exist("true")
                 .build();
             return ResponseEntity.ok(response);
         }
         else {
+            String code = mailService.getAuthentificationCode(phoneNumber);
             MemberExistResponseDTO response = MemberExistResponseDTO.builder()
-                .exist(false)
+                .exist(code)
                 .build();
             return ResponseEntity.ok(response);
         }
