@@ -6,6 +6,6 @@ import lombok.Getter;
 @Getter
 @Builder
 public class MmsResponseDTO {
-    String mmsAuth;
+    boolean mmsAuth;
 
 }
