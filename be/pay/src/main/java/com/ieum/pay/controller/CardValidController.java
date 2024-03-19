@@ -1,6 +1,8 @@
 package com.ieum.pay.controller;
 
+import com.ieum.pay.request.CardRegisterRequestDTO;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,9 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/card")
 public class CardValidController {
     @PostMapping("/valid")
-    public static long isValidCardNumber(String cardNumber) {
+    public static Long isValidCardNumber(@RequestBody CardRegisterRequestDTO requestDTO) {
+        String cardNumber = requestDTO.getCardNumber();
         if (cardNumber == null || cardNumber.length() != 16)
-            return -2; //잘못된 형태
+            return -2L; //잘못된 형태
 
         char[] cardNumberArray = cardNumber.toCharArray();
         int lastNumber = cardNumberArray[15] - '0';
@@ -35,9 +38,14 @@ public class CardValidController {
 
             //저장된 카드 id 반환
 
-            return 1;   //  4917484589897107 f
+            return 1L;   //  4917484589897107 f
         }
-        return -1;
+        return -1L;
+    }
+
+    @PostMapping("/delete")
+    public static void isValidCardNumber(Long id){
+        //card delete
     }
 
 }
