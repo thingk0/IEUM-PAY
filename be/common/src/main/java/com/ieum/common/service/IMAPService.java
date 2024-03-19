@@ -8,10 +8,12 @@ import javax.mail.*;
 import javax.mail.event.MessageCountAdapter;
 import javax.mail.event.MessageCountEvent;
 import javax.mail.internet.MimeBodyPart;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class IMAPService {
     // IMAP 프로토콜을 이용해서 메일을 실시간으로 확인하는 서비스
     
@@ -41,18 +43,42 @@ public class IMAPService {
             emailFolder.addMessageCountListener(new MessageCountAdapter() {
                 public void messagesAdded(MessageCountEvent ev) {
                     Message[] messages = ev.getMessages();
-                    System.out.println("Got " + messages.length + " new messages");
+                    log.info("Got " + messages.length + " new messages");
                     for (Message message : messages) {
                         try {
 
                             // 보낸 사람(핸드폰 번호) 출력
                             Address[] fromAddresses = message.getFrom();
                             String from = fromAddresses != null && fromAddresses.length > 0 ? fromAddresses[0].toString() : "Unknown";
+
+                            if (!from.startsWith("010")) {
+                                continue; // 이 메시지를 무시하고 다음 메시지로 넘어갑니다.
+                            }
+
                             String phoneNumber = from.replaceAll(".*<(\\d+)@.*", "$1"); // 정규 표현식을 사용하여 전화번호 추출
-                            System.out.println("From: " + phoneNumber);
+                            log.info("From: " + phoneNumber);
 
                             // 메일 내용 출력
                             String contentType = message.getContentType();
+
+                            boolean hasAttachment = false;
+                            if (contentType.contains("multipart")) {
+                                Multipart multiPart = (Multipart) message.getContent();
+                                for (int partCount = 0; partCount < multiPart.getCount(); partCount++) {
+                                    MimeBodyPart part = (MimeBodyPart) multiPart.getBodyPart(partCount);
+                                    if (Part.ATTACHMENT.equalsIgnoreCase(part.getDisposition())) {
+                                        hasAttachment = true;
+                                        break; // 첨부파일이 발견되면 더 이상 다른 부분을 확인하지 않습니다.
+                                    }
+                                }
+                            }
+
+                            if (hasAttachment) {
+                                // 첨부 파일이 있으면 에러 로그를 출력합니다.
+                                log.error("첨부파일이 들어왔습니다.");
+                                continue; // 첨부파일이 있는 경우 다른 로직을 수행하지 않습니다.
+                            }
+
                             String messageContent = "";
 
                             if (contentType.contains("text/plain") || contentType.contains("text/html")) {
@@ -60,24 +86,14 @@ public class IMAPService {
                                 if (content != null) {
                                     messageContent = content.toString();
                                 }
-                            } else if (contentType.contains("multipart")) {
-                                Multipart multiPart = (Multipart) message.getContent();
-                                for (int partCount = 0; partCount < multiPart.getCount(); partCount++) {
-                                    MimeBodyPart part = (MimeBodyPart) multiPart.getBodyPart(partCount);
-                                    if (Part.ATTACHMENT.equalsIgnoreCase(part.getDisposition())) {
-                                        // 첨부 파일 처리
-                                    } else {
-                                        messageContent = part.getContent().toString();
-                                    }
-                                }
                             }
 
-                            // 'ieum' 단어부터 '========' 전까지의 내용만 출력
+                            // 'ieum' 단어부터 '=' 전까지의 내용만 출력
                             if (messageContent.contains("ieum")) {
                                 int startIndex = messageContent.indexOf("ieum");
-                                int endIndex = messageContent.indexOf("========", startIndex);
+                                int endIndex = messageContent.indexOf("=", startIndex);
                                 String relevantContent = messageContent.substring(startIndex, endIndex != -1 ? endIndex : messageContent.length());
-                                System.out.println("Content: " + relevantContent);
+                                log.info("Content: " + relevantContent);
                             }
 
                         } catch (MessagingException | IOException e) {
@@ -87,9 +103,6 @@ public class IMAPService {
                 }
             });
 
-
-            // 실시간으로 메일을 체크하기 위해 IDLE 커맨드 사용
-            // 이 부분은 별도의 스레드에서 처리해야 합니다.
             new Thread(() -> {
                 try {
                     while (!Thread.interrupted()) {
@@ -99,9 +112,6 @@ public class IMAPService {
                     e.printStackTrace();
                 }
             }).start();
-
-        } catch (NoSuchProviderException e) {
-            e.printStackTrace();
         } catch (MessagingException e) {
             e.printStackTrace();
         }

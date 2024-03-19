@@ -1,5 +1,6 @@
 package com.ieum.common.controller;
 
+import com.ieum.common.domain.maria.MemberEntity;
 import com.ieum.common.request.MemberDeleteRequestDTO;
 import com.ieum.common.request.MemberExistRequestDTO;
 import com.ieum.common.request.MemberLoginRequestDTO;
@@ -16,12 +17,14 @@ import com.ieum.common.response.MemberResponseDTO;
 import com.ieum.common.response.MemberSearchResponseDTO;
 import com.ieum.common.response.MemberSummaryResponseDTO;
 import com.ieum.common.service.MailService;
+import com.ieum.common.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.Arrays;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -40,6 +43,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
     private MailService mailService;
+    private MemberService memberService;
+
     @Operation(summary = "회원 정보 조회", description = "회원의 상세 정보를 조회합니다.")
     @ApiResponse(responseCode = "200", description = "회원 정보 조회 성공, 회원 정보 반환")
     @GetMapping
@@ -92,8 +97,10 @@ public class MemberController {
     public ResponseEntity<MemberExistResponseDTO> checkMember (@RequestBody MemberExistRequestDTO request) {
 
         String phoneNumber = request.getPhoneNumber();
-        // 번호 010-1234-1234 가 들어오면 멤버 존재
-        if (phoneNumber.equals("010-1234-1234")) {
+
+        Optional<MemberEntity> entity = memberService.getMemberByPhoneNumber(phoneNumber);
+
+        if (entity.isPresent()) {
             MemberExistResponseDTO response = MemberExistResponseDTO.builder()
                 .exist("true")
                 .build();

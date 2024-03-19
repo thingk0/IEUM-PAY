@@ -1,7 +1,11 @@
 package com.ieum.common.service;
 
+import com.ieum.common.domain.maria.MemberEntity;
+import com.ieum.common.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MailService {
