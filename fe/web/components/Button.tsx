@@ -1,4 +1,4 @@
-import styles from './button.module.scss';
+import styles from './button.module.css';
 
 interface ButtonProps {
   text: string;

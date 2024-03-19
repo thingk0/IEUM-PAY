@@ -1,0 +1,38 @@
+.container {
+  width: 100%;
+  padding: 10px 20px;
+}
+
+.thickFill {
+  height: 56px;
+  width: 100%;
+  background-color: rgb(128, 53, 249);
+  border-radius: 28px;
+  color: white;
+}
+
+.thinFill {
+  height: 48px;
+  width: 100%;
+  background-color: rgb(128, 53, 249);
+  border-radius: 24px;
+  color: white;
+}
+
+.thickLine {
+  height: 56px;
+  width: 100%;
+  border: 1px solid rgb(128, 53, 249);
+  background-color: transparent;
+  border-radius: 28px;
+  color: rgb(128, 53, 249);
+}
+
+.thinLine {
+  height: 48px;
+  width: 100%;
+  border: 1px solid rgb(128, 53, 249);
+  background-color: transparent;
+  border-radius: 24px;
+  color: rgb(128, 53, 249);
+}
