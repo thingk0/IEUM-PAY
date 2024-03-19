@@ -1,4 +1,4 @@
-package com.ieum.common.domain.maria;
+package com.ieum.common.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,13 +9,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
 @Entity
-@Table(name = "members") // 테이블 이름을 'members'로 지정
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberEntity {
+public class Members {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본 키 생성 전략을 IDENTITY로 지정
