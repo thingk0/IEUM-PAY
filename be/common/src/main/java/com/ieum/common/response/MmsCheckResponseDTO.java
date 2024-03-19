@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class MemberExistResponseDTO {
-    boolean exist;
+public class MmsCheckResponseDTO {
+    boolean authCheck;
 }
