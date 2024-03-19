@@ -1,15 +1,33 @@
+* {
+  box-sizing: border-box;
+}
 .storybook-button {
-  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family:
+    'Pretendard Variable',
+    Pretendard,
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    Roboto,
+    'Helvetica Neue',
+    'Segoe UI',
+    'Apple SD Gothic Neo',
+    'Noto Sans KR',
+    'Malgun Gothic',
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol',
+    sans-serif;
   font-weight: 700;
   border: 0;
-  border-radius: 3em;
+  border-radius: 60px;
   cursor: pointer;
   display: inline-block;
   line-height: 1;
 }
 .storybook-button--primary {
   color: white;
-  background-color: #1ea7fd;
+  background-color: #8035f9;
 }
 .storybook-button--secondary {
   color: #333;
@@ -24,7 +42,8 @@
   font-size: 14px;
   padding: 11px 20px;
 }
-.storybook-button--large {
-  font-size: 16px;
-  padding: 12px 24px;
+.storybook-button--thick {
+  font-size: 1.25rem;
+  padding: 1rem 0;
+  width: 100%;
 }

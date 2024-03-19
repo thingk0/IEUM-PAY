@@ -13,7 +13,7 @@ interface ButtonProps {
   /**
    * How large should the button be?
    */
-  size?: 'small' | 'medium' | 'large';
+  size?: 'small' | 'medium' | 'thick';
   /**
    * Button contents
    */
@@ -29,7 +29,7 @@ interface ButtonProps {
  */
 export default function Button({
   primary = false,
-  size = 'medium',
+  size = 'thick',
   backgroundColor,
   label,
   onClick,

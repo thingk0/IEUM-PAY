@@ -8,7 +8,7 @@ const meta = {
   component: Button,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
-    layout: 'centered',
+    layout: 'fullscreen',
   },
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
@@ -25,26 +25,26 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     primary: true,
-    label: 'Button',
+    label: '버튼',
   },
 };
 
 export const Secondary: Story = {
   args: {
-    label: 'Button',
+    label: '버튼',
   },
 };
 
-export const Large: Story = {
+export const Thick: Story = {
   args: {
-    size: 'large',
-    label: 'Button',
+    size: 'thick',
+    label: '버튼',
   },
 };
 
 export const Small: Story = {
   args: {
     size: 'small',
-    label: 'Button',
+    label: '버튼',
   },
 };
