@@ -41,7 +41,7 @@ export default function KeyPad({
     <div className={classes.keypad}>
       <ul className={classes.container}>
         {buttonList.map((v) => (
-          <li className={classes.item}>
+          <li className={classes.item} key={v.toString()}>
             <button onClick={() => handleClick(v)}>{v}</button>
           </li>
         ))}
