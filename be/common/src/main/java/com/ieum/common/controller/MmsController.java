@@ -5,7 +5,6 @@ import com.ieum.common.response.MmsResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.text.SimpleDateFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,10 +20,21 @@ public class MmsController {
     @PostMapping
     public ResponseEntity<MmsResponseDTO> requestMms(@RequestBody MmsRequestDTO request) {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String phoneNumber = request.getPhoneNumber();
+        String authCode = request.getAuthCode();
+        // redis에서 phoneNumber의 value와 authCode 일치 확인
+        String value = "";
+
+        if (authCode.equals(value)) {
+            MmsResponseDTO response = MmsResponseDTO.builder()
+                .mmsAuth(true)
+                .build();
+
+            return ResponseEntity.ok(response);
+        }
 
         MmsResponseDTO response = MmsResponseDTO.builder()
-            .mmsAuth("QWERASDZXCASDQWEQWE123124")
+            .mmsAuth(false)
             .build();
 
         return ResponseEntity.ok(response);
