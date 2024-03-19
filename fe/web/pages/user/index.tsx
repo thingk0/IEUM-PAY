@@ -2,8 +2,10 @@ import { useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { Input, Button } from '@nextui-org/react';
 import styles from '@/styles/user.module.css';
+import { useStore } from 'zustand';
 
 export default function User() {
+  const userStore = useStore;
   const [inputValue, setValue] = useState('');
   const router = useRouter();
 
