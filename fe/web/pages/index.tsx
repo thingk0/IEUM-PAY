@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Inter } from 'next/font/google';
 import styles from '@/styles/Home.module.css';
 import Button from '@/components/Button';
+import { Main } from 'next/document';
 
 const inter = Inter({ subsets: ['latin'] });
 
