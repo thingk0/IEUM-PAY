@@ -2,9 +2,11 @@ import { useState } from 'react';
 import KeyPad from '../_components/KeyPad';
 import useSendMoneyInfo from '@/hooks/useSendMoneyStore';
 import classes from '@/styles/AmountPage.module.css';
+import { useRouter } from 'next/router';
 
 type KeyElement = string | number | JSX.Element;
 function AmountPage() {
+  const router = useRouter();
   const { sendMoneyInfo, pushNumber, popNumber } = useSendMoneyInfo();
   function handleClickNumber(v: KeyElement) {
     pushNumber(Number(v));
@@ -13,7 +15,7 @@ function AmountPage() {
     popNumber();
   }
   function handleClickConfirm(v: KeyElement) {
-    alert(`입력 금액은 ${sendMoneyInfo.송금금액}입니다.`);
+    router.push('/send-money/confirm');
   }
   function 송금금액() {
     return (
