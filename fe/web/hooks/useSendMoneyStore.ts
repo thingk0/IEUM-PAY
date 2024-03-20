@@ -17,6 +17,8 @@ interface SendMoneyInfoActions {
   setSendMoneyInfo: (sendMoneyInfo: sendMoneyInfoType) => void;
   pushNumber: (amount: number) => void;
   popNumber: () => void;
+  addAmount: (amount: number) => void;
+  setFullAmount: () => void;
   deleteSendMoneyInfo: () => void;
 }
 
@@ -54,6 +56,30 @@ const useSendMoneyInfo = create<SendMoneyInfoState & SendMoneyInfoActions>(
           수취은행: state.sendMoneyInfo.수취은행,
           수취계좌: state.sendMoneyInfo.수취계좌,
           송금금액: Math.trunc(state.sendMoneyInfo.송금금액 / 10),
+          송금은행: state.sendMoneyInfo.송금은행,
+          잔액: state.sendMoneyInfo.잔액,
+        },
+      }));
+    },
+    addAmount: (amount: number) => {
+      set((state) => ({
+        sendMoneyInfo: {
+          수취인: state.sendMoneyInfo.수취인,
+          수취은행: state.sendMoneyInfo.수취은행,
+          수취계좌: state.sendMoneyInfo.수취계좌,
+          송금금액: state.sendMoneyInfo.송금금액 + amount,
+          송금은행: state.sendMoneyInfo.송금은행,
+          잔액: state.sendMoneyInfo.잔액,
+        },
+      }));
+    },
+    setFullAmount: () => {
+      set((state) => ({
+        sendMoneyInfo: {
+          수취인: state.sendMoneyInfo.수취인,
+          수취은행: state.sendMoneyInfo.수취은행,
+          수취계좌: state.sendMoneyInfo.수취계좌,
+          송금금액: state.sendMoneyInfo.잔액,
           송금은행: state.sendMoneyInfo.송금은행,
           잔액: state.sendMoneyInfo.잔액,
         },

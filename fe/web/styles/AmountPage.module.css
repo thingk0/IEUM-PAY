@@ -1,11 +1,18 @@
 .main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.wrapper {
   text-align: center;
   background: white;
-  height: 100vh;
-  width: 100%;
+  width: 88.8%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  flex: 1 0 auto;
 }
 .senderInfo {
   background-color: #efedf1;
