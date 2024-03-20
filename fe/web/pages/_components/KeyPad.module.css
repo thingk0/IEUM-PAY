@@ -1,6 +1,7 @@
 .keypad {
   color: white;
   background-color: blueviolet;
+  width: 100%;
 }
 
 .container {
