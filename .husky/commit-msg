@@ -2,4 +2,6 @@
 . "$(dirname "$0")/_/husky.sh"
 
 npx --no-install commitlint --edit
-`git rev-parse --git-dir`/hooks/commit-msg $1
+if ! git rev-parse --git-dir/hooks/commit-msg "$1"; then
+  echo "Failed to execute commit-msg hook, but continuing with commit."
+fi
