@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { axiosApi } from '@/utils/instance';
 import { AxiosResponse } from 'axios';
+import { useRouter } from 'next/router';
 
 type UserStore = {
   phoneNumber: string;
@@ -20,9 +21,11 @@ type UserStore = {
    * random key를 요청하는 함수
    */
   requestRandomKey: () => void;
+  login: () => void;
 };
 
 const instance = axiosApi();
+const router = useRouter();
 
 export const useUserStore = create<UserStore>((set) => ({
   phoneNumber: '',
@@ -50,6 +53,23 @@ export const useUserStore = create<UserStore>((set) => ({
 
   setpaymentPassword: (value) => {
     set((state) => ({ paymentPassword: (state.paymentPassword = value) }));
+  },
+
+  login: async () => {
+    await instance
+      .post('api/member/login', {
+        phoneNumber: set((state) => ({ phoneNumber: state.phoneNumber })),
+        userPassword: set((state) => ({ userPassword: state.userPassword })),
+      })
+      .then((e) => {
+        typeof window != undefined
+          ? (localStorage['access_token'] = e.data['accessToken'])
+          : '';
+        router.push('/Main');
+      })
+      .catch((e) => {
+        console.log('로그인 실패');
+      });
   },
 
   requestRandomKey: async () => {
