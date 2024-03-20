@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,14 +39,14 @@ public class MmsController {
                 .authCheck(true)
                 .build();
 
-            return ResponseEntity.ok(response);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
 
         MmsCheckResponseDTO response = MmsCheckResponseDTO.builder()
             .authCheck(false)
             .build();
 
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Operation(summary = "MMS 인증 코드 요청", description = "MMS 인증 요청")
@@ -60,7 +61,7 @@ public class MmsController {
             .mmsAuth(code)
             .build();
 
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

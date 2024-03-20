@@ -9,6 +9,6 @@ public class MemberResponseDTO {
     Long memberId;
     String name;
     String nickname;
-    int gradeCode;
+    String gradeCode;
     String gradeName;
 }
