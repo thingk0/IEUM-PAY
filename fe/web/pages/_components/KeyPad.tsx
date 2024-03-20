@@ -27,8 +27,6 @@ export default function KeyPad({
     '완료',
   ];
   function handleClick(v: KeyElement) {
-    console.log(typeof v);
-    console.log(v);
     if (!isNaN(Number(v))) {
       onClickNumber(v);
     } else if (v === '완료') {
@@ -41,7 +39,7 @@ export default function KeyPad({
     <div className={classes.keypad}>
       <ul className={classes.container}>
         {buttonList.map((v) => (
-          <li className={classes.item}>
+          <li className={classes.item} key={v.toString()}>
             <button onClick={() => handleClick(v)}>{v}</button>
           </li>
         ))}

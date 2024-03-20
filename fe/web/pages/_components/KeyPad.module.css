@@ -1,4 +1,3 @@
-
 .keypad {
   color: white;
   background-color: blueviolet;
@@ -11,10 +10,11 @@
 .item {
   text-align: center; /* 텍스트 정렬을 가운데로 설정합니다. */
 }
-.item button{
-  width:100%;
+.item button {
+  width: 100%;
   height: 4rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 2rem;
 }
