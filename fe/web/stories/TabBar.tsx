@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import './tabbar.css';
+import classes from './tabbar.module.css';
 import CreditCardIcon from './icons/CreditCardIcon';
 import HistoryIcon from './icons/HistoryIcon';
 import UserIcon from './icons/UserIcon';
@@ -29,12 +29,12 @@ interface TabBarProps {
 
 function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
   return (
-    <footer>
-      <ul>
+    <nav className={classes.container}>
+      <ul className={classes.ul}>
         <li>
-          <Link href="history">
+          <Link href="history" className={classes.link}>
             <div
-              className={`wrapper ${selected === tabBarElementCode.history ? 'active' : ''}`}
+              className={`${classes.wrapper} ${selected === tabBarElementCode.history ? classes.active : ''}`}
             >
               {selected === tabBarElementCode.history ? (
                 <HistoryIconActive />
@@ -46,9 +46,9 @@ function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
           </Link>
         </li>
         <li>
-          <Link href="fundraising">
+          <Link href="fundraising" className={classes.link}>
             <div
-              className={`wrapper ${selected === tabBarElementCode.fundraising ? 'active' : ''}`}
+              className={`${classes.wrapper} ${selected === tabBarElementCode.fundraising ? classes.active : ''}`}
             >
               {selected === tabBarElementCode.fundraising ? (
                 <FundraisingIconActive />
@@ -60,9 +60,9 @@ function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
           </Link>
         </li>
         <li>
-          <Link href="payment">
+          <Link href="/" className={classes.link}>
             <div
-              className={`wrapper ${selected === tabBarElementCode.payment ? 'active' : ''}`}
+              className={`${classes.wrapper} ${selected === tabBarElementCode.payment ? classes.active : ''}`}
             >
               {selected === tabBarElementCode.payment ? (
                 <CreditCardIconActive />
@@ -74,9 +74,9 @@ function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
           </Link>
         </li>
         <li>
-          <Link href="send-money">
+          <Link href="send-money" className={classes.link}>
             <div
-              className={`wrapper ${selected === tabBarElementCode.sendMoney ? 'active' : ''}`}
+              className={`${classes.wrapper} ${selected === tabBarElementCode.sendMoney ? classes.active : ''}`}
             >
               {selected === tabBarElementCode.sendMoney ? (
                 <SendMoneyIconActive />
@@ -88,9 +88,9 @@ function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
           </Link>
         </li>
         <li>
-          <Link href="my-page">
+          <Link href="my-page" className={classes.link}>
             <div
-              className={`wrapper ${selected === tabBarElementCode.myPage ? 'active' : ''}`}
+              className={`${classes.wrapper} ${selected === tabBarElementCode.myPage ? classes.active : ''}`}
             >
               {selected === tabBarElementCode.myPage ? (
                 <UserIconActive />
@@ -102,7 +102,7 @@ function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
           </Link>
         </li>
       </ul>
-    </footer>
+    </nav>
   );
 }
 export default TabBar;

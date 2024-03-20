@@ -1,0 +1,39 @@
+.main {
+  text-align: center;
+  background: white;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.senderInfo {
+  background-color: #efedf1;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+.senderInfo.bank {
+  text-align: left;
+}
+.receiver {
+  font-size: 1rem;
+  font-weight: 600;
+}
+.receiverAccount {
+  font-size: 0.813rem;
+  color: var(--sub-text);
+}
+.amount {
+  font-size: 2rem;
+  font-weight: 600;
+}
+.amount.empty {
+  color: var(--sub-text);
+}
+.invalid {
+  color: var(--warning);
+}
