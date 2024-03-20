@@ -5,12 +5,14 @@ import Button from '@/components/Button';
 import {
   EyeFilledIcon,
   EyeSlashFilledIcon,
-} from '@/components/icons/passwordIcon';
+} from '@/components/icons/PasswordIcon';
 import styes from '@/styles/input-info.module.css';
+import { useRouter } from 'next/router';
 
 export default function userInfo() {
   const [userPassword, setPasswordValue] = useState('');
   const [userNickName, setNickNameValue] = useState('');
+  const [userName, setNameValue] = useState('');
   const [isVisible, setIsVisible] = useState(false);
   const [isInValid, setIsInValid] = useState(false);
   const [isValid, setIsValid] = useState(false);
@@ -19,12 +21,19 @@ export default function userInfo() {
   const [nameVisible, setNameVisible] = useState(false);
   const [nameIsValid, setNameIsValid] = useState(false);
   const [cnt, setCnt] = useState(0);
-  const { phoneNumber: phoneNumber } = useUserStore();
+  const {
+    phoneNumber: phoneNumber,
+    setPassword: setPassword,
+    setUserName: setUserName,
+    setUserNickname: setUserNickname,
+  } = useUserStore();
+  const router = useRouter();
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const handlNameValue = (evnet: any) => {
     const newValue = evnet.target.value;
+    setNameValue(newValue);
     const idRegExp = /^(?=.*[ㄱ-ㅎ|ㅏ-ㅣ|가-힣])[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,50}$/;
     if (newValue.length > 1 && !idRegExp.test(newValue)) {
       setNameIsValid(true);
@@ -70,12 +79,15 @@ export default function userInfo() {
       setCnt(2);
       setNameVisible(true);
     } else {
-      console.log('Tset');
+      setPassword(userPassword);
+      setUserName(userName);
+      setUserNickname(userNickName);
+      router.push('/user/register/');
     }
   };
 
   const btnElements = {
-    text: '다음',
+    text: cnt == 2 ? '확인' : '다음',
     btnStyle: 'thinFill',
     btnFunction: onClickFunction,
   };
@@ -89,6 +101,7 @@ export default function userInfo() {
           label="이름"
           variant="underlined"
           onChange={handlNameValue}
+          value={userName}
           isInvalid={nameIsValid}
           errorMessage={nameIsValid && '한글로 작성해 주세요'}
         ></Input>
