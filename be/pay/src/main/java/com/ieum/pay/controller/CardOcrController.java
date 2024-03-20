@@ -17,7 +17,8 @@ import java.io.IOException;
 import java.time.Instant;
 
 @RestController
-public class CardController {
+@RequestMapping("/api/card")
+public class CardOcrController {
 
     @Value("${naver.cloud.ocr.url}")
     private String ocrUrl;
