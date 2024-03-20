@@ -70,4 +70,8 @@ public class MemberService {
             return false;
         }
     }
+
+    public String checkPaymentPassword(Long memberId, String paymentPassword) {
+        return "";
+    }
 }

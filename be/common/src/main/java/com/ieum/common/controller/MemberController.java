@@ -89,7 +89,7 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "회원 삭제", description = "회원을 삭제합니다.")
+    @Operation(summary = "회원 삭제", description = "회원을 삭제합니다. - 수정 필요")
     @ApiResponse(responseCode = "200", description = "회원 삭제 성공")
     @ApiResponse(responseCode = "401", description = "인증 실패")
     @PutMapping("/delete")
@@ -174,18 +174,21 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @Operation(summary = "결제 비밀번호 확인", description = "회원의 결제 비밀번호 확인")
+    @Operation(summary = "결제 비밀번호 확인", description = "회원의 결제 비밀번호 확인 - 수정 필요")
     @ApiResponse(responseCode = "200", description = "결제 비밀번호 인증 성공")
     @PutMapping("/pay-pw/auth")
     public ResponseEntity<MemberPaypwAuthResponseDTO> checkPaymentPassword (@RequestBody MemberPaypwAuthRequestDTO request
         ,@AuthenticationPrincipal Long memberId) {
 
+        String authenticationKey = memberService.checkPaymentPassword(memberId, request.getPaymentPassword());
 
+        MemberPaypwAuthResponseDTO response = new MemberPaypwAuthResponseDTO();
+        response.setAuthenticationKey(authenticationKey);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @Operation(summary = "결제 비밀번호 변경", description = "회원의 결제 비밀번호를 변경합니다.")
+    @Operation(summary = "결제 비밀번호 변경", description = "회원의 결제 비밀번호를 변경합니다. - 수정 필요")
     @ApiResponse(responseCode = "200", description = "결제 비밀번호 변경 성공")
     @PutMapping("/pay-pw/update")
     public ResponseEntity<HttpStatus> updatePaymentPassword (@RequestBody MemberPaypwUpdateRequestDTO request
@@ -212,7 +215,7 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "회원 요약 정보 조회", description = "회원의 요약 정보를 조회합니다.")
+    @Operation(summary = "회원 요약 정보 조회", description = "회원의 요약 정보를 조회합니다. - 수정 필요")
     @ApiResponse(responseCode = "200", description = "회원 정보 요약(기부내역 포함)")
     @PostMapping("/summary")
     public ResponseEntity<MemberSummaryResponseDTO> getMemberSummary (@AuthenticationPrincipal Long memberId) {
