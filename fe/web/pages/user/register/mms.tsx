@@ -1,20 +1,22 @@
 import Button from '@/components/Button';
 import { useRouter } from 'next/router';
+import { useUserStore } from '@/stores/user-store';
 
 export default function Mms() {
-
   const router = useRouter();
+  const { randomKey: randomKey } = useUserStore();
 
   function onClickFunc() {
-    const msgLink = "sms:b103ieumpay@gmail.com?body=인증 메시지";
+    const msgLink = `sms:b103ieumpay@gmail.com?body=${randomKey}`;
     window.location.href = msgLink;
+    router.push('/user/register/input-info');
   }
 
   const BtnElements = {
-    text: "확인",
-    btnStyle: "thickFill",
+    text: '확인',
+    btnStyle: 'thickFill',
     btnFunction: onClickFunc,
-  }
+  };
 
   return (
     <div>
