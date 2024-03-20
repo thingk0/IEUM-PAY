@@ -5,7 +5,6 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class MmsResponseDTO {
+public class MmsAuthResponseDTO {
     String mmsAuth;
-
 }
