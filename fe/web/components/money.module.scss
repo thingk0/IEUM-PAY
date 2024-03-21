@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.text {
+  color: var(--sub-text);
+}
+
+.amount {
+  color: var(--black);
+  font-weight: 700;
+}
+
+.amountContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+}
