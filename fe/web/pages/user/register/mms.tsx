@@ -1,13 +1,13 @@
 import Button from '@/components/Button';
 import { useRouter } from 'next/router';
-import { useUserStore } from '@/stores/user-store';
+import useUserStore from '@/stores/user-store';
 
 export default function Mms() {
   const router = useRouter();
-  const { randomKey: randomKey } = useUserStore();
+  const { userInfo } = useUserStore();
 
   function onClickFunc() {
-    const msgLink = `sms:b103ieumpay@gmail.com?body=${randomKey}`;
+    const msgLink = `sms:b103ieumpay@gmail.com?body=${userInfo.randomKey}`;
     window.location.href = msgLink;
     router.push('/user/register/input-info');
   }

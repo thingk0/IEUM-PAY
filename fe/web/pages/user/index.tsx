@@ -2,12 +2,12 @@ import { useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { Input, Button } from '@nextui-org/react';
 import styles from '@/styles/user.module.css';
-import { useUserStore } from '@/stores/user-store';
+import useUserStore from '@/stores/user-store';
 import { axiosApi } from '@/utils/instance';
 import { AxiosResponse } from 'axios';
 
 export default function User() {
-  const { setNumber: setNumber } = useUserStore();
+  const { setPhoneNumber } = useUserStore();
   const [inputValue, setValue] = useState('');
   const router = useRouter();
   const local = axiosApi();
@@ -34,7 +34,7 @@ export default function User() {
   async function checkIsRegister(phoneNumber: string) {
     // 대충 요청하는 코드
     const numberData = `010-${phoneNumber.substring(3, 7)}-${phoneNumber.substring(7, 11)}`;
-    setNumber(numberData);
+    setPhoneNumber(numberData);
     const isRegister: AxiosResponse = await local.post('api/member/exist', {
       phoneNumber: numberData,
     });
