@@ -1,14 +1,23 @@
-.cardsContainer {
-  height: 50%;
+.main {
   padding: 0.625rem 1.25rem;
+}
+
+.cardsContainer {
+  display: flex;
+  justify-content: center;
+  height: 50%;
+  margin: 0.625rem 0;
 }
 
 .moneyContainer {
-  padding: 0.625rem 1.25rem;
+  // margin: 0.625rem 0;
 }
 
+$cardWidth: 18rem;
 .card {
+  width: $cardWidth;
+  height: $cardWidth / 1.58;
   text-align: center;
-  background-color: red($color: #509092);
-  border-radius: 1rem;
+  background-color: rgb(65, 103, 214);
+  border-radius: 0.6rem;
 }
