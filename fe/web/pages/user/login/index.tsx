@@ -1,21 +1,18 @@
 import { Input } from '@nextui-org/react';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import {
   EyeFilledIcon,
   EyeSlashFilledIcon,
 } from '@/components/icons/PasswordIcon';
-import { useUserStore } from '@/stores/user-store';
+import useUserStore from '@/stores/user-store';
 import Button from '@/components/Button';
+import { customlogin } from '@/api/userAxois';
 
-export default function login() {
-  const [userPassword, setUserPassword] = useState('');
+export default function Login() {
+  const [userPassword, setUserPassword] = useState('123');
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [passwordVisible, setVisible] = useState(false);
-  const {
-    setPassword: setPassword,
-    phoneNumber: phoneNumber,
-    login: login,
-  } = useUserStore();
+  const { userInfo, setPassword } = useUserStore();
 
   const handlePasswordInput = (event: any) => {
     const newValue = event.target.value;
@@ -23,17 +20,18 @@ export default function login() {
     const idRegExp =
       /^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[a-z\d@$!%*#?&]{8,20}$/;
 
-    !idRegExp.test(newValue)
-      ? setIsPasswordValid(true)
-      : setIsPasswordValid(false);
+    if (newValue.length > 2) {
+      !idRegExp.test(newValue)
+        ? setIsPasswordValid(true)
+        : setIsPasswordValid(false);
+    }
   };
 
   const toggleVisibility = () => setVisible(!passwordVisible);
 
-  const onclickFunc = () => {
-    console.log('Test');
-    setPassword(userPassword);
-    login();
+  const onclickFunc = async () => {
+    await setPassword(userPassword);
+    customlogin();
   };
 
   return (
@@ -70,7 +68,7 @@ export default function login() {
         type="number"
         label="휴대폰 번호"
         variant="underlined"
-        value={phoneNumber}
+        value={userInfo.phoneNumber}
       />
       {Button({ text: '확인', btnStyle: 'thinFill', btnFunction: onclickFunc })}
     </div>
