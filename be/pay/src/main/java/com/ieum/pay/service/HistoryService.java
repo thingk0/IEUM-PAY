@@ -1,9 +1,11 @@
 package com.ieum.pay.service;
 
 import com.ieum.pay.domain.ChargeHistories;
+import com.ieum.pay.domain.DepositHistories;
 import com.ieum.pay.domain.Histories;
 import com.ieum.pay.domain.WithdrawalHistories;
 import com.ieum.pay.repository.ChargeHistoryRepository;
+import com.ieum.pay.repository.DepositHistoryRepository;
 import com.ieum.pay.repository.HistoryRepository;
 import com.ieum.pay.repository.WithdrawalHistoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import java.time.LocalDateTime;
 public class HistoryService {
     private final HistoryRepository historyRepository;
     private final WithdrawalHistoryRepository withdrawalHistoryRepository;
+    private final DepositHistoryRepository depositHistoryRepository;
     private final ChargeHistoryRepository chargeHistoryRepository;
 
     public void sendMoney(Long senderId, String receiverName, int amount, int chargeMoney, Long cardId) {
@@ -60,13 +63,13 @@ public class HistoryService {
                 .build();
         Histories history = historyRepository.save(histories);
 
-        WithdrawalHistories withdrawalhistories = WithdrawalHistories.builder()
+        DepositHistories depositHistories = DepositHistories.builder()
                 .historyId(history.getHistoryId())
                 .memberId(receiverId)
                 .transactionAmount(amount)
-                .withdrawalBrief(senderName)
+                .depositBrief(senderName)
                 .build();
 
-        withdrawalHistoryRepository.save(withdrawalhistories);
+        depositHistoryRepository.save(depositHistories);
     }
 }

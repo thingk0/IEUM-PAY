@@ -32,7 +32,7 @@ public class PaymoneyService {
         if(money <= payAmount)
             return 0;
 
-        int sub = payAmount - money;
+        int sub = money - payAmount;
         int chargeAmount = sub / 10000 * 10000;
         if(sub > chargeAmount)
             chargeAmount += 10000;

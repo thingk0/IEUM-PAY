@@ -19,7 +19,7 @@ public class RemittanceController {
     @PostMapping
     public void remittancePaymoney(@RequestBody RemittanceRequestDTO requestDTO){
         int moveMoney = requestDTO.getAmount();
-        // paymoney 있어?
+        // paymoney 충전 체크
         int chargeMoney = paymoneyService.chargeMoney(requestDTO.getSenderId(), moveMoney);
         // charge
         paymoneyService.updatePaymonyAmount(1, requestDTO.getSenderId(),chargeMoney);
