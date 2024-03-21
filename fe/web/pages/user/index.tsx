@@ -2,10 +2,15 @@ import { useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { Input, Button } from '@nextui-org/react';
 import styles from '@/styles/user.module.css';
+import { useUserStore } from '@/stores/user-store';
+import { axiosApi } from '@/utils/instance';
+import { AxiosResponse } from 'axios';
 
 export default function User() {
+  const { setNumber: setNumber } = useUserStore();
   const [inputValue, setValue] = useState('');
   const router = useRouter();
+  const local = axiosApi();
 
   const isInvalid = useMemo(() => {
     if (inputValue == '') return false;
@@ -26,16 +31,16 @@ export default function User() {
    * 기존에 이미 가입한 회원 여부 판단 후 로그인으로 보낼지 회원가입으로 보낼지 판단하는 함수
    * @param phoneNumber 전화번호
    */
-  function checkIsRegister(phoneNumber: string) {
+  async function checkIsRegister(phoneNumber: string) {
     // 대충 요청하는 코드
-    const url = '/api/member/exist';
-    if (phoneNumber.length > 10) {
-      const numberData = `010-${phoneNumber.substring(3, 7)}-${phoneNumber.substring(7, 11)}`;
-      console.log(numberData);
-      // router.push('/');
-    } else {
-      // router.push('/');
-    }
+    const numberData = `010-${phoneNumber.substring(3, 7)}-${phoneNumber.substring(7, 11)}`;
+    setNumber(numberData);
+    const isRegister: AxiosResponse = await local.post('api/member/exist', {
+      phoneNumber: numberData,
+    });
+    const pushLink = isRegister.data['exist'] ? '/login' : '/register';
+    console.log(isRegister);
+    router.push(`/user${pushLink}`);
   }
 
   return (
