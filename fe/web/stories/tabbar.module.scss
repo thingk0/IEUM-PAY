@@ -1,9 +1,10 @@
 .container {
   position: fixed;
-  width:100%;
+  width: 100%;
   bottom: 0;
 }
 .ul {
+  position: static;
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -41,4 +42,15 @@
 }
 .active {
   color: #8035f9;
+}
+.cameraWrapper {
+  position: absolute;
+  bottom: 0.563rem;
+  width: 4.25rem;
+  height: 4.25rem;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(143deg, #7835f9 16%, #c576f5 82%);
 }
