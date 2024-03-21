@@ -9,7 +9,7 @@ import mainStyles from './main.module.scss';
 import Button from '@/components/Button';
 import { Main } from 'next/document';
 import TabBar from '@/stories/TabBar';
-import Money from '@/components/_Money';
+import Money from '@/components/Money';
 
 const inter = Inter({ subsets: ['latin'] });
 
