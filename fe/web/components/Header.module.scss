@@ -1,0 +1,17 @@
+.header {
+  padding: 1rem 0 0.5rem 0;
+  width: 100%;
+  text-align: center;
+  font-size: 1.25rem;
+  color: var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  position: static;
+  .button {
+    position: absolute;
+    left: 0.625rem;
+    display: inline-block;
+  }
+}
