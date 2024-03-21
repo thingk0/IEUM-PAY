@@ -1,0 +1,14 @@
+.accordion {
+  background-color: var(--forthary);
+}
+.button {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.price {
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: left;
+  color: var(--black);
+}
