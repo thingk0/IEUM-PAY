@@ -1,23 +1,15 @@
-import {
-  FruitLevelBadge,
-  IeumLevenBadge,
-  SeedLevelBadge,
-  SessakLevelBadge,
-  SmallTreeLevelBadge,
-  TooSmallTreeLevelBadge,
-  TreeLevelBadge,
-} from '@/components/icons/LevelBadges';
+import { badges } from '@/components/icons/LevelBadges';
 
 export default function TearList() {
   return (
     <div>
-      <SeedLevelBadge />
-      <SessakLevelBadge />
-      <SmallTreeLevelBadge />
-      <TooSmallTreeLevelBadge />
-      <TreeLevelBadge />
-      <IeumLevenBadge />
-      <FruitLevelBadge />
+      <badges.SeedBadge />
+      <badges.SessakBadge />
+      <badges.SmallTreeBadge />
+      <badges.TooSmallTreeBadge />
+      <badges.TreeBadge />
+      <badges.IeumBadge />
+      <badges.FruitBadge />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-const IeumLevenBadge = () => {
+const IeumBadge = () => {
   const svgCode = (
     <svg
       width="28"
@@ -38,7 +38,7 @@ const IeumLevenBadge = () => {
   return svgCode;
 };
 
-const SeedLevelBadge = () => {
+const SeedBadge = () => {
   const svgCode = (
     <svg
       width="28"
@@ -91,7 +91,7 @@ const SeedLevelBadge = () => {
 
   return svgCode;
 };
-const FruitLevelBadge = () => {
+const FruitBadge = () => {
   const svgCode = (
     <svg
       width="28"
@@ -145,7 +145,7 @@ iVBORw0KGgoAAAANSUhEUgAAAHcAAAB2CAYAAADyZQwvAAAACXBIWXMAAC4jAAAuIwF4pT92AAAKW0lE
 
   return svgCode;
 };
-const SessakLevelBadge = () => {
+const SessakBadge = () => {
   const svgCode = (
     <svg
       width="28"
@@ -198,7 +198,7 @@ const SessakLevelBadge = () => {
   return svgCode;
 };
 
-const SmallTreeLevelBadge = () => {
+const SmallTreeBadge = () => {
   const svgCode = (
     <svg
       width="28"
@@ -251,7 +251,7 @@ const SmallTreeLevelBadge = () => {
   return svgCode;
 };
 
-const TooSmallTreeLevelBadge = () => {
+const TooSmallTreeBadge = () => {
   const svgCode = (
     <svg
       width="28"
@@ -304,7 +304,7 @@ const TooSmallTreeLevelBadge = () => {
   return svgCode;
 };
 
-const TreeLevelBadge = () => {
+const TreeBadge = () => {
   const svgCode = (
     <svg
       width="28"
@@ -357,12 +357,12 @@ const TreeLevelBadge = () => {
   return svgCode;
 };
 
-export {
-  FruitLevelBadge,
-  IeumLevenBadge,
-  SeedLevelBadge,
-  SessakLevelBadge,
-  SmallTreeLevelBadge,
-  TooSmallTreeLevelBadge,
-  TreeLevelBadge,
+export const badges = {
+  FruitBadge,
+  IeumBadge,
+  SeedBadge,
+  SessakBadge,
+  SmallTreeBadge,
+  TooSmallTreeBadge,
+  TreeBadge,
 };

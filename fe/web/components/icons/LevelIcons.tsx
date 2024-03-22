@@ -1,4 +1,4 @@
-const IeumLevenIcon = () => {
+const IeumIcon = () => {
   const svgCode = (
     <svg
       width="109"
@@ -52,7 +52,7 @@ const IeumLevenIcon = () => {
   return svgCode;
 };
 
-const SeedLevelIcon = () => {
+const SeedIcon = () => {
   const svgCode = (
     <svg
       width="109"
@@ -138,7 +138,7 @@ const SeedLevelIcon = () => {
 
   return svgCode;
 };
-const FruitLevelIcon = () => {
+const FruitIcon = () => {
   const svgCode = (
     <svg
       width="109"
@@ -224,7 +224,7 @@ const FruitLevelIcon = () => {
 
   return svgCode;
 };
-const SessakLevelIcon = () => {
+const SessakIcon = () => {
   const svgCode = (
     <svg
       width="109"
@@ -310,7 +310,7 @@ const SessakLevelIcon = () => {
   return svgCode;
 };
 
-const SmallTreeLevelIcon = () => {
+const SmallTreeIcon = () => {
   const svgCode = (
     <svg
       width="109"
@@ -396,7 +396,7 @@ const SmallTreeLevelIcon = () => {
   return svgCode;
 };
 
-const TooSmallTreeLevelIcon = () => {
+const TooSmallTreeIcon = () => {
   const svgCode = (
     <svg
       width="109"
@@ -482,7 +482,7 @@ const TooSmallTreeLevelIcon = () => {
   return svgCode;
 };
 
-const TreeLevelIcon = () => {
+const TreeIcon = () => {
   const svgCode = (
     <svg
       width="109"
@@ -568,12 +568,12 @@ const TreeLevelIcon = () => {
   return svgCode;
 };
 
-export {
-  FruitLevelIcon,
-  IeumLevenIcon,
-  SeedLevelIcon,
-  SessakLevelIcon,
-  SmallTreeLevelIcon,
-  TooSmallTreeLevelIcon,
-  TreeLevelIcon,
+export const Icons = {
+  FruitIcon,
+  IeumIcon,
+  SeedIcon,
+  SessakIcon,
+  SmallTreeIcon,
+  TooSmallTreeIcon,
+  TreeIcon,
 };
