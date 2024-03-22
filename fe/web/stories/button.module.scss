@@ -1,6 +1,3 @@
-* {
-  box-sizing: border-box;
-}
 .storybook-button {
   font-family:
     'Pretendard Variable',
@@ -18,32 +15,35 @@
     'Segoe UI Emoji',
     'Segoe UI Symbol',
     sans-serif;
-  font-weight: 700;
+  font-weight: 600;
   border: 0;
   border-radius: 60px;
   cursor: pointer;
   display: inline-block;
   line-height: 1;
+  padding: 1rem 0;
+  width: 100%;
+  margin: 0.625rem 0;
 }
 .storybook-button--primary {
   color: white;
   background-color: #8035f9;
+  &:active {
+    background-color: rgb(91, 39, 177);
+  }
 }
 .storybook-button--secondary {
-  color: #333;
-  background-color: transparent;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px inset;
+  color: #8035f9;
+  background-color: white;
+  border: solid 1px #8035f9;
+  &:active {
+    background-color: rgb(205, 174, 255);
+  }
 }
-.storybook-button--small {
-  font-size: 12px;
-  padding: 10px 16px;
-}
-.storybook-button--medium {
-  font-size: 14px;
-  padding: 11px 20px;
+
+.storybook-button--thin {
+  font-size: 1rem;
 }
 .storybook-button--thick {
   font-size: 1.25rem;
-  padding: 1rem 0;
-  width: 100%;
 }

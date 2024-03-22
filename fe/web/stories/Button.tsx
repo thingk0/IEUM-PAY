@@ -1,5 +1,5 @@
 import React from 'react';
-import './button.css';
+import classes from './button.module.scss';
 
 interface ButtonProps {
   /**
@@ -13,11 +13,11 @@ interface ButtonProps {
   /**
    * How large should the button be?
    */
-  size?: 'small' | 'medium' | 'thick';
+  size?: 'thin' | 'thick';
   /**
    * Button contents
    */
-  label: string;
+  children: React.ReactNode;
   /**
    * Optional click handler
    */
@@ -31,7 +31,7 @@ export default function Button({
   primary = false,
   size = 'thick',
   backgroundColor,
-  label,
+  children,
   onClick,
   ...props
 }: ButtonProps) {
@@ -41,18 +41,19 @@ export default function Button({
   const buttonStyle = {
     backgroundColor,
   };
-
   return (
     <button
       type="button"
-      className={['storybook-button', `storybook-button--${size}`, mode].join(
-        ' ',
-      )}
+      className={[
+        classes['storybook-button'],
+        classes[`storybook-button--${size}`],
+        classes[mode],
+      ].join(' ')}
       style={buttonStyle}
       onClick={onClick} // onClick 핸들러를 바인딩
       {...props}
     >
-      {label}
+      {children}
     </button>
   );
 }

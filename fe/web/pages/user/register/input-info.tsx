@@ -1,13 +1,13 @@
 import useUserStore from '@/stores/user-store';
 import { Input } from '@nextui-org/react';
 import { useState } from 'react';
-import Button from '@/components/Button';
 import {
   EyeFilledIcon,
   EyeSlashFilledIcon,
 } from '@/components/icons/PasswordIcon';
 import styes from '@/styles/input-info.module.css';
 import { useRouter } from 'next/router';
+import Button from '@/stories/Button';
 
 export default function inputInfo() {
   const [userPassword, setPasswordValue] = useState('');
@@ -69,7 +69,7 @@ export default function inputInfo() {
     }
   };
 
-  const onClickFunction = () => {
+  const handleClick = () => {
     if (cnt == 0 && isValid) {
       setCnt(1);
       setNicknameVisible(true);
@@ -82,12 +82,6 @@ export default function inputInfo() {
       setUserNickname(userNickName);
       router.push('/user/register/');
     }
-  };
-
-  const btnElements = {
-    text: cnt == 2 ? '확인' : '다음',
-    btnStyle: 'thinFill',
-    btnFunction: onClickFunction,
   };
 
   return (
@@ -147,7 +141,7 @@ export default function inputInfo() {
         variant="underlined"
         value={userInfo.phoneNumber}
       />
-      <Button btnStyle={'thinFill'} btnFunction={onClickFunction}>
+      <Button primary size="thin" onClick={handleClick}>
         {cnt == 2 ? '확인' : '다음'}
       </Button>
     </div>
