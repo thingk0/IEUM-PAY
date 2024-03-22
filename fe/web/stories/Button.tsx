@@ -28,7 +28,7 @@ interface ButtonProps {
  * Primary UI component for user interaction
  */
 export default function Button({
-  primary = true,
+  primary = false,
   size = 'thick',
   backgroundColor,
   children,

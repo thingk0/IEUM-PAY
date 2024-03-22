@@ -1,8 +1,8 @@
 import PageTitleCenter from '@/components/PageTitleCenter';
 import styles from './payment.module.scss';
-import Button from '@/components/Button';
 import LongLogo from '@/components/logo/LongLogo';
 import { commaizeNumber } from '@toss/utils';
+import Button from '@/stories/Button';
 
 interface dummy {
   storeId: number;
@@ -64,10 +64,7 @@ export default function Payment() {
         </p>
         <hr className={styles.validationLine} />
       </div>
-      <Button
-        text={`${commaizeNumber(dummy.price)}원 결제하기`}
-        btnStyle={'thickFill'}
-      />
+      <Button primary size="thick">{`${commaizeNumber(dummy.price)}원 결제하기`}</Button>
     </div>
   );
 }

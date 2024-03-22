@@ -5,8 +5,8 @@ import {
   EyeSlashFilledIcon,
 } from '@/components/icons/PasswordIcon';
 import useUserStore from '@/stores/user-store';
-import Button from '@/components/Button';
 import { customlogin } from '@/api/userAxois';
+import Button from '@/stories/Button';
 
 export default function Login() {
   const [userPassword, setUserPassword] = useState('123');
@@ -29,7 +29,7 @@ export default function Login() {
 
   const toggleVisibility = () => setVisible(!passwordVisible);
 
-  const onclickFunc = async () => {
+  const handleClick = async () => {
     await setPassword(userPassword);
     customlogin();
   };
@@ -70,7 +70,9 @@ export default function Login() {
         variant="underlined"
         value={userInfo.phoneNumber}
       />
-      {Button({ text: '확인', btnStyle: 'thinFill', btnFunction: onclickFunc })}
+      <Button primary size="thin" onClick={handleClick}>
+        확인
+      </Button>
     </div>
   );
 }
