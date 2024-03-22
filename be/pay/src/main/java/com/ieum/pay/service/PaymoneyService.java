@@ -47,4 +47,9 @@ public class PaymoneyService {
                 .donationCount(0)
                 .build());
     }
+
+    public int readPaymoney(long memberId) {
+        Paymoney paymoney = paymoneyRepository.findByMemberId(memberId);
+        return paymoney.getPaymoneyAmount();
+    }
 }
