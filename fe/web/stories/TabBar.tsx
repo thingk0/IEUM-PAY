@@ -30,7 +30,7 @@ interface TabBarProps {
 
 function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
   function vibrate() {
-    navigator?.vibrate(200); // 진동을 울리게 한다. 1000ms = 1초
+    navigator?.vibrate(1); // 진동을 울리게 한다. 1000ms = 1초
   }
 
   return (
