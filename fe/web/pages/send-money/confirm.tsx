@@ -17,9 +17,11 @@ function ConfirmPage() {
           <p>
             <strong className={classes.name}>{sendMoneyInfo.수취인}</strong>
             님에게
+            <br />
+            {commaizeNumber(sendMoneyInfo.송금금액)}원을
+            <br />
+            보낼까요?
           </p>
-          <p>{commaizeNumber(sendMoneyInfo.송금금액)}원을</p>
-          <p>보낼까요?</p>
           <Button primary size="thick">
             확인
           </Button>
