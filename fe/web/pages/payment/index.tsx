@@ -25,7 +25,7 @@ export default function Payment() {
   };
   return (
     <div className={styles.container}>
-      <PageTitleCenter title={'결제하기'} />
+      <PageTitleCenter>결제하기</PageTitleCenter>
       <div className={styles.storeContainer}>
         <p className={styles.store}>{dummy.storeName}</p>
         <p className={styles.price}>{commaizeNumber(dummy.price)}원</p>

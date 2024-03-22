@@ -147,7 +147,9 @@ export default function inputInfo() {
         variant="underlined"
         value={userInfo.phoneNumber}
       />
-      {Button(btnElements)}
+      <Button btnStyle={'thinFill'} btnFunction={onClickFunction}>
+        {cnt == 2 ? '확인' : '다음'}
+      </Button>
     </div>
   );
 }

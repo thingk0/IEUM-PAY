@@ -12,12 +12,6 @@ export default function Mms() {
     router.push('/user/register/input-info');
   }
 
-  const BtnElements = {
-    text: '확인',
-    btnStyle: 'thickFill',
-    btnFunction: onClickFunc,
-  };
-
   return (
     <div>
       <h1>사용자 인증</h1>
@@ -25,7 +19,9 @@ export default function Mms() {
       <p>진행합니다</p>
       <p>문자의 내용을 수정없이 보내주세요</p>
       <p>이미지 위치</p>
-      {Button(BtnElements)}
+      <Button btnStyle="thickFill" btnFunction={onClickFunc}>
+        확인
+      </Button>
     </div>
   );
 }

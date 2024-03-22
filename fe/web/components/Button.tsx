@@ -2,8 +2,8 @@ import styles from './button.module.scss';
 
 interface ButtonProps {
   text?: string;
-  btnStyle: 'thickFill' | 'thinFill' | 'thinLine' | 'thinFill';
-  children: React.ReactNode;
+  btnStyle: 'thickFill' | 'thinFill' | 'thinLine' | 'thickLine';
+  children?: React.ReactNode;
   btnFunction?: (
     e?: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => unknown;
