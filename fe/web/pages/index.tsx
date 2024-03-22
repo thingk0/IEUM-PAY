@@ -10,6 +10,7 @@ import Button from '@/components/Button';
 import { Main } from 'next/document';
 import TabBar from '@/stories/TabBar';
 import Money from '@/components/Money';
+import HeaderMain from '@/stories/HeaderMain';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -23,6 +24,7 @@ export default function Home() {
         <title>IEUM PAY</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
+      <HeaderMain />
       <main className={mainStyles.main}>
         <div className={mainStyles.cardsContainer}>
           <div className={mainStyles.card}>삼성 카드</div>

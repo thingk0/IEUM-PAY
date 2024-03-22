@@ -1,0 +1,94 @@
+.container {
+  padding: 0.625rem 1.25rem;
+}
+
+.storeContainer {
+  padding: 0.625rem 0.75rem;
+  margin-bottom: 2.5rem;
+}
+
+.store {
+  font-size: 1rem;
+}
+
+.price {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.box {
+  border-radius: 0.75rem;
+  border: 1px solid var(--primary-color);
+  margin-bottom: 3rem;
+}
+
+.upperBox {
+  padding: 0.75rem 1.25rem;
+}
+
+.ieumPayMoney {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--charcoal);
+}
+
+.cardNickname {
+  display: flex;
+  justify-content: end;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  margin-bottom: 3rem;
+}
+
+.balanceContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.25rem;
+}
+
+.balanceText {
+  font-size: 1rem;
+  color: var(--sub-text);
+}
+
+.balance {
+  font-size: 1rem;
+  color: var(-black);
+}
+
+.divide {
+  border: 0.5px solid var(--charcoal);
+}
+
+.downerBox {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+}
+
+.donationText {
+  font-size: 1.125rem;
+  color: var(--black);
+}
+
+.donationMoney {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.validationContainer {
+  text-align: center;
+}
+
+.validaition {
+  font-size: 1rem;
+  color: var(--sub-text);
+}
+
+.validaitionLine {
+  border: 1px solid var(--charcoal);
+}
