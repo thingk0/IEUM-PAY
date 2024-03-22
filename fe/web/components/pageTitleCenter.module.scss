@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.close {
+  position: absolute;
+  right: 0.625rem;
+}
