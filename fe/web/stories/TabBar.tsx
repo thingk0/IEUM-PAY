@@ -29,11 +29,19 @@ interface TabBarProps {
 }
 
 function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
+  function vibrate() {
+    navigator?.vibrate(1); // 진동을 울리게 한다. 1000ms = 1초
+  }
+
   return (
     <nav className={classes.container}>
       <ul className={classes.ul}>
         <li>
-          <Link href="history" className={classes.link}>
+          <Link
+            href="history"
+            className={classes.link}
+            onClick={() => vibrate()}
+          >
             <div
               className={`${classes.wrapper} ${selected === tabBarElementCode.history ? classes.active : ''}`}
             >
@@ -47,7 +55,11 @@ function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
           </Link>
         </li>
         <li>
-          <Link href="fundraising" className={classes.link}>
+          <Link
+            href="fundraising"
+            className={classes.link}
+            onClick={() => vibrate()}
+          >
             <div
               className={`${classes.wrapper} ${selected === tabBarElementCode.fundraising ? classes.active : ''}`}
             >
@@ -61,7 +73,7 @@ function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
           </Link>
         </li>
         <li>
-          <Link href="/" className={classes.link}>
+          <Link href="/" className={classes.link} onClick={() => vibrate()}>
             <div
               className={`${classes.wrapper} ${selected === tabBarElementCode.payment ? classes.active : ''}`}
             >
@@ -76,7 +88,11 @@ function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
           </Link>
         </li>
         <li>
-          <Link href="send-money" className={classes.link}>
+          <Link
+            href="send-money"
+            className={classes.link}
+            onClick={() => vibrate()}
+          >
             <div
               className={`${classes.wrapper} ${selected === tabBarElementCode.sendMoney ? classes.active : ''}`}
             >
@@ -90,7 +106,11 @@ function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
           </Link>
         </li>
         <li>
-          <Link href="my-page" className={classes.link}>
+          <Link
+            href="my-page"
+            className={classes.link}
+            onClick={() => vibrate()}
+          >
             <div
               className={`${classes.wrapper} ${selected === tabBarElementCode.myPage ? classes.active : ''}`}
             >
