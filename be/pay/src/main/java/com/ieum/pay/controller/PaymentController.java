@@ -21,7 +21,7 @@ public class PaymentController {
         return paymoneyService.chargeMoney(requestDTO.getMemberId(), requestDTO.getPaymentMoney());
     }
     @PostMapping
-    public void payment(@RequestBody PaymentRequestDTO requestDTO){
+    public Long payment(@RequestBody PaymentRequestDTO requestDTO){
         Long memberId = requestDTO.getMemberId();
         Long storeId = requestDTO.getStoreId();
         Long fundingId = requestDTO.getFundingId();
@@ -32,10 +32,12 @@ public class PaymentController {
         //charge
         paymoneyService.updatePaymonyAmount(1, memberId, chargeAmount);
         //payment
-        historyService.payment(memberId,storeId,fundingId,cardId,chargeAmount,amount,donationAmount);
+        Long historyId = historyService.payment(memberId,storeId,fundingId,cardId,chargeAmount,amount,donationAmount);
         //donation
 
         //paymoney
+        paymoneyService.updatePaymonyAmount(-1, memberId, amount + donationAmount);
 
+        return historyId;
     }
 }
