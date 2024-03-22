@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import classes from './tabbar.module.css';
+import classes from './tabbar.module.scss';
 import CreditCardIcon from './icons/CreditCardIcon';
 import HistoryIcon from './icons/HistoryIcon';
 import UserIcon from './icons/UserIcon';
@@ -10,6 +10,7 @@ import FundraisingIconActive from './icons/FundraisingIconActive';
 import UserIconActive from './icons/UserIconActive';
 import CreditCardIconActive from './icons/CreditCardIconActive';
 import SendMoneyIconActive from './icons/SendMoneyIconActive';
+import CameraIcon from './icons/CameraIcon';
 
 //object literal
 export const tabBarElementCode = {
@@ -64,11 +65,12 @@ function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
             <div
               className={`${classes.wrapper} ${selected === tabBarElementCode.payment ? classes.active : ''}`}
             >
-              {selected === tabBarElementCode.payment ? (
-                <CreditCardIconActive />
-              ) : (
-                <CreditCardIcon />
+              {selected == 'payment' && (
+                <div className={classes.cameraWrapper}>
+                  <CameraIcon />
+                </div>
               )}
+              <CreditCardIcon />
               결제
             </div>
           </Link>
