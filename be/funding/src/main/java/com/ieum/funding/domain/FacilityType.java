@@ -1,4 +1,4 @@
-package com.ieum.funding.dto;
+package com.ieum.funding.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,10 +12,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Sponsors {
-
+public class FacilityType {
     @Id
-    private String sponsorTypeCode;
-    private String sponsorName;
-    private String sponsorCategory;
+    private String facilityTypeCode;
+    private String facilityTypeName;
 }

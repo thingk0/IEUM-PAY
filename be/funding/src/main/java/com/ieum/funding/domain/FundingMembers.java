@@ -1,23 +1,24 @@
-package com.ieum.funding.dto;
+package com.ieum.funding.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.criteria.CriteriaBuilder.In;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Receipts {
+public class FundingMembers {
+
     @Id
-    private Long receiptId;
-    private Long fundingPeopleId;
-    @Setter
+    private Long fundingMemberId;
+    private Long memberId;
+    private Long fundingId;
     private Integer fundingTotalAmount;
+    private Boolean autoFundingStatus;
+    private String nickname;
 }

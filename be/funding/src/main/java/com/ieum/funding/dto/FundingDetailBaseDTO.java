@@ -1,22 +1,16 @@
 package com.ieum.funding.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.criteria.CriteriaBuilder.In;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-@Entity
 @Getter
-@Builder
-@NoArgsConstructor
+@SuperBuilder
 @AllArgsConstructor
-public class Facilities {
-    @Id
-    private Long facilityId;
-    private String facilityTypeCode;
+@RequiredArgsConstructor
+public class FundingDetailBaseDTO {
+    private Long fundingId;
     private String facilityName;
     private String facilityAddress;
     private String facilityPhoneNumber;
@@ -24,4 +18,11 @@ public class Facilities {
     private String facilityRepresentativePhoneNumber;
     private Integer facilityCapacity;
     private String facilityImage;
+    private String fundingOpenDate;
+    private Long fundingPeopleCnt;
+    private String fundingTitle;
+    private Integer goalAmount;
+    private Integer currentAmount;
+    private String content;
+
 }

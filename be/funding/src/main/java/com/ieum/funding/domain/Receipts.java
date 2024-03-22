@@ -1,4 +1,4 @@
-package com.ieum.funding.dto;
+package com.ieum.funding.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -7,18 +7,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SponsorProducts {
+public class Receipts {
     @Id
-    private Long sponsorProductId;
-
-    private String sponsorTypeCode;
-    private String productName;
-    private Integer price;
-    private String productImage;
+    private Long receiptId;
+    private Long fundingPeopleId;
+    @Setter
+    private Integer fundingTotalAmount;
 }

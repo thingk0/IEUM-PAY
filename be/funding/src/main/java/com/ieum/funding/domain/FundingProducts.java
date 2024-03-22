@@ -1,4 +1,4 @@
-package com.ieum.funding.dto;
+package com.ieum.funding.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,8 +12,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FacilityType {
+public class FundingProducts {
     @Id
-    private String facilityTypeCode;
-    private String facilityTypeName;
+    private Long fundingProductId;
+
+    private Long fundingId;
+    private Long sponsorProductId;
+    private Integer fundingProductQuantity;
+    private Integer fundingProductPrice;
 }

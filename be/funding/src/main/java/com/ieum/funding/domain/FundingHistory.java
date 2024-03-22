@@ -1,4 +1,4 @@
-package com.ieum.funding.dto;
+package com.ieum.funding.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

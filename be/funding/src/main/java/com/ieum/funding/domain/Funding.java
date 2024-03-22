@@ -1,4 +1,4 @@
-package com.ieum.funding.dto;
+package com.ieum.funding.domain;
 
 import java.sql.Timestamp;
 import javax.persistence.Entity;
@@ -30,10 +30,11 @@ public class Funding {
 
     private String fundingTitle;
 
-    private Timestamp fundingOpenDate;
+    private String fundingOpenDate;
 
     @Setter
-    private Timestamp fundingFinishDate;
+    private String fundingFinishDate;
 
     private String fundingSummary;
+    private String fundingContent;
 }
