@@ -4,6 +4,22 @@
 
 .myBox {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0.75rem;
+  background-color: var(--forthary);
+  border-radius: 0.75rem;
+  margin: 1rem 0;
+}
+
+.name {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.subText {
+  font-size: 0.75rem;
+  color: var(--sub-text);
 }
 
 .menuBox {
