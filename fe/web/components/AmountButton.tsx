@@ -6,7 +6,13 @@ interface AmountButtonProps {
 }
 function AmountButton({ text, onClick }: AmountButtonProps) {
   return (
-    <button onClick={onClick} className={classes.button}>
+    <button
+      onClick={(e) => {
+        onClick(e);
+        navigator?.vibrate(10);
+      }}
+      className={classes.button}
+    >
       {text}
     </button>
   );

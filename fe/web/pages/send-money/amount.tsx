@@ -71,6 +71,10 @@ function AmountPage() {
         onClickNumber={handleClickNumber}
         onClickDelete={handleClickDelete}
         onClickConfirm={handleClickConfirm}
+        isValid={
+          sendMoneyInfo.송금금액 > 0 &&
+          sendMoneyInfo.송금금액 <= sendMoneyInfo.잔액
+        }
       />
     </div>
   );
