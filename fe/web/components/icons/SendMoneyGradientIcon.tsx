@@ -30,7 +30,7 @@ export default function SendMoneyGradientIcon() {
           gradientUnits="userSpaceOnUse"
         >
           <stop stopColor="#7835F9" />
-          <stop offset="1" stop-color="#C576F5" />
+          <stop offset="1" stopColor="#C576F5" />
         </linearGradient>
         <linearGradient
           id="paint1_linear_278_7080"
