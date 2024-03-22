@@ -1,15 +1,23 @@
 import styles from './button.module.scss';
 
 interface ButtonProps {
-  text: string;
-  btnStyle: string;
-  btnFunction: (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => unknown;
+  text?: string;
+  btnStyle: 'thickFill' | 'thinFill' | 'thinLine' | 'thinFill';
+  children: React.ReactNode;
+  btnFunction?: (
+    e?: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => unknown;
 }
-export default function Button({ text, btnStyle, btnFunction }: ButtonProps) {
+export default function Button({
+  text,
+  btnStyle,
+  btnFunction,
+  children,
+}: ButtonProps) {
   return (
     <div className={styles.container}>
       <button className={`${styles[btnStyle]}`} onClick={btnFunction}>
-        {text}
+        {text?.length ? text : children}
       </button>
     </div>
   );
