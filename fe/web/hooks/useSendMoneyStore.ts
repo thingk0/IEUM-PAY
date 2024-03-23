@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 
+const MAX_TRANSFER = 100000000;
+
 interface sendMoneyInfoType {
   수취인: string;
   수취은행: string;
@@ -41,7 +43,7 @@ const useSendMoneyInfo = create<SendMoneyInfoState & SendMoneyInfoActions>(
           수취은행: state.sendMoneyInfo.수취은행,
           수취계좌: state.sendMoneyInfo.수취계좌,
           송금금액: Math.min(
-            100000000,
+            MAX_TRANSFER,
             state.sendMoneyInfo.송금금액 * 10 + amount,
           ),
           송금은행: state.sendMoneyInfo.송금은행,
@@ -67,7 +69,10 @@ const useSendMoneyInfo = create<SendMoneyInfoState & SendMoneyInfoActions>(
           수취인: state.sendMoneyInfo.수취인,
           수취은행: state.sendMoneyInfo.수취은행,
           수취계좌: state.sendMoneyInfo.수취계좌,
-          송금금액: state.sendMoneyInfo.송금금액 + amount,
+          송금금액: Math.min(
+            state.sendMoneyInfo.송금금액 + amount,
+            MAX_TRANSFER,
+          ),
           송금은행: state.sendMoneyInfo.송금은행,
           잔액: state.sendMoneyInfo.잔액,
         },
