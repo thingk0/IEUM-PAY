@@ -43,8 +43,8 @@ function AmountButtonList() {
   ];
   return (
     <ul className={classes.ul}>
-      {buttons.map((button) => (
-        <li>
+      {buttons.map((button, i) => (
+        <li key={i}>
           <AmountButton text={button.text} onClick={button.onClick} />
         </li>
       ))}
