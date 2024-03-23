@@ -2,6 +2,7 @@
   position: fixed;
   width: 100%;
   bottom: 0;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 .ul {
   position: static;
@@ -45,7 +46,7 @@
 }
 .cameraWrapper {
   position: absolute;
-  bottom: 0.563rem;
+  bottom: calc(0.563rem + env(safe-area-inset-bottom));
   width: 4.25rem;
   height: 4.25rem;
   border-radius: 100%;

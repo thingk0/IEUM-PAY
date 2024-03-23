@@ -20,10 +20,6 @@ export default function Home() {
   };
   return (
     <>
-      <Head>
-        <title>IEUM PAY</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
       <HeaderMain />
       <main className={mainStyles.main}>
         <div className={mainStyles.cardsContainer}>
