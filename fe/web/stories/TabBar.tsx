@@ -11,6 +11,7 @@ import UserIconActive from './icons/UserIconActive';
 import CreditCardIconActive from './icons/CreditCardIconActive';
 import SendMoneyIconActive from './icons/SendMoneyIconActive';
 import CameraIcon from './icons/CameraIcon';
+import Vibrate from '@/utils/vibrate';
 
 //object literal
 export const tabBarElementCode = {
@@ -30,7 +31,7 @@ interface TabBarProps {
 
 function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
   function vibrate() {
-    navigator?.vibrate(1); // 진동을 울리게 한다. 1000ms = 1초
+    Vibrate(10);
   }
 
   return (
