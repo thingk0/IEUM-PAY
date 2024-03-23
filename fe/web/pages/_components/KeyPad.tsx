@@ -1,3 +1,4 @@
+import Vibrate from '@/utils/vibrate';
 import DeleteIcon from '../_icons/DeleteIcon';
 import classes from './KeyPad.module.scss';
 interface KeyPadProps {
@@ -29,7 +30,7 @@ export default function KeyPad({
     '완료',
   ];
   function handleClick(v: KeyElement) {
-    navigator?.vibrate(10);
+    Vibrate(10);
     if (!isNaN(Number(v))) {
       onClickNumber(v);
     } else if (v === '완료') {

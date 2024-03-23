@@ -1,7 +1,6 @@
 import useSendMoneyInfo from '@/hooks/useSendMoneyStore';
 import classes from '@/styles/ConfirmPage.module.scss';
 import SendMoneyGradientIcon from '@/components/icons/SendMoneyGradientIcon';
-import { MouseEvent } from 'react';
 import Header from '@/components/Header';
 import Button from '@/stories/Button';
 import { commaizeNumber } from '@toss/utils';
