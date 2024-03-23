@@ -568,12 +568,15 @@ const TreeIcon = () => {
   return svgCode;
 };
 
-export const Icons = {
-  FruitIcon,
-  IeumIcon,
-  SeedIcon,
-  SessakIcon,
-  SmallTreeIcon,
-  TooSmallTreeIcon,
-  TreeIcon,
+interface IconsType {
+  [key: string]: () => JSX.Element;
+}
+export const Icons: IconsType = {
+  GR001: SeedIcon,
+  GR002: SessakIcon,
+  GR003: TooSmallTreeIcon,
+  GR004: SmallTreeIcon,
+  GR005: TreeIcon,
+  GR006: FruitIcon,
+  GR007: IeumIcon,
 };

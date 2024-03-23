@@ -357,12 +357,16 @@ const TreeBadge = () => {
   return svgCode;
 };
 
-export const badges = {
-  FruitBadge,
-  IeumBadge,
-  SeedBadge,
-  SessakBadge,
-  SmallTreeBadge,
-  TooSmallTreeBadge,
-  TreeBadge,
+interface Badges {
+  [key: string]: () => JSX.Element;
+}
+
+export const badges: Badges = {
+  GR001: SeedBadge,
+  GR002: SessakBadge,
+  GR003: TooSmallTreeBadge,
+  GR004: SmallTreeBadge,
+  GR005: TreeBadge,
+  GR006: FruitBadge,
+  GR007: IeumBadge,
 };
