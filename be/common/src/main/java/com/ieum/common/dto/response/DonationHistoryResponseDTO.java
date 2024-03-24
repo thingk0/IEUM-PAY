@@ -1,17 +1,21 @@
 package com.ieum.common.dto.response;
 
 import java.util.Date;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 @Builder
+@AllArgsConstructor
 public class DonationHistoryResponseDTO {
-    Long fundingId;
-    String fundingTitle;
-    String facilityName;
-    Date historyDate;
-    String nickname;
-    int donationAmount;
-    String fundingSummary;
+
+    private Long fundingId;
+    private String fundingTitle;
+    private String facilityName;
+    private Date historyDate;
+    private String nickname;
+    private int donationAmount;
+    private String fundingSummary;
+
 }
