@@ -1,6 +1,7 @@
 package com.ieum.funding.repository;
 
 import com.ieum.funding.domain.Funding;
+import com.ieum.funding.dto.FundingInfoDTO;
 import com.ieum.funding.response.FundingInfoResponseDTO;
 import com.ieum.funding.dto.FundingDetailBaseDTO;
 import java.util.List;
@@ -48,4 +49,12 @@ public interface FundingRepository extends JpaRepository<Funding, Long> {
         "LEFT JOIN Facilities fac ON fac.facilityId = f.facilityId " +
         "WHERE f.fundingId = :fundingId")
     FundingDetailBaseDTO findFundingDetail(@Param("fundingId") Long fundingId);
+
+    @Query(value = "SELECT new com.ieum.funding.dto.FundingInfoDTO(f.fundingId," +
+        " f.goalAmount - f.currentAmount, " +
+        "(SELECT facilityName from Facilities " +
+        "WHERE facilityId = f.facilityId)) " +
+        "FROM Funding f " +
+        "WHERE f.fundingId = :fundingId", nativeQuery = false)
+    FundingInfoDTO getDonationInfo(Long fundingId);
 }
