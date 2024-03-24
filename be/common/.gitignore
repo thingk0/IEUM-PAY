@@ -329,3 +329,5 @@ $RECYCLE.BIN/
 
 src/main/resources/*
 src/main/resources/static/*
+/qodana.yaml
+/src/main/generated/
