@@ -18,6 +18,7 @@ export const tabBarElementCode = {
   payment: 'payment',
   sendMoney: 'sendMoney',
   myPage: 'myPage',
+  none: 'none',
 } as const;
 
 export type TabBarElementCodeValue =
