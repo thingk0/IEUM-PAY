@@ -5,6 +5,7 @@ import styles from '@/styles/FundDetailPage.module.scss';
 import { commaizeNumber } from '@toss/utils';
 import { Progress } from '@nextui-org/react';
 import Button from '@/components/HalfButton';
+import HeaderHome from '@/components/HeaderHome';
 
 interface peopleType {
   nickname: string;
@@ -229,6 +230,7 @@ export default function Detail() {
 
   return (
     <>
+      <HeaderHome>모금 상세</HeaderHome>
       <div className={styles.detailContainer}>
         <div className={styles.imageTag}>
           <img
