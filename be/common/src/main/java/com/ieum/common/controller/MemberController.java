@@ -1,37 +1,34 @@
 package com.ieum.common.controller;
 
 import com.ieum.common.annotation.CurrentMemberId;
-import com.ieum.common.domain.Members;
 import com.ieum.common.dto.FundingInfoDTO;
-import com.ieum.common.dto.member.LoginRequestDto;
-import com.ieum.common.dto.member.SignupRequestDto;
-import com.ieum.common.dto.request.MemberExistRequestDTO;
-import com.ieum.common.dto.request.MemberLoginpwUpdateRequestDTO;
-import com.ieum.common.dto.request.MemberNicknameRequestDTO;
-import com.ieum.common.dto.request.MemberPaypwUpdateRequestDTO;
-import com.ieum.common.dto.request.MemberSearchRequestDTO;
-import com.ieum.common.dto.response.MemberExistResponseDTO;
-import com.ieum.common.dto.response.MemberLoginResponseDTO;
-import com.ieum.common.dto.response.MemberRegistResponseDTO;
-import com.ieum.common.dto.member.ProfileResponseDto;
-import com.ieum.common.dto.response.MemberSearchResponseDTO;
+import com.ieum.common.dto.member.req.LoginRequestDto;
+import com.ieum.common.dto.member.req.SignupRequestDto;
+import com.ieum.common.dto.member.req.PasswordUpdateRequestDto;
+import com.ieum.common.dto.member.req.NicknameUpdateRequestDto;
 import com.ieum.common.dto.response.MemberSummaryResponseDTO;
+import com.ieum.common.format.code.SuccessCode;
 import com.ieum.common.format.response.ResponseTemplate;
 import com.ieum.common.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.Arrays;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "members", description = "멤버 API - 목업")
@@ -44,140 +41,85 @@ public class MemberController {
     private final MemberService memberService;
     private final ResponseTemplate response;
 
-    @Operation(summary = "회원 등록", description = "새로운 회원을 등록합니다.")
-    @ApiResponse(responseCode = "200", description = "회원 등록 성공, 이름, 닉네임 반환")
-    @PostMapping("/regist")
-    public ResponseEntity<?> regist(@RequestBody @Valid SignupRequestDto request) {
-        memberService.signup(request);
-        return response.success(MemberRegistResponseDTO.builder()
-                                                       .memberId(1L)
-                                                       .name("김범수")
-                                                       .nickname("월평동상남자")
-                                                       .build(), HttpStatus.OK);
-    }
-
     @Operation(summary = "회원 정보 조회", description = "회원의 상세 정보를 조회합니다.")
     @ApiResponse(responseCode = "200", description = "회원 정보 조회 성공, 회원 정보 반환")
     @GetMapping
-    public ResponseEntity<?> getMemberInfo(@RequestBody @CurrentMemberId Long memberId) {
-        return response.success(ProfileResponseDto.builder()
-                                                  .memberId(1L)
-                                                  .name("황정민")
-                                                  .nickname("hero")
-                                                  .gradeCode("GR002")
-                                                  .gradeName("새싹")
-                                                  .build(), HttpStatus.OK);
+    public ResponseEntity<?> getProfileById(@CurrentMemberId Long memberId) {
+        return response.success(memberService.getProfileById(memberId),
+                                SuccessCode.MEMBER_PROFILE_FETCHED);
+    }
+
+    @Operation(summary = "회원 등록", description = "새로운 회원을 등록합니다.")
+    @ApiResponse(responseCode = "200", description = "회원 등록 성공, 이름, 닉네임 반환")
+    @PostMapping
+    public ResponseEntity<?> signup(@RequestBody @Valid SignupRequestDto request) {
+        return response.success(memberService.signup(request),
+                                SuccessCode.MEMBER_SIGNUP_SUCCESSFUL);
     }
 
     @Operation(summary = "회원 탈퇴", description = "회원 탈퇴를 합니다.")
     @ApiResponse(responseCode = "200", description = "회원 탈퇴 성공")
     @ApiResponse(responseCode = "401", description = "인증 실패")
-    @PutMapping("/delete")
-    public ResponseEntity<?> delete(@RequestBody @CurrentMemberId Long memberId) {
-        return response.success(memberService.delete(memberId), HttpStatus.OK);
+    @DeleteMapping
+    public ResponseEntity<?> delete(@CurrentMemberId Long memberId) {
+        return response.success(memberService.delete(memberId),
+                                SuccessCode.MEMBER_WITHDRAWAL_SUCCESSFUL);
     }
 
     @Operation(summary = "회원 존재 여부 확인", description = "회원의 존재 여부를 확인합니다.")
     @ApiResponse(responseCode = "200", description = "회원 존재 여부 exist:true/false")
-    @PostMapping("/exist")
-    public ResponseEntity<MemberExistResponseDTO> checkMember(@RequestBody MemberExistRequestDTO request) {
-
-        String phoneNumber = request.getPhoneNumber();
-        Members member = memberService.getMemberByPhoneNumber(phoneNumber);
-
-        if (member != null) {
-            MemberExistResponseDTO response = MemberExistResponseDTO.builder()
-                                                                    .exist(true)
-                                                                    .build();
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            MemberExistResponseDTO response = MemberExistResponseDTO.builder()
-                                                                    .exist(false)
-                                                                    .build();
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        }
+    @GetMapping("/exist")
+    public ResponseEntity<?> checkMember(@RequestParam("phone-number") String phoneNumber) {
+        return response.success(memberService.existsMemberByPhoneNumber(phoneNumber),
+                                SuccessCode.MEMBER_EXISTS_BY_PHONE_NUMBER);
     }
 
     @Operation(summary = "회원 로그인", description = "회원 로그인을 처리합니다.")
     @ApiResponse(responseCode = "200", description = "멤버ID, 이름, 닉네임 반환")
     @PostMapping("/login")
-    public ResponseEntity<MemberLoginResponseDTO> login(@RequestBody LoginRequestDto request) {
-        Members member = memberService.getMemberByPhoneNumberAndPassword(request.getPhoneNumber(), request.getPassword());
-
-        if (member == null) {
-            MemberLoginResponseDTO response = MemberLoginResponseDTO.builder()
-                                                                    .memberId(-1L)
-                                                                    .build();
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-
-        var response = MemberLoginResponseDTO.builder()
-                                             .memberId(member.getId())
-                                             .name(member.getName())
-                                             .nickname(member.getNickname())
-                                             .build();
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<?> login(@RequestBody @Valid LoginRequestDto request, HttpServletResponse servletResponse) {
+        return response.success(memberService.login(request, servletResponse),
+                                SuccessCode.MEMBER_LOGIN_SUCCESSFUL);
     }
 
-    @Operation(summary = "로그인 비밀번호 변경", description = "회원의 로그인 비밀번호를 변경합니다.")
-    @ApiResponse(responseCode = "200", description = "로그인 비밀번호 변경 성공")
-    @PutMapping("/login-pw/update")
-    public ResponseEntity<?> updateLoginPassword(@RequestBody MemberLoginpwUpdateRequestDTO request,
-                                                 Long memberId) {
-        // TODO: 비밀번호 변경 서비스 호출
-        return response.success(HttpStatus.BAD_REQUEST);
-    }
-
-    @Operation(summary = "닉네임 변경", description = "회원의 닉네임을 변경합니다.")
-    @ApiResponse(responseCode = "200", description = "닉네임 변경 성공")
-    @PutMapping("/nickname")
-    public ResponseEntity<?> updateNickname(@RequestBody MemberNicknameRequestDTO request,
-                                            Long memberId) {
-
-        // TODO: 비밀번호 변경 서비스 호출
-        return response.success(HttpStatus.BAD_REQUEST);
-    }
-
-    @Operation(summary = "결제 비밀번호 확인", description = "회원의 결제 비밀번호 확인 - 수정 필요")
-    @ApiResponse(responseCode = "200", description = "결제 비밀번호 인증 성공")
-    @PutMapping("/pay-pw/auth")
-    public ResponseEntity<?> checkPaymentPassword(Long memberId) {
-
-//        String authenticationKey = memberService.checkPaymentPassword(memberId, request.getPaymentPassword());
-//        MemberPaypwAuthResponseDTO res = new MemberPaypwAuthResponseDTO();
-//        res.setAuthenticationKey(authenticationKey);
-
-        return response.success(HttpStatus.OK);
-    }
-
-    @Operation(summary = "결제 비밀번호 변경", description = "회원의 결제 비밀번호를 변경합니다. - 수정 필요")
-    @ApiResponse(responseCode = "200", description = "결제 비밀번호 변경 성공")
-    @PutMapping("/pay-pw/update")
-    public ResponseEntity<?> updatePaymentPassword(@RequestBody MemberPaypwUpdateRequestDTO request,
-                                                   Long memberId) {
-
-        return response.success(HttpStatus.OK);
+    @Operation(summary = "회원 로그아웃", description = "회원 로그아웃을 처리합니다.")
+    @ApiResponse(responseCode = "200", description = "멤버ID, 이름, 닉네임 반환")
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest req, HttpServletResponse res) {
+        return response.success(memberService.logout(req, res),
+                                SuccessCode.MEMBER_LOGOUT_SUCCESSFUL);
     }
 
     @Operation(summary = "회원 검색", description = "회원을 검색합니다.")
     @ApiResponse(responseCode = "200", description = "회원 검색 성공 - 회원 이름, 전화번호")
     @PostMapping("/search")
-    public ResponseEntity<?> searchMember(@RequestBody MemberSearchRequestDTO request) {
+    public ResponseEntity<?> search(@RequestParam("phone-number")
+                                    @NotBlank(message = "휴대폰 번호는 필수입니다.")
+                                    @Pattern(regexp = "^010-\\d{4}-\\d{4}$", message = "휴대폰 번호 형식이 잘못되었습니다.")
+                                    String phoneNumber) {
 
-        Members member = memberService.getMemberByPhoneNumber(request.getPhoneNumber());
+        return response.success(memberService.getRecipientByPhoneNumber(phoneNumber),
+                                SuccessCode.RECIPIENT_FETCH_SUCCESSFUL);
+    }
 
-        if (member == null) {
-            var res = MemberSearchResponseDTO.builder().build();
-            return response.success(res, HttpStatus.OK);
+    @Operation(summary = "비밀번호 변경", description = "회원의 로그인 비밀번호를 변경합니다.")
+    @ApiResponse(responseCode = "200", description = "로그인 비밀번호 변경 성공")
+    @PutMapping("/password")
+    public ResponseEntity<?> updateLoginPassword(@RequestBody @Valid PasswordUpdateRequestDto request,
+                                                 @CurrentMemberId Long memberId) {
 
-        }
-        var res = MemberSearchResponseDTO.builder()
-                                         .name(member.getName())
-                                         .phoneNumber(member.getPhoneNumber())
-                                         .build();
+        memberService.updatePassword(request, memberId);
+        return response.success(SuccessCode.PASSWORD_CHANGE_SUCCESSFUL);
+    }
 
-        return response.success(HttpStatus.OK);
+    @Operation(summary = "닉네임 변경", description = "회원의 닉네임을 변경합니다.")
+    @ApiResponse(responseCode = "200", description = "닉네임 변경 성공")
+    @PutMapping("/nickname")
+    public ResponseEntity<?> updateNickname(@RequestBody NicknameUpdateRequestDto request,
+                                            @CurrentMemberId Long memberId) {
+
+        return response.success(memberService.updateNickname(request, memberId),
+                                SuccessCode.NICKNAME_CHANGE_SUCCESSFUL);
     }
 
     @Operation(summary = "회원 요약 정보 조회", description = "회원의 요약 정보를 조회합니다. - 수정 필요")
@@ -220,6 +162,6 @@ public class MemberController {
                                           .autoFundingAmount(100)
                                           .build();
 
-        return response.success(res, HttpStatus.OK);
+        return response.success(res, SuccessCode.SUCCESS);
     }
 }
