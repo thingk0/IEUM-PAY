@@ -48,7 +48,7 @@ function HeaderMain() {
       <Link href="/">
         <Logo />
       </Link>
-      <Link href="/setting">
+      <Link href="/settings">
         <SettingIcon />
       </Link>
     </header>
