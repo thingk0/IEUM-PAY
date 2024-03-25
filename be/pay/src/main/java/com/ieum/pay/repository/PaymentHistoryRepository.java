@@ -16,4 +16,5 @@ public interface PaymentHistoryRepository extends JpaRepository<PaymentHistories
                 "LEFT JOIN stores s on p.store_id = s.store_id where p.member_id = :id ", nativeQuery = true)
     List<PaymentHistoriesDTO> findByMemberId(Long id);
 
+    PaymentHistories findByHistoryId(Long historyId);
 }

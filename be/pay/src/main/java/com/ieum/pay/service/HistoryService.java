@@ -4,7 +4,9 @@ import com.ieum.pay.domain.*;
 import com.ieum.pay.dto.HistoryDTO;
 import com.ieum.pay.dto.PaymentHistoriesDTO;
 import com.ieum.pay.repository.*;
+import com.ieum.pay.response.FundingDonationResultResponseDTO;
 import com.ieum.pay.response.HistoryResponseDTO;
+import com.ieum.pay.response.PaymentHistoryResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,30 +26,35 @@ public class HistoryService {
     private final ChargeHistoryRepository chargeHistoryRepository;
     private final PaymentHistoryRepository paymentHistoryRepository;
     private final DonationHistoryRepository donationHistoryRepository;
+    private final StoreRepository storeRepository;
+    private final PaymoneyRepository paymoneyRepository;
 
-    public void sendMoney(Long senderId, String receiverName, int amount, int chargeMoney, Long cardId) {
+    //페이머니 송금
+    public Long sendMoney(Long senderId, String receiverName, int amount, int chargeMoney, Long cardId) {
         //사용자간 페이머니 송금시 출금순서
         //history
-        Histories history = historySave(senderId,0,"출금");
+        Histories history = historySave(senderId,amount,"출금");
         //withdrawal
         withdrawalHistorySave(history.getHistoryId(), senderId,amount,receiverName);
 
         if(chargeMoney > 0){
             chargeHistorySave(history.getHistoryId(), senderId,cardId,chargeMoney);
         }
+        return history.getHistoryId();
     }
 
     public void receiveMoney(Long receiverId, String senderName, int amount) {
         //사용자간 페이머니 송금시 출금순서
-        Histories history = historySave(receiverId,0,"입금");
+        Histories history = historySave(receiverId,amount,"입금");
 
         depositHistorySave(history.getHistoryId(), receiverId,amount,senderName);
     }
 
+    //결제
     public Long payment(Long memberId, Long storeId, Long fundingId, Long cardId, int chargeAmount, int amount, int donationAmount) {
 
         //history
-        Histories result = historySave(memberId,0,"결제");// 0 revise check
+        Histories result = historySave(memberId,amount + donationAmount,"결제");// 0 revise check
         Long historyId = result.getHistoryId();
         //charge
         if(chargeAmount > 0){
@@ -59,6 +66,10 @@ public class HistoryService {
         //donation
         if(donationAmount > 0){
             donationHistorySave(historyId,memberId,fundingId,donationAmount);
+            Paymoney paymoney = paymoneyRepository.findByMemberId(memberId);
+            paymoney.setDonationCount(paymoney.getDonationCount() + 1);
+            paymoney.setDonationTotalAmount(paymoney.getDonationTotalAmount() + donationAmount);
+            paymoneyRepository.save(paymoney);
         }
         return historyId;
 
@@ -120,6 +131,7 @@ public class HistoryService {
         donationHistoryRepository.save(history);
     }
 
+    //결제 내역 조회
     public List<HistoryResponseDTO> historyList(Long memberId) {
         List<Histories> historyList = historyRepository.findByMemberIdOrderByHistoryDateDesc(memberId);
 
@@ -209,5 +221,56 @@ public class HistoryService {
         }
 
         return result;
+    }
+
+    public PaymentHistoryResponseDTO getHistory(Long historyId) {
+        Histories history = historyRepository.findByHistoryId(historyId);
+        if(history==null || !history.getHistoryType().equals("결제"))
+            return null;
+        PaymentHistories paymentHistory = paymentHistoryRepository.findByHistoryId(historyId);
+        DonationHistories donationHistory = donationHistoryRepository.findByHistoryId(historyId);
+        Long storeId = paymentHistory.getStoreId();
+        String storeName = storeRepository.findByStoreId(storeId).getStoreName();
+        int payAmount = paymentHistory.getPaymentAmount();
+        int donationAmount = 0;
+        if(donationHistory != null)
+            donationAmount = donationHistory.getDonationAmount();
+
+        PaymentHistoryResponseDTO dto = PaymentHistoryResponseDTO.builder()
+                .storeName(storeName)
+                .paymentAmount(payAmount)
+                .paymentAmount(payAmount)
+                .donationAmount(donationAmount)
+                .build();
+
+        return dto;
+    }
+
+    //직접 기부
+    public Long directDonation(Long memberId, Long fundingId, int donationAmount) {
+        Histories history = historySave(memberId, donationAmount, "기부");
+        donationHistorySave(history.getHistoryId(), memberId,fundingId, donationAmount);
+        Paymoney paymoney = paymoneyRepository.findByMemberId(memberId);
+        paymoney.setDonationCount(paymoney.getDonationCount() + 1);
+        paymoney.setDonationTotalAmount(paymoney.getDonationTotalAmount() + donationAmount);
+        paymoneyRepository.save(paymoney);
+        return history.getHistoryId();
+    }
+
+    //기부 완료 정보 요청
+    public FundingDonationResultResponseDTO getFundingHistory(Long historyId) {
+        Histories history = historyRepository.findByHistoryId(historyId);
+
+        if(history==null ||  !history.getHistoryType().equals("기부"))
+            return null;
+
+        DonationHistories donationHistory = donationHistoryRepository.findByHistoryId(historyId);
+
+        FundingDonationResultResponseDTO dto = FundingDonationResultResponseDTO.builder()
+                .fundingId(donationHistory.getFundingId())
+                .donationAmount(donationHistory.getDonationAmount())
+                .build();
+
+        return dto;
     }
 }

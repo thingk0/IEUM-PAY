@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Entity
 @Builder
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Paymoney {
@@ -17,7 +18,6 @@ public class Paymoney {
     @Column(nullable = false, length = 6)
     private String paymentPassword;
 
-    @Setter
     @Column(nullable = false)
     private int paymoneyAmount;
 
