@@ -8,6 +8,7 @@ import { getUserInfo } from '@/api/userAxois';
 import { commaizeNumber } from '@toss/utils';
 import { useRouter } from 'next/router';
 import Button from '@/stories/Button';
+import styels from '@/styles/myPage.module.scss';
 
 interface fundingType {
   img: string;
@@ -88,7 +89,10 @@ export default function MyPage() {
             총 <span>{commaizeNumber(userInfo.totalDonationAmount)}원</span>을
             나눴어요
           </p>
-          {setIcon(userInfo.gradeCode)}
+          <img
+            src={`levelIcons/${userInfo.gradeCode}.svg`}
+            className={styels.iconImage}
+          />
           <hr />
           <p>연동되어있는 모금이 없어요</p>
           <Button size="thin" onClick={() => router.push('/rundraising')}>
@@ -107,7 +111,10 @@ export default function MyPage() {
               총 <span>{commaizeNumber(userInfo.totalDonationAmount)}원</span>을
               나눴어요
             </p>
-            {setIcon(userInfo.gradeCode)}
+            <img
+              src={`levelIcons/${userInfo.gradeCode}.svg`}
+              className={styels.iconImage}
+            />
           </div>
           <hr />
           <div>
@@ -142,7 +149,11 @@ export default function MyPage() {
       <HeaderMain />
 
       <div>
-        {setBedge(userInfo.gradeCode)}
+        <img
+          src={`levelBadges/${userInfo.gradeCode}.svg`}
+          className={styels.badgeImage}
+          alt={`${userInfo.gradeName} 등급 뱃지`}
+        />
         <span>{userInfo.name}</span>
         {userInfo.nickname}
       </div>

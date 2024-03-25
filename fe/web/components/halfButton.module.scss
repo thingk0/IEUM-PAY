@@ -1,5 +1,6 @@
 $heightThick: 3.5rem;
 $heightThin: 3rem;
+$heightSuperThin: 2.5rem;
 
 .container {
   display: flex;
@@ -61,4 +62,13 @@ $heightThin: 3rem;
 
 .thinLine:active {
   background-color: rgb(205, 174, 255);
+}
+
+.recThinFill {
+  height: $heightSuperThin;
+  width: 100%;
+  background-color: var(--primary-color);
+  border-radius: 0.5rem;
+  color: white;
+  margin: 0.5rem 0 0.5rem 0;
 }
