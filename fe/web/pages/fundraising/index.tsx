@@ -5,7 +5,7 @@ import { Progress } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import styles from '@/styles/FundPage.module.scss';
 
-interface onGoingListType {
+interface fundingList {
   fundingId: number;
   facilityName: string;
   fundingTitle: string;
@@ -13,21 +13,11 @@ interface onGoingListType {
   facilityImage: string;
   fundingPeopleCnt: number;
   goalAmount: number;
-  currentAmount: number;
-}
-
-interface completeListType {
-  fundingId: number;
-  facilityName: string;
-  fundingTitle: string;
-  fundingOpenDate: string;
-  facilityImage: string;
-  fundingPeopleCnt: number;
-  goalAmount: number;
+  currentAmount?: number;
 }
 
 export default function Funding() {
-  const [onGoingList, setonGoingList] = useState<onGoingListType[]>([
+  const [onGoingList, setonGoingList] = useState<fundingList[]>([
     {
       fundingId: 1,
       facilityName: 'btc',
@@ -49,7 +39,7 @@ export default function Funding() {
       currentAmount: 1000,
     },
   ]);
-  const [completeList, setcompleteList] = useState<completeListType[]>([
+  const [completeList, setcompleteList] = useState<fundingList[]>([
     {
       fundingId: 1,
       facilityName: 'btc',
@@ -71,84 +61,56 @@ export default function Funding() {
   ]);
   const [selectedTab, setSelectedTab] = useState(true);
 
+  const cardList = (fundingList: fundingList[], value: boolean) => {
+    return (
+      <>
+        <div>
+          {value
+            ? `진행중인 모금 ${fundingList.length}`
+            : `완료된 모금 ${fundingList.length}`}
+        </div>
+        <div className={styles.cardContainer}>
+          {fundingList.map((unit) => (
+            <div className={styles.card}>
+              <img
+                className={styles.cardImage}
+                src={unit.facilityImage}
+                alt={`${unit.facilityName} 이미지`}
+              />
+              <div className={styles.cardTextContiner}>
+                <div>{unit.facilityName}</div>
+                <div>{unit.fundingOpenDate}</div>
+                <div>
+                  <div className={styles.cntProgressText}>
+                    <div>{unit.fundingPeopleCnt}명 참여중</div>
+                    <div>
+                      {value ? `${unit.currentAmount}` : `${unit.goalAmount}`} /
+                      {unit.goalAmount}
+                    </div>
+                  </div>
+                  <Progress
+                    size="sm"
+                    aria-label="기부 모금 정도 표기"
+                    classNames={{
+                      indicator: `${styles.progressBar}`,
+                    }}
+                    value={Math.floor(
+                      (unit.currentAmount != undefined
+                        ? unit.currentAmount / unit.goalAmount
+                        : unit.goalAmount / unit.goalAmount) * 100,
+                    )}
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  };
+
   const showTab = (val: boolean) => {
-    if (val) {
-      return (
-        <div>
-          <div>진행중인 모금 {onGoingList.length}</div>
-          <div className={styles.cardContainer}>
-            {onGoingList.map((unit) => (
-              <div className={styles.card}>
-                <img
-                  className={styles.cardImage}
-                  src={unit.facilityImage}
-                  alt={`${unit.facilityName} 이미지`}
-                />
-                <div className={styles.cardTextContiner}>
-                  <div>{unit.facilityName}</div>
-                  <div>{unit.fundingOpenDate}</div>
-                  <div>
-                    <div className={styles.cntProgressText}>
-                      <div>{unit.fundingPeopleCnt}명 참여중</div>
-                      <div>
-                        {unit.currentAmount} / {unit.goalAmount}
-                      </div>
-                    </div>
-                    <Progress
-                      size="sm"
-                      aria-label="기부 모금 정도 표기"
-                      classNames={{
-                        indicator: `${styles.progressBar}`,
-                      }}
-                      value={Math.floor(
-                        (unit.currentAmount / unit.goalAmount) * 100,
-                      )}
-                    />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <div>완료된 모금 {onGoingList.length}</div>
-          <div className={styles.cardContainer}>
-            {completeList.map((unit) => (
-              <div className={styles.card}>
-                <img
-                  className={styles.cardImage}
-                  src={unit.facilityImage}
-                  alt={`${unit.facilityName} 이미지`}
-                />
-                <div className={styles.cardTextContiner}>
-                  <div>{unit.facilityName}</div>
-                  <div>{unit.fundingOpenDate}</div>
-                  <div>
-                    <div className={styles.cntProgressText}>
-                      <div>{unit.fundingPeopleCnt}명 참여중</div>
-                      <div>
-                        {unit.goalAmount} / {unit.goalAmount}
-                      </div>
-                    </div>
-                    <Progress
-                      size="sm"
-                      aria-label="기부 모금 정도 표기"
-                      classNames={{
-                        indicator: `${styles.progressBar}`,
-                      }}
-                      value={100}
-                    />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    }
+    return val ? cardList(onGoingList, val) : cardList(completeList, val);
   };
 
   const changeToOnGoing = () => {
