@@ -42,3 +42,8 @@ export const MyPage: Story = {
     selected: tabBarElementCode.myPage,
   },
 };
+export const None: Story = {
+  args: {
+    selected: tabBarElementCode.none,
+  },
+};

@@ -41,8 +41,8 @@ function AmountPage() {
     }
   }
   return (
-    <>
-      <Header>송금하기</Header>
+    <div className={classes.container}>
+      <Header>이음페이 송금하기</Header>
       <main className={classes.main}>
         <div className={classes.wrapper}>
           <div>
@@ -51,23 +51,32 @@ function AmountPage() {
               {sendMoneyInfo.수취은행} {sendMoneyInfo.수취계좌}
             </p>
           </div>
-          <송금금액 />
-          <송금금액_설명 />
+          <div>
+            <송금금액 />
+            <송금금액_설명 />
+          </div>
+
           <div>
             <div className={classes.senderInfo}>
               <span className="bank">{sendMoneyInfo.송금은행}</span>
-              <span className="deposit">{sendMoneyInfo.잔액}원</span>
+              <span className="deposit">
+                {commaizeNumber(sendMoneyInfo.잔액)}원
+              </span>
             </div>
             <AmountButtonList />
           </div>
         </div>
-        <KeyPad
-          onClickNumber={handleClickNumber}
-          onClickDelete={handleClickDelete}
-          onClickConfirm={handleClickConfirm}
-        />
       </main>
-    </>
+      <KeyPad
+        onClickNumber={handleClickNumber}
+        onClickDelete={handleClickDelete}
+        onClickConfirm={handleClickConfirm}
+        isValid={
+          sendMoneyInfo.송금금액 > 0 &&
+          sendMoneyInfo.송금금액 <= sendMoneyInfo.잔액
+        }
+      />
+    </div>
   );
 }
 export default AmountPage;

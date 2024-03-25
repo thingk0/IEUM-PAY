@@ -13,8 +13,8 @@ export default function History() {
       <path
         d="M9 4.752h17M9 13.752h17M9 22.752h17"
         stroke="#595959"
-        stroke-width="3"
-        stroke-linecap="round"
+        strokeWidth="3"
+        strokeLinecap="round"
       />
     </svg>
   );

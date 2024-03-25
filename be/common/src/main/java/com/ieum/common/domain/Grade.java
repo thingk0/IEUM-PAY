@@ -1,20 +1,22 @@
 package com.ieum.common.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@Entity
 @Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Entity
 public class Grade {
+
     @Id
-    String gradeCode;
-    String gradeName;
-    int gradeMemberCount;
+    @Column(name = "garde_code")
+    private String code;
+
+    @Column(name = "grade_name", nullable = false)
+    private String name;
+
+    @Column(name = "grade_member_count", nullable = false)
+    private int count;
+
 }

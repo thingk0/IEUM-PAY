@@ -1,0 +1,49 @@
+.tabContainer {
+  width: 100%;
+}
+.ul {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  font-size: 0.75rem;
+  color: var(--black);
+  justify-content: space-around;
+  padding: 0.625rem;
+  background: var(--real-white);
+}
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 0.625rem;
+  background-color: var(--forthary);
+}
+.card {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  background-color: var(--real-white);
+  border: 0;
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
+  padding: 0;
+}
+.cardImage {
+  width: 7.25rem;
+  height: 7.25rem;
+  text-align: left;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+.cardTextContiner {
+  width: 100%;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+.cntProgressText {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+}
+.progressBar {
+  background: var(--primary-color);
+}

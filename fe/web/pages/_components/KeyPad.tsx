@@ -1,9 +1,11 @@
+import Vibrate from '@/utils/vibrate';
 import DeleteIcon from '../_icons/DeleteIcon';
-import classes from './KeyPad.module.css';
+import classes from './KeyPad.module.scss';
 interface KeyPadProps {
   onClickNumber: (e: KeyElement) => void;
   onClickDelete: (e: KeyElement) => void;
   onClickConfirm: (e: KeyElement) => void;
+  isValid: boolean;
 }
 type KeyElement = string | number | JSX.Element;
 
@@ -11,6 +13,7 @@ export default function KeyPad({
   onClickNumber,
   onClickDelete,
   onClickConfirm,
+  isValid,
 }: KeyPadProps) {
   const buttonList: KeyElement[] = [
     1,
@@ -27,6 +30,7 @@ export default function KeyPad({
     '완료',
   ];
   function handleClick(v: KeyElement) {
+    Vibrate(10);
     if (!isNaN(Number(v))) {
       onClickNumber(v);
     } else if (v === '완료') {
@@ -38,11 +42,15 @@ export default function KeyPad({
   return (
     <div className={classes.keypad}>
       <ul className={classes.container}>
-        {buttonList.map((v) => (
-          <li className={classes.item} key={v.toString()}>
-            <button onClick={() => handleClick(v)}>{v}</button>
-          </li>
-        ))}
+        {buttonList
+          .filter((e) => (isValid ? true : e !== '완료'))
+          .map((v) => (
+            <li className={classes.item} key={v.toString()}>
+              <button className={classes.btn} onClick={() => handleClick(v)}>
+                {v}
+              </button>
+            </li>
+          ))}
       </ul>
     </div>
   );

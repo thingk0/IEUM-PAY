@@ -25,26 +25,26 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     primary: true,
-    label: '버튼',
+    children: '버튼',
   },
 };
 
 export const Secondary: Story = {
   args: {
-    label: '버튼',
+    children: '버튼',
   },
 };
 
 export const Thick: Story = {
   args: {
     size: 'thick',
-    label: '버튼',
+    children: '버튼',
   },
 };
 
-export const Small: Story = {
+export const Thin: Story = {
   args: {
-    size: 'small',
-    label: '버튼',
+    size: 'thin',
+    children: '버튼',
   },
 };

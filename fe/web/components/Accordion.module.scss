@@ -1,0 +1,38 @@
+.accordion {
+  background-color: var(--forthary);
+  padding: 0.75rem;
+  border-radius: 6px;
+  &.open {
+    background-color: white;
+    border: solid 1px var(--primary-color);
+  }
+}
+.button {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.title {
+  display: flex;
+  align-items: center;
+}
+.price {
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: left;
+  color: var(--black);
+}
+.donation {
+  margin-left: 0.5rem;
+}
+.detail {
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: left;
+  color: var(--sub-text);
+}
+.chevron {
+  &.open {
+    transform: rotate(-180deg);
+  }
+}

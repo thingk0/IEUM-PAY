@@ -1,64 +1,126 @@
 import { create } from 'zustand';
-import { axiosApi } from '@/utils/instance';
-import { AxiosResponse } from 'axios';
 
-type UserStore = {
+interface UserInfoType {
   phoneNumber: string;
   randomKey: string;
   userPassword: string;
   userName: string;
   userNickname: string;
   paymentPassword: string;
+  isLogin: boolean;
+}
 
-  setNumber: (value: string) => void;
+interface UserInfoState {
+  userInfo: UserInfoType;
+}
+
+interface UserInfoActions {
+  setPhoneNumber: (value: string) => void;
   setPassword: (value: string) => void;
   setUserName: (value: string) => void;
   setUserNickname: (value: string) => void;
-  setpaymentPassword: (value: string) => void;
+  setPaymentPassword: (value: string) => void;
+  setRandomKey: (value: string) => void;
+  setIsLogin: (value: boolean) => void;
+}
 
-  /**
-   * random key를 요청하는 함수
-   */
-  requestRandomKey: () => void;
+const defaultState = {
+  phoneNumber: '010-1245-1235',
+  randomKey: 'dsawrbzsdf',
+  userPassword: '1q2w3e4r!@#$',
+  userName: '김범수',
+  userNickname: 'zl존범수',
+  paymentPassword: '000111',
+  isLogin: false,
 };
 
-const instance = axiosApi();
+const useUserStore = create<UserInfoState & UserInfoActions>((set) => ({
+  userInfo: defaultState,
 
-export const useUserStore = create<UserStore>((set) => ({
-  phoneNumber: '',
-  randomKey: '',
-  userPassword: '',
-  userName: '',
-  userNickname: '',
-  paymentPassword: '',
-
-  setNumber: (value) => {
-    set((state) => ({ phoneNumber: (state.phoneNumber = value) }));
-  },
-
-  setPassword: (value) => {
-    set((state) => ({ userPassword: (state.userPassword = value) }));
-  },
-
-  setUserName: (value) => {
-    set((state) => ({ userName: (state.userName = value) }));
-  },
-
-  setUserNickname: (value) => {
-    set((state) => ({ userNickname: (state.userNickname = value) }));
-  },
-
-  setpaymentPassword: (value) => {
-    set((state) => ({ paymentPassword: (state.paymentPassword = value) }));
-  },
-
-  requestRandomKey: async () => {
-    const response: AxiosResponse = await instance.post('api/mms/auth', {
-      phoneNumber: set((state) => ({ phoneNumber: state.phoneNumber })),
-    });
-
+  setPhoneNumber: (phoneNumber) =>
     set((state) => ({
-      randomKey: (state.randomKey = response.data['mmsAuth']),
-    }));
-  },
+      userInfo: {
+        phoneNumber: phoneNumber,
+        randomKey: state.userInfo.randomKey,
+        userPassword: state.userInfo.userPassword,
+        userName: state.userInfo.userName,
+        userNickname: state.userInfo.userNickname,
+        paymentPassword: state.userInfo.paymentPassword,
+        isLogin: state.userInfo.isLogin,
+      },
+    })),
+  setPassword: (userPassword) =>
+    set((state) => ({
+      userInfo: {
+        phoneNumber: state.userInfo.phoneNumber,
+        randomKey: state.userInfo.randomKey,
+        userPassword: userPassword,
+        userName: state.userInfo.userName,
+        userNickname: state.userInfo.userNickname,
+        paymentPassword: state.userInfo.paymentPassword,
+        isLogin: state.userInfo.isLogin,
+      },
+    })),
+  setUserName: (userName) =>
+    set((state) => ({
+      userInfo: {
+        phoneNumber: state.userInfo.phoneNumber,
+        randomKey: state.userInfo.randomKey,
+        userPassword: state.userInfo.userPassword,
+        userName: userName,
+        userNickname: state.userInfo.userNickname,
+        paymentPassword: state.userInfo.paymentPassword,
+        isLogin: state.userInfo.isLogin,
+      },
+    })),
+  setUserNickname: (userNickname) =>
+    set((state) => ({
+      userInfo: {
+        phoneNumber: state.userInfo.phoneNumber,
+        randomKey: state.userInfo.randomKey,
+        userPassword: state.userInfo.userPassword,
+        userName: state.userInfo.userName,
+        userNickname: userNickname,
+        paymentPassword: state.userInfo.paymentPassword,
+        isLogin: state.userInfo.isLogin,
+      },
+    })),
+  setPaymentPassword: (paymentPassword) =>
+    set((state) => ({
+      userInfo: {
+        phoneNumber: state.userInfo.phoneNumber,
+        randomKey: state.userInfo.randomKey,
+        userPassword: state.userInfo.userPassword,
+        userName: state.userInfo.userName,
+        userNickname: state.userInfo.userNickname,
+        paymentPassword: paymentPassword,
+        isLogin: state.userInfo.isLogin,
+      },
+    })),
+  setRandomKey: (randomKey) =>
+    set((state) => ({
+      userInfo: {
+        phoneNumber: state.userInfo.phoneNumber,
+        randomKey: randomKey,
+        userPassword: state.userInfo.userPassword,
+        userName: state.userInfo.userName,
+        userNickname: state.userInfo.userNickname,
+        paymentPassword: state.userInfo.paymentPassword,
+        isLogin: state.userInfo.isLogin,
+      },
+    })),
+  setIsLogin: (isLogin) =>
+    set((state) => ({
+      userInfo: {
+        phoneNumber: state.userInfo.phoneNumber,
+        randomKey: state.userInfo.randomKey,
+        userPassword: state.userInfo.userPassword,
+        userName: state.userInfo.userName,
+        userNickname: state.userInfo.userNickname,
+        paymentPassword: state.userInfo.paymentPassword,
+        isLogin: isLogin,
+      },
+    })),
 }));
+
+export default useUserStore;

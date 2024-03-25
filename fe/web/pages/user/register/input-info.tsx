@@ -1,15 +1,15 @@
-import { useUserStore } from '@/stores/user-store';
+import useUserStore from '@/stores/user-store';
 import { Input } from '@nextui-org/react';
-import { useMemo, useState } from 'react';
-import Button from '@/components/Button';
+import { useState } from 'react';
 import {
   EyeFilledIcon,
   EyeSlashFilledIcon,
 } from '@/components/icons/PasswordIcon';
 import styes from '@/styles/input-info.module.css';
 import { useRouter } from 'next/router';
+import Button from '@/stories/Button';
 
-export default function userInfo() {
+export default function inputInfo() {
   const [userPassword, setPasswordValue] = useState('');
   const [userNickName, setNickNameValue] = useState('');
   const [userName, setNameValue] = useState('');
@@ -21,12 +21,8 @@ export default function userInfo() {
   const [nameVisible, setNameVisible] = useState(false);
   const [nameIsValid, setNameIsValid] = useState(false);
   const [cnt, setCnt] = useState(0);
-  const {
-    phoneNumber: phoneNumber,
-    setPassword: setPassword,
-    setUserName: setUserName,
-    setUserNickname: setUserNickname,
-  } = useUserStore();
+  const { userInfo, setPassword, setUserName, setUserNickname } =
+    useUserStore();
   const router = useRouter();
 
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -34,6 +30,8 @@ export default function userInfo() {
   const handlNameValue = (evnet: any) => {
     const newValue = evnet.target.value;
     setNameValue(newValue);
+
+    // 한글만 허용
     const idRegExp = /^(?=.*[ㄱ-ㅎ|ㅏ-ㅣ|가-힣])[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,50}$/;
     if (newValue.length > 1 && !idRegExp.test(newValue)) {
       setNameIsValid(true);
@@ -45,9 +43,8 @@ export default function userInfo() {
   const handleNicknameValue = (event: any) => {
     const newValue = event.target.value;
     setNickNameValue(newValue);
-    const idRegExp =
-      // /^(?=.*[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/ ])[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/ ]{,20}$/;
-      /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/;
+    // 특수문자 허용 안함
+    const idRegExp = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/;
     if (idRegExp.test(newValue)) {
       setNicknameIsValid(true);
     } else {
@@ -58,8 +55,9 @@ export default function userInfo() {
   const handlePasswordInput = (event: any) => {
     // console.log(event);
     const newValue = event.target.value;
+    // 영어소문자, 숫자, 특수문자 포함 여부 확인 8 자 이상 20자 이하
     const idRegExp =
-      /^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[a-z\d@$!%*#?&]{8,20}$/;
+      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[a-zA-Z\d@$!%*#?&]{8,20}$/;
 
     setPasswordValue(newValue);
 
@@ -71,7 +69,7 @@ export default function userInfo() {
     }
   };
 
-  const onClickFunction = () => {
+  const handleClick = () => {
     if (cnt == 0 && isValid) {
       setCnt(1);
       setNicknameVisible(true);
@@ -84,12 +82,6 @@ export default function userInfo() {
       setUserNickname(userNickName);
       router.push('/user/register/');
     }
-  };
-
-  const btnElements = {
-    text: cnt == 2 ? '확인' : '다음',
-    btnStyle: 'thinFill',
-    btnFunction: onClickFunction,
   };
 
   return (
@@ -147,9 +139,11 @@ export default function userInfo() {
         type="text"
         label="휴대폰 번호"
         variant="underlined"
-        value={phoneNumber}
+        value={userInfo.phoneNumber}
       />
-      {Button(btnElements)}
+      <Button primary size="thin" onClick={handleClick}>
+        {cnt == 2 ? '확인' : '다음'}
+      </Button>
     </div>
   );
 }

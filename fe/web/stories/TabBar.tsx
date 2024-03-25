@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import classes from './tabbar.module.css';
+import classes from './tabbar.module.scss';
 import CreditCardIcon from './icons/CreditCardIcon';
 import HistoryIcon from './icons/HistoryIcon';
 import UserIcon from './icons/UserIcon';
@@ -10,6 +10,8 @@ import FundraisingIconActive from './icons/FundraisingIconActive';
 import UserIconActive from './icons/UserIconActive';
 import CreditCardIconActive from './icons/CreditCardIconActive';
 import SendMoneyIconActive from './icons/SendMoneyIconActive';
+import CameraIcon from './icons/CameraIcon';
+import Vibrate from '@/utils/vibrate';
 
 //object literal
 export const tabBarElementCode = {
@@ -18,6 +20,7 @@ export const tabBarElementCode = {
   payment: 'payment',
   sendMoney: 'sendMoney',
   myPage: 'myPage',
+  none: 'none',
 } as const;
 
 export type TabBarElementCodeValue =
@@ -28,11 +31,19 @@ interface TabBarProps {
 }
 
 function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
+  function vibrate() {
+    Vibrate(10);
+  }
+
   return (
     <nav className={classes.container}>
       <ul className={classes.ul}>
         <li>
-          <Link href="history" className={classes.link}>
+          <Link
+            href="history"
+            className={classes.link}
+            onClick={() => vibrate()}
+          >
             <div
               className={`${classes.wrapper} ${selected === tabBarElementCode.history ? classes.active : ''}`}
             >
@@ -46,7 +57,11 @@ function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
           </Link>
         </li>
         <li>
-          <Link href="fundraising" className={classes.link}>
+          <Link
+            href="fundraising"
+            className={classes.link}
+            onClick={() => vibrate()}
+          >
             <div
               className={`${classes.wrapper} ${selected === tabBarElementCode.fundraising ? classes.active : ''}`}
             >
@@ -60,21 +75,26 @@ function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
           </Link>
         </li>
         <li>
-          <Link href="/" className={classes.link}>
+          <Link href="/" className={classes.link} onClick={() => vibrate()}>
             <div
               className={`${classes.wrapper} ${selected === tabBarElementCode.payment ? classes.active : ''}`}
             >
-              {selected === tabBarElementCode.payment ? (
-                <CreditCardIconActive />
-              ) : (
-                <CreditCardIcon />
+              {selected == 'payment' && (
+                <div className={classes.cameraWrapper}>
+                  <CameraIcon />
+                </div>
               )}
+              <CreditCardIcon />
               결제
             </div>
           </Link>
         </li>
         <li>
-          <Link href="send-money" className={classes.link}>
+          <Link
+            href="send-money"
+            className={classes.link}
+            onClick={() => vibrate()}
+          >
             <div
               className={`${classes.wrapper} ${selected === tabBarElementCode.sendMoney ? classes.active : ''}`}
             >
@@ -88,7 +108,11 @@ function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
           </Link>
         </li>
         <li>
-          <Link href="my-page" className={classes.link}>
+          <Link
+            href="my-page"
+            className={classes.link}
+            onClick={() => vibrate()}
+          >
             <div
               className={`${classes.wrapper} ${selected === tabBarElementCode.myPage ? classes.active : ''}`}
             >

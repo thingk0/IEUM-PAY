@@ -1,0 +1,49 @@
+.storybook-button {
+  font-family:
+    'Pretendard Variable',
+    Pretendard,
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    Roboto,
+    'Helvetica Neue',
+    'Segoe UI',
+    'Apple SD Gothic Neo',
+    'Noto Sans KR',
+    'Malgun Gothic',
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol',
+    sans-serif;
+  font-weight: 600;
+  border: 0;
+  border-radius: 60px;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 1;
+  padding: 1rem 0;
+  width: 100%;
+  margin: 0.625rem 0;
+}
+.storybook-button--primary {
+  color: white;
+  background-color: #8035f9;
+  &:active {
+    background-color: rgb(91, 39, 177);
+  }
+}
+.storybook-button--secondary {
+  color: #8035f9;
+  background-color: white;
+  border: solid 1px #8035f9;
+  &:active {
+    background-color: rgb(205, 174, 255);
+  }
+}
+
+.storybook-button--thin {
+  font-size: 1rem;
+}
+.storybook-button--thick {
+  font-size: 1.25rem;
+}
