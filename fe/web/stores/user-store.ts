@@ -8,6 +8,7 @@ interface UserInfoType {
   userNickname: string;
   paymentPassword: string;
   isLogin: boolean;
+  balance: number;
 }
 
 interface UserInfoState {
@@ -22,6 +23,7 @@ interface UserInfoActions {
   setPaymentPassword: (value: string) => void;
   setRandomKey: (value: string) => void;
   setIsLogin: (value: boolean) => void;
+  setBalance: (value: number) => void;
 }
 
 const defaultState = {
@@ -32,6 +34,7 @@ const defaultState = {
   userNickname: 'zl존범수',
   paymentPassword: '000111',
   isLogin: false,
+  balance: 24100,
 };
 
 const useUserStore = create<UserInfoState & UserInfoActions>((set) => ({
@@ -47,6 +50,7 @@ const useUserStore = create<UserInfoState & UserInfoActions>((set) => ({
         userNickname: state.userInfo.userNickname,
         paymentPassword: state.userInfo.paymentPassword,
         isLogin: state.userInfo.isLogin,
+        balance: state.userInfo.balance,
       },
     })),
   setPassword: (userPassword) =>
@@ -59,6 +63,7 @@ const useUserStore = create<UserInfoState & UserInfoActions>((set) => ({
         userNickname: state.userInfo.userNickname,
         paymentPassword: state.userInfo.paymentPassword,
         isLogin: state.userInfo.isLogin,
+        balance: state.userInfo.balance,
       },
     })),
   setUserName: (userName) =>
@@ -71,6 +76,7 @@ const useUserStore = create<UserInfoState & UserInfoActions>((set) => ({
         userNickname: state.userInfo.userNickname,
         paymentPassword: state.userInfo.paymentPassword,
         isLogin: state.userInfo.isLogin,
+        balance: state.userInfo.balance,
       },
     })),
   setUserNickname: (userNickname) =>
@@ -83,6 +89,7 @@ const useUserStore = create<UserInfoState & UserInfoActions>((set) => ({
         userNickname: userNickname,
         paymentPassword: state.userInfo.paymentPassword,
         isLogin: state.userInfo.isLogin,
+        balance: state.userInfo.balance,
       },
     })),
   setPaymentPassword: (paymentPassword) =>
@@ -95,6 +102,7 @@ const useUserStore = create<UserInfoState & UserInfoActions>((set) => ({
         userNickname: state.userInfo.userNickname,
         paymentPassword: paymentPassword,
         isLogin: state.userInfo.isLogin,
+        balance: state.userInfo.balance,
       },
     })),
   setRandomKey: (randomKey) =>
@@ -107,6 +115,7 @@ const useUserStore = create<UserInfoState & UserInfoActions>((set) => ({
         userNickname: state.userInfo.userNickname,
         paymentPassword: state.userInfo.paymentPassword,
         isLogin: state.userInfo.isLogin,
+        balance: state.userInfo.balance,
       },
     })),
   setIsLogin: (isLogin) =>
@@ -119,6 +128,21 @@ const useUserStore = create<UserInfoState & UserInfoActions>((set) => ({
         userNickname: state.userInfo.userNickname,
         paymentPassword: state.userInfo.paymentPassword,
         isLogin: isLogin,
+        balance: state.userInfo.balance,
+      },
+    })),
+
+  setBalance: (balance) =>
+    set((state) => ({
+      userInfo: {
+        phoneNumber: state.userInfo.phoneNumber,
+        randomKey: state.userInfo.randomKey,
+        userPassword: state.userInfo.userPassword,
+        userName: state.userInfo.userName,
+        userNickname: state.userInfo.userNickname,
+        paymentPassword: state.userInfo.paymentPassword,
+        isLogin: state.userInfo.isLogin,
+        balance: balance,
       },
     })),
 }));

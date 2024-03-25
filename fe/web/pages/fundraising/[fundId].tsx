@@ -6,6 +6,8 @@ import { commaizeNumber } from '@toss/utils';
 import { Progress } from '@nextui-org/react';
 import Button from '@/components/HalfButton';
 import HeaderHome from '@/components/HeaderHome';
+import useDonateMoneyInfo from '@/hooks/useDirectDonationStore';
+import useUserStore from '@/stores/user-store';
 
 interface peopleType {
   nickname: string;
@@ -46,6 +48,9 @@ interface dataType {
 
 export default function Detail() {
   const router = useRouter();
+  const donateInfo = useDonateMoneyInfo();
+  const { userInfo } = useUserStore();
+
   const [data, setData] = useState<dataType>({
     fundingId: 1,
     facilityName: '은혜노인복지센터',
@@ -207,13 +212,25 @@ export default function Detail() {
     );
   };
 
+  const setdirectDonateInfo = () => {
+    donateInfo.setDonateMoneyInfo({
+      기관아이디: data.fundingId,
+      기관명: data.facilityName,
+      남은금액: data.goalAmount - data.currentAmount,
+      송금금액: 0,
+      송금은행: '이음페이',
+      잔액: userInfo.balance,
+    });
+    router.push('/fundraising/direct-donation');
+  };
+
   const btnProps = {
     text: '기부 연동하기',
     text2: '직접 후원하기',
     btnStyle: 'recThinFill',
     btnStyle2: 'recThinFill',
     btnFunction: () => {},
-    btnFunction2: () => {},
+    btnFunction2: setdirectDonateInfo,
   };
 
   useEffect(() => {
