@@ -1,17 +1,19 @@
 package com.ieum.common.controller;
 
+import com.ieum.common.annotation.CurrentMemberId;
 import com.ieum.common.dto.HistoryDTO;
 import com.ieum.common.dto.request.PayRemittancePaymoneyRequestDTO;
 import com.ieum.common.dto.response.PayBalanceResponseDTO;
 import com.ieum.common.dto.response.PayHistoryPeriodResponseDTO;
 import com.ieum.common.dto.response.PayHistoryRemittanceResponseDTO;
 import com.ieum.common.dto.response.PayRemittancePaymoneyResponseDTO;
+import com.ieum.common.format.code.SuccessCode;
 import com.ieum.common.format.response.ResponseTemplate;
+import com.ieum.common.service.PayService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +27,16 @@ import java.util.List;
 @RequestMapping("/api/pay")
 public class PayController {
 
+    private final PayService payService;
     private final ResponseTemplate response;
+
+
+    @Operation(summary = "메인 페이지 조회", description = "사용자의 카드 정보와 페이머니, 기부 총액 조회")
+    @ApiResponse(responseCode = "200", description = "메인 페이지 조회 성공")
+    @GetMapping("/main")
+    public ResponseEntity<?> getMainPage(@CurrentMemberId Long memberId) {
+        return response.success(payService.getMainPageInfo(memberId), SuccessCode.MAIN_PAGE_FETCH_SUCCESSFUL);
+    }
 
     @Operation(summary = "결제 잔액 조회", description = "사용자의 결제 잔액을 조회합니다.")
     @ApiResponse(responseCode = "200", description = "결제 잔액 조회 성공")
@@ -34,7 +45,7 @@ public class PayController {
         var result = PayBalanceResponseDTO.builder()
                                           .paymoneyAmount(3000)
                                           .build();
-        return response.success(result, HttpStatus.OK);
+        return response.success(result, SuccessCode.SUCCESS);
 
     }
 
@@ -133,7 +144,7 @@ public class PayController {
                                                                           .detail(details4)
                                                                           .build();
         result.add(history5);
-        return response.success(result, HttpStatus.OK);
+        return response.success(result, SuccessCode.SUCCESS);
     }
 
     @Operation(summary = "송금 내역 조회", description = "특정 송금 내역을 조회합니다.")
@@ -144,7 +155,7 @@ public class PayController {
                                                     .name("김범수")
                                                     .amount(1000)
                                                     .build();
-        return response.success(result, HttpStatus.OK);
+        return response.success(result, SuccessCode.SUCCESS);
     }
 
     @Operation(summary = "페이머니 송금", description = "페이머니를 송금합니다.")
@@ -154,7 +165,7 @@ public class PayController {
         var result = PayRemittancePaymoneyResponseDTO.builder()
                                                      .historyId(1L)
                                                      .build();
-        return response.success(result, HttpStatus.OK);
+        return response.success(result, SuccessCode.SUCCESS);
     }
 
 }
