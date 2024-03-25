@@ -10,7 +10,7 @@ import lombok.Getter;
 public class Grade {
 
     @Id
-    @Column(name = "garde_code")
+    @Column(name = "grade_code", nullable = false)
     private String code;
 
     @Column(name = "grade_name", nullable = false)
@@ -18,5 +18,15 @@ public class Grade {
 
     @Column(name = "grade_member_count", nullable = false)
     private int count;
+
+    public void increaseCount() {
+        this.count++;
+    }
+
+    public void decreaseCount() {
+        if (this.count > 0) {
+            this.count--;
+        }
+    }
 
 }
