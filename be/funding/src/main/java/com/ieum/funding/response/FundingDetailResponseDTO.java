@@ -4,8 +4,6 @@ import com.ieum.funding.dto.FundingMemberDTO;
 import com.ieum.funding.dto.FundingProductDTO;
 import java.util.List;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.SuperBuilder;

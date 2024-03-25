@@ -9,5 +9,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class FundingMemberDTO {
     private String nickname;
+    private Long memberId;
     private Integer fundingTotalAmount;
 }
