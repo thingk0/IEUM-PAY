@@ -3,6 +3,8 @@ import styles from './payment.module.scss';
 import LongLogo from '@/components/logo/LongLogo';
 import { commaizeNumber } from '@toss/utils';
 import Button from '@/stories/Button';
+import { getPaymentInfo } from '@/api/paymentAxios';
+import { useEffect, useState } from 'react';
 
 interface dummy {
   storeId: number;
@@ -13,7 +15,23 @@ interface dummy {
   chargeAmount: number;
   donationMoney: number;
 }
+
 export default function Payment() {
+  const [store, setStore] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [info, setInfo] = useState({});
+
+  useEffect(() => {
+    async function getdata() {
+      try {
+        await getPaymentInfo(store, price);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getdata();
+  }, []);
+
   const dummy = {
     storeId: 1,
     cardNickname: 'cute',
@@ -64,7 +82,10 @@ export default function Payment() {
         </p>
         <hr className={styles.validationLine} />
       </div>
-      <Button primary size="thick">{`${commaizeNumber(dummy.price)}원 결제하기`}</Button>
+      <Button
+        primary
+        size="thick"
+      >{`${commaizeNumber(dummy.price)}원 결제하기`}</Button>
     </div>
   );
 }
