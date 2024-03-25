@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface DonationHistoryRepository extends JpaRepository<DonationHistories, Long> {
     List<DonationHistories> findByMemberId(Long memberId);
+
+    DonationHistories findByHistoryId(Long historyId);
 }

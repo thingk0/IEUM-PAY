@@ -17,7 +17,7 @@ public class RemittanceController {
     private final HistoryService historyService;
     private final PaymoneyService paymoneyService;
     @PostMapping
-    public void remittancePaymoney(@RequestBody RemittanceRequestDTO requestDTO){
+    public Long remittancePaymoney(@RequestBody RemittanceRequestDTO requestDTO){
         int moveMoney = requestDTO.getAmount();
         // paymoney 충전 체크
         int chargeMoney = paymoneyService.chargeMoney(requestDTO.getSenderId(), moveMoney);
@@ -25,11 +25,13 @@ public class RemittanceController {
         paymoneyService.updatePaymonyAmount(1, requestDTO.getSenderId(),chargeMoney);
 
         //sender의 history + pay money update
-        historyService.sendMoney(requestDTO.getSenderId(),requestDTO.getReceiverName(),moveMoney, chargeMoney, requestDTO.getCardId());
+        Long historyId = historyService.sendMoney(requestDTO.getSenderId(),requestDTO.getReceiverName(),moveMoney, chargeMoney, requestDTO.getCardId());
         paymoneyService.updatePaymonyAmount(-1, requestDTO.getSenderId(), moveMoney);
 
         //receiver의 history
         historyService.receiveMoney(requestDTO.getReceiverId(), requestDTO.getSenderName(), moveMoney);
         paymoneyService.updatePaymonyAmount(1, requestDTO.getReceiverId(), moveMoney);
+
+        return historyId;
     }
 }

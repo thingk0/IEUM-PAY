@@ -1,2 +1,9 @@
-package com.ieum.pay.request;public class MemberPayPasswordRequestDTO {
+package com.ieum.pay.request;
+
+import lombok.Data;
+
+@Data
+public class MemberPayPasswordRequestDTO {
+    Long memberId;
+    String paymentPassword;
 }
