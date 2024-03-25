@@ -5,5 +5,4 @@ import lombok.Data;
 @Data
 public class DirectFundingInfoRequestDTO {
     private Long fundingId;
-    private Long memberId;
 }

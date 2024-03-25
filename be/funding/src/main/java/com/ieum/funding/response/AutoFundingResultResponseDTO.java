@@ -9,6 +9,6 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class FundingDonationResponseDTO {
-    private Boolean fundingResult;
+public class AutoFundingResultResponseDTO {
+    Integer amount;
 }
