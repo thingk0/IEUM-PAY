@@ -1,9 +1,12 @@
 package com.ieum.common.config;
 
+import com.ieum.common.entrypoint.JwtAuthenticationEntryPoint;
 import com.ieum.common.filter.JwtAuthenticationFilter;
+import com.ieum.common.handle.CustomAccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -17,7 +20,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -45,9 +50,12 @@ public class SecurityConfig {
                     "/swagger-ui/**",
                     "/swagger-config/**",
                     "/swagger-resources/**",
-                    "/api/member/login",
-                    "/api/member/regist"
+                    "/api/auth"
                 ).permitAll();
+                /* Member */
+                authorize.antMatchers(HttpMethod.POST, "/api/member").permitAll();
+                authorize.antMatchers(HttpMethod.GET, "/api/member").authenticated();
+                authorize.antMatchers(HttpMethod.DELETE, "/api/member").authenticated();
                 authorize.anyRequest().authenticated();
             }))
         ;
@@ -61,6 +69,11 @@ public class SecurityConfig {
         security
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
         ;
+
+        security.exceptionHandling(handlingConfigurer -> {
+            handlingConfigurer.authenticationEntryPoint(jwtAuthenticationEntryPoint);
+            handlingConfigurer.accessDeniedHandler(customAccessDeniedHandler);
+        });
 
         return security.build();
     }
