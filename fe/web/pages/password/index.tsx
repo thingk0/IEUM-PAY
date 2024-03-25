@@ -22,10 +22,10 @@ function PasswordPage() {
   const id = router.query.id as string;
   return (
     <main className={classes.main}>
-      <PageTitleCenter
+      {/* <PageTitleCenter
         title={pageId[parseInt(id)][0]}
         description={pageId[parseInt(id)][1]}
-      />
+      /> */}
       <ul className={classes.wrapper}>
         {Array.from({ length: 6 }).map((v, i) => (
           <li>
