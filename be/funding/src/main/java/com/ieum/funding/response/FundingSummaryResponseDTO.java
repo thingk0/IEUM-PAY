@@ -14,7 +14,7 @@ public class FundingSummaryResponseDTO {
     private String fundingOpenDate;
     private String fundingFinishDate;
     private String facilityImage;
-    private Long fundingPeopleCnt;  // COUNT의 결과는 Long 타입이 될 수 있습니다.
+    private Long fundingPeopleCnt;
     private Integer goalAmount;
     private Integer currentAmount;
 

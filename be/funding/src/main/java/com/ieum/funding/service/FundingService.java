@@ -112,7 +112,6 @@ public class FundingService {
         // 기부 가능 여부 체크
         if (checkFunding.getCurrentAmount() >= amount) {
             fundingRepository.updateFunding(fundingId, amount);
-            // fundingMembers의 fundingId와 memberId가 모두 일치하는 곳의 총 금액 증가 = > 반환
             fundingMembersRepository.updateFundingMember(fundingId, memberId, amount);
 
             // 펀딩 완료 체크
@@ -147,7 +146,6 @@ public class FundingService {
         }
         // 펀딩 금액 증가
         fundingRepository.updateFunding(fundingId, amount);
-        // fundingMembers의 fundingId와 memberId가 모두 일치하는 곳의 총 금액 증가 = > 반환
         fundingMembersRepository.updateFundingMember(fundingId, memberId, amount);
 
         // 완료 체크

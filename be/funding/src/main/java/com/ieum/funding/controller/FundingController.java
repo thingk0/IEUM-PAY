@@ -1,7 +1,5 @@
 package com.ieum.funding.controller;
 
-import com.ieum.funding.request.AutoFundingInfoRequestDTO;
-import com.ieum.funding.request.DirectFundingInfoRequestDTO;
 import com.ieum.funding.request.FundingDonationRequestDTO;
 import com.ieum.funding.request.FundingLinkRequestDTO;
 import com.ieum.funding.response.AutoFundingResultResponseDTO;
@@ -74,7 +72,7 @@ public class FundingController {
     @Operation(summary = "직접기부 결제 정보 요청", description = "직접기부 결제시 해당 결제에 대한 정보 요청")
     @ApiResponse(responseCode = "200", description = "정보 조회 성공")
     @GetMapping("/info/directly/{fundingId}")
-    public ResponseEntity<FundingInfoResponseDTO> getDiriectlyFundingInfo(
+    public ResponseEntity<FundingInfoResponseDTO> getDirectlyFundingInfo(
         @PathVariable("fundingId") Long fundingId) {
         FundingInfoResponseDTO response = fundingService.getDonationInfo(fundingId);
         return ResponseEntity.ok(response);
