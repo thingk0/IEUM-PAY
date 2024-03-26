@@ -46,19 +46,19 @@ public class FundingController {
     public ResponseEntity<?> getFundingCompleteDetail(@PathVariable("fundingId") Long fundingId) {
 
         FundingMemberDTO fundingMember1 = FundingMemberDTO.builder()
-                                                          .nickname("abc")
-                                                          .amount(100000)
-                                                          .build();
+            .nickname("abc")
+            .amount(100000)
+            .build();
 
         FundingMemberDTO fundingMember2 = FundingMemberDTO.builder()
-                                                          .nickname("qqq")
-                                                          .amount(200000)
-                                                          .build();
+            .nickname("qqq")
+            .amount(200000)
+            .build();
 
         FundingMemberDTO fundingMember3 = FundingMemberDTO.builder()
-                                                          .nickname("yyy")
-                                                          .amount(300000)
-                                                          .build();
+            .nickname("yyy")
+            .amount(300000)
+            .build();
 
         Document content = new Document()
             .append("title", "Sample Project")
@@ -69,24 +69,24 @@ public class FundingController {
             .append("startDate", "2024-01-01")
             .append("endDate", "2024-12-31")
             .append("notes",
-                    new Document("important", "Remember to update the document regularly"));
+                new Document("important", "Remember to update the document regularly"));
 
         var res = FundingCompleteDetailResponseDTO.builder()
-                                                  .facilityName("btc")
-                                                  .facilityAddress("대전광역시 유성구 oo oo oo")
-                                                  .facilityPhoneNumber("042-000-0000")
-                                                  .facilityRepresentativeName("홍길동")
-                                                  .facilityRepresentativePhoneNumber("010-0123-4567")
-                                                  .facilityCapacity(10)
-                                                  .facilityImage("http://example.com/image")
-                                                  .fundingOpenDate("2023-02-02")
-                                                  .fundingPeopleCnt(3)
-                                                  .fundingTitle("helpMe")
-                                                  .goalAmount(500000)
-                                                  .fundingMemberList(
-                                                      Arrays.asList(fundingMember1, fundingMember2, fundingMember3))
-                                                  .content(content) // MongoDB의 Document를 사용하는 경우
-                                                  .build();
+            .facilityName("btc")
+            .facilityAddress("대전광역시 유성구 oo oo oo")
+            .facilityPhoneNumber("042-000-0000")
+            .facilityRepresentativeName("홍길동")
+            .facilityRepresentativePhoneNumber("010-0123-4567")
+            .facilityCapacity(10)
+            .facilityImage("http://example.com/image")
+            .fundingOpenDate("2023-02-02")
+            .fundingPeopleCnt(3)
+            .fundingTitle("helpMe")
+            .goalAmount(500000)
+            .fundingMemberList(
+                Arrays.asList(fundingMember1, fundingMember2, fundingMember3))
+            .content(content) // MongoDB의 Document를 사용하는 경우
+            .build();
 
         return response.success(res, SuccessCode.SUCCESS);
     }
@@ -97,19 +97,19 @@ public class FundingController {
     public ResponseEntity<?> getFundingOngoingDetail(@PathVariable("fundingId") Long fundingId) {
 
         FundingMemberDTO fundingMember1 = FundingMemberDTO.builder()
-                                                          .nickname("abc")
-                                                          .amount(100000)
-                                                          .build();
+            .nickname("abc")
+            .amount(100000)
+            .build();
 
         FundingMemberDTO fundingMember2 = FundingMemberDTO.builder()
-                                                          .nickname("qqq")
-                                                          .amount(200000)
-                                                          .build();
+            .nickname("qqq")
+            .amount(200000)
+            .build();
 
         FundingMemberDTO fundingMember3 = FundingMemberDTO.builder()
-                                                          .nickname("yyy")
-                                                          .amount(300000)
-                                                          .build();
+            .nickname("yyy")
+            .amount(300000)
+            .build();
 
         Document content = new Document()
             .append("title", "Sample Project")
@@ -120,25 +120,25 @@ public class FundingController {
             .append("startDate", "2024-01-01")
             .append("endDate", "2024-12-31")
             .append("notes",
-                    new Document("important", "Remember to update the document regularly"));
+                new Document("important", "Remember to update the document regularly"));
 
         var res = FundingOngoingDetailResponseDTO.builder()
-                                                 .facilityName("btc")
-                                                 .facilityAddress("대전광역시 유성구 oo oo oo")
-                                                 .facilityPhoneNumber("042-000-0000")
-                                                 .facilityRepresentativeName("홍길동")
-                                                 .facilityRepresentativePhoneNumber("010-0123-4567")
-                                                 .facilityCapacity(10)
-                                                 .facilityImage("http://example.com/image")
-                                                 .fundingOpenDate("2023-02-02")
-                                                 .fundingPeopleCnt(3)
-                                                 .fundingTitle("helpMe")
-                                                 .goalAmount(500000)
-                                                 .currentAmount(4000)
-                                                 .fundingMemberList(
-                                                     Arrays.asList(fundingMember1, fundingMember2, fundingMember3))
-                                                 .content(content) // MongoDB의 Document를 사용하는 경우
-                                                 .build();
+            .facilityName("btc")
+            .facilityAddress("대전광역시 유성구 oo oo oo")
+            .facilityPhoneNumber("042-000-0000")
+            .facilityRepresentativeName("홍길동")
+            .facilityRepresentativePhoneNumber("010-0123-4567")
+            .facilityCapacity(10)
+            .facilityImage("http://example.com/image")
+            .fundingOpenDate("2023-02-02")
+            .fundingPeopleCnt(3)
+            .fundingTitle("helpMe")
+            .goalAmount(500000)
+            .currentAmount(4000)
+            .fundingMemberList(
+                Arrays.asList(fundingMember1, fundingMember2, fundingMember3))
+            .content(content) // MongoDB의 Document를 사용하는 경우
+            .build();
 
         return response.success(res, SuccessCode.SUCCESS);
     }
@@ -159,11 +159,11 @@ public class FundingController {
     public ResponseEntity<?> getFundgingResult(
         @PathVariable("fundingId") Long fundingId) {
         var res = FundingResultResponseDTO.builder()
-                                          .fundingTitle("떡잎어린이집 후원")
-                                          .factilityName("떡잎어린이집")
-                                          .facilityImage(
-                                              "https://ko.wikipedia.org/wiki/%EC%8B%A0%EC%A7%B1%EA%B5%AC#/media/%ED%8C%8C%EC%9D%BC:%EC%8B%A0%EC%A7%B1%EA%B5%AC.png")
-                                          .build();
+            .fundingTitle("떡잎어린이집 후원")
+            .factilityName("떡잎어린이집")
+            .facilityImage(
+                "https://ko.wikipedia.org/wiki/%EC%8B%A0%EC%A7%B1%EA%B5%AC#/media/%ED%8C%8C%EC%9D%BC:%EC%8B%A0%EC%A7%B1%EA%B5%AC.png")
+            .build();
 
         return response.success(res, SuccessCode.SUCCESS);
     }
@@ -173,12 +173,12 @@ public class FundingController {
     @GetMapping("/info/{fundingId}/{amount}")
     public ResponseEntity<?> getFundgingInfo(@PathVariable("fundingId") Long fundingId, @PathVariable("amount") int amount) {
         var res = FundingInfoResponseDTO.builder()
-                                        .fundingId(fundingId)
-                                        .amount(amount)
-                                        .facilityName("떡잎어린이집")
-                                        .paymoneyAmount(400)
-                                        .chargeAmount(10000)
-                                        .build();
+            .fundingId(fundingId)
+            .amount(amount)
+            .facilityName("떡잎어린이집")
+            .paymoneyAmount(400)
+            .chargeAmount(10000)
+            .build();
 
         return response.success(res, SuccessCode.SUCCESS);
     }
@@ -198,26 +198,26 @@ public class FundingController {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             var completeInfo1 = FundingCompleteInfoResponseDTO.builder()
-                                                              .fundingId(1L)
-                                                              .facilityName("btc")
-                                                              .fundingTitle("과자를 사주세요")
-                                                              .fundingOpenDate(sdf.parse("2023-02-02"))
-                                                              .fundingFinishDate(sdf.parse("2023-03-02"))
-                                                              .facilityImage("http:FDSAFSDAFDSAF")
-                                                              .fundingPeopleCnt(10)
-                                                              .goalAmount(500000)
-                                                              .build();
+                .fundingId(1L)
+                .facilityName("btc")
+                .fundingTitle("과자를 사주세요")
+                .fundingOpenDate(sdf.parse("2023-02-02"))
+                .fundingFinishDate(sdf.parse("2023-03-02"))
+                .facilityImage("http:FDSAFSDAFDSAF")
+                .fundingPeopleCnt(10)
+                .goalAmount(500000)
+                .build();
 
             var completeInfo2 = FundingCompleteInfoResponseDTO.builder()
-                                                              .fundingId(2L)
-                                                              .facilityName("btc2")
-                                                              .fundingTitle("과자를 사주세요2")
-                                                              .fundingOpenDate(sdf.parse("2023-02-02"))
-                                                              .fundingFinishDate(sdf.parse("2023-03-02"))
-                                                              .facilityImage("http:FDSAFSDAFDSAF")
-                                                              .fundingPeopleCnt(10)
-                                                              .goalAmount(500000)
-                                                              .build();
+                .fundingId(2L)
+                .facilityName("btc2")
+                .fundingTitle("과자를 사주세요2")
+                .fundingOpenDate(sdf.parse("2023-02-02"))
+                .fundingFinishDate(sdf.parse("2023-03-02"))
+                .facilityImage("http:FDSAFSDAFDSAF")
+                .fundingPeopleCnt(10)
+                .goalAmount(500000)
+                .build();
 
             res.add(completeInfo1);
             res.add(completeInfo2);
@@ -237,28 +237,28 @@ public class FundingController {
 
         try {
             var completeInfo1 = FundingOngoingInfoResponseDTO.builder()
-                                                             .fundingId(1L)
-                                                             .facilityName("btc")
-                                                             .fundingTitle("과자를 사주세요")
-                                                             .fundingOpenDate(sdf.parse("2023-02-02"))
-                                                             .fundingFinishDate(sdf.parse("2023-03-02"))
-                                                             .facilityImage("http:FDSAFSDAFDSAF")
-                                                             .fundingPeopleCnt(10)
-                                                             .goalAmount(500000)
-                                                             .currentAmount(1000)
-                                                             .build();
+                .fundingId(1L)
+                .facilityName("btc")
+                .fundingTitle("과자를 사주세요")
+                .fundingOpenDate(sdf.parse("2023-02-02"))
+                .fundingFinishDate(sdf.parse("2023-03-02"))
+                .facilityImage("http:FDSAFSDAFDSAF")
+                .fundingPeopleCnt(10)
+                .goalAmount(500000)
+                .currentAmount(1000)
+                .build();
 
             var completeInfo2 = FundingOngoingInfoResponseDTO.builder()
-                                                             .fundingId(2L)
-                                                             .facilityName("btc2")
-                                                             .fundingTitle("과자를 사주세요2")
-                                                             .fundingOpenDate(sdf.parse("2023-02-02"))
-                                                             .fundingFinishDate(sdf.parse("2023-03-02"))
-                                                             .facilityImage("http:FDSAFSDAFDSAF")
-                                                             .fundingPeopleCnt(10)
-                                                             .goalAmount(500000)
-                                                             .currentAmount(1000)
-                                                             .build();
+                .fundingId(2L)
+                .facilityName("btc2")
+                .fundingTitle("과자를 사주세요2")
+                .fundingOpenDate(sdf.parse("2023-02-02"))
+                .fundingFinishDate(sdf.parse("2023-03-02"))
+                .facilityImage("http:FDSAFSDAFDSAF")
+                .fundingPeopleCnt(10)
+                .goalAmount(500000)
+                .currentAmount(1000)
+                .build();
 
             res.add(completeInfo1);
             res.add(completeInfo2);
