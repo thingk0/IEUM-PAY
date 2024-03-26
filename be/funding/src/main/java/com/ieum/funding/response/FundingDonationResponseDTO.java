@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class FundingInfoResponseDTO {
-    private Long fundingId;
-    private Integer amount;
-    private String facilityName;
+public class FundingDonationResponseDTO {
+    private Boolean fundingResult;
 }

@@ -1,4 +1,4 @@
-package com.ieum.funding.response;
+package com.ieum.common.dto.tmpdto.funding.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,7 +1,8 @@
-package com.ieum.funding.response;
+package com.ieum.common.dto.tmpdto.funding.response;
 
-import com.ieum.funding.dto.FundingMemberDTO;
-import com.ieum.funding.dto.FundingProductDTO;
+
+import com.ieum.common.dto.tmpdto.funding.dto.FundingMemberDTO;
+import com.ieum.common.dto.tmpdto.funding.dto.FundingProductDTO;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

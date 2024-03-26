@@ -1,8 +1,5 @@
-package com.ieum.funding.response;
+package com.ieum.common.dto.tmpdto.funding.dto;
 
-import com.ieum.funding.dto.FundingMemberDTO;
-import com.ieum.funding.dto.FundingProductDTO;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class FundingDetailResponseDTO {
+public class FundingDetailBaseDTO {
     private Long fundingId;
     private String facilityName;
     private String facilityAddress;
@@ -26,8 +23,6 @@ public class FundingDetailResponseDTO {
     private String fundingTitle;
     private Integer goalAmount;
     private Integer currentAmount;
-    private Boolean currentLink;
-    private List<FundingMemberDTO> people;
     private String content;
-    private List<FundingProductDTO> products;
+
 }

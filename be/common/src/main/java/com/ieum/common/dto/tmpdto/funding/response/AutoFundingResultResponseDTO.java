@@ -1,4 +1,4 @@
-package com.ieum.funding.response;
+package com.ieum.common.dto.tmpdto.funding.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class FundingInfoResponseDTO {
-    private Long fundingId;
-    private Integer amount;
-    private String facilityName;
+public class AutoFundingResultResponseDTO {
+    Integer amount;
 }

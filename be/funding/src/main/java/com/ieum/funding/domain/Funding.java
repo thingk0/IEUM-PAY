@@ -1,6 +1,5 @@
 package com.ieum.funding.domain;
 
-import java.sql.Timestamp;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,4 +36,5 @@ public class Funding {
 
     private String fundingSummary;
     private String fundingContent;
+
 }

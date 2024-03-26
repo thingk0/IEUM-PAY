@@ -9,8 +9,8 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class FundingInfoResponseDTO {
-    private Long fundingId;
-    private Integer amount;
+public class FundingResultResponseDTO {
+    private String fundingTitle;
     private String facilityName;
+    private String facilityImage;
 }

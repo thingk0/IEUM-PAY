@@ -1,15 +1,15 @@
-package com.ieum.funding.response;
+package com.ieum.common.dto.tmpdto.funding.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Getter
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class FundingInfoResponseDTO {
+public class FundingInfoDTO {
     private Long fundingId;
     private Integer amount;
     private String facilityName;
