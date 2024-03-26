@@ -1,13 +1,13 @@
 package com.ieum.common.feign;
 
-import com.ieum.common.dto.tmpdto.funding.request.FundingDonationRequestDTO;
-import com.ieum.common.dto.tmpdto.funding.request.FundingLinkRequestDTO;
-import com.ieum.common.dto.tmpdto.funding.response.AutoFundingResultResponseDTO;
-import com.ieum.common.dto.tmpdto.funding.response.FundingDetailResponseDTO;
-import com.ieum.common.dto.tmpdto.funding.response.FundingDonationResponseDTO;
-import com.ieum.common.dto.tmpdto.funding.response.FundingInfoResponseDTO;
-import com.ieum.common.dto.tmpdto.funding.response.FundingResultResponseDTO;
-import com.ieum.common.dto.tmpdto.funding.response.FundingSummaryResponseDTO;
+import com.ieum.common.dto.feign.funding.request.FundingDonationRequestDTO;
+import com.ieum.common.dto.feign.funding.request.FundingLinkRequestDTO;
+import com.ieum.common.dto.feign.funding.response.AutoFundingResultResponseDTO;
+import com.ieum.common.dto.feign.funding.response.FundingDetailResponseDTO;
+import com.ieum.common.dto.feign.funding.response.FundingDonationResponseDTO;
+import com.ieum.common.dto.feign.funding.response.FundingInfoResponseDTO;
+import com.ieum.common.dto.feign.funding.response.FundingResultResponseDTO;
+import com.ieum.common.dto.feign.funding.response.FundingSummaryResponseDTO;
 import java.util.List;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

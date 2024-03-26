@@ -1,4 +1,4 @@
-package com.ieum.common.dto.tmpdto.funding.response;
+package com.ieum.common.dto.feign.funding.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,8 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class PaymentResponseDTO {
+public class FundingResultResponseDTO {
     private String fundingTitle;
     private String facilityName;
     private String facilityImage;
-    private Integer fundingAmount;
 }
-
-

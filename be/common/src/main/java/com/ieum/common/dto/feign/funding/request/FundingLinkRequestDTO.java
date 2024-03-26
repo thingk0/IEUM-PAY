@@ -1,4 +1,4 @@
-package com.ieum.common.dto.tmpdto.funding.request;
+package com.ieum.common.dto.feign.funding.request;
 
 import lombok.Builder;
 import lombok.Data;

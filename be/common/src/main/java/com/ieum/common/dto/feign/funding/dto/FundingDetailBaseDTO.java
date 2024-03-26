@@ -1,4 +1,4 @@
-package com.ieum.common.dto.tmpdto.funding.dto;
+package com.ieum.common.dto.feign.funding.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
