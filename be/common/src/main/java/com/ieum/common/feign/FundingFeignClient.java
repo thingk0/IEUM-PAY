@@ -41,11 +41,11 @@ public interface FundingFeignClient {
 
     // 직접 기부 결제 정보 요청
     @GetMapping(value = "/funding/info/directly/{fundingId}")
-    FundingInfoResponseDTO getDirectlyFundingInfo(@PathVariable String fundingId);
+    FundingInfoResponseDTO getDirectlyFundingInfo(@PathVariable("fundingId") String fundingId);
 
     // 자동 기부 결제 정보 요청
     @GetMapping(value = "/funding/info/directly/{memberId}")
-    FundingInfoResponseDTO getAutoFundingInfo(@PathVariable String memberId);
+    FundingInfoResponseDTO getAutoFundingInfo(@PathVariable("memberId") String memberId);
 
     // 직접 기부
     @PostMapping(value = "/funding/auto")
@@ -56,5 +56,5 @@ public interface FundingFeignClient {
     AutoFundingResultResponseDTO donationAuto(@RequestBody FundingDonationRequestDTO request);
 
     @GetMapping(value = "/funding/result/{fundingId}")
-    FundingResultResponseDTO getPaymentResult(@PathVariable Long fundingId);
+    FundingResultResponseDTO getPaymentResult(@PathVariable("fundingId") Long fundingId);
 }

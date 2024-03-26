@@ -8,11 +8,11 @@ import com.ieum.common.dto.request.CardRegisterRequestDTO;
 import com.ieum.common.dto.response.CardOcrResponseDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -44,7 +44,7 @@ public interface PayFeignClient {
      * @param id 삭제할 카드 ID
      */
     @PutMapping(value = "/card/delete")
-    void deleteCard(Long id);
+    void deleteCard(@RequestBody Long id);
 //    void deleteCard(@RequestBody CardValidRequestDTO requestDTO);
 
     /**
@@ -91,16 +91,10 @@ public interface PayFeignClient {
     Long registerCard(@RequestBody CardRegisterRequestDTO requestDTO);
 
     /**
-     * 카드 삭제 메서드
-     */
-    @PostMapping("/card/delete")
-    public void isValidCardNumber(Long id);
-
-    /**
      * 직접 기부 완료 정보 요청 메서드
      */
     @GetMapping("/funding/donation/result/{historyId}")
-    FundingDonationResultResponseDTO getDonationHistory(@PathVariable Long historyId);
+    FundingDonationResultResponseDTO getDonationHistory(@PathVariable("historyId") Long historyId);
 
     /**
      * 직접기부 메서드
@@ -112,13 +106,13 @@ public interface PayFeignClient {
      * 사용 내역 리스트 요청 메서드
      */
     @GetMapping("/history/{memberId}")
-    List<HistoryResponseDTO> history(@PathVariable Long memberId);
+    List<HistoryResponseDTO> history(@PathVariable("memberId") Long memberId);
 
     /**
      * 메인화면 조회 메서드
      */
     @GetMapping("/main/summary/{memberId}")
-    MainSummaryResponseDTO getMainSummary(@PathVariable Long memberId);
+    MainSummaryResponseDTO getMainSummary(@PathVariable("memberId") Long memberId);
 
     /**
      * 결제하려는 금액에 맞게 충전 해야하는 돈 반환하는 메서드
@@ -136,19 +130,19 @@ public interface PayFeignClient {
      * 결제 정보 요청 메서드
      */
     @GetMapping("/payment/info/{storeId}")
-    String getStoreName(@PathVariable Long storeId);
+    String getStoreName(@PathVariable("storeId") Long storeId);
 
     /**
      * 결제 완료 정보 요청 메서드
      */
     @GetMapping("/payment/{historyId}")
-    PaymentHistoryResponseDTO getPaymentHistory(@PathVariable Long historyId);
+    PaymentHistoryResponseDTO getPaymentHistory(@PathVariable("historyId") Long historyId);
 
     /**
      * 현재 페이머니 반환 메서드
      */
     @GetMapping("/paymoney/{memberId}")
-    int myPaymoney(@PathVariable long memberId);
+    int myPaymoney(@PathVariable("memberId") Long memberId);
 
     /**
      * 페이머니 송금하는 메서드
