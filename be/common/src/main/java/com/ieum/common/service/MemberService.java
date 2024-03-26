@@ -91,17 +91,17 @@ public class MemberService {
                        passwordEncoder.encode(request.getPassword()),
                        grade));
 
-        try {
-            if (!payFeignClient.createPayMoney(PayMoneyCreationRequestDto.builder()
-                                                                         .memberId(savedMember.getId())
-                                                                         .payPasswd(request.getPaymentPassword())
-                                                                         .build())) {
-                throw new PayMoneyCreationFailedException();
-            }
-        } catch (feign.RetryableException e) {
-            log.error("Payment service is unreachable", e);
-            throw new PaymentServiceUnavailableException();
-        }
+//        try {
+//            if (!payFeignClient.createPayMoney(PayMoneyCreationRequestDto.builder()
+//                                                                         .memberId(savedMember.getId())
+//                                                                         .payPasswd(request.getPaymentPassword())
+//                                                                         .build())) {
+//                throw new PayMoneyCreationFailedException();
+//            }
+//        } catch (feign.RetryableException e) {
+//            log.error("Payment service is unreachable", e);
+//            throw new PaymentServiceUnavailableException();
+//        }
 
         grade.increaseCount();
         return savedMember.getId();
