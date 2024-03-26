@@ -10,7 +10,7 @@ import lombok.Getter;
 public class Grade {
 
     @Id
-    @Column(name = "grade_code")
+    @Column(name = "garde_code")
     private String code;
 
     @Column(name = "grade_name", nullable = false)
