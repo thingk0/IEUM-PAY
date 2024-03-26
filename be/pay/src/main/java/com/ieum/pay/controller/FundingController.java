@@ -16,7 +16,7 @@ public class FundingController {
         return historyService.getFundingHistory(historyId);
     }
     @PostMapping
-    public Long DirectDonation(@RequestBody FundingDonationRequestDTO requestDTO){
+    public Long directDonation(@RequestBody FundingDonationRequestDTO requestDTO){
         return historyService.directDonation(requestDTO.getMemberId(), requestDTO.getFundingId(), requestDTO.getDonationAmount());
     }
 }
