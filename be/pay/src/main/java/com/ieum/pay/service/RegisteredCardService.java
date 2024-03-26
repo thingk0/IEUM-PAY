@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -23,5 +25,9 @@ public class RegisteredCardService {
         RegisteredCards result = registeredCardRepository.save(registeredCard);
 
         return result.getRegisteredCardId();
+    }
+
+    public List<RegisteredCards> getCardList(Long memberId) {
+        return registeredCardRepository.findByMemberId(memberId);
     }
 }

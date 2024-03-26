@@ -3,11 +3,8 @@ package com.ieum.pay.service;
 import com.ieum.pay.domain.Paymoney;
 import com.ieum.pay.repository.PaymoneyRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.Column;
 
 @Service
 @Transactional
@@ -39,17 +36,40 @@ public class PaymoneyService {
         return chargeAmount;
     }
 
-    public void signMember(Long memberId,String pwd) {
-        paymoneyRepository.save(Paymoney.builder()
-                .memberId(memberId).paymentPassword(pwd)
-                .paymoneyAmount(0)
-                .donationTotalAmount(0)
-                .donationCount(0)
-                .build());
+    public boolean signMember(Long memberId, String pwd) {
+        try {
+            // Paymoney 객체를 생성하고 저장
+            Paymoney savedPaymoney = paymoneyRepository.save(Paymoney.builder()
+                    .memberId(memberId)
+                    .paymentPassword(pwd)
+                    .paymoneyAmount(0)
+                    .donationTotalAmount(0)
+                    .donationCount(0)
+                    .build());
+
+            // 저장 성공
+            return true;
+        } catch (Exception e) {
+            // 저장 중 예외 발생, 실패 처리
+            return false;
+        }
     }
+
 
     public int readPaymoney(long memberId) {
         Paymoney paymoney = paymoneyRepository.findByMemberId(memberId);
         return paymoney.getPaymoneyAmount();
+    }
+
+    public boolean updatePayPassword(Long memberId, String paymentPassword) {
+        Paymoney paymoney = paymoneyRepository.findByMemberId(memberId);
+        if(paymoney == null)
+            return false;
+        paymoney.setPaymentPassword(paymentPassword);
+        return true;
+    }
+
+    public Paymoney getPaymoney(Long memberId) {
+        return paymoneyRepository.findByMemberId(memberId);
     }
 }

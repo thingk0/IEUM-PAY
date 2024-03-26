@@ -2,6 +2,7 @@ package com.ieum.pay.controller;
 
 import com.ieum.pay.domain.Cards;
 import com.ieum.pay.request.CardRegisterRequestDTO;
+import com.ieum.pay.request.CardValidRequestDTO;
 import com.ieum.pay.service.CardService;
 import com.ieum.pay.service.RegisteredCardService;
 import lombok.RequiredArgsConstructor;
@@ -52,9 +53,9 @@ public class CardValidController {
     }
 
     @PostMapping("/delete")
-    public void isValidCardNumber(Long id){
+    public boolean deleteCard(@RequestBody CardValidRequestDTO requestDTO){
         //card delete
-        cardService.delete(id);
+        return cardService.delete(requestDTO.getMemberId(),requestDTO.getRegisteredCardId());
     }
 
 }

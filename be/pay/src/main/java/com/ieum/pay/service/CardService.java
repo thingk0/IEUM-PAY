@@ -1,7 +1,9 @@
 package com.ieum.pay.service;
 
 import com.ieum.pay.domain.Cards;
+import com.ieum.pay.domain.RegisteredCards;
 import com.ieum.pay.repository.CardRepository;
+import com.ieum.pay.repository.RegisteredCardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CardService {
     private final CardRepository cardRepository;
+    private final RegisteredCardRepository registeredCardRepository;
 
     public Cards findCard(String cardNumber){
         int cardNumFour = Integer.parseInt(cardNumber.substring(0, 4));
@@ -32,7 +35,11 @@ public class CardService {
         return cards;
     }
 
-    public void delete(Long id) {
-        cardRepository.deleteById(id);
+    public boolean delete(Long memberId, Long id) {
+        RegisteredCards card = registeredCardRepository.findByMemberIdAndRegisteredCardId(memberId,id);
+        if(card == null)
+            return false;
+        registeredCardRepository.deleteById(id);
+        return true;
     }
 }

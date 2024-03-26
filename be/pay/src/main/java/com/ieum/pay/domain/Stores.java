@@ -16,6 +16,6 @@ import javax.persistence.Id;
 public class Stores {
     @Id
     Long storeId;
-    String store_name;
+    String storeName;
     String category;
 }

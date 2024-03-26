@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface HistoryRepository extends JpaRepository<Histories, Long> {
     List<Histories> findByMemberIdOrderByHistoryDateDesc(Long memberId);
+
+    Histories findByHistoryId(Long historyId);
 }
