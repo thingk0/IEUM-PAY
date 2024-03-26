@@ -8,6 +8,12 @@ import { getUserInfo } from '@/api/userAxois';
 import { commaizeNumber } from '@toss/utils';
 import { useRouter } from 'next/router';
 import Button from '@/stories/Button';
+import styels from '@/styles/myPage.module.scss';
+import {
+  buildStyles,
+  CircularProgressbarWithChildren,
+} from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 interface fundingType {
   img: string;
@@ -31,17 +37,17 @@ interface userInfoType {
 
 export default function MyPage() {
   const router = useRouter();
-
+  const [progressValue, setProgressValue] = useState(0);
   const [userInfo, setUserInfo] = useState<userInfoType>({
     name: '이이름은진짜없겠지',
     nickname: '기부니가 좋아',
-    gradeCode: 'GR001',
+    gradeCode: 'GR005',
     gradeName: '새싹',
     totalDonationCnt: 5,
-    totalDonationAmount: 41241500,
+    totalDonationAmount: 241500,
     list: [
       {
-        img: 'http:url ---',
+        img: 'https://nextui-docs-v2.vercel.app/images/album-cover.png',
         fundingId: 1,
         fundingAmount: 13300,
         ongoing: false, // true : 진행중 fasle : 종료
@@ -49,18 +55,17 @@ export default function MyPage() {
     ],
     autoFundingId: 0,
     autoFundingTitle: 'btc',
-    autoFundingImg: 'http:url ---',
+    autoFundingImg: 'https://nextui-docs-v2.vercel.app/images/album-cover.png',
     autoFundingAmount: 2100,
   });
 
-  const setBedge = (level: string) => {
-    const BadgeComponent = badges[level];
-    return <BadgeComponent />;
-  };
-
-  const setIcon = (level: string) => {
-    const IconComponent = Icons[level];
-    return <IconComponent />;
+  const tearProgress = (value: number, tear: string) => {
+    if (tear == 'GR001') return (value / 100) * 100;
+    else if (tear == 'GR002') return (value / 5000) * 100;
+    else if (tear == 'GR003') return (value / 30000) * 100;
+    else if (tear == 'GR004') return (value / 100000) * 100;
+    else if (tear == 'GR005') return (value / 1000000) * 100;
+    else if (tear == 'GR006') return (value / 10000000) * 100;
   };
 
   const donateState = () => {
@@ -78,7 +83,7 @@ export default function MyPage() {
           </Button>
         </>
       );
-    } else if (userInfo.autoFundingId == 0) {
+    } else {
       return (
         <>
           <p>
@@ -88,38 +93,45 @@ export default function MyPage() {
             총 <span>{commaizeNumber(userInfo.totalDonationAmount)}원</span>을
             나눴어요
           </p>
-          {setIcon(userInfo.gradeCode)}
-          <hr />
-          <p>연동되어있는 모금이 없어요</p>
-          <Button size="thin" onClick={() => router.push('/rundraising')}>
-            모금하가기
-          </Button>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <div>
-            <p>
-              지금까지 <span>{userInfo.totalDonationCnt}개</span>기관에
-            </p>
-            <p>
-              총 <span>{commaizeNumber(userInfo.totalDonationAmount)}원</span>을
-              나눴어요
-            </p>
-            {setIcon(userInfo.gradeCode)}
+          <div className={styels.progressBar}>
+            <CircularProgressbarWithChildren
+              value={progressValue}
+              styles={{
+                root: {},
+                path: {
+                  stroke: `rgba(128, 53, 249, ${progressValue})`,
+                  strokeLinecap: 'butt',
+                  transition: 'stroke-dashoffset 0.5s ease 0s',
+                  transformOrigin: 'center center',
+                },
+              }}
+            >
+              <img
+                src={`levelIcons/${userInfo.gradeCode}.svg`}
+                className={styels.iconImage}
+              />
+            </CircularProgressbarWithChildren>
           </div>
           <hr />
-          <div>
-            <p>기부중인 모금</p>
-            <img src={userInfo.autoFundingImg} alt="기부중인 모금 사진" />
-            <p>기부단체 설명</p>
-            <p>
-              <span>{commaizeNumber(userInfo.autoFundingAmount)}원</span>
-              나눴어요
-            </p>
-            <a href="">버튼자리</a>
-          </div>
+          {userInfo.autoFundingId == 0 ? (
+            <>
+              <p>연동되어있는 모금이 없어요</p>
+              <Button size="thin" onClick={() => router.push('/fundraising')}>
+                모금하러가기
+              </Button>
+            </>
+          ) : (
+            <div>
+              <p>기부중인 모금</p>
+              <img src={userInfo.autoFundingImg} alt="기부중인 모금 사진" />
+              <p>기부단체 설명</p>
+              <p>
+                <span>{commaizeNumber(userInfo.autoFundingAmount)}원</span>
+                나눴어요
+              </p>
+              <a href="">버튼자리</a>
+            </div>
+          )}
         </>
       );
     }
@@ -130,6 +142,13 @@ export default function MyPage() {
       try {
         const userData = await getUserInfo();
         userData != undefined ? setUserInfo(userData) : '';
+        setProgressValue(
+          Math.floor(
+            Number(
+              tearProgress(userInfo.totalDonationAmount, userInfo.gradeCode),
+            ),
+          ),
+        );
       } catch (e) {
         console.log(e);
       }
@@ -142,7 +161,11 @@ export default function MyPage() {
       <HeaderMain />
 
       <div>
-        {setBedge(userInfo.gradeCode)}
+        <img
+          src={`levelBadges/${userInfo.gradeCode}.svg`}
+          className={styels.badgeImage}
+          alt={`${userInfo.gradeName} 등급 뱃지`}
+        />
         <span>{userInfo.name}</span>
         {userInfo.nickname}
       </div>

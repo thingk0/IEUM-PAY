@@ -1,6 +1,7 @@
 package com.ieum.common.domain;
 
 import com.ieum.common.domain.base.BaseEntity;
+import com.ieum.common.exception.member.DuplicateNicknameChangeException;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -43,7 +44,7 @@ public class Members extends BaseEntity {
     @Column(name = "paycard_id")
     private Long paycardId;
 
-    @Column(name = "phone_number", nullable = false, unique = true, columnDefinition = "CHAR(13)")
+    @Column(name = "phone_number", nullable = false, unique = true, columnDefinition = "CHAR(11)")
     private String phoneNumber;
 
     @Column(name = "password", nullable = false)
@@ -64,5 +65,19 @@ public class Members extends BaseEntity {
                       .name(name)
                       .nickname(nickname)
                       .build();
+    }
+
+
+    public String updateNickname(String newNickname) {
+        String prevNickname = this.nickname;
+        if (prevNickname.equals(newNickname)) {
+            throw new DuplicateNicknameChangeException();
+        }
+        this.nickname = newNickname;
+        return prevNickname;
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
     }
 }

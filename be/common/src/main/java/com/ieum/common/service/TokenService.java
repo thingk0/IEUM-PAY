@@ -4,6 +4,7 @@ import com.ieum.common.domain.Members;
 import com.ieum.common.dto.token.TokenInfo;
 import com.ieum.common.exception.member.MemberNotFoundException;
 import com.ieum.common.exception.token.RefreshTokenNotFoundException;
+import com.ieum.common.exception.token.TokenOperationException;
 import com.ieum.common.jwt.TokenProvider;
 import com.ieum.common.repository.MemberRepository;
 import com.ieum.common.util.RedisHashUtil;
@@ -46,12 +47,17 @@ public class TokenService {
     }
 
     /**
-     * 주어진 리프레시 토큰 값에 해당하는 정보를 Redis 에서 삭제.
+     * 주어진 리프레시 토큰 값에 해당하는 정보를 Redis 에서 삭제합니다. 만약 삭제에 실패하면, TokenOperationException 예외를 던집니다.
      *
      * @param refreshTokenValue 삭제할 리프레시 토큰 값
+     * @throws TokenOperationException 토큰 삭제 과정에서 문제가 발생한 경우
      */
     public void remove(String refreshTokenValue) {
-        redisHashUtil.delete(REFRESH_TOKEN_KEY + refreshTokenValue);
+        try {
+            redisHashUtil.delete(REFRESH_TOKEN_KEY + refreshTokenValue);
+        } catch (Exception e) {
+            throw new TokenOperationException();
+        }
     }
 
 

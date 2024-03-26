@@ -1,12 +1,16 @@
-package com.ieum.common.dto.member;
+package com.ieum.common.dto.member.res;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Getter
+@Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProfileResponseDto {
 
     private Long memberId;

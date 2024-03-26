@@ -1,6 +1,7 @@
 package com.ieum.common.resolver;
 
 import com.ieum.common.annotation.CurrentMemberId;
+import com.ieum.common.exception.member.InvalidPrincipalTypeException;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +26,7 @@ public class MemberIdArgumentResolver implements HandlerMethodArgumentResolver {
         if (authentication != null && authentication.getPrincipal() instanceof Long) {
             return authentication.getPrincipal();
         }
-        throw new IllegalArgumentException("Invalid principal type");
+
+        throw new InvalidPrincipalTypeException();
     }
 }

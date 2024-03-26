@@ -1,12 +1,13 @@
-package com.ieum.common.dto.member;
+package com.ieum.common.dto.member.req;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LoginRequestDto {
 
     @NotBlank(message = "휴대폰 번호는 필수입니다.")

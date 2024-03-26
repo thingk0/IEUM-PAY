@@ -1,6 +1,7 @@
 package com.ieum.common.controller;
 
 import com.ieum.common.dto.response.DonationHistoryResponseDTO;
+import com.ieum.common.format.code.SuccessCode;
 import com.ieum.common.format.response.ResponseTemplate;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -8,7 +9,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +36,7 @@ public class DonationController {
                                                           .nickname("기부니")
                                                           .donationAmount(500)
                                                           .fundingSummary("이것저것 외 14개")
-                                                          .build(), HttpStatus.OK);
+                                                          .build(), SuccessCode.SUCCESS);
     }
 
 }

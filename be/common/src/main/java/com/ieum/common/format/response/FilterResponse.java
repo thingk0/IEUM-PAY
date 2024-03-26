@@ -26,12 +26,6 @@ public class FilterResponse {
         response.getWriter().write(body);
     }
 
-    public void sendTokenInvalidResponse(HttpServletResponse response) throws IOException {
-        log.error("Token invalid. Prompting re-login.");
-        sendJsonResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "FAILED",
-                         "토큰이 유효하지 않습니다. 다시 로그인 해주십시오.", Optional.empty());
-    }
-
     public void sendTokenReissueResponse(HttpServletResponse response) throws IOException {
         log.warn("Session expired. Advising token refresh.");
         sendJsonResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "UNAUTHORIZED",
@@ -48,6 +42,12 @@ public class FilterResponse {
         log.error("Token invalid. Advising retry with a new token.");
         sendJsonResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "FAILED",
                          "토큰이 유효하지 않습니다. 새로운 토큰으로 다시 시도해주세요.", Optional.empty());
+    }
+
+    public void sendTokenInvalidResponse(HttpServletResponse response) throws IOException {
+        log.error("Token invalid. Prompting re-login.");
+        sendJsonResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "FAILED",
+                         "토큰이 유효하지 않습니다. 다시 로그인 해주십시오.", Optional.empty());
     }
 }
 

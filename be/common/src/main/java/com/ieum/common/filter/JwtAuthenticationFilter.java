@@ -95,14 +95,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-    private Long extractMemberIdFromAccessToken(String accessToken) {
-        if (accessToken == null) {
-            return null;
-        }
-        return tokenProvider.extractMemberIdFromToken(accessToken);
-    }
-
-
     private boolean shouldFilter(String path) {
         return filterPaths.values()
                           .stream()

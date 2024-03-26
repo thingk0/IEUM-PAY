@@ -1,14 +1,14 @@
 package com.ieum.common.exception;
 
-import com.ieum.common.format.code.ErrorCode;
+import com.ieum.common.format.code.FailedCode;
 import lombok.Getter;
 
 @Getter
 public class PayMoneyCreationFailedException extends RuntimeException {
 
-    private final ErrorCode errorCode;
+    private final FailedCode failedCode;
 
     public PayMoneyCreationFailedException() {
-        this.errorCode = ErrorCode.PAYMONEY_CREATION_FAILED;
+        this.failedCode = FailedCode.PAYMONEY_CREATION_FAILED;
     }
 }

@@ -1,5 +1,6 @@
 package com.ieum.common.service;
 
+import com.ieum.common.dto.etc.MainPageResponseDto;
 import com.ieum.common.dto.request.CardRegisterRequestDTO;
 import com.ieum.common.dto.response.CardOcrResponseDTO;
 import com.ieum.common.feign.PayFeignClient;
@@ -25,5 +26,9 @@ public class PayService {
 
     public void updateCard(Long id) {
         payFeignClient.deleteCard(id);
+    }
+
+    public MainPageResponseDto getMainPageInfo(Long memberId) {
+        return payFeignClient.getMainPageInfo(memberId);
     }
 }
