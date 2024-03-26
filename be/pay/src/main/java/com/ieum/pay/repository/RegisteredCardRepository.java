@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface RegisteredCardRepository extends JpaRepository<RegisteredCards,Long> {
     List<RegisteredCards> findByMemberId(Long memberId);
+
+    RegisteredCards findByMemberIdAndRegisteredCardId(Long memberId, Long registeredCardId);
 }
