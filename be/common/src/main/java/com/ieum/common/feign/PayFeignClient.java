@@ -59,10 +59,10 @@ public interface PayFeignClient {
     @PostMapping(value = "/api/member/regist")
     boolean createPayMoney(@RequestBody PayMoneyCreationRequestDto requestDto);
 
-<<<<<<< HEAD
+
     @GetMapping(value = "/api/main/summary")
     MainPageResponseDto getMainPageInfo(Long memberId);
-=======
+
     /**
      * 페이머니 생성 기능을 제공하는 메서드
      *
@@ -155,5 +155,4 @@ public interface PayFeignClient {
      */
     @PostMapping
     Long remittancePaymoney(@RequestBody RemittanceRequestDTO requestDTO);
->>>>>>> feature/pay-common
 }
