@@ -3,11 +3,21 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styles from '@/styles/FundDetailPage.module.scss';
 import { commaizeNumber } from '@toss/utils';
-import { Progress } from '@nextui-org/react';
-import Button from '@/components/HalfButton';
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
+} from '@nextui-org/modal';
+import HalfButton from '@/components/HalfButton';
 import HeaderHome from '@/components/HeaderHome';
 import useDonateMoneyInfo from '@/hooks/useDirectDonationStore';
 import useUserStore from '@/stores/user-store';
+import Button from '@/stories/Button';
+import { Progress } from '@nextui-org/react';
+import { josa } from '@toss/hangul';
 
 interface peopleType {
   nickname: string;
@@ -39,7 +49,7 @@ interface dataType {
   fundingTitle: string;
   goalAmount: number;
   currentAmount: number;
-  currentLink: true;
+  currentLink: boolean;
   people: peopleType[];
   // 일단 임의 지정
   content: string;
@@ -224,12 +234,38 @@ export default function Detail() {
     router.push('/fundraising/direct-donation');
   };
 
+  const mamgeLinking = () => {
+    setData({
+      fundingId: data.fundingId,
+      facilityName: data.facilityName,
+      facilityAddress: data.facilityAddress,
+      facilityPhoneNumber: data.facilityPhoneNumber,
+      facilityRepresentativeName: data.facilityRepresentativeName,
+      facilityRepresentativePhoneNumber: data.facilityRepresentativePhoneNumber,
+      facilityCapacity: data.facilityCapacity,
+      facilityImage: data.facilityImage,
+      fundingOpenDate: data.fundingOpenDate,
+      fundingPeopleCnt: data.fundingPeopleCnt,
+      fundingTitle: data.fundingTitle,
+      goalAmount: data.goalAmount,
+      currentAmount: data.currentAmount,
+      // 여기 바꾸는거
+      currentLink: !data.currentLink,
+      people: data.people,
+      content: data.content,
+      products: data.products,
+    });
+    onOpen();
+  };
+
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   const btnProps = {
-    text: '기부 연동하기',
+    text: data.currentLink ? '기부 연동하기' : '기부 그만하기',
     text2: '직접 후원하기',
     btnStyle: 'recThinFill',
     btnStyle2: 'recThinFill',
-    btnFunction: () => {},
+    btnFunction: mamgeLinking,
     btnFunction2: setdirectDonateInfo,
   };
 
@@ -278,7 +314,35 @@ export default function Detail() {
         {productList()}
         {donatorList()}
       </div>
-      <div className={styles.footer}>{Button(btnProps)}</div>
+      <div className={styles.footer}>{HalfButton(btnProps)}</div>
+
+      <Modal
+        className={styles.modalComp}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalBody>
+                <img
+                  className={styles.modalImage}
+                  src="/favicon.png"
+                  alt="이어졌다는 뜻의 로고 이미지"
+                />
+                <div className={styles.modalMessage}>
+                  {josa(data.facilityName, '와/과')} 이어졌어요!
+                </div>
+              </ModalBody>
+              <ModalFooter className={styles.modalFooter}>
+                <Button primary size="thick" onClick={onClose}>
+                  확인
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </>
   );
 }
