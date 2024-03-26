@@ -1,0 +1,107 @@
+.detailContainer {
+  margin: 0;
+  padding: 4.5rem 1.25rem 4.375rem 1.25rem;
+  background-color: var(--forthary);
+}
+.imageTag {
+  height: 10rem;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+.facilityImage {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.fundingState {
+  margin-top: 1rem;
+  background-color: var(--real-white);
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-bottom: 1rem;
+  border-radius: 0.5rem;
+  .title {
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+    font-size: 1.125rem;
+    font-weight: bold;
+  }
+  .info {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 0.625rem;
+  }
+  .progressBar {
+    background-color: var(--primary-color);
+  }
+  .hr {
+    background-color: var(--black);
+    height: 0.125rem;
+  }
+  .cardContainer {
+    display: flex;
+    flex-direction: column;
+    .card {
+      display: flex;
+      padding-top: 1.5rem;
+      align-items: center;
+      .imageBox {
+        flex: 0 0 auto;
+        width: 5.4rem;
+        height: 5.4rem;
+        overflow: hidden;
+        .image {
+          object-fit: cover;
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .productInfo {
+        width: 100%;
+        font-size: 1rem;
+        padding-left: 1rem;
+        .unit {
+          font-size: 0.75rem;
+        }
+        .sponsorName {
+          font-weight: bold;
+        }
+        .products {
+          display: flex;
+          justify-content: space-between;
+        }
+      }
+    }
+    .cardHr {
+      margin-top: 1.5rem;
+      background-color: var(--light-gray);
+      height: 0.125rem;
+    }
+  }
+}
+.donatorContainer {
+  display: flex;
+  justify-content: space-between;
+}
+.donatorInfo {
+  display: flex;
+  padding-bottom: 0.5rem;
+  .donatorBadge {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  .donatorName {
+    padding-left: 0.5rem;
+  }
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  height: 4.5rem;
+  width: 100%;
+  background-color: var(--real-white);
+  padding: 0 0.5rem 0 0.5rem;
+  align-items: center;
+}

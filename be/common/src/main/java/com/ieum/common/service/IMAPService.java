@@ -4,6 +4,8 @@ import com.sun.mail.imap.IMAPFolder;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Properties;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -21,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +36,7 @@ public class IMAPService {
     public static final String TEXT_HTML = "text/html";
 
     private final StringRedisTemplate stringRedisTemplate;
+    private ExecutorService executor;
 
     private Store store;
     private Folder emailFolder;
@@ -46,16 +50,31 @@ public class IMAPService {
     @Value("${spring.mail.password}")
     private String password;
 
-    @Async
     @PostConstruct
     public void startListening() {
-        init();
+        executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            init();
+        });
     }
 
     @PreDestroy
     public void stopListening() {
+        try {
+            log.info("action:shutdown_attempt, message:Attempting to shut down executor...");
+            executor.shutdown();
+            if (!executor.awaitTermination(5, TimeUnit.SECONDS)) {
+                log.warn("action:shutdown_timeout, message:Executor did not terminate in the allotted time.");
+                executor.shutdownNow();
+            }
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+            executor.shutdownNow();
+            log.error("action:interrupted, message:Shutdown interrupted, executor forced to shutdown.");
+        }
         closeResources();
     }
+
 
     /**
      * IMAP 서버에 연결하여 INBOX 폴더를 열고 새 메시지를 감시합니다. 새 메시지가 도착하면 특정 로직(예: 전화번호 인증 코드 검증)을 실행합니다.
@@ -75,20 +94,21 @@ public class IMAPService {
                     for (Message message : messages) {
                         try {
                             Address[] fromAddresses = message.getFrom();
-                            String phoneNumber = extractPhoneNumber(fromAddresses);
-                            log.info("휴대폰 인증 요청: " + phoneNumber);
+                            String phoneNumber = extractPhoneNumber(fromAddresses).substring(0, 11);
 
-                            String code = stringRedisTemplate.opsForValue().get("phone-number:" + phoneNumber);
+                            ValueOperations<String, String> valueOps = stringRedisTemplate.opsForValue();
+                            String code = valueOps.get("phone-number:" + phoneNumber);
                             if (code == null) {
-                                log.info("Redis에 인증 코드가 없음: " + phoneNumber.substring(0, 11));
+                                log.info("Redis 에 인증 코드가 없음", phoneNumber);
                                 continue;
                             }
 
                             String content = extractContent(message);
                             String extractedCode = extractCodeFromContent(content, "code:");
 
-                            if (extractedCode != null && extractedCode.equals(code)) {
-                                stringRedisTemplate.opsForValue().set("confirmed-phone-number:" + phoneNumber, "true", 10, TimeUnit.MINUTES);
+                            if (extractedCode != null && extractedCode.equals(extractCodeFromContent(code, "code:"))) {
+                                valueOps.set("confirmed-phone-number:" + phoneNumber, "true", 10, TimeUnit.MINUTES);
+                                stringRedisTemplate.delete("phone-number:" + phoneNumber);
                                 log.info("인증 성공: " + phoneNumber);
                             } else {
                                 log.info("인증 실패: " + phoneNumber);
@@ -167,11 +187,13 @@ public class IMAPService {
             String afterCode = content.substring(codeStartIdx + codePrefix.length());
             int endIdx = afterCode.indexOf('%');
             if (endIdx != -1) {
-                return afterCode.substring(0, endIdx + 1).trim();
+                // 여기서 endIdx + 1 대신 endIdx를 사용하여 '%' 이후의 내용을 제외합니다.
+                return afterCode.substring(0, endIdx).trim();
             }
         }
         return null;
     }
+
 
     /**
      * IMAP 세션을 위한 속성을 초기화합니다.

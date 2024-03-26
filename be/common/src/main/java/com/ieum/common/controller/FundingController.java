@@ -11,6 +11,7 @@ import com.ieum.common.dto.FundingMemberDTO;
 import com.ieum.common.dto.response.FundingOngoingDetailResponseDTO;
 import com.ieum.common.dto.response.FundingOngoingInfoResponseDTO;
 import com.ieum.common.dto.response.FundingResultResponseDTO;
+import com.ieum.common.format.code.SuccessCode;
 import com.ieum.common.format.response.ResponseTemplate;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -87,7 +88,7 @@ public class FundingController {
                                                   .content(content) // MongoDB의 Document를 사용하는 경우
                                                   .build();
 
-        return response.success(res, HttpStatus.OK);
+        return response.success(res, SuccessCode.SUCCESS);
     }
 
     @Operation(summary = "진행 중인 펀딩 상세 조회", description = "진행 중인 펀딩의 상세 정보를 조회합니다.")
@@ -139,7 +140,7 @@ public class FundingController {
                                                  .content(content) // MongoDB의 Document를 사용하는 경우
                                                  .build();
 
-        return response.success(res, HttpStatus.OK);
+        return response.success(res, SuccessCode.SUCCESS);
     }
 
     @Operation(summary = "펀딩 기부", description = "펀딩에 직접 기부합니다.")
@@ -149,7 +150,7 @@ public class FundingController {
         var res = FundingDonationResponseDTO.builder()
                                             .fundingId(1L)
                                             .build();
-        return response.success(res, HttpStatus.OK);
+        return response.success(res, SuccessCode.SUCCESS);
     }
 
     @Operation(summary = "펀딩 결과 조회(직접 기부)", description = "직접기부 시 펀딩의 결과를 조회합니다.")
@@ -164,7 +165,7 @@ public class FundingController {
                                               "https://ko.wikipedia.org/wiki/%EC%8B%A0%EC%A7%B1%EA%B5%AC#/media/%ED%8C%8C%EC%9D%BC:%EC%8B%A0%EC%A7%B1%EA%B5%AC.png")
                                           .build();
 
-        return response.success(res, HttpStatus.OK);
+        return response.success(res, SuccessCode.SUCCESS);
     }
 
     @Operation(summary = "직접기부 결제 정보 요청", description = "직접기부 결제시 해당 결제에 대한 정보 요청")
@@ -179,7 +180,7 @@ public class FundingController {
                                         .chargeAmount(10000)
                                         .build();
 
-        return response.success(res, HttpStatus.OK);
+        return response.success(res, SuccessCode.SUCCESS);
     }
 
     @Operation(summary = "펀딩 연계", description = "사용자를 특정 펀딩에 연계시킵니다.")
@@ -224,7 +225,7 @@ public class FundingController {
             e.printStackTrace();
         }
 
-        return response.success(res, HttpStatus.OK);
+        return response.success(res, SuccessCode.SUCCESS);
     }
 
     @Operation(summary = "진행 중인 펀딩 목록 조회", description = "현재 진행 중인 모든 펀딩의 목록을 조회합니다.")
@@ -265,7 +266,7 @@ public class FundingController {
             e.printStackTrace();
         }
 
-        return response.success(res, HttpStatus.OK);
+        return response.success(res, SuccessCode.SUCCESS);
     }
 
     @PostMapping("/unlink")

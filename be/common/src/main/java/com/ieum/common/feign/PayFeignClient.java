@@ -1,9 +1,12 @@
 package com.ieum.common.feign;
 
+import com.ieum.common.dto.etc.MainPageResponseDto;
+import com.ieum.common.dto.paymoney.PayMoneyCreationRequestDto;
 import com.ieum.common.dto.request.CardRegisterRequestDTO;
 import com.ieum.common.dto.response.CardOcrResponseDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,12 +42,17 @@ public interface PayFeignClient {
     void deleteCard(Long id);
 
     /**
-     * 페이머니 생성 기능을 제공하는 메서드
+     * 회원의 결제 정보를 생성합니다.
+     * <p>
+     * 이 메서드는 회원의 결제 정보를 생성하기 위해 {@link PayMoneyCreationRequestDto} 객체를 요청 본문으로 받습니다. 결제 정보가 성공적으로 생성되면 true를 반환하고, 그렇지 않으면 false를 반환합니다. 이 메서드는
+     * {@code /api/member/regist} 엔드포인트에 대한 POST 요청을 처리하기 위해 사용됩니다.
      *
-     * @param memberId 페이머니를 생성할 회원 ID
-     * @return 페이머니 생성 성공 여부
+     * @param requestDto 결제 정보 생성을 위한 요청 데이터를 담고 있는 {@link PayMoneyCreationRequestDto} 객체. 이 객체는 요청 본문(@RequestBody)을 통해 전달되며, 결제에 필요한 정보를 포함해야 합니다.
+     * @return 결제 정보 생성 성공 여부를 나타내는 boolean 값. 성공적으로 생성된 경우 true, 그렇지 않은 경우 false 반환.
      */
-    @PostMapping(value = "/pay-money")
-    boolean createPayMoney(Long memberId);
+    @PostMapping(value = "/api/member/regist")
+    boolean createPayMoney(@RequestBody PayMoneyCreationRequestDto requestDto);
 
+    @GetMapping(value = "/api/main/summary")
+    MainPageResponseDto getMainPageInfo(Long memberId);
 }

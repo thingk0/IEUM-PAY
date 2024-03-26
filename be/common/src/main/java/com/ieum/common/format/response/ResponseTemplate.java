@@ -1,7 +1,7 @@
 package com.ieum.common.format.response;
 
-import com.ieum.common.format.code.ErrorCode;
-import com.ieum.common.format.code.ResponseCode;
+import com.ieum.common.format.code.FailedCode;
+import com.ieum.common.format.code.SuccessCode;
 import java.util.Collections;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -84,8 +84,8 @@ public class ResponseTemplate {
      *  }
      * </pre>
      */
-    public <T> ResponseEntity<?> success(ResponseCode responseCode, T data, HttpStatus httpStatus) {
-        return get(STATUS_SUCCESS, responseCode.getMessage(), data, null, null, null, null, httpStatus);
+    public <T> ResponseEntity<?> success(SuccessCode successCode, T data, HttpStatus httpStatus) {
+        return get(STATUS_SUCCESS, successCode.getMessage(), data, null, null, null, null, httpStatus);
     }
 
     /**
@@ -101,8 +101,8 @@ public class ResponseTemplate {
      * @param data 응답 바디 data 필드에 포함될 정보
      * @return 응답 객체
      */
-    public <T> ResponseEntity<?> success(T data, HttpStatus httpStatus) {
-        return get(STATUS_SUCCESS, null, data, null, null, null, null, httpStatus);
+    public <T> ResponseEntity<?> success(T data, SuccessCode successCode) {
+        return get(STATUS_SUCCESS, successCode.getMessage(), data, null, null, null, null, successCode.getStatus());
     }
 
     /**
@@ -115,8 +115,8 @@ public class ResponseTemplate {
      *  }
      * </pre>
      */
-    public <T> ResponseEntity<?> success(ResponseCode responseCode, HttpStatus httpStatus) {
-        return get(STATUS_SUCCESS, responseCode.getMessage(), null, null, null, null, null, httpStatus);
+    public <T> ResponseEntity<?> success(SuccessCode successCode) {
+        return get(STATUS_SUCCESS, successCode.getMessage(), null, null, null, null, null, successCode.getStatus());
     }
 
     /**
@@ -289,12 +289,12 @@ public class ResponseTemplate {
      * <pre>
      *     {
      *         "status" : "error",
-     *         "message" : "Custom ErrorCode Message"
+     *         "message" : "Custom FailedCode Message"
      *     }
      * </pre>
      */
-    public <T> ResponseEntity<?> error(ErrorCode errorCode, HttpStatus httpStatus) {
-        return get(STATUS_ERROR, errorCode.getMessage(), null, null, null, null, null, httpStatus);
+    public <T> ResponseEntity<?> error(FailedCode failedCode) {
+        return get(STATUS_ERROR, failedCode.getMessage(), null, null, null, null, null, failedCode.getStatus());
     }
 
     /**

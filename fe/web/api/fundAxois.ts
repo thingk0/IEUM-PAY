@@ -35,3 +35,16 @@ export const getFundListComplete = async () => {
       console.log(error.message);
     });
 };
+
+export const getFundDetail = async (fundId: string | string[] | undefined) => {
+  const local = axiosAuthApi();
+
+  return await local
+    .get(`api/funding/${fundId}/detail`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+};
