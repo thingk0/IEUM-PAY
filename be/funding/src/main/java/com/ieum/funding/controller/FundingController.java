@@ -6,6 +6,7 @@ import com.ieum.funding.response.AutoFundingResultResponseDTO;
 import com.ieum.funding.response.FundingInfoResponseDTO;
 import com.ieum.funding.response.FundingDetailResponseDTO;
 import com.ieum.funding.response.FundingDonationResponseDTO;
+import com.ieum.funding.response.FundingReceiptResponseDTO;
 import com.ieum.funding.response.FundingSummaryResponseDTO;
 import com.ieum.funding.response.FundingResultResponseDTO;
 import com.ieum.funding.service.FundingService;
@@ -114,6 +115,15 @@ public class FundingController {
     public ResponseEntity<AutoFundingResultResponseDTO> donationAuto(
         @RequestBody FundingDonationRequestDTO request) {
         AutoFundingResultResponseDTO response = fundingService.autoDonation(request.getFundingId(), request.getMemberId(), request.getAmount());
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "기부 영수증", description = "기부 영수증")
+    @ApiResponse(responseCode = "200", description = "영수증 정보 출력 fac.title, fac.Name, fac.FP, Sp.name")
+    @GetMapping("/receipt/{fundingId}")
+    public ResponseEntity<FundingReceiptResponseDTO> getReceiptInfo(
+        @PathVariable("fundingId") Long fundingId) {
+        FundingReceiptResponseDTO response = fundingService.getReceiptInfo(fundingId);
         return ResponseEntity.ok(response);
     }
 }

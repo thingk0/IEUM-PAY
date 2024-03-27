@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FundingReceiptResponseDTO {
+public class FundingReceiptResponseFromFDTO {
     private String facilityName;
-    private String facilityTitle;
-    private String productName;
+    private String fundingTitle;
 }
