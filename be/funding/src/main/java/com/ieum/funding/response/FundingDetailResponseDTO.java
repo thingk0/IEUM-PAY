@@ -5,13 +5,14 @@ import com.ieum.funding.dto.FundingProductDTO;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Getter
 @SuperBuilder
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class FundingDetailResponseDTO {
     private Long fundingId;
     private String facilityName;
@@ -22,6 +23,7 @@ public class FundingDetailResponseDTO {
     private Integer facilityCapacity;
     private String facilityImage;
     private String fundingOpenDate;
+    private String fundingFinishDate;
     private Long fundingPeopleCnt;
     private String fundingTitle;
     private Integer goalAmount;

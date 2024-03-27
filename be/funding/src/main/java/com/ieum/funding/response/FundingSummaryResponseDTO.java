@@ -2,11 +2,12 @@ package com.ieum.funding.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class FundingSummaryResponseDTO {
     private Long fundingId;
     private String facilityName;

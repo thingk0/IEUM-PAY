@@ -71,6 +71,7 @@ public class FundingService {
             .facilityCapacity(detail.getFacilityCapacity())
             .facilityImage(detail.getFacilityImage())
             .fundingOpenDate(detail.getFundingOpenDate())
+            .fundingFinishDate(detail.getFundingFinishDate())
             .fundingPeopleCnt(detail.getFundingPeopleCnt())
             .fundingTitle(detail.getFundingTitle())
             .goalAmount(detail.getGoalAmount())

@@ -45,8 +45,8 @@ public class FundingController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "진행 중인 펀딩 목록 조회", description = "현재 진행 중인 모든 펀딩의 목록을 조회합니다.")
-    @ApiResponse(responseCode = "200", description = "진행 중인 펀딩 목록 조회 성공")
+    @Operation(summary = "완료 펀딩 목록 조회", description = "완료된 모든 펀딩의 목록을 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "완료된 목록 조회 성공")
     @GetMapping("/list/complete")
     public ResponseEntity<List<FundingSummaryResponseDTO>> getFundingCompleteList() {
         List<FundingSummaryResponseDTO> response = fundingService.getFundingCompleteList();
