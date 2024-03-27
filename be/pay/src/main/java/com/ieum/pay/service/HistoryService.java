@@ -273,4 +273,12 @@ public class HistoryService {
 
         return dto;
     }
+
+    public DonationHistories getDonationHistory(Long memberId, Long historyId) {
+        return donationHistoryRepository.findByHistoryIdAndMemberId(historyId,memberId);
+    }
+
+    public Histories getHistoryEntity(Long historyId){
+        return historyRepository.findByHistoryId(historyId);
+    }
 }
