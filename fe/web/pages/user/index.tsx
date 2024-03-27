@@ -33,8 +33,8 @@ export default function User() {
    */
   async function checkIsRegister(phoneNumber: string) {
     setPhoneNumber(phoneNumber);
-    console.log(userInfo.phoneNumber);
     const check = await IsRegister(phoneNumber);
+    console.log(check.data);
     if (check != undefined) {
       check.data ? setPushLink('/login') : setPushLink('/register');
       router.push(`/user${pushLink}`);

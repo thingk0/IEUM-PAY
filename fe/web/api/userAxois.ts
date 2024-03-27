@@ -32,7 +32,7 @@ export const requestRandomKey = async (phoneNumber: string) => {
   return await local
     .get(`api/auth?phone-number=${phoneNumber}`)
     .then((response) => {
-      useUserStore.getInitialState().setRandomKey(response.data['mmsAuth']);
+      return response.data;
     })
     .catch((error) => {
       console.log(error.message);

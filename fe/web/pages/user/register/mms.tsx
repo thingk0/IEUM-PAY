@@ -6,10 +6,13 @@ export default function Mms() {
   const router = useRouter();
   const { userInfo } = useUserStore();
 
+  console.log(userInfo.randomKey);
   function handleClick() {
     const msgLink = `sms:b103ieumpay@gmail.com?body=${userInfo.randomKey}`;
     window.location.href = msgLink;
-    router.push('/user/register/input-info');
+    router.push({
+      pathname: '/user/register/input-info',
+    });
   }
 
   return (
