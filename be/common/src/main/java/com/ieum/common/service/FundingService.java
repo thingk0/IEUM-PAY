@@ -1,7 +1,12 @@
 package com.ieum.common.service;
 
+import com.ieum.common.dto.feign.funding.request.FundingDonationRequestDTO;
 import com.ieum.common.dto.feign.funding.request.FundingLinkRequestDTO;
+import com.ieum.common.dto.feign.funding.response.AutoFundingResultResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingDetailResponseDTO;
+import com.ieum.common.dto.feign.funding.response.FundingDonationResponseDTO;
+import com.ieum.common.dto.feign.funding.response.FundingInfoResponseDTO;
+import com.ieum.common.dto.feign.funding.response.FundingReceiptResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingResultResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingSummaryResponseDTO;
 import com.ieum.common.feign.FundingFeignClient;
@@ -39,16 +44,36 @@ public class FundingService {
         return fundingFeignClient.unlink(request);
     }
 
-    // 직접 기부 결제 정보 요청
-
-    // 직접 기부
-
-    // 자동 기부 결제 정보 요청
-
-    // 자동 기부
-
     // 펀딩 결과 조회
     public FundingResultResponseDTO getFundingResult(Long fundingId) {
         return fundingFeignClient.getPaymentResult(fundingId);
     }
+
+    // 직접 기부 결제 정보 요청
+    public FundingInfoResponseDTO getDirectlyFundingInfo(Long fundingId) {
+        return fundingFeignClient.getDirectlyFundingInfo(fundingId);
+    }
+
+    // 직접 기부
+    public FundingDonationResponseDTO donationDirectly(FundingDonationRequestDTO request) {
+        return fundingFeignClient.donationDirectly(request);
+    }
+
+
+    // 자동 기부 결제 정보 요청
+    public FundingInfoResponseDTO getAutoFundingInfo(Long memberId) {
+        return fundingFeignClient.getAutoFundingInfo(memberId);
+    }
+
+    // 자동 기부
+    public AutoFundingResultResponseDTO donationAuto (FundingDonationRequestDTO request) {
+        return fundingFeignClient.donationAuto(request);
+    }
+
+    // 영수증
+    public FundingReceiptResponseDTO getReceiptInfo (Long fundingId) {
+        return fundingFeignClient.getReceipt(fundingId);
+    }
+
+
 }
