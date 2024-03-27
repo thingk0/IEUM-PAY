@@ -13,6 +13,7 @@ public class CurrentFundingResultResponseDTO {
     private String facilityName;
     private String facilityImage;
     private Integer fundingTotalAmount;
+    private Long fundingCount;
 
     @Override
     public String toString() {

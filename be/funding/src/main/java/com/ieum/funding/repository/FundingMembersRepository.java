@@ -41,7 +41,8 @@ public interface FundingMembersRepository extends JpaRepository<FundingMembers,L
     @Query("SELECT new com.ieum.funding.response.CurrentFundingResultResponseDTO(" +
         "fac.facilityName, " +
         "fac.facilityImage, " +
-        "fm.fundingTotalAmount) " +
+        "fm.fundingTotalAmount,"
+        + "(SELECT COUNT(fm2) FROM FundingMembers fm2 WHERE fm2.memberId = :memberId)) " +
         "FROM FundingMembers fm " +
         "JOIN Funding f ON f.fundingId = fm.fundingId " +
         "JOIN Facilities fac ON f.facilityId = fac.facilityId " +
