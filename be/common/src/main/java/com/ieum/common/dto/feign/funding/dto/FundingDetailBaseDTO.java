@@ -2,13 +2,14 @@ package com.ieum.common.dto.feign.funding.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Getter
 @SuperBuilder
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class FundingDetailBaseDTO {
     private Long fundingId;
     private String facilityName;

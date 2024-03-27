@@ -6,13 +6,14 @@ import com.ieum.common.dto.feign.funding.dto.FundingProductDTO;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Getter
 @SuperBuilder
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class FundingDetailResponseDTO {
     private Long fundingId;
     private String facilityName;
