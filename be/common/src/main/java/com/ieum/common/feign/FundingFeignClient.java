@@ -3,6 +3,7 @@ package com.ieum.common.feign;
 import com.ieum.common.dto.feign.funding.request.FundingDonationRequestDTO;
 import com.ieum.common.dto.feign.funding.request.FundingLinkRequestDTO;
 import com.ieum.common.dto.feign.funding.response.AutoFundingResultResponseDTO;
+import com.ieum.common.dto.feign.funding.response.CurrentFundingResultResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingDetailResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingDonationResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingInfoResponseDTO;
@@ -64,4 +65,7 @@ public interface FundingFeignClient {
     // 영수증
     @GetMapping(value = "/funding/receipt/{fundingId}")
     FundingReceiptResponseDTO getReceipt(@PathVariable("fundingId") Long fundingId);
+
+    @GetMapping("/funding/info/current/{memberId}")
+    CurrentFundingResultResponseDTO getCurrentInfo(@PathVariable("memberId") Long memberId);
 }
