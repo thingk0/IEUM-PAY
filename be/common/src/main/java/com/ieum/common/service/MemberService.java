@@ -2,6 +2,7 @@ package com.ieum.common.service;
 
 import com.ieum.common.domain.Grade;
 import com.ieum.common.domain.Members;
+import com.ieum.common.domain.Paymoney;
 import com.ieum.common.dto.member.req.LoginRequestDto;
 import com.ieum.common.dto.member.req.NicknameUpdateRequestDto;
 import com.ieum.common.dto.member.req.PasswordUpdateRequestDto;
@@ -9,7 +10,6 @@ import com.ieum.common.dto.member.req.SignupRequestDto;
 import com.ieum.common.dto.member.res.ProfileResponseDto;
 import com.ieum.common.dto.member.res.RecipientResponseDto;
 import com.ieum.common.dto.member.res.UpdatedNicknameResponseDto;
-import com.ieum.common.dto.paymoney.PayMoneyCreationRequestDto;
 import com.ieum.common.dto.token.TokenInfo;
 import com.ieum.common.exception.PayMoneyCreationFailedException;
 import com.ieum.common.exception.feign.PaymentServiceUnavailableException;
@@ -24,6 +24,7 @@ import com.ieum.common.feign.PayFeignClient;
 import com.ieum.common.jwt.TokenProvider;
 import com.ieum.common.repository.GradeRepository;
 import com.ieum.common.repository.MemberRepository;
+import com.ieum.common.repository.PaymoneyRepository;
 import com.ieum.common.util.CookieUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,6 +51,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final GradeRepository gradeRepository;
+    private final PaymoneyRepository paymoneyRepository;
 
 
     /**
@@ -91,7 +93,14 @@ public class MemberService {
                        passwordEncoder.encode(request.getPassword()),
                        grade));
 
-        payService.createPaymoney(savedMember.getId(),request.getPaymentPassword());
+        paymoneyRepository.save(Paymoney.builder()
+                .memberId(savedMember.getId())
+                .paymentPassword(request.getPaymentPassword())
+                .paymoneyAmount(0)
+                .donationTotalAmount(0)
+                .donationCount(0)
+                .build());
+//        payService.createPaymoney(savedMember.getId(),request.getPaymentPassword());
 //        try {
 //            if (!) {
 //                throw new PayMoneyCreationFailedException();

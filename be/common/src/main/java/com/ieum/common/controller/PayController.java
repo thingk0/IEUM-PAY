@@ -141,7 +141,7 @@ public class PayController {
                                                                           .detail(details4)
                                                                           .build();
         result.add(history5);
-        return response.success(payService.getHistoryList(1L), SuccessCode.SUCCESS);
+        return response.success(payService.getHistoryList(memberId), SuccessCode.SUCCESS);
     }
 
     @Operation(summary = "송금 내역 조회", description = "특정 송금 내역을 조회합니다.")
