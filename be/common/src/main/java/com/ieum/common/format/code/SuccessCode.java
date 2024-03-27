@@ -28,6 +28,10 @@ public enum SuccessCode {
     CARD_VALID_WRONG(HttpStatus.OK, "카드 번호가 잘못된 형식입니다."),
     CARD_TYPE_WRONG(HttpStatus.OK, "카드 번호가 16자리가 아니거나 숫자가 아닙니다."),
     CARD_REGISTER_SUCCESSFUL(HttpStatus.OK, "카드 등록이 완료되었습니다."),
+
+    /* 인증 */
+    AUTHENTICATION_CODE_ISSUED(HttpStatus.OK, "본인 확인용 인증 코드가 성공적으로 발급되었습니다."),
+
     ;
 
     private final HttpStatus status;

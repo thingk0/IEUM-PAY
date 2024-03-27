@@ -73,6 +73,17 @@ public interface PayFeignClient {
     @PutMapping("/member/pay-pw")
     boolean updatePayPassword(@RequestBody MemberPayPasswordRequestDTO requestDTO);
 
+    /**
+     * 카드 등록 메서드
+     *
+     * @RequestBody
+     * @return
+     * -1 : 카드 번호 유효성 불가 번호
+     * -2 : 잘못된 카드번호 ( 16자리가 아님, 숫자가 아님)
+     * 양수 : 둥록된 카드 번호 id (registeredCardId)
+     */
+    @PostMapping("/card/valid")
+    Long registerCard(@RequestBody CardRegisterRequestDTO requestDTO);
 
     /**
      * 직접 기부 완료 정보 요청 메서드
@@ -92,6 +103,11 @@ public interface PayFeignClient {
     @GetMapping("/history/{memberId}")
     List<HistoryResponseDTO> history(@PathVariable("memberId") Long memberId);
 
+    /**
+     * 메인화면 조회 메서드
+     */
+    @GetMapping("/main/summary/{memberId}")
+    MainSummaryResponseDTO getMainSummary(@PathVariable("memberId") Long memberId);
 
     /**
      * 결제하려는 금액에 맞게 충전 해야하는 돈 반환하는 메서드

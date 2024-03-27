@@ -13,5 +13,5 @@ import lombok.NoArgsConstructor;
 public class PayMoneyCreationRequestDto {
 
     private Long memberId;
-    private String payPasswd;
+    private String paymentPassword;
 }
