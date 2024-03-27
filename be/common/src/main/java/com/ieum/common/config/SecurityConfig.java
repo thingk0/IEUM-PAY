@@ -56,6 +56,7 @@ public class SecurityConfig {
                     "/api/member/exist"
                 ).permitAll();
                 /* Member */
+                authorize.antMatchers(HttpMethod.GET, "/api/member/exist").permitAll();
                 authorize.antMatchers(HttpMethod.POST, "/api/member").permitAll();
                 authorize.antMatchers(HttpMethod.GET, "/api/member").authenticated();
                 authorize.antMatchers(HttpMethod.DELETE, "/api/member").authenticated();

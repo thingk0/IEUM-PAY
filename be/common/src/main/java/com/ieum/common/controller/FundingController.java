@@ -12,6 +12,7 @@ import com.ieum.common.dto.feign.funding.response.FundingSummaryResponseDTO;
 import com.ieum.common.feign.FundingFeignClient;
 import com.ieum.common.format.code.SuccessCode;
 import com.ieum.common.format.response.ResponseTemplate;
+import com.ieum.common.service.FundingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,6 +38,7 @@ public class FundingController {
     private final ResponseTemplate response;
 
     private final FundingFeignClient fundingFeignClient;
+    private final FundingService fundingService;
 
     @Operation(summary = "펀딩 상세 조회", description = "펀딩의 상세 정보를 조회합니다.")
     @ApiResponse(responseCode = "200", description = "펀딩 상세 정보 조회 성공")
@@ -44,7 +46,7 @@ public class FundingController {
     public ResponseEntity<?> getFundingCompleteDetail(@PathVariable("fundingId") Long fundingId,
                                                       @CurrentMemberId Long memberId) {
 
-        FundingDetailResponseDTO res = fundingFeignClient.getFundingDetail(fundingId, memberId);
+        FundingDetailResponseDTO res = fundingService.getFundingDetail(fundingId, memberId);
         return response.success(res, SuccessCode.SUCCESS);
     }
 

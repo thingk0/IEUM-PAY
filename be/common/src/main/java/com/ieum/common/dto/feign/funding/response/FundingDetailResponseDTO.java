@@ -1,13 +1,11 @@
 package com.ieum.common.dto.feign.funding.response;
 
-
 import com.ieum.common.dto.feign.funding.dto.FundingMemberDTO;
 import com.ieum.common.dto.feign.funding.dto.FundingProductDTO;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Getter
