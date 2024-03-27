@@ -95,7 +95,7 @@ public class MemberController {
     @PostMapping("/search")
     public ResponseEntity<?> search(@RequestParam("phone-number")
                                     @NotBlank(message = "휴대폰 번호는 필수입니다.")
-                                    @Pattern(regexp = "^010-\\d{4}-\\d{4}$", message = "휴대폰 번호 형식이 잘못되었습니다.")
+                                    @Pattern(regexp = "^010\\d{8}$", message = "휴대폰 번호 형식이 잘못되었습니다.")
                                     String phoneNumber) {
 
         return response.success(memberService.getRecipientByPhoneNumber(phoneNumber),

@@ -13,23 +13,17 @@ import com.ieum.common.exception.token.TokenOperationException;
 import com.ieum.common.format.code.FailedCode;
 import com.ieum.common.format.response.ResponseTemplate;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.http.HttpHeaders;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 @RestControllerAdvice
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler {
 
     private final ResponseTemplate response;
 
@@ -40,15 +34,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return response.error(FailedCode.RAISED_UNEXPECTED_ERROR);
     }
 
-    @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e,
-                                                                  HttpHeaders headers,
-                                                                  HttpStatus status,
-                                                                  WebRequest request) {
-        log.error("ValidationException = {}", e.getMessage());
-        return (ResponseEntity<Object>) response.fail(e.getBindingResult(), HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    protected ResponseEntity<?> handle(MethodArgumentNotValidException e) {
+        return response.fail(e.getBindingResult(), HttpStatus.BAD_REQUEST);
     }
-
 
     @ExceptionHandler(MemberNotFoundException.class)
     protected ResponseEntity<?> handle(MemberNotFoundException e) {

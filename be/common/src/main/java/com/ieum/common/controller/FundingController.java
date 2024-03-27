@@ -42,10 +42,9 @@ public class FundingController {
     @ApiResponse(responseCode = "200", description = "펀딩 상세 정보 조회 성공")
     @GetMapping("/{fundingId}/complete")
     public ResponseEntity<?> getFundingCompleteDetail(@PathVariable("fundingId") Long fundingId,
-        @CurrentMemberId Long memberId) {
+                                                      @CurrentMemberId Long memberId) {
 
         FundingDetailResponseDTO res = fundingFeignClient.getFundingDetail(fundingId, memberId);
-
         return response.success(res, SuccessCode.SUCCESS);
     }
 
@@ -69,12 +68,12 @@ public class FundingController {
     @ApiResponse(responseCode = "200", description = "펀딩 연계 성공")
     @PostMapping("/linkup")
     public Boolean fundingLinkup(@RequestBody FundingLinkupRequestDTO request,
-        @CurrentMemberId Long memberId) {
+                                 @CurrentMemberId Long memberId) {
         log.info(memberId.toString());
         FundingLinkRequestDTO req = FundingLinkRequestDTO.builder()
-            .fundingId(request.getFundingId())
-            .memberId(memberId)
-            .build();
+                                                         .fundingId(request.getFundingId())
+                                                         .memberId(memberId)
+                                                         .build();
         return fundingFeignClient.linkup(req);
     }
 
@@ -82,11 +81,11 @@ public class FundingController {
     @ApiResponse(responseCode = "200", description = "펀딩 연계 해제 성공")
     @PostMapping("/unlink")
     public Boolean fundingUnlink(@RequestBody FundingLinkupRequestDTO request,
-        @CurrentMemberId Long memberId) {
+                                 @CurrentMemberId Long memberId) {
         FundingLinkRequestDTO req = FundingLinkRequestDTO.builder()
-            .fundingId(request.getFundingId())
-            .memberId(memberId)
-            .build();
+                                                         .fundingId(request.getFundingId())
+                                                         .memberId(memberId)
+                                                         .build();
         return fundingFeignClient.linkup(req);
     }
 
@@ -119,19 +118,10 @@ public class FundingController {
     @Operation(summary = "펀딩 결과 조회(직접 기부)", description = "직접기부 시 펀딩의 결과를 조회합니다.")
     @ApiResponse(responseCode = "200", description = "펀딩 결과 조회 성공")
     @GetMapping("/donation/result/{fundingId}")
-    public ResponseEntity<?> getFundgingResult(@PathVariable("fundingId") Long fundingId) {
+    public ResponseEntity<?> getFundingResult(@PathVariable("fundingId") Long fundingId) {
         FundingResultResponseDTO res = fundingFeignClient.getPaymentResult(fundingId);
         return response.success(res, SuccessCode.SUCCESS);
     }
-
-
-
-
-
-
-
-
-
 
 
 }
