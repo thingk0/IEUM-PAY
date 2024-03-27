@@ -1,47 +1,50 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { axiosApi, axiosAuthApi } from '@/utils/instance';
 import useUserStore from '@/stores/user-store';
-import { useRouter } from 'next/router';
 
 /**
- * login 후 mainpage로 이동 or return error message
+ * login 후 토큰 저장후 true 리턴
  */
-export const customlogin = async () => {
-  const { userInfo, setIsLogin } = useUserStore();
+export const customlogin = async (phoneNumber: string, password: string) => {
   const local = axiosApi();
-  const router = useRouter();
-  await local
+  return await local
     .post('api/member/login', {
-      phoneNumber: userInfo.phoneNumber,
-      password: userInfo.userPassword,
+      phoneNumber: phoneNumber,
+      password: password,
+      // phoneNumber: useUserStore.getInitialState().userInfo.phoneNumber,
+      // password: useUserStore.getInitialState().userInfo.userPassword,
     })
     .then((response) => {
-      localStorage['accessToken'] = response.data['accessToken'];
-      setIsLogin(true);
-      router.push('/');
+      console.log(response.data.data);
+      localStorage['access_token'] = response.data.data;
+      useUserStore.getInitialState().setIsLogin(true);
+      return true;
     })
     .catch((error) => {
       console.log(error.message);
+      return false;
     });
 };
 
-export const requestRandomKey = async () => {
-  const { setRandomKey, userInfo } = useUserStore();
+/**
+ * 랜덤 키 요청하는 함수
+ */
+export const requestRandomKey = async (phoneNumber: string) => {
   const local = axiosApi();
-  const router = useRouter();
-  await local
-    .post('api/mms/auth', {
-      phoneNumber: userInfo.phoneNumber,
-    })
+  return await local
+    .get(`api/auth?phone-number=${phoneNumber}`)
     .then((response) => {
-      setRandomKey(response.data['mmsAuth']);
-      router.push('/user/register/mms');
+      useUserStore.getInitialState().setRandomKey(response.data['mmsAuth']);
     })
     .catch((error) => {
       console.log(error.message);
     });
 };
 
+/**
+ * 유저 정보를 불러오는 함수
+ * @returns reponse data 값 or error
+ */
 export const getUserInfo = async () => {
   const local = axiosAuthApi();
 
@@ -53,5 +56,57 @@ export const getUserInfo = async () => {
     })
     .catch((error) => {
       console.log(error.message);
+    });
+};
+
+export const IsRegister = async (nunmber: string) => {
+  const local = axiosApi();
+
+  return await local
+    .get(`api/member/exist?phone-number=${nunmber}`)
+    .then((response) => {
+      console.log(response.data.data);
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+};
+
+interface registerType {
+  phoneNumber: string;
+  name: string;
+  nickName: string;
+  password: string;
+  passwordConfirm: string;
+  paymentPassword: string;
+}
+
+export const register = async ({
+  phoneNumber,
+  name,
+  nickName,
+  password,
+  passwordConfirm,
+  paymentPassword,
+}: registerType) => {
+  const local = axiosApi();
+
+  return await local
+    .post('api/member', {
+      phoneNumber,
+      name,
+      nickName,
+      password,
+      passwordConfirm,
+      paymentPassword,
+    })
+    .then((response) => {
+      console.log(response);
+      return true;
+    })
+    .catch((error) => {
+      console.log(error.message);
+      return false;
     });
 };

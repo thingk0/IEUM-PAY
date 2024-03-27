@@ -1,15 +1,14 @@
 .container {
   margin: 0;
-  padding: 0;
+  padding: 1.25rem;
 }
 .head {
-  margin-left: 1.25rem;
   margin-top: 2.5rem;
   font-size: 1.5rem;
   font-weight: bold;
 }
 .inputTag {
-  padding: 2.125rem 1.25rem 1.25rem 1.25rem;
+  padding: 1.25rem 0.25rem;
 }
 .labelTag {
   font-size: 1rem;

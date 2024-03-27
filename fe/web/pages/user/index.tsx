@@ -1,16 +1,23 @@
 import { useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
-import { Input, Button } from '@nextui-org/react';
+import { Input } from '@nextui-org/react';
 import styles from '@/styles/user.module.css';
 import useUserStore from '@/stores/user-store';
 import { axiosApi } from '@/utils/instance';
 import { AxiosResponse } from 'axios';
+import { formatPhoneNumber } from '@toss/utils';
+import Button from '@/stories/Button';
+import { IsRegister } from '@/api/userAxois';
 
 export default function User() {
-  const { setPhoneNumber } = useUserStore();
+  const { userInfo, setPhoneNumber } = useUserStore();
   const [inputValue, setValue] = useState('');
+  const [checkRegister, setCheck] = useState({
+    data: '',
+    mssage: '',
+    status: '',
+  });
   const router = useRouter();
-  const local = axiosApi();
 
   const isInvalid = useMemo(() => {
     if (inputValue == '') return false;
@@ -33,13 +40,12 @@ export default function User() {
    */
   async function checkIsRegister(phoneNumber: string) {
     // 대충 요청하는 코드
-    const numberData = `010-${phoneNumber.substring(3, 7)}-${phoneNumber.substring(7, 11)}`;
-    setPhoneNumber(numberData);
-    const isRegister: AxiosResponse = await local.post('api/member/exist', {
-      phoneNumber: numberData,
-    });
-    const pushLink = isRegister.data['exist'] ? '/login' : '/register';
-    console.log(isRegister);
+    setPhoneNumber(phoneNumber);
+    console.log(userInfo.phoneNumber);
+    const check = await IsRegister(phoneNumber);
+    console.log(check.data);
+    // check != undefined ? setCheck(check) : '';
+    const pushLink = check.data ? '/login' : '/register';
     router.push(`/user${pushLink}`);
   }
 
@@ -51,18 +57,15 @@ export default function User() {
         type="number"
         label="휴대폰 번호"
         variant="underlined"
+        pattern="\d*"
         value={inputValue}
         isInvalid={isInvalid}
-        errorMessage={isInvalid && '올바른 전화번호를 입력해주세요'}
+        errorMessage={isInvalid && '11자리 이내로 입력해주세요'}
         onChange={handleInputValue}
         className={styles.inputTag}
         classNames={{ label: 'labelTag' }}
       />
-      <Button
-        color="secondary"
-        className={styles.btnTag}
-        onClick={() => checkIsRegister(inputValue)}
-      >
+      <Button primary onClick={() => checkIsRegister(inputValue)}>
         시작하기
       </Button>
     </div>

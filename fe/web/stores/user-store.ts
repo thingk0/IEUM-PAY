@@ -27,7 +27,7 @@ interface UserInfoActions {
 }
 
 const defaultState = {
-  phoneNumber: '010-1245-1235',
+  phoneNumber: '01011112222',
   randomKey: 'dsawrbzsdf',
   userPassword: '1q2w3e4r!@#$',
   userName: '김범수',
