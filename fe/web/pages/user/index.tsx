@@ -3,20 +3,13 @@ import { useRouter } from 'next/router';
 import { Input } from '@nextui-org/react';
 import styles from '@/styles/user.module.css';
 import useUserStore from '@/stores/user-store';
-import { axiosApi } from '@/utils/instance';
-import { AxiosResponse } from 'axios';
-import { formatPhoneNumber } from '@toss/utils';
 import Button from '@/stories/Button';
 import { IsRegister } from '@/api/userAxois';
 
 export default function User() {
   const { userInfo, setPhoneNumber } = useUserStore();
   const [inputValue, setValue] = useState('');
-  const [checkRegister, setCheck] = useState({
-    data: '',
-    mssage: '',
-    status: '',
-  });
+  const [pushLink, setPushLink] = useState('');
   const router = useRouter();
 
   const isInvalid = useMemo(() => {
@@ -39,14 +32,15 @@ export default function User() {
    * @param phoneNumber 전화번호
    */
   async function checkIsRegister(phoneNumber: string) {
-    // 대충 요청하는 코드
     setPhoneNumber(phoneNumber);
     console.log(userInfo.phoneNumber);
     const check = await IsRegister(phoneNumber);
-    console.log(check.data);
-    // check != undefined ? setCheck(check) : '';
-    const pushLink = check.data ? '/login' : '/register';
-    router.push(`/user${pushLink}`);
+    if (check != undefined) {
+      check.data ? setPushLink('/login') : setPushLink('/register');
+      router.push(`/user${pushLink}`);
+    } else {
+      console.log('time out or error');
+    }
   }
 
   return (

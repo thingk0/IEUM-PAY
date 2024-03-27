@@ -1,18 +1,12 @@
 import TabBar from '@/stories/TabBar';
 import HeaderMain from '@/stories/HeaderMain';
-import { badges } from '@/components/icons/LevelBadges';
-import { Icons } from '@/components/icons/LevelIcons';
-import TearList from '@/components/TearList';
 import { useEffect, useState } from 'react';
 import { getUserInfo } from '@/api/userAxois';
 import { commaizeNumber } from '@toss/utils';
 import { useRouter } from 'next/router';
 import Button from '@/stories/Button';
 import styels from '@/styles/myPage.module.scss';
-import {
-  buildStyles,
-  CircularProgressbarWithChildren,
-} from 'react-circular-progressbar';
+import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
 interface fundingType {
