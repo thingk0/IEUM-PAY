@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface FundingMembersRepository extends JpaRepository<FundingMembers,Long> {
 
+    @Query("SELECT new com.ieum.funding.dto.FundingMemberDTO(fm.nickname, fm.memberId, fm.fundingTotalAmount) " +
+        "FROM FundingMembers fm WHERE fm.fundingId = :fundingId")
     List<FundingMemberDTO> findByFundingId(Long fundingId);
     Optional<FundingMembers> findFirstByFundingIdAndMemberId(Long fundingId, Long memberId);
 
