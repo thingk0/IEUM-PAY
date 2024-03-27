@@ -12,9 +12,7 @@ interface PaymentComplete {
 export default function CompletePage({}) {
   const router = useRouter();
   const goMain = () => {
-    router.push({
-      pathname: '/',
-    });
+    router.push('/');
   };
   return (
     <div className={styles.container}>
