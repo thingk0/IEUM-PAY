@@ -3,6 +3,7 @@ package com.ieum.common.controller;
 import com.ieum.common.annotation.CurrentMemberId;
 import com.ieum.common.dto.feign.funding.request.FundingDonationRequestDTO;
 import com.ieum.common.dto.feign.funding.response.AutoFundingResultResponseDTO;
+import com.ieum.common.dto.feign.funding.response.CurrentFundingResultResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingDonationResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingInfoResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingReceiptResponseDTO;
@@ -22,7 +23,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -129,8 +129,8 @@ public class FundingController {
 
     @Operation(summary = "직접기부 결제 정보 요청", description = "직접기부 결제시 해당 결제에 대한 정보 요청")
     @ApiResponse(responseCode = "200", description = "정보 조회 성공")
-    @GetMapping("/info/auto/{memberId}")
-    public ResponseEntity<?> getAutoFundingInfo(@PathVariable("memberId") Long memberId) {
+    @GetMapping("/info/auto")
+    public ResponseEntity<?> getAutoFundingInfo(@CurrentMemberId Long memberId) {
         FundingInfoResponseDTO res = fundingService.getAutoFundingInfo(memberId);
         return response.success(res, SuccessCode.SUCCESS);
     }
@@ -140,6 +140,14 @@ public class FundingController {
     @GetMapping("/info/receipt/{fundingId}")
     public ResponseEntity<?> getReceiptInfo(@PathVariable("fundingId") Long fundingId) {
         FundingReceiptResponseDTO res = fundingService.getReceiptInfo(fundingId);
+        return response.success(res, SuccessCode.SUCCESS);
+    }
+
+    @Operation(summary = "현재 정보 요청", description = "현재 정보 (기부 관련)")
+    @ApiResponse(responseCode = "200", description = "기부 관련 현재 정보")
+    @GetMapping("/info/current")
+    public ResponseEntity<?> getCurrentInfo(@CurrentMemberId Long memberId) {
+        CurrentFundingResultResponseDTO res = fundingService.getCurrentInfo(memberId);
         return response.success(res, SuccessCode.SUCCESS);
     }
 }

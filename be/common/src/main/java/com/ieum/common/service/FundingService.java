@@ -3,6 +3,7 @@ package com.ieum.common.service;
 import com.ieum.common.dto.feign.funding.request.FundingDonationRequestDTO;
 import com.ieum.common.dto.feign.funding.request.FundingLinkRequestDTO;
 import com.ieum.common.dto.feign.funding.response.AutoFundingResultResponseDTO;
+import com.ieum.common.dto.feign.funding.response.CurrentFundingResultResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingDetailResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingDonationResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingInfoResponseDTO;
@@ -59,7 +60,6 @@ public class FundingService {
         return fundingFeignClient.donationDirectly(request);
     }
 
-
     // 자동 기부 결제 정보 요청
     public FundingInfoResponseDTO getAutoFundingInfo(Long memberId) {
         return fundingFeignClient.getAutoFundingInfo(memberId);
@@ -75,5 +75,7 @@ public class FundingService {
         return fundingFeignClient.getReceipt(fundingId);
     }
 
-
+    public CurrentFundingResultResponseDTO getCurrentInfo(Long memberId) {
+        return fundingFeignClient.getCurrentInfo(memberId);
+    }
 }
