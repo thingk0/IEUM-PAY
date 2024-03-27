@@ -1,5 +1,6 @@
 import PageTitleCenter from '@/components/PageTitleCenter';
 import PasswordKeyPad from '@/components/PasswordKeyPad';
+import useUserStore from '@/stores/user-store';
 import classes from '@/styles/PasswordPage.module.scss';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -14,12 +15,32 @@ import { GetServerSideProps } from 'next';
 function PasswordPage({ id }: { id: string }) {
   // const [message, setMessage] = useState('');
   const [password, setPassword] = useState<number[]>([]);
+  const { userInfo, setPaymentPassword } = useUserStore();
+  const [isTrue, setIsTrue] = useState(true);
 
   const pageId = [
     ['결제 비밀번호 입력', ''],
     ['결제 비밀번호 생성', '결제/송금 시 이용할 비밀번호를 입력해주세요'],
+    ['결제 비밀번호 확인', '결제 비밀번호를 한번 더 입력해주세요'],
   ];
   const router = useRouter();
+
+  if (password.length == 6) {
+    if (id == `1`) {
+      setPaymentPassword(password.join(''));
+      router.push({
+        pathname: '/password',
+        query: {
+          id: 1,
+        },
+      });
+    } else if (id == `2`) {
+      userInfo.paymentPassword == password.join('')
+        ? router.push('user/register/complete')
+        : setIsTrue(false);
+    }
+  }
+
   return (
     <main className={classes.main}>
       <PageTitleCenter
@@ -35,6 +56,7 @@ function PasswordPage({ id }: { id: string }) {
           </li>
         ))}
       </ul>
+      {isTrue ? <div></div> : <div>다시</div>}
       <PasswordKeyPad
         onClickNumber={(n) => setPassword((prev) => [...prev, n].slice(0, 6))}
         onClickDelete={() => setPassword((prev) => prev.slice(0, -1))}

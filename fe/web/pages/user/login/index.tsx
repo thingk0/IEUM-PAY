@@ -7,31 +7,31 @@ import {
 import useUserStore from '@/stores/user-store';
 import { customlogin } from '@/api/userAxois';
 import Button from '@/stories/Button';
+import { useRouter } from 'next/router';
 
 export default function Login() {
-  const [userPassword, setUserPassword] = useState('123');
+  const [userPassword, setUserPassword] = useState('');
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [passwordVisible, setVisible] = useState(false);
   const { userInfo, setPassword } = useUserStore();
+  const router = useRouter();
 
   const handlePasswordInput = (event: any) => {
     const newValue = event.target.value;
     setUserPassword(newValue);
-    const idRegExp =
-      /^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[a-z\d@$!%*#?&]{8,20}$/;
-
-    if (newValue.length > 2) {
-      !idRegExp.test(newValue)
-        ? setIsPasswordValid(true)
-        : setIsPasswordValid(false);
-    }
+    newValue.length == 0 ? setIsPasswordValid(true) : setIsPasswordValid(false);
   };
 
   const toggleVisibility = () => setVisible(!passwordVisible);
 
+  console.log(userInfo.phoneNumber);
+
   const handleClick = async () => {
-    await setPassword(userPassword);
-    customlogin();
+    setPassword(userPassword);
+
+    (await customlogin(userInfo.phoneNumber, userPassword))
+      ? router.push('/')
+      : setIsPasswordValid(true);
   };
 
   return (
@@ -44,10 +44,7 @@ export default function Login() {
         value={userPassword}
         onChange={handlePasswordInput}
         isInvalid={isPasswordValid}
-        errorMessage={
-          isPasswordValid &&
-          '8~20자의 영문, 숫자, 특수문자를 모두 포함한 비밀번호를 입력해주세요'
-        }
+        errorMessage={isPasswordValid && '올바른 비밀번호를 입력해주세요'}
         endContent={
           <button
             className="focus:outline-none"
