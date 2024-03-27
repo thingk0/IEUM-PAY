@@ -1,5 +1,5 @@
 import PageTitleCenter from '@/components/PageTitleCenter';
-import styles from './completePage.module.scss';
+import styles from './donationComplete.module.scss';
 import LineBox from '@/components/LineBox';
 import Button from '@/stories/Button';
 interface CompletePage {
