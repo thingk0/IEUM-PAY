@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PasswordUpdateRequestDto {
 
-    String prevPassword;
-    String newPassword;
+    private String prevPassword;
+    private String newPassword;
 
 }

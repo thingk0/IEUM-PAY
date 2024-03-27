@@ -15,6 +15,7 @@ import org.springframework.data.redis.cache.RedisCacheManager.RedisCacheManagerB
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
@@ -66,7 +67,8 @@ public class RedisConfig {
                                                                        .entryTtl(Duration.ofDays(1))
                                                                        .computePrefixWith(CacheKeyPrefix.simple())
                                                                        .serializeKeysWith(
-                                                                           SerializationPair.fromSerializer(new StringRedisSerializer()));
+                                                                           SerializationPair.fromSerializer(
+                                                                               new StringRedisSerializer()));
 
         return builder.cacheDefaults(configuration)
                       .withInitialCacheConfigurations(getCacheConfigurationMap(configuration))
@@ -88,7 +90,8 @@ public class RedisConfig {
                                                                        .entryTtl(Duration.ofDays(1))
                                                                        .computePrefixWith(CacheKeyPrefix.simple())
                                                                        .serializeKeysWith(
-                                                                           SerializationPair.fromSerializer(new StringRedisSerializer()))
+                                                                           SerializationPair.fromSerializer(
+                                                                               new StringRedisSerializer()))
                                                                        .serializeValuesWith(SerializationPair.fromSerializer(
                                                                            new GenericJackson2JsonRedisSerializer(objectMapper)));
 
@@ -128,5 +131,4 @@ public class RedisConfig {
             "1hour", configuration.entryTtl(Duration.ofHours(1))
         );
     }
-
 }

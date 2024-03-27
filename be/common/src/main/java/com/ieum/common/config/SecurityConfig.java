@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,9 +34,9 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
 
         security
-            .httpBasic(basic -> basic.disable())
-            .csrf(csrf -> csrf.disable())
-            .cors(cors -> cors.disable())
+            .httpBasic(AbstractHttpConfigurer::disable)
+            .csrf(AbstractHttpConfigurer::disable)
+            .cors(AbstractHttpConfigurer::disable)
         ;
 
         security
@@ -50,7 +51,9 @@ public class SecurityConfig {
                     "/swagger-ui/**",
                     "/swagger-config/**",
                     "/swagger-resources/**",
-                    "/api/auth"
+                    "/api/auth",
+                    "/api/member/login",
+                    "/api/member/exist"
                 ).permitAll();
                 /* Member */
                 authorize.antMatchers(HttpMethod.POST, "/api/member").permitAll();
