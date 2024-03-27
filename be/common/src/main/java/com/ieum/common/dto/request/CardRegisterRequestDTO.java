@@ -1,5 +1,9 @@
 package com.ieum.common.dto.request;
 
-public class CardRegisterRequestDTO {
+import lombok.Data;
 
+@Data
+public class CardRegisterRequestDTO {
+    String cardNumber;
+    String cardNickname;
 }

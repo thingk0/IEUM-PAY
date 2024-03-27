@@ -38,21 +38,18 @@ public class PayController {
         return response.success(payService.getMainPageInfo(memberId), SuccessCode.MAIN_PAGE_FETCH_SUCCESSFUL);
     }
 
-    @Operation(summary = "결제 잔액 조회", description = "사용자의 결제 잔액을 조회합니다.")
-    @ApiResponse(responseCode = "200", description = "결제 잔액 조회 성공")
+    @Operation(summary = "페이먼트 잔액 조회", description = "사용자의 페이머트 잔액을 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "페이먼트 잔액 조회 성공")
     @GetMapping("balance")
-    public ResponseEntity<?> getPaymoney() {
-        var result = PayBalanceResponseDTO.builder()
-                                          .paymoneyAmount(3000)
-                                          .build();
-        return response.success(result, SuccessCode.SUCCESS);
+    public ResponseEntity<?> getPaymoney(@CurrentMemberId Long memberId) {
+        return response.success(payService.nowMyPaymoney(memberId), SuccessCode.SUCCESS);
 
     }
 
     @Operation(summary = "사용 내역 조회", description = "지정된 기간 동안의 사용 내역을 조회합니다.")
     @ApiResponse(responseCode = "200", description = "사용 내역 조회 성공")
     @GetMapping("history/{period}")
-    public ResponseEntity<?> getHistoryList(@PathVariable("period") String period) {
+    public ResponseEntity<?> getHistoryList(@CurrentMemberId Long memberId, @PathVariable("period") String period) {
         List<PayHistoryPeriodResponseDTO> result = new ArrayList<>();
         HistoryDTO historyDetail1 = HistoryDTO.builder()
                                               .type("충전")
@@ -144,13 +141,13 @@ public class PayController {
                                                                           .detail(details4)
                                                                           .build();
         result.add(history5);
-        return response.success(result, SuccessCode.SUCCESS);
+        return response.success(payService.getHistoryList(1L), SuccessCode.SUCCESS);
     }
 
     @Operation(summary = "송금 내역 조회", description = "특정 송금 내역을 조회합니다.")
     @ApiResponse(responseCode = "200", description = "송금 내역 조회 성공")
     @GetMapping("history/remittance/{historyId}")
-    public ResponseEntity<?> getHistory(@PathVariable("historyId") Long id) {
+    public ResponseEntity<?> getHistory(@CurrentMemberId Long memberId, @PathVariable("historyId") Long id) {
         var result = PayHistoryRemittanceResponseDTO.builder()
                                                     .name("김범수")
                                                     .amount(1000)

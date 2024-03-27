@@ -46,7 +46,7 @@ public class MemberService {
     private final TokenProvider tokenProvider;
     private final StringRedisTemplate stringRedisTemplate;
 
-    private final PayFeignClient payFeignClient;
+    private final PayService payService;
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final GradeRepository gradeRepository;
@@ -91,11 +91,9 @@ public class MemberService {
                        passwordEncoder.encode(request.getPassword()),
                        grade));
 
+        payService.createPaymoney(savedMember.getId(),request.getPaymentPassword());
 //        try {
-//            if (!payFeignClient.createPayMoney(PayMoneyCreationRequestDto.builder()
-//                                                                         .memberId(savedMember.getId())
-//                                                                         .payPasswd(request.getPaymentPassword())
-//                                                                         .build())) {
+//            if (!) {
 //                throw new PayMoneyCreationFailedException();
 //            }
 //        } catch (feign.RetryableException e) {

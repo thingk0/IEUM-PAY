@@ -25,7 +25,9 @@ public enum SuccessCode {
 
     /* 결제 */
     PAYMENT_INITIATED(HttpStatus.CREATED, "결제가 성공적으로 시작되었습니다."),
-
+    CARD_VALID_WRONG(HttpStatus.OK, "카드 번호가 잘못된 형식입니다."),
+    CARD_TYPE_WRONG(HttpStatus.OK, "카드 번호가 16자리가 아니거나 숫자가 아닙니다."),
+    CARD_REGISTER_SUCCESSFUL(HttpStatus.OK, "카드 등록이 완료되었습니다."),
     ;
 
     private final HttpStatus status;
