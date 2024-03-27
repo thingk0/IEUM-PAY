@@ -56,17 +56,17 @@ public class FundingController {
     @Operation(summary = "펀딩 연계", description = "사용자를 특정 펀딩에 연계시킵니다.")
     @ApiResponse(responseCode = "200", description = "펀딩 연계 성공")
     @PostMapping("/linkup")
-    public ResponseEntity<HttpStatus> fundingLinkup(@RequestBody FundingLinkRequestDTO request) {
+    public Boolean fundingLinkup(@RequestBody FundingLinkRequestDTO request) {
         fundingService.linkupFunding(request.getFundingId(), request.getMemberId());
-        return new ResponseEntity<>(HttpStatus.OK);
+        return true;
     }
 
     @Operation(summary = "펀딩 연계 해제", description = "특정 펀딩에 대한 연계를 해제합니다")
     @ApiResponse(responseCode = "200", description = "펀딩 연계 해제 성공")
     @PostMapping("/unlink")
-    public ResponseEntity<HttpStatus> fundingUnlink(@RequestBody FundingLinkRequestDTO request) {
+    public Boolean fundingUnlink(@RequestBody FundingLinkRequestDTO request) {
         fundingService.unlinkFunding(request.getFundingId(), request.getMemberId());
-        return new ResponseEntity<>(HttpStatus.OK);
+        return true;
     }
 
     @Operation(summary = "직접기부 결제 정보 요청", description = "직접기부 결제시 해당 결제에 대한 정보 요청")
