@@ -9,4 +9,6 @@ public interface DonationHistoryRepository extends JpaRepository<DonationHistori
     List<DonationHistories> findByMemberId(Long memberId);
 
     DonationHistories findByHistoryId(Long historyId);
+
+    DonationHistories findByHistoryIdAndMemberId(Long historyId, Long memberId);
 }
