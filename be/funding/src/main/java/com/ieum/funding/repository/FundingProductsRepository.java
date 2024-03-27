@@ -20,5 +20,7 @@ public interface FundingProductsRepository extends JpaRepository<FundingProducts
         "JOIN SponsorProducts sp ON fp.sponsorProductId = sp.sponsorProductId " +
         "JOIN Sponsors s ON sp.sponsorTypeCode = s.sponsorTypeCode " +
         "WHERE fp.fundingId = :fundingId")
-    List<FundingProductDTO> findByFundingId(@Param("fundingId") Long fundingId);
+    List<FundingProductDTO> findFundingProductDTOByFundingId(@Param("fundingId") Long fundingId);
+
+    List<FundingProducts> findByFundingId(Long fundingId);
 }

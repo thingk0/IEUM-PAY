@@ -6,6 +6,7 @@ import com.ieum.common.dto.feign.funding.response.AutoFundingResultResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingDetailResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingDonationResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingInfoResponseDTO;
+import com.ieum.common.dto.feign.funding.response.FundingReceiptResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingResultResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingSummaryResponseDTO;
 import java.util.List;
@@ -59,4 +60,8 @@ public interface FundingFeignClient {
     // 펀딩 결과 정보 조회
     @GetMapping(value = "/funding/result/{fundingId}")
     FundingResultResponseDTO getPaymentResult(@PathVariable("fundingId") Long fundingId);
+
+    // 영수증
+    @GetMapping(value = "/funding/receipt/{fundingId}")
+    FundingReceiptResponseDTO getReceipt(@PathVariable("fundingId") Long fundingId);
 }

@@ -26,5 +26,4 @@ public class FundingDetailBaseDTO {
     private Integer goalAmount;
     private Integer currentAmount;
     private String content;
-
 }

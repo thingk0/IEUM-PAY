@@ -3,6 +3,8 @@ package com.ieum.funding.repository;
 import com.ieum.funding.domain.Funding;
 import com.ieum.funding.dto.FundingInfoDTO;
 import com.ieum.funding.response.FundingInfoResponseDTO;
+import com.ieum.funding.response.FundingReceiptResponseDTO;
+import com.ieum.funding.response.FundingReceiptResponseFromFDTO;
 import com.ieum.funding.response.FundingSummaryResponseDTO;
 import com.ieum.funding.dto.FundingDetailBaseDTO;
 import com.ieum.funding.response.FundingResultResponseDTO;
@@ -92,4 +94,12 @@ public interface FundingRepository extends JpaRepository<Funding, Long> {
         "WHERE f.fundingId IN (" +
         "SELECT fm.fundingId FROM FundingMembers fm WHERE fm.memberId = :memberId AND fm.autoFundingStatus = true)")
     FundingInfoResponseDTO getAutoDonationInfo(Long memberId);
+
+    @Query("SELECT new com.ieum.funding.response.FundingReceiptResponseFromFDTO(" +
+        "fac.facilityName, " +
+        "f.fundingTitle) " +
+        "FROM Funding f " +
+        "JOIN Facilities fac ON f.facilityId = fac.facilityId " +
+        "WHERE f.fundingId = :fundingId ")
+    FundingReceiptResponseFromFDTO getReceiptInfo(Long fundingId);
 }
