@@ -10,7 +10,7 @@ interface HalfButtonProps {
     e?: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => unknown;
 }
-export default function Button({
+export default function HalfButton({
   text,
   text2,
   btnStyle,

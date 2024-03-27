@@ -27,6 +27,7 @@
     "@nextui-org/react": "^2.2.10",
     "@storybook/test": "^7.6.17",
     "@tanstack/react-query": "^5.28.4",
+    "@toss/hangul": "^1.6.1",
     "@toss/utils": "^1.4.6",
     "axios": "^1.6.8",
     "framer-motion": "^11.0.14",
