@@ -6,10 +6,7 @@ import com.ieum.pay.request.CardValidRequestDTO;
 import com.ieum.pay.service.CardService;
 import com.ieum.pay.service.RegisteredCardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/card")
@@ -52,7 +49,7 @@ public class CardValidController {
         return -1L;
     }
 
-    @PostMapping("/delete")
+    @PutMapping("/delete")
     public boolean deleteCard(@RequestBody CardValidRequestDTO requestDTO){
         //card delete
         return cardService.delete(requestDTO.getMemberId(),requestDTO.getRegisteredCardId());

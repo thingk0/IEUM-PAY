@@ -1,13 +1,17 @@
 package com.ieum.common.dto.feign.pay.response;
 
 import com.ieum.common.dto.feign.pay.dto.HistoryDTO;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class HistoryResponseDTO {
     Long historyId;
     LocalDateTime historyDate;

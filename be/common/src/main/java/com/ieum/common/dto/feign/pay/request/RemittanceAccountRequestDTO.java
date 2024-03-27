@@ -5,10 +5,9 @@ import lombok.Data;
 
 @Data
 @Builder
-public class RemittanceRequestDTO {
+public class RemittanceAccountRequestDTO {
     Long senderId;
     String senderName;
-    Long receiverId;
     String receiverName;
     int amount;
     Long cardId;

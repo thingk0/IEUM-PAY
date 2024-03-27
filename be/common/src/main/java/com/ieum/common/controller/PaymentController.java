@@ -4,7 +4,9 @@ import com.ieum.common.annotation.CurrentMemberId;
 import com.ieum.common.dto.request.MemberPaypwUpdateRequestDTO;
 import com.ieum.common.dto.request.PaymentRequestDTO;
 import com.ieum.common.dto.response.PaymentInfoResponseDTO;
+import com.ieum.common.format.code.SuccessCode;
 import com.ieum.common.format.response.ResponseTemplate;
+import com.ieum.common.service.PayService;
 import com.ieum.common.service.PaymentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PaymentController {
 
     private final PaymentService paymentService;
+    private final PayService payService;
     private final ResponseTemplate response;
 
     @Operation(summary = "결제 처리", description = "결제를 처리합니다.")
@@ -66,7 +69,7 @@ public class PaymentController {
                                                @CurrentMemberId Long memberId) {
 
         paymentService.getPaymentHistory();
-        return response.success(HttpStatus.OK);
+        return response.success(payService.getPaymentHistory(memberId,id), SuccessCode.SUCCESS);
 
     }
 

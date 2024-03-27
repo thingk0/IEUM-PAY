@@ -1,9 +1,11 @@
 package com.ieum.common.controller;
 
+import com.ieum.common.annotation.CurrentMemberId;
 import com.ieum.common.dto.request.CardMainRequestDTO;
 import com.ieum.common.dto.request.CardRegisterRequestDTO;
 import com.ieum.common.dto.request.CardUpdateRequestDTO;
 import com.ieum.common.dto.response.CardOcrResponseDTO;
+import com.ieum.common.format.code.SuccessCode;
 import com.ieum.common.format.response.ResponseTemplate;
 import com.ieum.common.service.PayService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,34 +39,36 @@ public class CardController {
     @PostMapping("/ocr")
     public ResponseEntity<?> cardOcr(@RequestParam("img") MultipartFile img) {
         CardOcrResponseDTO cardOcrResponseDTO = payService.getOcr(img);
-        return response.success(HttpStatus.OK);
+        return response.success(payService.getOcr(img),
+                SuccessCode.SUCCESS);
     }
 
     @Operation(summary = "카드 등록", description = "새로운 카드를 등록합니다.")
     @ApiResponse(responseCode = "200", description = "카드 등록 성공")
     @ApiResponse(responseCode = "500", description = "카드 등록 실패")
     @PostMapping("/register")
-    public ResponseEntity<?> cardRegister(@RequestBody CardRegisterRequestDTO cardRegisterRequesterDTO) {
-        Long id = payService.cardRegister(cardRegisterRequesterDTO);
-//        CardRegisterResponseDTO responseDTO = CardRegisterResponseDTO.builder().cardId(id).build();
+    public ResponseEntity<?> cardRegister(@RequestBody CardRegisterRequestDTO requestDTO,
+    @CurrentMemberId Long memberId) {
+        Long id = payService.cardRegister(memberId, requestDTO.getCardNumber(), requestDTO.getCardNickname());
 
-        /*if (id == -1L) {
-            return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
+        if (id == -1L) {
+            return response.success(id,
+                    SuccessCode.CARD_VALID_WRONG);
         } else if (id == -2L) {
-            return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
+            return response.success(id,
+                    SuccessCode.CARD_TYPE_WRONG);
         }
-        return new ResponseEntity<>(responseDTO, HttpStatus.OK);*/
+        return response.success(id,
+                SuccessCode.CARD_REGISTER_SUCCESSFUL);
 
-        return response.success(HttpStatus.OK);
     }
 
     @Operation(summary = "카드 삭체", description = "카드 정보를 삭제합니다.")
     @ApiResponse(responseCode = "200", description = "카드 삭제 성공")
     @PutMapping("/update")
-    public ResponseEntity<?> cardUpdate(@RequestBody CardUpdateRequestDTO cardUpdateRequestDTO) {
-//        auth check
-//        card owner is user?
-        payService.updateCard(cardUpdateRequestDTO.getRegisteredCardId());
-        return response.success(HttpStatus.OK);
+    public ResponseEntity<?> cardUpdate(@RequestBody CardUpdateRequestDTO cardUpdateRequestDTO,
+                                        @CurrentMemberId Long memberId) {
+        return response.success(payService.updateCard(memberId,cardUpdateRequestDTO.getRegisteredCardId()),
+               SuccessCode.SUCCESS);
     }
 }
