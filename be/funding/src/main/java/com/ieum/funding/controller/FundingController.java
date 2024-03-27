@@ -1,8 +1,10 @@
 package com.ieum.funding.controller;
 
+import com.ieum.funding.repository.FundingMembersRepository;
 import com.ieum.funding.request.FundingDonationRequestDTO;
 import com.ieum.funding.request.FundingLinkRequestDTO;
 import com.ieum.funding.response.AutoFundingResultResponseDTO;
+import com.ieum.funding.response.CurrentFundingResultResponseDTO;
 import com.ieum.funding.response.FundingInfoResponseDTO;
 import com.ieum.funding.response.FundingDetailResponseDTO;
 import com.ieum.funding.response.FundingDonationResponseDTO;
@@ -29,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class FundingController {
 
     private final FundingService fundingService;
+    private final FundingMembersRepository fundingMembersRepository;
 
     @Operation(summary = "펀딩 상세 조회", description = "선택한 펀딩의 상세 정보를 조회")
     @GetMapping("/{fundingId}/{memberId}/detail")
@@ -124,6 +127,15 @@ public class FundingController {
     public ResponseEntity<FundingReceiptResponseDTO> getReceiptInfo(
         @PathVariable("fundingId") Long fundingId) {
         FundingReceiptResponseDTO response = fundingService.getReceiptInfo(fundingId);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "현재 기부 내역", description = "현재 기부 내역")
+    @ApiResponse(responseCode = "200", description = "현재 기부 내역")
+    @GetMapping("/info/current/{memberId}")
+    public ResponseEntity<CurrentFundingResultResponseDTO> getCurrentFundingInfo(
+        @PathVariable("memberId") Long memberId) {
+        CurrentFundingResultResponseDTO response = fundingMembersRepository.getCurrnetFunding(memberId);
         return ResponseEntity.ok(response);
     }
 }

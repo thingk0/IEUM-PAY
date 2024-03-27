@@ -2,6 +2,7 @@ package com.ieum.funding.repository;
 
 import com.ieum.funding.domain.FundingMembers;
 import com.ieum.funding.dto.FundingMemberDTO;
+import com.ieum.funding.response.CurrentFundingResultResponseDTO;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -36,4 +37,14 @@ public interface FundingMembersRepository extends JpaRepository<FundingMembers,L
     @Modifying
     @Query("UPDATE FundingMembers f SET f.autoFundingStatus = false WHERE f.fundingId = :fundingId")
     void unlinkAllByFundingId(Long fundingId);
+
+    @Query("SELECT new com.ieum.funding.response.CurrentFundingResultResponseDTO(" +
+        "fac.facilityName, " +
+        "fac.facilityImage, " +
+        "fm.fundingTotalAmount) " +
+        "FROM FundingMembers fm " +
+        "JOIN Funding f ON f.fundingId = fm.fundingId " +
+        "JOIN Facilities fac ON f.facilityId = fac.facilityId " +
+        "WHERE fm.memberId = :memberId AND fm.autoFundingStatus = true ")
+    CurrentFundingResultResponseDTO getCurrnetFunding(Long memberId);
 }
