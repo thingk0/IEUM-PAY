@@ -69,7 +69,7 @@ public class FundingController {
     @ApiResponse(responseCode = "200", description = "펀딩 연계 성공")
     @PostMapping("/linkup")
     public Boolean fundingLinkup(@RequestBody FundingLinkupRequestDTO request,
-        @AuthenticationPrincipal Long memberId) {
+        @CurrentMemberId Long memberId) {
         log.info(memberId.toString());
         FundingLinkRequestDTO req = FundingLinkRequestDTO.builder()
             .fundingId(request.getFundingId())
