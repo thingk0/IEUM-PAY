@@ -3,6 +3,7 @@ import PasswordKeyPad from '@/components/PasswordKeyPad';
 import classes from '@/styles/PasswordPage.module.scss';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { GetServerSideProps } from 'next';
 
 // interface PasswordPage {
 //   title: string;
@@ -10,7 +11,7 @@ import { useState } from 'react';
 //   queryObj: Object;
 // }
 
-function PasswordPage() {
+function PasswordPage({ id }: { id: string }) {
   // const [message, setMessage] = useState('');
   const [password, setPassword] = useState<number[]>([]);
 
@@ -19,13 +20,12 @@ function PasswordPage() {
     ['결제 비밀번호 생성', '결제/송금 시 이용할 비밀번호를 입력해주세요'],
   ];
   const router = useRouter();
-  const id = router.query.id as string;
   return (
     <main className={classes.main}>
-      {/* <PageTitleCenter
+      <PageTitleCenter
         title={pageId[parseInt(id)][0]}
         description={pageId[parseInt(id)][1]}
-      /> */}
+      />
       <ul className={classes.wrapper}>
         {Array.from({ length: 6 }).map((v, i) => (
           <li>
@@ -43,3 +43,9 @@ function PasswordPage() {
   );
 }
 export default PasswordPage;
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  // query 객체 사용
+  return {
+    props: { id: query.id },
+  };
+};
