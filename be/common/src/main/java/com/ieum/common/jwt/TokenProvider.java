@@ -23,8 +23,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TokenProvider {
 
-    private final String SECRET_KEY;
-    private Key key;
+    private final Key key;
 
     @Getter
     private final int ACCESS_TOKEN_TIME;
@@ -37,8 +36,7 @@ public class TokenProvider {
                          @Value("${jwt.secret-key}") final String SECRET_KEY) {
         this.ACCESS_TOKEN_TIME = ACCESS_TOKEN_TIME;
         this.REFRESH_TOKEN_TIME = REFRESH_TOKEN_TIME;
-        this.SECRET_KEY = SECRET_KEY;
-        this.key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(this.SECRET_KEY));
+        this.key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(SECRET_KEY));
     }
 
     public TokenInfo generateTokenInfo(Members members) {
