@@ -57,36 +57,36 @@ public class FundingService {
     }
 
     public FundingDetailResponseDTO getFundingDetail(Long fundingId,
-        Long memberId) {
+                                                     Long memberId) {
         FundingDetailBaseDTO detail = fundingRepository.findFundingDetail(fundingId);
         List<FundingMemberDTO> members = fundingMembersRepository.findByFundingId(fundingId);
         Optional<FundingMembers> link = fundingMembersRepository.findFirstByFundingIdAndMemberId(fundingId, memberId);
         Boolean isLinked = false;
-        if (link.isPresent()){
+        if (link.isPresent()) {
             isLinked = link.get().getAutoFundingStatus();
         }
         List<FundingProductDTO> products = fundingProductsRepository.findFundingProductDTOByFundingId(fundingId);
 
         return FundingDetailResponseDTO.builder()
-            .fundingId(detail.getFundingId())
-            .facilityName(detail.getFacilityName())
-            .facilityAddress(detail.getFacilityAddress())
-            .facilityPhoneNumber(detail.getFacilityPhoneNumber())
-            .facilityRepresentativeName(detail.getFacilityRepresentativeName())
-            .facilityRepresentativePhoneNumber(detail.getFacilityRepresentativePhoneNumber())
-            .facilityCapacity(detail.getFacilityCapacity())
-            .facilityImage(detail.getFacilityImage())
-            .fundingOpenDate(detail.getFundingOpenDate())
-            .fundingFinishDate(detail.getFundingFinishDate())
-            .fundingPeopleCnt(detail.getFundingPeopleCnt())
-            .fundingTitle(detail.getFundingTitle())
-            .goalAmount(detail.getGoalAmount())
-            .currentAmount(detail.getCurrentAmount())
-            .content(detail.getContent())
-            .currentLink(isLinked) // 이 값은 실제 상황에 맞게 설정해야 합니다.
-            .people(members) // 이 값도 실제 데이터에 맞게 설정해야 합니다.
-            .products(products)
-            .build();
+                                       .fundingId(detail.getFundingId())
+                                       .facilityName(detail.getFacilityName())
+                                       .facilityAddress(detail.getFacilityAddress())
+                                       .facilityPhoneNumber(detail.getFacilityPhoneNumber())
+                                       .facilityRepresentativeName(detail.getFacilityRepresentativeName())
+                                       .facilityRepresentativePhoneNumber(detail.getFacilityRepresentativePhoneNumber())
+                                       .facilityCapacity(detail.getFacilityCapacity())
+                                       .facilityImage(detail.getFacilityImage())
+                                       .fundingOpenDate(detail.getFundingOpenDate())
+                                       .fundingFinishDate(detail.getFundingFinishDate())
+                                       .fundingPeopleCnt(detail.getFundingPeopleCnt())
+                                       .fundingTitle(detail.getFundingTitle())
+                                       .goalAmount(detail.getGoalAmount())
+                                       .currentAmount(detail.getCurrentAmount())
+                                       .content(detail.getContent())
+                                       .currentLink(isLinked) // 이 값은 실제 상황에 맞게 설정해야 합니다.
+                                       .people(members) // 이 값도 실제 데이터에 맞게 설정해야 합니다.
+                                       .products(products)
+                                       .build();
     }
 
     public void linkupFunding(Long fundingId, Long memberId) {
@@ -102,10 +102,10 @@ public class FundingService {
         FundingInfoDTO fundingInfo = fundingRepository.getDonationInfo(fundingId);
 
         return FundingInfoResponseDTO.builder()
-            .fundingId(fundingInfo.getFundingId())
-            .amount(fundingInfo.getAmount())
-            .facilityName(fundingInfo.getFacilityName())
-            .build();
+                                     .fundingId(fundingInfo.getFundingId())
+                                     .amount(fundingInfo.getAmount())
+                                     .facilityName(fundingInfo.getFacilityName())
+                                     .build();
     }
 
     // 시설명, 시설
@@ -135,7 +135,6 @@ public class FundingService {
         // 성공여부
     }
 
-
     // 자동기부 정보 요청
 
     // 자동기부 수행
@@ -145,10 +144,10 @@ public class FundingService {
         // 기부 가능 여부 체크
         if (Objects.equals(checkFunding.getCurrentAmount(), checkFunding.getGoalAmount())) {
             return AutoFundingResultResponseDTO.builder()
-                .amount(0)
-                .build();
+                                               .amount(0)
+                                               .build();
 
-        } else if (checkFunding.getGoalAmount() - checkFunding.getCurrentAmount() < amount){
+        } else if (checkFunding.getGoalAmount() - checkFunding.getCurrentAmount() < amount) {
             amount = checkFunding.getGoalAmount() - checkFunding.getCurrentAmount();
         }
         // 펀딩 금액 증가
@@ -163,8 +162,8 @@ public class FundingService {
             // 모든 멤버 언링크
         }
         return AutoFundingResultResponseDTO.builder()
-            .amount(amount)
-            .build();
+                                           .amount(amount)
+                                           .build();
         // 기부 금액 반환
     }
 

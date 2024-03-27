@@ -36,7 +36,8 @@ public interface FundingRepository extends JpaRepository<Funding, Long> {
 
     @Query(BASE_QUERY_INFO_LIST + "WHERE f.fundingFinishDate IS NOT NULL")
     List<FundingSummaryResponseDTO> findCompleteFundingList();
-    @Query ("SELECT new com.ieum.funding.dto.FundingDetailBaseDTO(" +
+
+    @Query("SELECT new com.ieum.funding.dto.FundingDetailBaseDTO(" +
         "f.fundingId, " +
         "fac.facilityName, " +
         "fac.facilityAddress, " +

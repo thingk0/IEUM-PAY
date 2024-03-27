@@ -10,12 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class GradeService {
+
     private final GradeRepository gradeRepository;
 
     @Transactional(readOnly = true)
     public Grade getGradeByCode(String gradeCode) {
         return gradeRepository.findById(gradeCode)
-            .orElseThrow(() -> new EntityNotFoundException("Grade not found with code: " + gradeCode));
+                              .orElseThrow(() -> new EntityNotFoundException("Grade not found with code: " + gradeCode));
     }
 
 }

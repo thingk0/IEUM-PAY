@@ -86,7 +86,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private void setAuthentication(Long memberId, HttpServletRequest request) {
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+        var authentication = new UsernamePasswordAuthenticationToken(
             memberId,
             "",
             Collections.singleton(new SimpleGrantedAuthority("USER"))

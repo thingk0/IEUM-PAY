@@ -20,12 +20,13 @@ import com.ieum.common.exception.member.MemberNotFoundByIdException;
 import com.ieum.common.exception.member.MemberNotFoundByPhoneNumberException;
 import com.ieum.common.exception.member.MemberNotFoundException;
 import com.ieum.common.exception.member.PasswordMismatchException;
-import com.ieum.common.feign.PayFeignClient;
 import com.ieum.common.jwt.TokenProvider;
 import com.ieum.common.repository.GradeRepository;
 import com.ieum.common.repository.MemberRepository;
 import com.ieum.common.repository.PaymoneyRepository;
 import com.ieum.common.util.CookieUtil;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -53,7 +54,6 @@ public class MemberService {
     private final GradeRepository gradeRepository;
     private final PaymoneyRepository paymoneyRepository;
 
-
     /**
      * 회원 가입을 처리하고, 관련 페이머니 계정을 생성합니다.
      *
@@ -77,12 +77,10 @@ public class MemberService {
      */
     public Long signup(SignupRequestDto request) {
 
-        validatePasswordConfirmation(request.getPassword(), request.getPasswordConfirm());
-        validatePhoneNumberDuplication(request.getPhoneNumber());
-
-        Boolean confirmed = Boolean.parseBoolean(stringRedisTemplate.opsForValue().get("confirmed-phone-number:" + request.getPhoneNumber()));
-        if (!confirmed) {
-            throw new InvalidPhoneNumberException();
+        try {
+            validateCredentials(request);
+        } catch (PasswordMismatchException | ExistingPhoneNumberException | InvalidPhoneNumberException e) {
+            throw e;
         }
 
         Grade grade = gradeRepository.findByCode("GR001");
@@ -94,12 +92,13 @@ public class MemberService {
                        grade));
 
         paymoneyRepository.save(Paymoney.builder()
-                .memberId(savedMember.getId())
-                .paymentPassword(request.getPaymentPassword())
-                .paymoneyAmount(0)
-                .donationTotalAmount(0)
-                .donationCount(0)
-                .build());
+                                        .memberId(savedMember.getId())
+                                        .paymentPassword(request.getPaymentPassword())
+                                        .paymoneyAmount(0)
+                                        .donationTotalAmount(0)
+                                        .donationCount(0)
+                                        .build());
+
 //        payService.createPaymoney(savedMember.getId(),request.getPaymentPassword());
 //        try {
 //            if (!) {
@@ -114,21 +113,36 @@ public class MemberService {
         return savedMember.getId();
     }
 
+    private void validateCredentials(SignupRequestDto request) {
+        CompletableFuture<Void> passwordValidation = CompletableFuture.runAsync(() -> {
+            validatePasswordConfirmation(request.getPassword(), request.getPasswordConfirm());
+        });
 
-    /**
-     * 전화번호의 중복을 검증하는 메서드입니다. 이 메서드는 회원 가입 과정에서 입력된 전화번호가 이미 시스템에 등록된 경우를 확인하는 데 사용됩니다.
-     *
-     * @param phoneNumber 검증하고자 하는 전화번호입니다.
-     * @throws ExistingPhoneNumberException 입력된 전화번호가 이미 사용 중일 경우 발생하는 예외입니다.
-     *
-     *                                      <p>전화번호 중복 검사는 회원 데이터베이스에서 입력된 전화번호를 가진 회원이 있는지 확인함으로써 이루어집니다.
-     *                                      만약 해당 전화번호를 가진 회원이 이미 존재한다면, ExistingPhoneNumberException을 발생시켜 이를 호출한 메서드에 알립니다.</p>
-     */
-    private void validatePhoneNumberDuplication(String phoneNumber) {
-        memberRepository.fetchMemberByPhoneNumber(phoneNumber)
-                        .ifPresent(m -> {
-                            throw new ExistingPhoneNumberException();
-                        });
+        CompletableFuture<Void> phoneNumberDuplicationValidation = CompletableFuture.runAsync(() -> {
+            validatePhoneNumberDuplication(request.getPhoneNumber());
+        });
+
+        CompletableFuture<Void> phoneNumberConfirmationValidation = CompletableFuture.runAsync(() -> {
+            validatePhoneNumberConfirmation(request.getPhoneNumber());
+        });
+
+        try {
+            CompletableFuture.allOf(
+                passwordValidation,
+                phoneNumberDuplicationValidation,
+                phoneNumberConfirmationValidation).join();
+        } catch (CompletionException e) {
+            Throwable cause = e.getCause();
+            if (cause instanceof PasswordMismatchException) {
+                throw (PasswordMismatchException) cause;
+            } else if (cause instanceof ExistingPhoneNumberException) {
+                throw (ExistingPhoneNumberException) cause;
+            } else if (cause instanceof InvalidPhoneNumberException) {
+                throw (InvalidPhoneNumberException) cause;
+            } else {
+                throw e;
+            }
+        }
     }
 
 
@@ -277,5 +291,50 @@ public class MemberService {
         if (!password.equals(passwordConfirm)) {
             throw new PasswordMismatchException();
         }
+    }
+
+
+    /**
+     * 전화번호의 중복을 검증하는 메서드입니다. 이 메서드는 회원 가입 과정에서 입력된 전화번호가 이미 시스템에 등록된 경우를 확인하는 데 사용됩니다.
+     *
+     * @param phoneNumber 검증하고자 하는 전화번호입니다.
+     * @throws ExistingPhoneNumberException 입력된 전화번호가 이미 사용 중일 경우 발생하는 예외입니다.
+     *
+     *                                      <p>전화번호 중복 검사는 회원 데이터베이스에서 입력된 전화번호를 가진 회원이 있는지 확인함으로써 이루어집니다.
+     *                                      만약 해당 전화번호를 가진 회원이 이미 존재한다면, ExistingPhoneNumberException을 발생시켜 이를 호출한 메서드에 알립니다.</p>
+     */
+    private void validatePhoneNumberDuplication(String phoneNumber) {
+        memberRepository.fetchMemberByPhoneNumber(phoneNumber)
+                        .ifPresent(m -> {
+                            throw new ExistingPhoneNumberException();
+                        });
+    }
+
+
+    /**
+     * 전달받은 전화번호가 확인되었는지 검증합니다. 전화번호의 확인 여부는 Redis 에 저장된 값을 통해 확인됩니다. 확인되지 않은 전화번호일 경우 {@link InvalidPhoneNumberException}을
+     * 발생시킵니다.
+     *
+     * @param phoneNumber 검증하고자 하는 전화번호. 이 전화번호는 Redis 에서 확인된 전화번호 목록과 대조됩니다.
+     * @throws InvalidPhoneNumberException 전달받은 전화번호가 확인되지 않았을 때 발생합니다.
+     */
+    private void validatePhoneNumberConfirmation(String phoneNumber) {
+        boolean confirmed = isPhoneNumberConfirmed(phoneNumber);
+        if (!confirmed) {
+            throw new InvalidPhoneNumberException();
+        }
+    }
+
+    /**
+     * 주어진 전화번호가 Redis 에 저장되어 있는지 확인하여, 저장되어 있다면 해당 전화번호가 확인되었음을 의미합니다. Redis 내부에서는 전화번호를 키로 하여 boolean 값을 저장하고 있으며, 이 메서드는 해당 키에
+     * 대한 값을 조회하여 전화번호의 확인 여부를 반환합니다.
+     *
+     * @param phoneNumber 확인 여부를 조회하고자 하는 전화번호입니다. 전화번호는 Redis의 키 형태로 변환되어 조회됩니다.
+     * @return 전화번호가 확인된 경우 {@code true}, 그렇지 않은 경우 {@code false}를 반환합니다.
+     */
+    private boolean isPhoneNumberConfirmed(String phoneNumber) {
+        String redisKey = "confirmed-phone-number:" + phoneNumber;
+        String confirmedValue = stringRedisTemplate.opsForValue().get(redisKey);
+        return Boolean.parseBoolean(confirmedValue);
     }
 }
