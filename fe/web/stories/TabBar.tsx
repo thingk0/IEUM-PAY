@@ -12,6 +12,7 @@ import CreditCardIconActive from './icons/CreditCardIconActive';
 import SendMoneyIconActive from './icons/SendMoneyIconActive';
 import CameraIcon from './icons/CameraIcon';
 import Vibrate from '@/utils/vibrate';
+import { useRouter } from 'next/router';
 
 //object literal
 export const tabBarElementCode = {
@@ -35,6 +36,10 @@ function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
     Vibrate(10);
   }
 
+  const router = useRouter();
+  function goQR() {
+    router.push('/qrscan');
+  }
   return (
     <nav className={classes.container}>
       <ul className={classes.ul}>
@@ -80,7 +85,7 @@ function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
               className={`${classes.wrapper} ${selected === tabBarElementCode.payment ? classes.active : ''}`}
             >
               {selected == 'payment' && (
-                <div className={classes.cameraWrapper}>
+                <div className={classes.cameraWrapper} onClick={goQR}>
                   <CameraIcon />
                 </div>
               )}
