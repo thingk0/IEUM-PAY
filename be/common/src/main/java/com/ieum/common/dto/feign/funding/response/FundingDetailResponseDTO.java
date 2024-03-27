@@ -23,6 +23,7 @@ public class FundingDetailResponseDTO {
     private Integer facilityCapacity;
     private String facilityImage;
     private String fundingOpenDate;
+    private String fundingFinishDate;
     private Long fundingPeopleCnt;
     private String fundingTitle;
     private Integer goalAmount;
