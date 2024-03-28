@@ -8,6 +8,8 @@ import {
 import styes from '@/styles/input-info.module.css';
 import { useRouter } from 'next/router';
 import Button from '@/stories/Button';
+import PageTitleLeft from '@/components/PageTitleLeft';
+import styles from '@/styles/user.module.scss';
 
 export default function inputInfo() {
   const [userPassword, setPasswordValue] = useState('');
@@ -85,9 +87,11 @@ export default function inputInfo() {
   };
 
   return (
-    <div>
-      <h1>회원가입</h1>
-      <p>로그인 비밀번호를 입력해주세요</p>
+    <div className={styles.container}>
+      <PageTitleLeft
+        title="회원가입"
+        description={'회원 정보를 입력해주세요'}
+      />
       <div className={nameVisible ? '' : styes.isVisible}>
         <Input
           label="이름"

@@ -257,7 +257,7 @@ public class HistoryService {
         Paymoney paymoney = paymoneyRepository.findByMemberId(memberId);
         int updatePaymoney = paymoney.getPaymoneyAmount();
         if(paymoney.getPaymoneyAmount() < donationAmount){
-            int chargeAmount = (donationAmount - paymoney.getPaymoneyAmount()) / 10000 * 10000;
+            int chargeAmount = (int) Math.ceil((double) (donationAmount - paymoney.getPaymoneyAmount()) / 10000) * 10000;
             chargeHistorySave(history.getHistoryId(),memberId,cardId,chargeAmount);
             updatePaymoney += chargeAmount;
         }

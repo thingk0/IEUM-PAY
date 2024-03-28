@@ -1,7 +1,9 @@
 import { requestRandomKey } from '@/api/userAxois';
+import PageTitleLeft from '@/components/PageTitleLeft';
 import useUserStore from '@/stores/user-store';
 import Button from '@/stories/Button';
 import { useRouter } from 'next/router';
+import styles from '@/styles/user.module.scss';
 
 export default function register() {
   const { userInfo, setRandomKey } = useUserStore();
@@ -17,13 +19,19 @@ export default function register() {
   }
 
   return (
-    <div>
-      <h1>회원가입</h1>
-      <p>등록된 회원이 아니네</p>
-      <p>회원가입을 진행하시겠습니까?</p>
-      <Button primary size="thick" onClick={startRegister}>
-        시작하기
-      </Button>
-    </div>
+    <>
+      <div className={styles.container}>
+        <PageTitleLeft
+          title="회원가입"
+          description={'회원 정보가 존재하지 않습니다.'}
+          description2={'회원가입을 진행하시겠습니까?'}
+        />
+      </div>
+      <div className={styles.btnTag}>
+        <Button primary size="thick" onClick={startRegister}>
+          시작하기
+        </Button>
+      </div>
+    </>
   );
 }

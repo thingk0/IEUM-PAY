@@ -1,19 +1,24 @@
 import { useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { Input } from '@nextui-org/react';
-import styles from '@/styles/user.module.css';
+import styles from '@/styles/user.module.scss';
 import useUserStore from '@/stores/user-store';
 import Button from '@/stories/Button';
 import { IsRegister } from '@/api/userAxois';
+import PageTitleLeft from '@/components/PageTitleLeft';
 
 export default function User() {
   const { userInfo, setPhoneNumber } = useUserStore();
   const [inputValue, setValue] = useState('');
+  const [chngeBtn, setChangeBtn] = useState(false);
   const router = useRouter();
 
   const isInvalid = useMemo(() => {
     if (inputValue == '') return false;
-    return inputValue.length === 11 ? false : true;
+
+    inputValue.length >= 11 ? setChangeBtn(true) : '';
+
+    return inputValue.length <= 11 ? false : true;
   }, [inputValue]);
 
   /**
@@ -42,24 +47,28 @@ export default function User() {
   }
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.head}>시작하기</h1>
-      <Input
-        isRequired
-        type="number"
-        label="휴대폰 번호"
-        variant="underlined"
-        pattern="\d*"
-        value={inputValue}
-        isInvalid={isInvalid}
-        errorMessage={isInvalid && '11자리 이내로 입력해주세요'}
-        onChange={handleInputValue}
-        className={styles.inputTag}
-        classNames={{ label: 'labelTag' }}
-      />
-      <Button primary onClick={() => checkIsRegister(inputValue)}>
-        시작하기
-      </Button>
-    </div>
+    <>
+      <div className={styles.container}>
+        <PageTitleLeft title="시작하기" />
+        <Input
+          type="number"
+          label="휴대폰 번호"
+          variant="underlined"
+          pattern="\d*"
+          value={inputValue}
+          isInvalid={isInvalid}
+          errorMessage={isInvalid && '올바른 휴대전화번호를 입력해주세요'}
+          onChange={handleInputValue}
+          className={styles.inputTag}
+          classNames={{ label: styles.labelTag }}
+        />
+        <div className={styles.box}></div>
+        <div className={chngeBtn ? styles.startBtnTag : styles.btnTagnone}>
+          <Button primary onClick={() => checkIsRegister(inputValue)}>
+            시작하기
+          </Button>
+        </div>
+      </div>
+    </>
   );
 }
