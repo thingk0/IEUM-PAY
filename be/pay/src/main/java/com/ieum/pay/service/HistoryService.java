@@ -252,10 +252,17 @@ public class HistoryService {
     }
 
     //직접 기부
-    public Long directDonation(Long memberId, Long fundingId, int donationAmount) {
+    public Long directDonation(Long memberId, Long fundingId, int donationAmount, Long cardId) {
         Histories history = historySave(memberId, donationAmount, "기부");
-        donationHistorySave(history.getHistoryId(), memberId,fundingId, donationAmount);
         Paymoney paymoney = paymoneyRepository.findByMemberId(memberId);
+        int updatePaymoney = paymoney.getPaymoneyAmount();
+        if(paymoney.getPaymoneyAmount() < donationAmount){
+            int chargeAmount = (donationAmount - paymoney.getPaymoneyAmount()) / 10000 * 10000;
+            chargeHistorySave(history.getHistoryId(),memberId,cardId,chargeAmount);
+            updatePaymoney += chargeAmount;
+        }
+        donationHistorySave(history.getHistoryId(), memberId,fundingId, donationAmount);
+        paymoney.setPaymoneyAmount(updatePaymoney - donationAmount);
         paymoney.setDonationCount(paymoney.getDonationCount() + 1);
         paymoney.setDonationTotalAmount(paymoney.getDonationTotalAmount() + donationAmount);
         paymoneyRepository.save(paymoney);
