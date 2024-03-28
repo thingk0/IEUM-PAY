@@ -80,13 +80,14 @@ const QrReader = () => {
         {/* QR */}
         <video ref={videoEl}></video>
         <div ref={qrBoxEl} className="qr-box">
-          <img
+          {/* <img
             src={QrFrame}
             alt="Qr Frame"
             width={256}
             height={256}
             className="qr-frame"
-          />
+          /> */}
+          <QrFrame />
         </div>
 
         {/* Show Data Result if scan is success */}
