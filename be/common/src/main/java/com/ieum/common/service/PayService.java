@@ -130,7 +130,14 @@ public class PayService {
                 .build());
     }
 
-    public DonationReceiptResponseDTO getDonationRecieptInfo(Long memberId, Long historyId){
+    public DonationReceiptResponseDTO getDonationReceiptInfo(Long memberId, Long historyId){
         return payFeignClient.donationReceipt(memberId,historyId);
+    }
+
+    public boolean checkMyCard(Long memberId,Long registeredCardId){
+        return payFeignClient.isMine(MyCardCheckRequestDTO.builder()
+                .memberId(memberId)
+                .registeredCardId(registeredCardId)
+                .build());
     }
 }

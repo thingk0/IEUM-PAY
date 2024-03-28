@@ -30,4 +30,9 @@ public class RegisteredCardService {
     public List<RegisteredCards> getCardList(Long memberId) {
         return registeredCardRepository.findByMemberId(memberId);
     }
+
+    public boolean isMyCard(Long memberId, Long registeredCardId) {
+        RegisteredCards cards = registeredCardRepository.findByMemberIdAndRegisteredCardId(memberId,registeredCardId);
+        return cards != null;
+    }
 }

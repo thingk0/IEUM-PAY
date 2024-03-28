@@ -36,6 +36,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Member;
+import java.util.Optional;
+
 @Slf4j
 @Service
 @Transactional
@@ -53,6 +56,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final GradeRepository gradeRepository;
     private final PaymoneyRepository paymoneyRepository;
+
 
     /**
      * 회원 가입을 처리하고, 관련 페이머니 계정을 생성합니다.
@@ -92,13 +96,12 @@ public class MemberService {
                        grade));
 
         paymoneyRepository.save(Paymoney.builder()
-                                        .memberId(savedMember.getId())
-                                        .paymentPassword(request.getPaymentPassword())
-                                        .paymoneyAmount(0)
-                                        .donationTotalAmount(0)
-                                        .donationCount(0)
-                                        .build());
-
+                .memberId(savedMember.getId())
+                .paymentPassword(passwordEncoder.encode(request.getPaymentPassword()))
+                .paymoneyAmount(0)
+                .donationTotalAmount(0)
+                .donationCount(0)
+                .build());
 //        payService.createPaymoney(savedMember.getId(),request.getPaymentPassword());
 //        try {
 //            if (!) {
@@ -336,5 +339,20 @@ public class MemberService {
         String redisKey = "confirmed-phone-number:" + phoneNumber;
         String confirmedValue = stringRedisTemplate.opsForValue().get(redisKey);
         return Boolean.parseBoolean(confirmedValue);
+    }
+
+    /**
+     * 사용자의 메인카드 변경하는 메서드입니다.
+     *
+     * @param id       해당하는 멤버 id
+     * @param registerCardId 주거래카드의 id
+     */
+    public void mainCardUpdate(Long id, Long registerCardId) {
+        Optional<Members> members = memberRepository.findById(id);
+        if(members.isPresent()){
+            Members member = members.get();
+            member.updatePaycardId(registerCardId);
+            memberRepository.save(member);
+        }
     }
 }
