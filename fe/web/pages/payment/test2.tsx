@@ -75,35 +75,37 @@ const QrReader = () => {
   }, [qrOn]);
 
   return (
-    <div className="qr-reader">
-      {/* QR */}
-      <video ref={videoEl}></video>
-      <div ref={qrBoxEl} className="qr-box">
-        <img
-          src={QrFrame}
-          alt="Qr Frame"
-          width={256}
-          height={256}
-          className="qr-frame"
-        />
-      </div>
+    <>
+      <div className="qr-reader">
+        {/* QR */}
+        <video ref={videoEl}></video>
+        <div ref={qrBoxEl} className="qr-box">
+          <img
+            src={QrFrame}
+            alt="Qr Frame"
+            width={256}
+            height={256}
+            className="qr-frame"
+          />
+        </div>
 
-      {/* Show Data Result if scan is success */}
-      {scannedResult && (
-        <p
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            zIndex: 99999,
-            color: 'white',
-          }}
-        >
-          {/* Scanned Result: {scannedResult} */}
-          스캔 결과입니다잉 : {scannedResult}
-        </p>
-      )}
-    </div>
+        {/* Show Data Result if scan is success */}
+        {scannedResult && (
+          <p
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              zIndex: 99999,
+              color: 'white',
+            }}
+          >
+            {/* Scanned Result: {scannedResult} */}
+            스캔 결과입니다잉 : {scannedResult}
+          </p>
+        )}
+      </div>
+    </>
   );
 };
 
