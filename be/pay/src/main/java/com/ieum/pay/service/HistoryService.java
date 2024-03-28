@@ -234,10 +234,14 @@ public class HistoryService {
         String storeName = storeRepository.findByStoreId(storeId).getStoreName();
         int payAmount = paymentHistory.getPaymentAmount();
         int donationAmount = 0;
-        if(donationHistory != null)
+        Long fundingId = 0L;
+        if(donationHistory != null) {
             donationAmount = donationHistory.getDonationAmount();
+            fundingId = donationHistory.getFundingId();
+        }
 
         PaymentHistoryResponseDTO dto = PaymentHistoryResponseDTO.builder()
+                .fundingId(fundingId)
                 .storeName(storeName)
                 .paymentAmount(payAmount)
                 .paymentAmount(payAmount)
@@ -270,6 +274,7 @@ public class HistoryService {
         FundingDonationResultResponseDTO dto = FundingDonationResultResponseDTO.builder()
                 .fundingId(donationHistory.getFundingId())
                 .donationAmount(donationHistory.getDonationAmount())
+                .historyDate(history.getHistoryDate())
                 .build();
 
         return dto;

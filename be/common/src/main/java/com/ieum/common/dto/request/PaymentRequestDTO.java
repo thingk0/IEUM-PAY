@@ -9,5 +9,6 @@ public class PaymentRequestDTO {
     String storeName;
     int paymoneyAmount;
     int chargeAmount;
+    int donationMoney;
     String authenticationKey;
 }

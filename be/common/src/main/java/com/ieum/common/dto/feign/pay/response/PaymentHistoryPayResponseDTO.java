@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentHistoryResponseDTO {
+public class PaymentHistoryPayResponseDTO {
+    Long fundingId;
     String storeName;
     int paymentAmount;
     int donationAmount;

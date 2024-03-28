@@ -1,6 +1,5 @@
 package com.ieum.common.feign;
 
-import com.ieum.common.dto.etc.MainPageResponseDto;
 import com.ieum.common.dto.paymoney.PayMoneyCreationRequestDto;
 import com.ieum.common.dto.feign.pay.request.*;
 import com.ieum.common.dto.feign.pay.response.*;
@@ -131,7 +130,7 @@ public interface PayFeignClient {
      * 결제 완료 정보 요청 메서드
      */
     @GetMapping("/payment/{historyId}")
-    PaymentHistoryResponseDTO getPaymentHistory(@PathVariable("historyId") Long historyId);
+    PaymentHistoryPayResponseDTO getPaymentHistory(@PathVariable("historyId") Long historyId);
 
     /**
      * 현재 페이머니 반환 메서드
@@ -157,6 +156,8 @@ public interface PayFeignClient {
     String getPaymentPassword(@PathVariable("memberId") Long memberId);
 
     @GetMapping("/remittance/{memberId}/{historyId}")
-    public RemittanceHistoryResponseDTO getRemittanceHistory(@PathVariable("memberId") Long memberId, @PathVariable("historyId") Long historyId);
+    RemittanceHistoryResponseDTO getRemittanceHistory(@PathVariable("memberId") Long memberId, @PathVariable("historyId") Long historyId);
 
+    @GetMapping("/card/{registeredCardId}")
+    String getCardName(@PathVariable("registeredCardId") Long registeredCardId);
 }

@@ -16,6 +16,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static com.ieum.common.format.code.FailedCode.PAYMENT_REGISTERED_CARD_NULL;
+import static com.ieum.common.format.code.FailedCode.REGISTERED_CARD_DELETE;
+
 
 @Tag(name = "pay", description = "페이 API - 목업")
 @RequiredArgsConstructor
@@ -61,6 +64,9 @@ public class PayController {
     @PostMapping("remittance/paymoney")
     public ResponseEntity<?> sendPaymoney(@CurrentMemberId Long memberId, @RequestBody PayRemittancePaymoneyRequestDTO request) {
         Members sender = memberService.findMemberById(memberId);
+        if(sender.getPaycardId() == null){
+            return response.error(PAYMENT_REGISTERED_CARD_NULL);
+        }
         Members receiver = memberService.findMemberByPhoneNumber(request.getPhoneNumber());
 
         return response.success(payService.remmitancePaymoney(memberId, sender.getName(), receiver.getId(),receiver.getName(),request.getAmount(),sender.getPaycardId()), SuccessCode.SUCCESS);
