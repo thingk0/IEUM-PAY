@@ -4,6 +4,8 @@ import com.ieum.funding.repository.FundingMembersRepository;
 import com.ieum.funding.request.FundingDonationRequestDTO;
 import com.ieum.funding.request.FundingLinkRequestDTO;
 import com.ieum.funding.response.AutoFundingResultResponseDTO;
+import com.ieum.funding.response.CurrentFundingResult1DTO;
+import com.ieum.funding.response.CurrentFundingResult2DTO;
 import com.ieum.funding.response.CurrentFundingResultResponseDTO;
 import com.ieum.funding.response.FundingInfoResponseDTO;
 import com.ieum.funding.response.FundingDetailResponseDTO;
@@ -16,7 +18,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -135,7 +136,25 @@ public class FundingController {
     @GetMapping("/info/current/{memberId}")
     public ResponseEntity<CurrentFundingResultResponseDTO> getCurrentFundingInfo(
         @PathVariable("memberId") Long memberId) {
-        CurrentFundingResultResponseDTO response = fundingService.getCurrentFunding(memberId);
-        return ResponseEntity.ok(response);
+        CurrentFundingResult1DTO res1 = fundingService.getCurrentFunding1(memberId);
+        CurrentFundingResult2DTO res2 = fundingService.getCurrentFunding2(memberId);
+
+        if (res1 == null) {
+            return ResponseEntity.ok(CurrentFundingResultResponseDTO.builder()
+                .fundingId(0L)
+                .facilityName("")
+                .facilityImage("")
+                .fundingTotalAmount(0)
+                .fundingCount(res2.getFundingCount())
+                .build());
+        }
+
+        return ResponseEntity.ok(CurrentFundingResultResponseDTO.builder()
+            .fundingId(res1.getFundingId())
+            .facilityName(res1.getFacilityName())
+            .facilityImage(res1.getFacilityImage())
+            .fundingTotalAmount(res1.getFundingTotalAmount())
+            .fundingCount(res2.getFundingCount())
+            .build());
     }
 }

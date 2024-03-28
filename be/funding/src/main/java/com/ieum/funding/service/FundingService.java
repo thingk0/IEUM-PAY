@@ -13,6 +13,8 @@ import com.ieum.funding.repository.FundingProductsRepository;
 import com.ieum.funding.repository.FundingRepository;
 import com.ieum.funding.repository.SponsorProductsRepository;
 import com.ieum.funding.response.AutoFundingResultResponseDTO;
+import com.ieum.funding.response.CurrentFundingResult1DTO;
+import com.ieum.funding.response.CurrentFundingResult2DTO;
 import com.ieum.funding.response.CurrentFundingResultResponseDTO;
 import com.ieum.funding.response.FundingInfoResponseDTO;
 import com.ieum.funding.response.FundingDetailResponseDTO;
@@ -186,7 +188,11 @@ public class FundingService {
             .build();
     }
 
-    public CurrentFundingResultResponseDTO getCurrentFunding(Long memberId) {
-        return fundingMembersRepository.getCurrentFunding(memberId);
+    public CurrentFundingResult1DTO getCurrentFunding1(Long memberId) {
+        return fundingMembersRepository.getCurrentFunding1(memberId);
+    }
+
+    public CurrentFundingResult2DTO getCurrentFunding2(Long memberId) {
+        return fundingMembersRepository.getCurrentFunding2(memberId);
     }
 }

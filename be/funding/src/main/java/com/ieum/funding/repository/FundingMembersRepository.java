@@ -2,6 +2,8 @@ package com.ieum.funding.repository;
 
 import com.ieum.funding.domain.FundingMembers;
 import com.ieum.funding.dto.FundingMemberDTO;
+import com.ieum.funding.response.CurrentFundingResult1DTO;
+import com.ieum.funding.response.CurrentFundingResult2DTO;
 import com.ieum.funding.response.CurrentFundingResultResponseDTO;
 import java.util.List;
 import java.util.Optional;
@@ -38,16 +40,17 @@ public interface FundingMembersRepository extends JpaRepository<FundingMembers, 
     @Modifying
     @Query("UPDATE FundingMembers f SET f.autoFundingStatus = false WHERE f.fundingId = :fundingId")
     void unlinkAllByFundingId(Long fundingId);
-
-    @Query("SELECT new com.ieum.funding.response.CurrentFundingResultResponseDTO(" +
+    @Query("SELECT new com.ieum.funding.response.CurrentFundingResult1DTO(" +
         "f.fundingId, " +
         "fac.facilityName, " +
         "fac.facilityImage, " +
-        "fm.fundingTotalAmount,"
-        + "(SELECT COUNT(fm2) FROM FundingMembers fm2 WHERE fm2.memberId = :memberId)) " +
+        "fm.fundingTotalAmount)" +
         "FROM FundingMembers fm " +
         "JOIN Funding f ON f.fundingId = fm.fundingId " +
         "JOIN Facilities fac ON f.facilityId = fac.facilityId " +
         "WHERE fm.memberId = :memberId AND fm.autoFundingStatus = true ")
-    CurrentFundingResultResponseDTO getCurrentFunding(Long memberId);
+    CurrentFundingResult1DTO getCurrentFunding1(Long memberId);
+
+    @Query("SELECT new com.ieum.funding.response.CurrentFundingResult2DTO(COUNT(fm)) FROM FundingMembers fm WHERE fm.memberId = :memberId")
+    CurrentFundingResult2DTO getCurrentFunding2(Long memberId);
 }
