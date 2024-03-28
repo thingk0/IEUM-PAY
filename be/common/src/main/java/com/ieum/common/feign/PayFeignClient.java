@@ -150,4 +150,6 @@ public interface PayFeignClient {
 
     @GetMapping("/donation/{memberId}/{historyId}")
     public DonationReceiptResponseDTO donationReceipt (@PathVariable("memberId") Long memberId, @PathVariable("historyId") Long historyId);
-    }
+
+    String getPaymentPassword(Long memberId);
+}
