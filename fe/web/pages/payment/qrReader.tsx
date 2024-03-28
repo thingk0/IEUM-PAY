@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 
 // Styles
-import './QrStyles.module.scss';
+import styles from './QrStyles.module.scss';
 
 // Qr Scanner
 import QrScanner from 'qr-scanner';
-// import QrFrame from './qr-frame.svg';
+import qrFrame from './qr-frame.svg';
 import QrFrame from './QRframe';
 
-const QrReader = () => {
+export default function QrReader() {
   // QR States
   const scanner = useRef<QrScanner>();
   const videoEl = useRef<HTMLVideoElement>(null);
@@ -77,17 +77,17 @@ const QrReader = () => {
 
   return (
     <>
-      <div className="qr-reader">
+      <div className={styles.qrReader}>
         {/* QR */}
         <video ref={videoEl}></video>
-        <div ref={qrBoxEl} className="qr-box">
-          {/* <img
-            src={QrFrame}
+        <div ref={qrBoxEl} className={styles.qrBox}>
+          <img
+            src={qrFrame}
             alt="Qr Frame"
             width={256}
             height={256}
             className="qr-frame"
-          /> */}
+          />
           <QrFrame />
         </div>
 
@@ -109,6 +109,4 @@ const QrReader = () => {
       </div>
     </>
   );
-};
-
-export default QrReader;
+}
