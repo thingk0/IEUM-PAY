@@ -80,7 +80,7 @@ export default function inputInfo() {
       setPassword(userPassword);
       setUserName(userName);
       setUserNickname(userNickName);
-      router.push('/user/register/');
+      router.push('/user/register/complete');
     }
   };
 

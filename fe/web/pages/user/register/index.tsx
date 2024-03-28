@@ -1,13 +1,19 @@
 import { requestRandomKey } from '@/api/userAxois';
 import useUserStore from '@/stores/user-store';
 import Button from '@/stories/Button';
+import { useRouter } from 'next/router';
 
 export default function register() {
-  const { userInfo } = useUserStore();
-  function startRegister() {
-    console.log('test');
-    requestRandomKey(userInfo.phoneNumber);
-    console.log(userInfo.randomKey);
+  const { userInfo, setRandomKey } = useUserStore();
+  const router = useRouter();
+
+  async function startRegister() {
+    console.log(userInfo.phoneNumber);
+    const res = await requestRandomKey(userInfo.phoneNumber);
+    if (res.data != undefined) {
+      setRandomKey(res.data);
+      router.push('register/mms');
+    }
   }
 
   return (

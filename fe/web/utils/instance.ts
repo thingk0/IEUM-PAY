@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-const api = 'http://192.168.31.172:8081/';
+const api = 'https://www.ieum-pay.site/';
 // const accessToken = localStorage.getItem('access_token');
 
 const axiosAuthApi = (): AxiosInstance => {
