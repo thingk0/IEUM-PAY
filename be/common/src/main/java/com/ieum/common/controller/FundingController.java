@@ -45,7 +45,6 @@ import static com.ieum.common.format.code.FailedCode.PAYMENT_REGISTERED_CARD_NUL
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/funding")
-@CrossOrigin("*")
 @Slf4j
 public class FundingController {
 
