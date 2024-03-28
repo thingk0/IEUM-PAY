@@ -9,4 +9,6 @@ public interface HistoryRepository extends JpaRepository<Histories, Long> {
     List<Histories> findByMemberIdOrderByHistoryDateDesc(Long memberId);
 
     Histories findByHistoryId(Long historyId);
+
+    Histories findByHistoryIdAndMemberId(Long historyId, Long memberId);
 }

@@ -10,13 +10,12 @@ import lombok.Getter;
 public class MemberSummaryResponseDTO {
     String name;
     String nickname;
-    int gradeCode;
+    String  gradeCode;
     String gradeName;
-    int totalDonationCnt;
+    Long totalDonationCnt;
     int totalDonationAmount;
-    List<FundingInfoDTO> fundingInfoList;
     Long autoFundingId;
-    String autoFundingTitle;
-    String autoFundingImg;
-    int autoFundingAmount;
+    String facilityName;
+    String facilityImage;
+    int fundingTotalAmount;
 }

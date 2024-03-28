@@ -125,43 +125,7 @@ public class MemberController {
     @Operation(summary = "회원 요약 정보 조회", description = "회원의 요약 정보를 조회합니다. - 수정 필요")
     @ApiResponse(responseCode = "200", description = "회원 정보 요약(기부내역 포함)")
     @PostMapping("/summary")
-    public ResponseEntity<?> getMemberSummary(Long memberId) {
-
-        var fundingInfo1 = FundingInfoDTO.builder()
-                                         .img("http://url ---")
-                                         .fundingId(1L)
-                                         .fundingAmount(13300)
-                                         .ongoing(false)
-                                         .build();
-
-        var fundingInfo2 = FundingInfoDTO.builder()
-                                         .img("http://url ---")
-                                         .fundingId(2L)
-                                         .fundingAmount(3300)
-                                         .ongoing(false)
-                                         .build();
-
-        var fundingInfo3 = FundingInfoDTO.builder()
-                                         .img("http://url ---")
-                                         .fundingId(3L)
-                                         .fundingAmount(100)
-                                         .ongoing(true)
-                                         .build();
-
-        var res = MemberSummaryResponseDTO.builder()
-                                          .name("김싸피")
-                                          .nickname("기부니가 좋아")
-                                          .gradeCode(2)
-                                          .gradeName("새싹")
-                                          .totalDonationCnt(3)
-                                          .totalDonationAmount(1122200)
-                                          .fundingInfoList(Arrays.asList(fundingInfo1, fundingInfo2, fundingInfo3))
-                                          .autoFundingId(3L)
-                                          .autoFundingTitle("btc")
-                                          .autoFundingImg("http://url ---")
-                                          .autoFundingAmount(100)
-                                          .build();
-
-        return response.success(res, SuccessCode.SUCCESS);
+    public ResponseEntity<?> getMemberSummary(@CurrentMemberId Long memberId) {
+        return response.success(memberService.getSummaryInfo(memberId), SuccessCode.SUCCESS);
     }
 }

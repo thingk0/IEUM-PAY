@@ -72,4 +72,8 @@ public class PaymoneyService {
     public Paymoney getPaymoney(Long memberId) {
         return paymoneyRepository.findByMemberId(memberId);
     }
+
+    public String getPp(Long memberId) {
+        return paymoneyRepository.findByMemberId(memberId).getPaymentPassword();
+    }
 }

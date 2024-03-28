@@ -1,11 +1,7 @@
 package com.ieum.common.service;
 
-import com.ieum.common.dto.etc.MainPageResponseDto;
 import com.ieum.common.dto.feign.pay.request.*;
-import com.ieum.common.dto.feign.pay.response.DonationReceiptResponseDTO;
-import com.ieum.common.dto.feign.pay.response.FundingDonationResultResponseDTO;
-import com.ieum.common.dto.feign.pay.response.HistoryResponseDTO;
-import com.ieum.common.dto.feign.pay.response.PaymentHistoryResponseDTO;
+import com.ieum.common.dto.feign.pay.response.*;
 import com.ieum.common.dto.response.CardOcrResponseDTO;
 import com.ieum.common.feign.PayFeignClient;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +37,7 @@ public class PayService {
                 .build());
     }
 
-    public MainPageResponseDto getMainPageInfo(Long memberId) {
+    public MainSummaryResponseDTO getMainPageInfo(Long memberId) {
         return payFeignClient.getMainPageInfo(memberId);
     }
 
@@ -139,5 +135,8 @@ public class PayService {
                 .memberId(memberId)
                 .registeredCardId(registeredCardId)
                 .build());
+    }
+    public RemittanceHistoryResponseDTO getRemittanceHistory(Long memberId, Long historyId){
+        return payFeignClient.getRemittanceHistory(memberId,historyId);
     }
 }

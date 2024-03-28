@@ -65,7 +65,7 @@ public interface PayFeignClient {
      * 메인화면 조회 메서드
      */
     @GetMapping("/main/summary/{memberId}")
-    MainPageResponseDto getMainPageInfo(@PathVariable("memberId") Long memberId);
+    MainSummaryResponseDTO getMainPageInfo(@PathVariable("memberId") Long memberId);
 
     /**
      * 간편결제비밀번호 변경 메서드
@@ -153,5 +153,10 @@ public interface PayFeignClient {
 
     @PostMapping("/member/mine")
     public boolean isMine(@RequestBody MyCardCheckRequestDTO requestDTO);
-    String getPaymentPassword(Long memberId);
+    @GetMapping("/member/pp/{memberId}")
+    String getPaymentPassword(@PathVariable("memberId") Long memberId);
+
+    @GetMapping("/remittance/{memberId}/{historyId}")
+    public RemittanceHistoryResponseDTO getRemittanceHistory(@PathVariable("memberId") Long memberId, @PathVariable("historyId") Long historyId);
+
 }
