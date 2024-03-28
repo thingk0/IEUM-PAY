@@ -8,3 +8,17 @@ module.exports = withPWA({
   // next.js config
   reactStrictMode: true,
 });
+
+const nextConfig = {
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/main',
+        permanent: true,
+      },
+    ];
+  },
+};
+
+module.exports = nextConfig;
