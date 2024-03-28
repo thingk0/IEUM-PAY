@@ -5,7 +5,6 @@ import { Progress } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import styles from '@/styles/FundPage.module.scss';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
 interface fundingList {
   fundingId: number;
@@ -129,8 +128,12 @@ export default function Funding() {
       try {
         const fundonGoingData = await getFundListOnGoing();
         const fundcompleteData = await getFundListComplete();
-        fundonGoingData != undefined ? setonGoingList(fundonGoingData) : '';
-        fundcompleteData != undefined ? setcompleteList(fundcompleteData) : '';
+        fundonGoingData != undefined
+          ? setonGoingList(fundonGoingData.data)
+          : '';
+        fundcompleteData != undefined
+          ? setcompleteList(fundcompleteData.data)
+          : '';
       } catch (e) {
         console.log(e);
       }

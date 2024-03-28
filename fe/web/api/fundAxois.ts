@@ -8,7 +8,7 @@ export const getFundListOnGoing = async () => {
   const local = axiosAuthApi();
 
   return await local
-    .get('/api/funding/list/ongoing')
+    .get('api/funding/list/ongoing')
     .then((response) => {
       console.log(response);
       return response.data;
@@ -26,7 +26,7 @@ export const getFundListComplete = async () => {
   const local = axiosAuthApi();
 
   return await local
-    .get('/api/funding/list/complete')
+    .get('api/funding/list/complete')
     .then((response) => {
       console.log(response);
       return response.data;
