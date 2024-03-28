@@ -141,9 +141,15 @@ public class FundingService {
     // 자동기부 정보 요청
 
     // 자동기부 수행
-    public AutoFundingResultResponseDTO autoDonation(Long fundingId, Long memberId, Integer amount) {
+    public AutoFundingResultResponseDTO autoDonation(Long memberId, Integer amount) {
         // 펀딩에 current_amount 증가
-        Funding checkFunding = fundingRepository.findByFundingId(fundingId);
+        Optional<FundingMembers> fundingMember = fundingMembersRepository.findFirstByMemberIdAndAutoFundingStatusTrue(memberId);
+        if (fundingMember.isEmpty()) {
+            return null;
+        }
+        Long checkedFundingId = fundingMember.get().getFundingId();
+
+        Funding checkFunding = fundingRepository.findByFundingId(checkedFundingId);
         // 기부 가능 여부 체크
         if (Objects.equals(checkFunding.getCurrentAmount(), checkFunding.getGoalAmount())) {
             return AutoFundingResultResponseDTO.builder()
@@ -154,17 +160,18 @@ public class FundingService {
             amount = checkFunding.getGoalAmount() - checkFunding.getCurrentAmount();
         }
         // 펀딩 금액 증가
-        fundingRepository.updateFunding(fundingId, amount);
-        fundingMembersRepository.updateFundingMember(fundingId, memberId, amount);
+        fundingRepository.updateFunding(checkedFundingId, amount);
+        fundingMembersRepository.updateFundingMember(checkedFundingId, memberId, amount);
 
         // 완료 체크
         if (checkFunding.getCurrentAmount() + amount == checkFunding.getGoalAmount()) {
-            fundingRepository.updateFinishDate(fundingId);
+            fundingRepository.updateFinishDate(checkedFundingId);
             // funding_finish_date 현재시간으로 설정
-            fundingMembersRepository.unlinkAllByFundingId(fundingId);
+            fundingMembersRepository.unlinkAllByFundingId(checkedFundingId);
             // 모든 멤버 언링크
         }
         return AutoFundingResultResponseDTO.builder()
+                                            .fundingId(checkedFundingId)
                                            .amount(amount)
                                            .build();
         // 기부 금액 반환

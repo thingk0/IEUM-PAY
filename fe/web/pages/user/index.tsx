@@ -9,7 +9,6 @@ import { IsRegister } from '@/api/userAxois';
 export default function User() {
   const { userInfo, setPhoneNumber } = useUserStore();
   const [inputValue, setValue] = useState('');
-  const [pushLink, setPushLink] = useState('');
   const router = useRouter();
 
   const isInvalid = useMemo(() => {
@@ -36,8 +35,7 @@ export default function User() {
     const check = await IsRegister(phoneNumber);
     console.log(check.data);
     if (check != undefined) {
-      check.data ? setPushLink('/login') : setPushLink('/register');
-      router.push(`/user${pushLink}`);
+      router.push(check.data ? '/user/login' : '/user/register');
     } else {
       console.log('time out or error');
     }

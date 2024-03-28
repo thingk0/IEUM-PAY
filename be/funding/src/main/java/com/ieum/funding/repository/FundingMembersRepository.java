@@ -53,4 +53,6 @@ public interface FundingMembersRepository extends JpaRepository<FundingMembers, 
 
     @Query("SELECT new com.ieum.funding.response.CurrentFundingResult2DTO(COUNT(fm)) FROM FundingMembers fm WHERE fm.memberId = :memberId")
     CurrentFundingResult2DTO getCurrentFunding2(Long memberId);
+
+    Optional<FundingMembers> findFirstByMemberIdAndAutoFundingStatusTrue(Long memberId);
 }

@@ -1,12 +1,17 @@
+'use-clinet';
+
 import axios, { AxiosRequestConfig } from 'axios';
 import { axiosApi, axiosAuthApi } from '@/utils/instance';
 import useUserStore from '@/stores/user-store';
+import { cookies } from 'next/headers';
+import { setCookie } from '@/utils/cookie';
 
 /**
  * login 후 토큰 저장후 true 리턴
  */
 export const customlogin = async (phoneNumber: string, password: string) => {
   const local = axiosApi();
+
   return await local
     .post('api/member/login', {
       phoneNumber: phoneNumber,
@@ -14,8 +19,9 @@ export const customlogin = async (phoneNumber: string, password: string) => {
     })
     .then((response) => {
       console.log(response.data.data);
+      // cookies().set('access_token', response.data.data);
+      setCookie('access_token', response.data.data, 1);
       localStorage['access_token'] = response.data.data;
-      useUserStore.getInitialState().setIsLogin(true);
       return true;
     })
     .catch((error) => {

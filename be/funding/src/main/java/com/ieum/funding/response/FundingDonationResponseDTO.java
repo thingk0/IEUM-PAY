@@ -11,5 +11,6 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FundingDonationResponseDTO {
+    private Long fundingId;
     private Boolean fundingResult;
 }

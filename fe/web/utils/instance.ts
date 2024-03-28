@@ -1,13 +1,14 @@
 import axios, { AxiosInstance } from 'axios';
+import { getCookie } from './cookie';
 const api = 'https://www.ieum-pay.site/';
 // const accessToken = localStorage.getItem('access_token');
 
 const axiosAuthApi = (): AxiosInstance => {
-  /**
-   * 나중에 터질 것 같음
-   */
-  const accessToken =
-    typeof window != undefined ? localStorage.getItem('access_token') : '';
+  const accessToken = getCookie('access_token');
+  // const accessToken =
+  //   typeof window != undefined ? localStorage.getItem('access_token') : '';
+  console.log('1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+  console.log(accessToken);
   const instance = axios.create({
     baseURL: api,
     headers: { Authorization: 'Bearer ' + accessToken },
