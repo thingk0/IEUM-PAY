@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface WithdrawalHistoryRepository extends JpaRepository<WithdrawalHistories, Long> {
     List<WithdrawalHistories> findByMemberId(Long memberId);
+
+    WithdrawalHistories findByHistoryId(Long historyId);
 }

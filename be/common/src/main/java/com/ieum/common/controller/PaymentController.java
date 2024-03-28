@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class PaymentController {
 
     private final PaymentService paymentService;
-    private final PayService payService;
     private final ResponseTemplate response;
 
     @Operation(summary = "결제 처리", description = "결제를 처리합니다.")
@@ -37,9 +36,7 @@ public class PaymentController {
     @PostMapping
     public ResponseEntity<?> payment(@RequestBody PaymentRequestDTO requestDTO,
                                      @CurrentMemberId Long memberId) {
-
-        paymentService.processPayment();
-        return response.success(HttpStatus.OK);
+        return response.success(paymentService.processPayment(memberId,requestDTO),SuccessCode.SUCCESS);
     }
 
     @Operation(summary = "결제 비밀번호 확인", description = "회원의 결제 비밀번호 확인 - 수정 필요")
@@ -69,18 +66,18 @@ public class PaymentController {
                                                @CurrentMemberId Long memberId) {
 
         paymentService.getPaymentHistory();
-        return response.success(payService.getPaymentHistory(memberId,id), SuccessCode.SUCCESS);
+        return response.success(SuccessCode.SUCCESS);
 
     }
 
     @Operation(summary = "결제 정보 조회", description = "특정 매장과 가격에 따른 결제 정보를 조회합니다.")
     @ApiResponse(responseCode = "200", description = "결제 정보 조회 성공")
     @GetMapping("info/{store}/{price}")
-    public ResponseEntity<PaymentInfoResponseDTO> getPaymentInfo(@PathVariable("store") String store,
+    public ResponseEntity<?> getPaymentInfo(@PathVariable("store") Long storeId,
                                                                  @PathVariable("price") int price,
                                                                  @CurrentMemberId Long memberId) {
 
-        paymentService.getPaymentInfo();
-        return new ResponseEntity<>(null, HttpStatus.OK);
+
+        return response.success(paymentService.getPaymentInfo(memberId,storeId, price), SuccessCode.SUCCESS);
     }
 }

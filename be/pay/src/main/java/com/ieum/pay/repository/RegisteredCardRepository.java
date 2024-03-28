@@ -10,4 +10,6 @@ public interface RegisteredCardRepository extends JpaRepository<RegisteredCards,
     List<RegisteredCards> findByMemberId(Long memberId);
 
     RegisteredCards findByMemberIdAndRegisteredCardId(Long memberId, Long registeredCardId);
+
+    RegisteredCards findByRegisteredCardId(Long id);
 }

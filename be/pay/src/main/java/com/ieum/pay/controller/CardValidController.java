@@ -55,4 +55,9 @@ public class CardValidController {
         return cardService.delete(requestDTO.getMemberId(),requestDTO.getRegisteredCardId());
     }
 
+    @GetMapping("{registeredCardId}")
+    public String getCardName(@PathVariable("registeredCardId") Long registeredCardId){
+        return cardService.getCardName(registeredCardId);
+    }
+
 }

@@ -8,7 +8,10 @@ import lombok.Getter;
 public class PaymentInfoResponseDTO {
     Long storeId;
     int price;
+    String cardNickname;
     String storeName;
+    String facilityName;
     int paymoneyAmount;
     int chargeAmount;
+    int donationMoney;
 }

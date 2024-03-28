@@ -3,6 +3,9 @@ package com.ieum.common.service;
 import com.ieum.common.domain.Grade;
 import com.ieum.common.domain.Members;
 import com.ieum.common.domain.Paymoney;
+import com.ieum.common.dto.FundingInfoDTO;
+import com.ieum.common.dto.feign.funding.response.CurrentFundingResultResponseDTO;
+import com.ieum.common.dto.feign.pay.response.MainSummaryResponseDTO;
 import com.ieum.common.dto.member.req.LoginRequestDto;
 import com.ieum.common.dto.member.req.NicknameUpdateRequestDto;
 import com.ieum.common.dto.member.req.PasswordUpdateRequestDto;
@@ -10,6 +13,7 @@ import com.ieum.common.dto.member.req.SignupRequestDto;
 import com.ieum.common.dto.member.res.ProfileResponseDto;
 import com.ieum.common.dto.member.res.RecipientResponseDto;
 import com.ieum.common.dto.member.res.UpdatedNicknameResponseDto;
+import com.ieum.common.dto.response.MemberSummaryResponseDTO;
 import com.ieum.common.dto.token.TokenInfo;
 import com.ieum.common.exception.PayMoneyCreationFailedException;
 import com.ieum.common.exception.feign.PaymentServiceUnavailableException;
@@ -20,11 +24,14 @@ import com.ieum.common.exception.member.MemberNotFoundByIdException;
 import com.ieum.common.exception.member.MemberNotFoundByPhoneNumberException;
 import com.ieum.common.exception.member.MemberNotFoundException;
 import com.ieum.common.exception.member.PasswordMismatchException;
+import com.ieum.common.feign.FundingFeignClient;
 import com.ieum.common.jwt.TokenProvider;
 import com.ieum.common.repository.GradeRepository;
 import com.ieum.common.repository.MemberRepository;
 import com.ieum.common.repository.PaymoneyRepository;
 import com.ieum.common.util.CookieUtil;
+
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import javax.servlet.http.HttpServletRequest;
@@ -36,8 +43,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.Member;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -56,6 +61,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final GradeRepository gradeRepository;
     private final PaymoneyRepository paymoneyRepository;
+    private final FundingFeignClient fundingFeignClient;
 
 
     /**
@@ -230,8 +236,17 @@ public class MemberService {
      * @return 찾아진 회원 정보를 담은 {@link Members}
      * @throws MemberNotFoundByIdException 주어진 ID에 해당하는 회원이 없을 경우 발생
      */
-    private Members findMemberById(Long memberId) {
+    public Members findMemberById(Long memberId) {
         return memberRepository.findById(memberId).orElseThrow(MemberNotFoundByIdException::new);
+    }
+
+    /**
+     * 번호를 사용하여 회원을 찾습니다.
+     *
+     * @param phoneNumber phone number
+     */
+    public Members findMemberByPhoneNumber(String phoneNumber) {
+        return memberRepository.findByPhoneNumber(phoneNumber);
     }
 
     /**
@@ -348,11 +363,28 @@ public class MemberService {
      * @param registerCardId 주거래카드의 id
      */
     public void mainCardUpdate(Long id, Long registerCardId) {
-        Optional<Members> members = memberRepository.findById(id);
-        if(members.isPresent()){
-            Members member = members.get();
-            member.updatePaycardId(registerCardId);
-            memberRepository.save(member);
-        }
+        Members member = findMemberById(id);
+        member.updatePaycardId(registerCardId);
+        memberRepository.save(member);
+    }
+
+    public MemberSummaryResponseDTO getSummaryInfo(Long memberId) {
+        Members member = findMemberById(memberId);
+        Grade grade = member.getGradeCode();
+        MainSummaryResponseDTO pay = payService.getMainPageInfo(memberId);
+        CurrentFundingResultResponseDTO funding = fundingFeignClient.getCurrentInfo(memberId);
+
+        return MemberSummaryResponseDTO.builder()
+                .name(member.getName())
+                .nickname(member.getNickname())
+                .gradeCode(grade.getCode())
+                .gradeName(grade.getName())
+                .totalDonationCnt(funding.getFundingCount())
+                .totalDonationAmount(pay.getTotalDonation())
+                .autoFundingId(1L) // 수정해야함
+                .facilityName(funding.getFacilityName())
+                .facilityImage(funding.getFacilityImage())
+                .fundingTotalAmount(funding.getFundingTotalAmount())
+                .build();
     }
 }

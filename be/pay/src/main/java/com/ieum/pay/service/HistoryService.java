@@ -7,6 +7,7 @@ import com.ieum.pay.repository.*;
 import com.ieum.pay.response.FundingDonationResultResponseDTO;
 import com.ieum.pay.response.HistoryResponseDTO;
 import com.ieum.pay.response.PaymentHistoryResponseDTO;
+import com.ieum.pay.response.RemittanceHistoryResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -280,5 +281,21 @@ public class HistoryService {
 
     public Histories getHistoryEntity(Long historyId){
         return historyRepository.findByHistoryId(historyId);
+    }
+
+    public RemittanceHistoryResponseDTO getRemmitanceHistory(Long memberId, Long historyId) {
+        Histories history = historyRepository.findByHistoryIdAndMemberId(historyId, memberId);
+        if(history==null || !history.getHistoryType().equals("출금"))
+            return null;
+        WithdrawalHistories  withdrawalHistories = withdrawalHistoryRepository.findByHistoryId(historyId);
+
+
+        RemittanceHistoryResponseDTO dto = RemittanceHistoryResponseDTO.builder()
+                .historyId(historyId)
+                .name(withdrawalHistories.getWithdrawalBrief())
+                .amount(withdrawalHistories.getTransactionAmount())
+                .build();
+
+        return dto;
     }
 }

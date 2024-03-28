@@ -42,4 +42,9 @@ public class CardService {
         registeredCardRepository.deleteById(id);
         return true;
     }
+
+    public String getCardName(Long id) {
+        RegisteredCards card = registeredCardRepository.findByRegisteredCardId(id);
+        return card.getCardNickname();
+    }
 }

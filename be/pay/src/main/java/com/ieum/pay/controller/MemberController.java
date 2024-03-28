@@ -29,4 +29,9 @@ public class MemberController {
     public boolean isMine(@RequestBody MyCardCheckRequestDTO requestDTO){
         return registeredCardService.isMyCard(requestDTO.getMemberId(),requestDTO.getRegisteredCardId());
     }
+
+    @GetMapping("/pp/{memberId}")
+    public String getPaymentPassword(@PathVariable Long memberId){
+        return paymoneyService.getPp(memberId);
+    }
 }

@@ -2,13 +2,12 @@ package com.ieum.pay.controller;
 
 import com.ieum.pay.request.RemittanceAccountRequestDTO;
 import com.ieum.pay.request.RemittanceRequestDTO;
+import com.ieum.pay.response.PaymentHistoryResponseDTO;
+import com.ieum.pay.response.RemittanceHistoryResponseDTO;
 import com.ieum.pay.service.HistoryService;
 import com.ieum.pay.service.PaymoneyService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/remittance")
@@ -49,5 +48,10 @@ public class RemittanceController {
         paymoneyService.updatePaymonyAmount(-1, requestDTO.getSenderId(), moveMoney);
 
         return historyId;
+    }
+
+    @GetMapping("/{memberId}/{historyId}")
+    public RemittanceHistoryResponseDTO getRemittanceHistory(@PathVariable("memberId") Long memberId, @PathVariable("historyId") Long historyId){
+        return historyService.getRemmitanceHistory(memberId,historyId);
     }
 }
