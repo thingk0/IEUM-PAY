@@ -72,7 +72,7 @@ export default function Funding() {
         </div>
         <div className={styles.cardContainer}>
           {fundingList.map((unit) => (
-            <Link href={`fundraising/${unit.fundingId}`}>
+            <Link href={`fundraising/${unit.fundingId}`} key={unit.fundingId}>
               <div className={styles.card}>
                 <img
                   className={styles.cardImage}
