@@ -81,6 +81,7 @@ public class FundingService {
     public DirectlyDonationResponseDTO donationDirectly(DirectlyDonationRequestDTO request, Long memberId) {
         // 기부
         FundingDonationRequestDTO funding = FundingDonationRequestDTO.builder()
+            .fundingId(request.getFundingId())
             .amount(request.getAmount())
             .memberId(memberId)
             .build();

@@ -86,7 +86,7 @@ public class FundingController {
 
     @Operation(summary = "직접 기부", description = "펀딩에 직접 기부합니다.")
     @ApiResponse(responseCode = "200", description = "펀딩 기부 성공 - Boolean - fundingResult 반환")
-    @PostMapping("/donation/direct")
+    @PostMapping("/donation/directly")
     public ResponseEntity<FundingDonationResponseDTO> donationDirectly(
         @RequestBody DirectlyDonationRequestDTO request) {
         FundingDonationResponseDTO response = FundingDonationResponseDTO.builder()

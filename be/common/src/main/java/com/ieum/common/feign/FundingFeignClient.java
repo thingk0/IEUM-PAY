@@ -51,7 +51,7 @@ public interface FundingFeignClient {
     FundingInfoResponseDTO getAutoFundingInfo(@PathVariable("memberId") Long memberId);
 
     // 직접 기부
-    @PostMapping(value = "/funding/auto")
+    @PostMapping(value = "/funding/donation/directly")
     FundingDonationResponseDTO donationDirectly(@RequestBody FundingDonationRequestDTO request);
 
     // 자동 기부
