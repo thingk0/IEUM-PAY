@@ -118,6 +118,3 @@ export default function Funding() {
     </>
   );
 }
-function cardList(onGoingList: fundingList[], val: boolean) {
-  throw new Error('Function not implemented.');
-}
