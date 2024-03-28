@@ -14,6 +14,7 @@ import com.ieum.common.dto.feign.funding.response.FundingSummaryResponseDTO;
 import com.ieum.common.dto.request.FundingLinkupRequestDTO;
 import com.ieum.common.dto.response.DirectlyDonationInfoResponseDTO;
 import com.ieum.common.dto.response.DonationDirectlyResponseDTO;
+import com.ieum.common.dto.response.ReceiptResponseDTO;
 import com.ieum.common.feign.FundingFeignClient;
 import com.ieum.common.format.code.SuccessCode;
 import com.ieum.common.format.response.ResponseTemplate;
@@ -99,9 +100,9 @@ public class FundingController {
         return fundingService.fundingUnlink(req);
     }
 
-    @Operation(summary = "펀딩 결과 조회", description = "펀딩의 결과를 조회합니다.")
-    @ApiResponse(responseCode = "200", description = "펀딩 결과 조회 성공")
-    @GetMapping("/donation/result/{fundingId}")
+    @Operation(summary = "펀딩 연동 결과 조회", description = "펀딩 연동 결과를 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "펀딩 연동 결과 조회 성공")
+    @GetMapping("/link/result/{fundingId}")
     public ResponseEntity<?> getFundingResult(@PathVariable("fundingId") Long fundingId) {
         FundingResultResponseDTO res = fundingService.getFundingResult(fundingId);
         return response.success(res, SuccessCode.SUCCESS);
@@ -112,14 +113,6 @@ public class FundingController {
     @PostMapping("/donation")
     public ResponseEntity<?> donationDirectly(@RequestBody FundingDonationRequestDTO request) {
         FundingDonationResponseDTO res = fundingService.donationDirectly(request);
-        return response.success(res, SuccessCode.SUCCESS);
-    }
-
-    @Operation(summary = "자동 기부", description = "펀딩에 자동 기부합니다.")
-    @ApiResponse(responseCode = "200", description = "펀딩 기부 성공 - 펀딩ID 반환")
-    @PostMapping("/donation/auto")
-    public ResponseEntity<?> donationAuto(@RequestBody FundingDonationRequestDTO request) {
-        AutoFundingResultResponseDTO res = fundingService.donationAuto(request);
         return response.success(res, SuccessCode.SUCCESS);
     }
 
@@ -139,19 +132,12 @@ public class FundingController {
         return response.success(res, SuccessCode.SUCCESS);
     }
 
-    @Operation(summary = "직접기부 결제 정보 요청", description = "직접기부 결제시 해당 결제에 대한 정보 요청")
-    @ApiResponse(responseCode = "200", description = "정보 조회 성공")
-    @GetMapping("/info/auto")
-    public ResponseEntity<?> getAutoFundingInfo(@CurrentMemberId Long memberId) {
-        FundingInfoResponseDTO res = fundingService.getAutoFundingInfo(memberId);
-        return response.success(res, SuccessCode.SUCCESS);
-    }
-
-    @Operation(summary = "영수증 정보 요청", description = "영수증 정보 - 페이 부분")
+    @Operation(summary = "영수증", description = "영수증 정보")
     @ApiResponse(responseCode = "200", description = "영수증")
-    @GetMapping("/info/receipt/{fundingId}")
-    public ResponseEntity<?> getReceiptInfo(@PathVariable("fundingId") Long fundingId) {
-        FundingReceiptResponseDTO res = fundingService.getReceiptInfo(fundingId);
+    @GetMapping("/receipt/{historyId}")
+    public ResponseEntity<?> getReceiptInfo(@PathVariable("historyId") Long historyId,
+        @CurrentMemberId Long memberId) {
+        ReceiptResponseDTO res = fundingService.getReceiptInfo(historyId, memberId);
         return response.success(res, SuccessCode.SUCCESS);
     }
 
