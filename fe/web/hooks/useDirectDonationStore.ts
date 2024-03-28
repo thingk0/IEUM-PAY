@@ -9,6 +9,7 @@ interface donateMoneyInfoType {
   송금금액: number;
   송금은행: string;
   잔액: number;
+  펀딩아이디?: number | undefined;
 }
 
 interface DonateMoneyInfoState {
@@ -23,6 +24,7 @@ interface DonateMoneyInfoActions {
   setFullAmount: () => void;
   setLastAmount: () => void;
   deleteDonateMoneyInfo: () => void;
+  setFundingId: (펀딩아이디: number) => void;
 }
 
 const defaultState = {
@@ -32,6 +34,7 @@ const defaultState = {
   송금금액: 0,
   송금은행: '이음페이',
   잔액: 30000,
+  펀딩아이디: 0,
 };
 
 const useDonateMoneyInfo = create<
@@ -51,6 +54,7 @@ const useDonateMoneyInfo = create<
         ),
         송금은행: state.donateMoneyInfo.송금은행,
         잔액: state.donateMoneyInfo.잔액,
+        펀딩아이디: state.donateMoneyInfo.펀딩아이디,
       },
     }));
   },
@@ -64,6 +68,7 @@ const useDonateMoneyInfo = create<
         송금금액: Math.trunc(state.donateMoneyInfo.송금금액 / 10),
         송금은행: state.donateMoneyInfo.송금은행,
         잔액: state.donateMoneyInfo.잔액,
+        펀딩아이디: state.donateMoneyInfo.펀딩아이디,
       },
     }));
   },
@@ -80,6 +85,7 @@ const useDonateMoneyInfo = create<
         ),
         송금은행: state.donateMoneyInfo.송금은행,
         잔액: state.donateMoneyInfo.잔액,
+        펀딩아이디: state.donateMoneyInfo.펀딩아이디,
       },
     }));
   },
@@ -93,6 +99,7 @@ const useDonateMoneyInfo = create<
         송금금액: state.donateMoneyInfo.잔액,
         송금은행: state.donateMoneyInfo.송금은행,
         잔액: state.donateMoneyInfo.잔액,
+        펀딩아이디: state.donateMoneyInfo.펀딩아이디,
       },
     }));
   },
@@ -106,6 +113,21 @@ const useDonateMoneyInfo = create<
         송금금액: state.donateMoneyInfo.남은금액,
         송금은행: state.donateMoneyInfo.송금은행,
         잔액: state.donateMoneyInfo.잔액,
+        펀딩아이디: state.donateMoneyInfo.펀딩아이디,
+      },
+    }));
+  },
+
+  setFundingId: (펀딩아이디: number) => {
+    set((state) => ({
+      donateMoneyInfo: {
+        기관아이디: state.donateMoneyInfo.기관아이디,
+        기관명: state.donateMoneyInfo.기관명,
+        남은금액: state.donateMoneyInfo.남은금액,
+        송금금액: state.donateMoneyInfo.남은금액,
+        송금은행: state.donateMoneyInfo.송금은행,
+        잔액: state.donateMoneyInfo.잔액,
+        펀딩아이디: 펀딩아이디,
       },
     }));
   },

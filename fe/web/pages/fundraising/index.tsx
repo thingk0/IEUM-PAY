@@ -74,11 +74,13 @@ export default function Funding() {
           {fundingList.map((unit) => (
             <Link href={`fundraising/${unit.fundingId}`}>
               <div className={styles.card}>
-                <img
-                  className={styles.cardImage}
-                  src={unit.facilityImage}
-                  alt={`${unit.facilityName} 이미지`}
-                />
+                <div className={styles.imageBox}>
+                  <img
+                    className={styles.cardImage}
+                    src={unit.facilityImage}
+                    alt={`${unit.facilityName} 이미지`}
+                  />
+                </div>
                 <div className={styles.cardTextContiner}>
                   <div>{unit.facilityName}</div>
                   <div>{unit.fundingOpenDate}</div>
@@ -148,11 +150,17 @@ export default function Funding() {
       <div>
         <nav className={styles.tabContainer}>
           <ul className={styles.ul}>
-            <li onClick={changeToOnGoing}>
-              <div>진행 중</div>
+            <li
+              onClick={changeToOnGoing}
+              className={selectedTab ? styles.selected : ''}
+            >
+              <div>진행 모금</div>
             </li>
-            <li onClick={changeToComplete}>
-              <div>완료</div>
+            <li
+              onClick={changeToComplete}
+              className={selectedTab ? '' : styles.selected}
+            >
+              <div>완료 모금</div>
             </li>
           </ul>
         </nav>

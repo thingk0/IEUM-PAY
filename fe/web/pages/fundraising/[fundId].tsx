@@ -1,4 +1,4 @@
-import { getFundDetail } from '@/api/fundAxois';
+import { getFundDetail, setConnectState } from '@/api/fundAxois';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styles from '@/styles/FundDetailPage.module.scss';
@@ -234,7 +234,7 @@ export default function Detail() {
     router.push('/fundraising/direct-donation');
   };
 
-  const mamgeLinking = () => {
+  const mamgeLinking = async () => {
     setData({
       fundingId: data.fundingId,
       facilityName: data.facilityName,
@@ -255,7 +255,7 @@ export default function Detail() {
       content: data.content,
       products: data.products,
     });
-    onOpen();
+    (await setConnectState(data.currentLink, data.fundingId)) ? onOpen() : '';
   };
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -273,7 +273,7 @@ export default function Detail() {
     async function getData() {
       try {
         const fundDetailData = await getFundDetail(router.query['fundId']);
-        fundDetailData != undefined ? setData(fundDetailData) : '';
+        fundDetailData != undefined ? setData(fundDetailData.data) : '';
       } catch (e) {
         console.log(e);
       }
@@ -313,6 +313,10 @@ export default function Detail() {
         </div>
         {productList()}
         {donatorList()}
+        <p className={styles.content}>
+          <p>기관으로부터의 편지</p>
+          {data.content}
+        </p>
       </div>
       <div className={styles.footer}>{HalfButton(btnProps)}</div>
 
@@ -325,13 +329,30 @@ export default function Detail() {
           {(onClose) => (
             <>
               <ModalBody>
-                <img
-                  className={styles.modalImage}
-                  src="/favicon.png"
-                  alt="이어졌다는 뜻의 로고 이미지"
-                />
-                <div className={styles.modalMessage}>
-                  {josa(data.facilityName, '와/과')} 이어졌어요!
+                <div className={styles.modalContainer}>
+                  {data.currentLink ? (
+                    <>
+                      <img
+                        className={styles.modalImage}
+                        src="/disconnect-icon.svg"
+                        alt="끊어졌다는 뜻의 로고 이미지"
+                      />
+                      <div className={styles.modalMessage}>
+                        {josa(data.facilityName, '와/과')}의 연결을 끊었어요
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <img
+                        className={styles.modalImage}
+                        src="/icon-256x256.png"
+                        alt="이어졌다는 뜻의 이미지"
+                      />
+                      <div className={styles.modalMessage}>
+                        {josa(data.facilityName, '와/과')} 이어졌어요!
+                      </div>
+                    </>
+                  )}
                 </div>
               </ModalBody>
               <ModalFooter className={styles.modalFooter}>
