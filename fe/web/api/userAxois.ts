@@ -5,7 +5,6 @@ import { axiosApi, axiosAuthApi } from '@/utils/instance';
 import useUserStore from '@/stores/user-store';
 import { cookies } from 'next/headers';
 import { setCookie } from '@/utils/cookie';
-import { useCookies } from 'next-client-cookies';
 
 /**
  * login 후 토큰 저장후 true 리턴
