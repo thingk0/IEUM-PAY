@@ -1,10 +1,9 @@
 import { getFundListComplete, getFundListOnGoing } from '@/api/fundAxois';
 import HeaderMain from '@/stories/HeaderMain';
 import TabBar from '@/stories/TabBar';
-import { Progress } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import styles from '@/styles/FundPage.module.scss';
-import Link from 'next/link';
+import CardList from '@/components/funding/CardList';
 
 interface fundingList {
   fundingId: number;
@@ -62,59 +61,13 @@ export default function Funding() {
   ]);
   const [selectedTab, setSelectedTab] = useState(true);
 
-  const cardList = (fundingList: fundingList[], value: boolean) => {
-    return (
-      <>
-        <div>
-          {value
-            ? `진행중인 모금 ${fundingList.length}`
-            : `완료된 모금 ${fundingList.length}`}
-        </div>
-        <div className={styles.cardContainer}>
-          {fundingList.map((unit) => (
-            <Link href={`fundraising/${unit.fundingId}`} key={unit.fundingId}>
-              <div className={styles.card}>
-                <img
-                  className={styles.cardImage}
-                  src={unit.facilityImage}
-                  alt={`${unit.facilityName} 이미지`}
-                />
-                <div className={styles.cardTextContiner}>
-                  <div>{unit.facilityName}</div>
-                  <div>{unit.fundingOpenDate}</div>
-                  <div>
-                    <div className={styles.cntProgressText}>
-                      <div>{unit.fundingPeopleCnt}명 참여중</div>
-                      <div>
-                        {value ? `${unit.currentAmount}` : `${unit.goalAmount}`}{' '}
-                        /{unit.goalAmount}
-                      </div>
-                    </div>
-                    <Progress
-                      size="sm"
-                      aria-label="기부 모금 정도 표기"
-                      classNames={{
-                        indicator: `${styles.progressBar}`,
-                      }}
-                      value={Math.floor(
-                        (unit.currentAmount != undefined
-                          ? unit.currentAmount / unit.goalAmount
-                          : unit.goalAmount / unit.goalAmount) * 100,
-                      )}
-                    />
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </>
+  function Tab() {
+    return selectedTab ? (
+      <CardList fundingList={onGoingList} isOngoing={true} />
+    ) : (
+      <CardList fundingList={completeList} isOngoing={false} />
     );
-  };
-
-  const showTab = (val: boolean) => {
-    return val ? cardList(onGoingList, val) : cardList(completeList, val);
-  };
+  }
 
   const changeToOnGoing = () => {
     setSelectedTab(true);
@@ -156,10 +109,15 @@ export default function Funding() {
             </li>
           </ul>
         </nav>
-        <div className={styles.cardContainer}>{showTab(selectedTab)}</div>
+        <div className={styles.cardContainer}>
+          <Tab />
+        </div>
       </div>
 
       <TabBar selected={'fundraising'} />
     </>
   );
+}
+function cardList(onGoingList: fundingList[], val: boolean) {
+  throw new Error('Function not implemented.');
 }
