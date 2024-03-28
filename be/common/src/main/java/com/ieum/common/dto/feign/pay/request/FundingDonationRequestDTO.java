@@ -9,4 +9,5 @@ public class FundingDonationRequestDTO {
     Long memberId;
     Long fundingId;
     int donationAmount;
+    Long cardId;
 }

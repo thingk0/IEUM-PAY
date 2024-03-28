@@ -59,11 +59,12 @@ public class PayService {
         return payFeignClient.getDonationHistory(historyId);
     }
 
-    public Long directDonation(Long memberId, Long fundingId, int donationAmount){
+    public Long directDonation(Long memberId, Long fundingId, int donationAmount, Long cardId){
         return payFeignClient.directDonation(FundingDonationRequestDTO.builder()
                 .memberId(memberId)
                 .fundingId(fundingId)
                 .donationAmount(donationAmount)
+                .cardId(cardId)
                 .build());
     }
 
