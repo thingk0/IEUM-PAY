@@ -20,7 +20,6 @@ import com.ieum.common.exception.member.MemberNotFoundByIdException;
 import com.ieum.common.exception.member.MemberNotFoundByPhoneNumberException;
 import com.ieum.common.exception.member.MemberNotFoundException;
 import com.ieum.common.exception.member.PasswordMismatchException;
-import com.ieum.common.feign.PayFeignClient;
 import com.ieum.common.jwt.TokenProvider;
 import com.ieum.common.repository.GradeRepository;
 import com.ieum.common.repository.MemberRepository;
@@ -35,6 +34,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Member;
+import java.util.Optional;
+
 @Slf4j
 @Service
 @Transactional
@@ -47,7 +49,6 @@ public class MemberService {
     private final TokenProvider tokenProvider;
     private final StringRedisTemplate stringRedisTemplate;
 
-    private final PayService payService;
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final GradeRepository gradeRepository;
@@ -95,7 +96,7 @@ public class MemberService {
 
         paymoneyRepository.save(Paymoney.builder()
                 .memberId(savedMember.getId())
-                .paymentPassword(request.getPaymentPassword())
+                .paymentPassword(passwordEncoder.encode(request.getPaymentPassword()))
                 .paymoneyAmount(0)
                 .donationTotalAmount(0)
                 .donationCount(0)
@@ -276,6 +277,21 @@ public class MemberService {
     private void validatePasswordConfirmation(String password, String passwordConfirm) {
         if (!password.equals(passwordConfirm)) {
             throw new PasswordMismatchException();
+        }
+    }
+
+    /**
+     * 사용자의 메인카드 변경하는 메서드입니다.
+     *
+     * @param id       해당하는 멤버 id
+     * @param registerCardId 주거래카드의 id
+     */
+    public void mainCardUpdate(Long id, Long registerCardId) {
+        Optional<Members> members = memberRepository.findById(id);
+        if(members.isPresent()){
+            Members member = members.get();
+            member.updatePaycardId(registerCardId);
+            memberRepository.save(member);
         }
     }
 }
