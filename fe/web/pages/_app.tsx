@@ -4,6 +4,7 @@ import React from 'react';
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 export default function App({ Component, pageProps }: AppProps) {
   // if (process.env.NODE_ENV === 'development') {
@@ -19,6 +20,18 @@ export default function App({ Component, pageProps }: AppProps) {
   //     })();
   //   }
   // }
+  const [queryClient] = React.useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            // With SSR, we usually want to set some default staleTime
+            // above 0 to avoid refetching immediately on the client
+            staleTime: 60 * 1000,
+          },
+        },
+      }),
+  );
   return (
     <>
       <Head>
@@ -28,11 +41,13 @@ export default function App({ Component, pageProps }: AppProps) {
           content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
         />
       </Head>
-      <NextUIProvider>
-        <CounterStoreProvider>
-          <Component {...pageProps} />
-        </CounterStoreProvider>
-      </NextUIProvider>
+      <QueryClientProvider client={queryClient}>
+        <NextUIProvider>
+          <CounterStoreProvider>
+            <Component {...pageProps} />
+          </CounterStoreProvider>
+        </NextUIProvider>
+      </QueryClientProvider>
     </>
   );
 }
