@@ -38,7 +38,7 @@ function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
 
   const router = useRouter();
   function goQR() {
-    router.push('/qrscan');
+    router.push('/payment/qrscan');
   }
   return (
     <nav className={classes.container}>
