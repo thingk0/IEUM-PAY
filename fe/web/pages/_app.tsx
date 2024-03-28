@@ -4,7 +4,7 @@ import React from 'react';
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { HydrationBoundary, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 export default function App({ Component, pageProps }: AppProps) {
   // if (process.env.NODE_ENV === 'development') {
@@ -42,11 +42,13 @@ export default function App({ Component, pageProps }: AppProps) {
         />
       </Head>
       <QueryClientProvider client={queryClient}>
-        <NextUIProvider>
-          <CounterStoreProvider>
-            <Component {...pageProps} />
-          </CounterStoreProvider>
-        </NextUIProvider>
+        <HydrationBoundary state={pageProps.dehydratedState}>
+          <NextUIProvider>
+            <CounterStoreProvider>
+              <Component {...pageProps} />
+            </CounterStoreProvider>
+          </NextUIProvider>
+        </HydrationBoundary>
       </QueryClientProvider>
     </>
   );
