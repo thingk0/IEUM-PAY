@@ -153,10 +153,10 @@ public interface PayFeignClient {
 
     @PostMapping("/member/mine")
     public boolean isMine(@RequestBody MyCardCheckRequestDTO requestDTO);
-    @GetMapping("/member/pp/{memberId}")
-    String getPaymentPassword(@PathVariable("memberId") Long memberId);
 
     @GetMapping("/remittance/{memberId}/{historyId}")
     public RemittanceHistoryResponseDTO getRemittanceHistory(@PathVariable("memberId") Long memberId, @PathVariable("historyId") Long historyId);
 
+    @GetMapping("/member/pp/{memberId}")
+    String getPaymentPassword(@PathVariable("memberId") Long memberId);
 }

@@ -1,16 +1,18 @@
-package com.ieum.funding.response;
+package com.ieum.common.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
-@Getter
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AutoFundingResultResponseDTO {
+public class DirectlyDonationInfoResponseDTO {
     private Long fundingId;
     private Integer amount;
+    private String facilityName;
+    private int paymoneyAmount;
+
 }

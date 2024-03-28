@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FundingDonationRequestDTO {
-    private Long fundingId;
+public class AutoDonationRequestDTO {
     private Long memberId;
     private Integer amount;
 }
