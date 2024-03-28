@@ -6,6 +6,7 @@ import lombok.Getter;
 @Builder
 @Getter
 public class PaymentHistoryResponseDTO {
+    Long fundingId;
     String storeName;
     int paymentAmount;
     int donationAmount;

@@ -32,6 +32,8 @@ public enum FailedCode {
     PAYMENT_FAILED_EXCEEDED_LIMIT(HttpStatus.BAD_REQUEST, "카드 한도 초과로 결제에 실패하였습니다"),
 
     /* Card */
+    PAYMENT_REGISTERED_CARD_NULL(HttpStatus.BAD_REQUEST, "연결된 카드가 없습니다."),
+    REGISTERED_CARD_DELETE(HttpStatus.BAD_REQUEST, "메인 카드를 변경해주세요"),
     PAYMENT_FAILED_EXPIRED_CARD(HttpStatus.BAD_REQUEST, "카드 유효기간 만료로 결제에 실패하였습니다"),
     PAYMENT_FAILED_LOST_CARD(HttpStatus.BAD_REQUEST, "분실된 카드로 인해 결제에 실패하였습니다"),
     PAYMENT_FAILED_BANK_MAINTENANCE(HttpStatus.SERVICE_UNAVAILABLE, "은행 점검으로 인해 결제에 실패하였습니다"),

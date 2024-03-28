@@ -95,7 +95,7 @@ public class PayService {
         return payFeignClient.getStoreName(storeId);
     }
 
-    public PaymentHistoryResponseDTO getPaymentHistory(Long memberId, Long historyId){
+    public PaymentHistoryPayResponseDTO getPaymentHistory(Long memberId, Long historyId){
         return payFeignClient.getPaymentHistory(historyId);
     }
 
@@ -138,5 +138,9 @@ public class PayService {
     }
     public RemittanceHistoryResponseDTO getRemittanceHistory(Long memberId, Long historyId){
         return payFeignClient.getRemittanceHistory(memberId,historyId);
+    }
+
+    public String getCardName(Long registeredCardId){
+        return payFeignClient.getCardName(registeredCardId);
     }
 }

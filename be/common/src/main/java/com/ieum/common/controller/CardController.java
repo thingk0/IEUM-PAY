@@ -1,10 +1,12 @@
 package com.ieum.common.controller;
 
 import com.ieum.common.annotation.CurrentMemberId;
+import com.ieum.common.domain.Members;
 import com.ieum.common.dto.request.CardMainRequestDTO;
 import com.ieum.common.dto.request.CardRegisterRequestDTO;
 import com.ieum.common.dto.request.CardUpdateRequestDTO;
 import com.ieum.common.dto.response.CardOcrResponseDTO;
+import com.ieum.common.format.code.FailedCode;
 import com.ieum.common.format.code.SuccessCode;
 import com.ieum.common.format.response.ResponseTemplate;
 import com.ieum.common.service.MemberService;
@@ -17,6 +19,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import static com.ieum.common.format.code.FailedCode.PAYMENT_REGISTERED_CARD_NULL;
+import static com.ieum.common.format.code.FailedCode.REGISTERED_CARD_DELETE;
 
 @Tag(name = "card", description = "card API - 목업")
 @RequiredArgsConstructor
@@ -65,6 +70,10 @@ public class CardController {
             return response.success(id,
                     SuccessCode.CARD_TYPE_WRONG);
         }
+        Members member = memberService.findMemberById(memberId);
+        if(member.getPaycardId() == null){
+            memberService.mainCardUpdate(memberId,id);
+        }
         return response.success(id,
                 SuccessCode.CARD_REGISTER_SUCCESSFUL);
 
@@ -73,9 +82,13 @@ public class CardController {
     @Operation(summary = "카드 삭체", description = "카드 정보를 삭제합니다.")
     @ApiResponse(responseCode = "200", description = "카드 삭제 성공")
     @PutMapping("/update")
-    public ResponseEntity<?> cardUpdate(@RequestBody CardUpdateRequestDTO cardUpdateRequestDTO,
+    public ResponseEntity<?> cardUpdate(@RequestBody CardUpdateRequestDTO requestDTO,
                                         @CurrentMemberId Long memberId) {
-        return response.success(payService.updateCard(memberId,cardUpdateRequestDTO.getRegisteredCardId()),
+        Members member = memberService.findMemberById(memberId);
+        if(member.getPaycardId() == requestDTO.getRegisteredCardId()){
+            return response.error(REGISTERED_CARD_DELETE);
+        }
+        return response.success(payService.updateCard(memberId,requestDTO.getRegisteredCardId()),
                SuccessCode.SUCCESS);
     }
 }

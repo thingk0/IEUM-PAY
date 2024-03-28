@@ -11,5 +11,6 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AutoFundingResultResponseDTO {
-    private Integer amount;
+    Long fundingId;
+    Integer amount;
 }

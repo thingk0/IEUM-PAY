@@ -43,7 +43,11 @@ public class CardValidController {
 
             //카드 정보 저장
             //저장된 카드 id 반환
-            return registeredCardService.registerCard(card, requestDTO.getMemberId(),requestDTO.getCardNickname());
+            String nickname = card.getCardProduct() + cardNumber.substring(12);
+            if(requestDTO.getCardNickname() != null && !requestDTO.getCardNickname().equals("")) {
+                nickname = requestDTO.getCardNickname();
+            }
+            return registeredCardService.registerCard(card, requestDTO.getMemberId(),nickname);
             //  4917484589897107 f
         }
         return -1L;
