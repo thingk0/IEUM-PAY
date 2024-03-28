@@ -55,7 +55,7 @@ public interface FundingFeignClient {
     FundingDonationResponseDTO donationDirectly(@RequestBody FundingDonationRequestDTO request);
 
     // 자동 기부
-    @PostMapping(value = "/funding/auto")
+    @PostMapping(value = "/funding/donation/auto")
     AutoFundingResultResponseDTO donationAuto(@RequestBody FundingDonationRequestDTO request);
 
     // 펀딩 결과 정보 조회
