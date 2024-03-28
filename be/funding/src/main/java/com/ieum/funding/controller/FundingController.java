@@ -1,7 +1,8 @@
 package com.ieum.funding.controller;
 
 import com.ieum.funding.repository.FundingMembersRepository;
-import com.ieum.funding.request.FundingDonationRequestDTO;
+import com.ieum.funding.request.AutoDonationRequestDTO;
+import com.ieum.funding.request.DirectlyDonationRequestDTO;
 import com.ieum.funding.request.FundingLinkRequestDTO;
 import com.ieum.funding.response.AutoFundingResultResponseDTO;
 import com.ieum.funding.response.CurrentFundingResult1DTO;
@@ -87,8 +88,9 @@ public class FundingController {
     @ApiResponse(responseCode = "200", description = "펀딩 기부 성공 - Boolean - fundingResult 반환")
     @PostMapping("/donation/direct")
     public ResponseEntity<FundingDonationResponseDTO> donationDirectly(
-        @RequestBody FundingDonationRequestDTO request) {
+        @RequestBody DirectlyDonationRequestDTO request) {
         FundingDonationResponseDTO response = FundingDonationResponseDTO.builder()
+            .fundingId(request.getFundingId())
             .fundingResult(fundingService.directDonation(request.getFundingId(),
                 request.getMemberId(), request.getAmount()))
             .build();
@@ -117,8 +119,8 @@ public class FundingController {
     @ApiResponse(responseCode = "200", description = "자동기부 성공 - Integer - amount 반환(기부 금액)")
     @PostMapping("/donation/auto")
     public ResponseEntity<AutoFundingResultResponseDTO> donationAuto(
-        @RequestBody FundingDonationRequestDTO request) {
-        AutoFundingResultResponseDTO response = fundingService.autoDonation(request.getFundingId(), request.getMemberId(), request.getAmount());
+        @RequestBody AutoDonationRequestDTO request) {
+        AutoFundingResultResponseDTO response = fundingService.autoDonation(request.getMemberId(), request.getAmount());
         return ResponseEntity.ok(response);
     }
 

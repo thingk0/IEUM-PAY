@@ -12,10 +12,13 @@ import com.ieum.common.dto.feign.funding.request.FundingLinkRequestDTO;
 import com.ieum.common.dto.feign.funding.response.FundingDetailResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingSummaryResponseDTO;
 import com.ieum.common.dto.request.FundingLinkupRequestDTO;
+import com.ieum.common.dto.response.DirectlyDonationInfoResponseDTO;
+import com.ieum.common.dto.response.DonationDirectlyResponseDTO;
 import com.ieum.common.feign.FundingFeignClient;
 import com.ieum.common.format.code.SuccessCode;
 import com.ieum.common.format.response.ResponseTemplate;
 import com.ieum.common.service.FundingService;
+import com.ieum.common.service.PayService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -43,6 +46,7 @@ public class FundingController {
 
     private final FundingFeignClient fundingFeignClient;
     private final FundingService fundingService;
+    private final PayService payService;
 
     @Operation(summary = "펀딩 상세 조회", description = "펀딩의 상세 정보를 조회합니다.")
     @ApiResponse(responseCode = "200", description = "펀딩 상세 정보 조회 성공")
@@ -122,8 +126,16 @@ public class FundingController {
     @Operation(summary = "직접기부 결제 정보 요청", description = "직접기부 결제시 해당 결제에 대한 정보 요청")
     @ApiResponse(responseCode = "200", description = "정보 조회 성공")
     @GetMapping("/info/directly/{fundingId}")
-    public ResponseEntity<?> getDirectlyFundingInfo(@PathVariable("fundingId") Long fundingId) {
-        FundingInfoResponseDTO res = fundingService.getDirectlyFundingInfo(fundingId);
+    public ResponseEntity<?> getDirectlyFundingInfo(@PathVariable("fundingId") Long fundingId,
+            @CurrentMemberId Long memberId) {
+        FundingInfoResponseDTO funding = fundingService.getDirectlyFundingInfo(fundingId);
+        int paymoney = payService.nowMyPaymoney(memberId);
+        DirectlyDonationInfoResponseDTO res = DirectlyDonationInfoResponseDTO.builder()
+            .fundingId(fundingId)
+            .facilityName(funding.getFacilityName())
+            .amount(funding.getAmount())
+            .paymoneyAmount(paymoney)
+            .build();
         return response.success(res, SuccessCode.SUCCESS);
     }
 
@@ -148,6 +160,14 @@ public class FundingController {
     @GetMapping("/info/current")
     public ResponseEntity<?> getCurrentInfo(@CurrentMemberId Long memberId) {
         CurrentFundingResultResponseDTO res = fundingService.getCurrentInfo(memberId);
+        return response.success(res, SuccessCode.SUCCESS);
+    }
+
+    @Operation(summary = "직접 기부 결과 조회", description = "직접 기부 결과를 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "직접 기부 결과 조회 성공")
+    @GetMapping("/donation/directly/result/{history}")
+    public ResponseEntity<?> getDirectlyResult(@PathVariable("history") Long history) {
+        DonationDirectlyResponseDTO res = fundingService.getDirectlyResult(history);
         return response.success(res, SuccessCode.SUCCESS);
     }
 }

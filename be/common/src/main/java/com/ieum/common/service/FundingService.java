@@ -10,7 +10,10 @@ import com.ieum.common.dto.feign.funding.response.FundingInfoResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingReceiptResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingResultResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingSummaryResponseDTO;
+import com.ieum.common.dto.feign.pay.response.FundingDonationResultResponseDTO;
+import com.ieum.common.dto.response.DonationDirectlyResponseDTO;
 import com.ieum.common.feign.FundingFeignClient;
+import com.ieum.common.feign.PayFeignClient;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class FundingService {
     private final FundingFeignClient fundingFeignClient;
+    private final PayFeignClient payFeignClient;
 
     // 펀딩 상세 조회
     public FundingDetailResponseDTO getFundingDetail(Long fundingId, Long memberId) {
@@ -77,5 +81,18 @@ public class FundingService {
 
     public CurrentFundingResultResponseDTO getCurrentInfo(Long memberId) {
         return fundingFeignClient.getCurrentInfo(memberId);
+    }
+
+    public DonationDirectlyResponseDTO getDirectlyResult(Long historyId) {
+        FundingDonationResultResponseDTO history = payFeignClient.getDonationHistory(historyId);
+        FundingResultResponseDTO funding = fundingFeignClient.getPaymentResult(history.getFundingId());
+        return DonationDirectlyResponseDTO.builder()
+            .fundingId(history.getFundingId())
+            .facilityName(funding.getFacilityName())
+            .facilityTitle(funding.getFundingTitle())
+            .facilityImage(funding.getFacilityImage())
+            .fundingAmount(history.getDonationAmount())
+            .build();
+
     }
 }

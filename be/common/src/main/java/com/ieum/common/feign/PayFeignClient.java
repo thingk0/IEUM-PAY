@@ -153,5 +153,7 @@ public interface PayFeignClient {
 
     @PostMapping("/member/mine")
     public boolean isMine(@RequestBody MyCardCheckRequestDTO requestDTO);
-    String getPaymentPassword(Long memberId);
+
+    @GetMapping("/member/pp/{memberId}")
+    String getPaymentPassword(@PathVariable("memberId") Long memberId);
 }
