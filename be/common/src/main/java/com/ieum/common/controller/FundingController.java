@@ -1,6 +1,7 @@
 package com.ieum.common.controller;
 
 import com.ieum.common.annotation.CurrentMemberId;
+import com.ieum.common.domain.Members;
 import com.ieum.common.dto.feign.funding.request.FundingDonationRequestDTO;
 import com.ieum.common.dto.feign.funding.response.AutoFundingResultResponseDTO;
 import com.ieum.common.dto.feign.funding.response.CurrentFundingResultResponseDTO;
@@ -21,6 +22,7 @@ import com.ieum.common.feign.FundingFeignClient;
 import com.ieum.common.format.code.SuccessCode;
 import com.ieum.common.format.response.ResponseTemplate;
 import com.ieum.common.service.FundingService;
+import com.ieum.common.service.MemberService;
 import com.ieum.common.service.PayService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -37,6 +39,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.ieum.common.format.code.FailedCode.PAYMENT_REGISTERED_CARD_NULL;
+
 @Tag(name = "funding", description = "Funding API - 목업")
 @RequiredArgsConstructor
 @RestController
@@ -48,6 +52,7 @@ public class FundingController {
     private final ResponseTemplate response;
 
     private final FundingFeignClient fundingFeignClient;
+    private final MemberService memberService;
     private final FundingService fundingService;
     private final PayService payService;
 
@@ -115,6 +120,10 @@ public class FundingController {
     @PostMapping("/donation")
     public ResponseEntity<?> donationDirectly(@RequestBody DirectlyDonationRequestDTO request,
         @CurrentMemberId Long memberId) {
+        Members member = memberService.findMemberById(memberId);
+        if(member.getPaycardId() == null){
+            return response.error(PAYMENT_REGISTERED_CARD_NULL);
+        }
         DirectlyDonationResponseDTO res = fundingService.donationDirectly(request, memberId);
         return response.success(res, SuccessCode.SUCCESS);
     }
