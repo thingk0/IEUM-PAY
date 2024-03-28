@@ -1,0 +1,29 @@
+version: '3'
+services:
+  common:
+    container_name: common
+    build: ./common
+    ports:
+      - "8081:8081"
+    restart: always
+    network_mode: "host"
+
+  funding:
+    container_name: funding
+    build: ./funding
+    ports:
+      - "8082:8082"
+    restart: always
+    network_mode: "host"
+
+  pay:
+    container_name: pay
+    build: ./pay
+    ports:
+      - "8083:8083"
+    restart: always
+    network_mode: "host"
+
+networks:
+  default:
+    driver: bridge
