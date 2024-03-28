@@ -2,7 +2,16 @@ import HeaderMain from '@/stories/HeaderMain';
 import TabBar from '@/stories/TabBar';
 import Accordion from '@/components/Accordion';
 import classes from '@/styles/HistoryPage.module.scss';
+import { useEffect } from 'react';
+import { getHistory } from '@/api/historyAxios';
 function HistoryPage() {
+  useEffect(() => {
+    async function getData() {
+      let data = await getHistory();
+      console.log(data);
+    }
+    getData();
+  }, []);
   return (
     <>
       <HeaderMain />
