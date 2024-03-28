@@ -1,20 +1,12 @@
 import Button from '@/stories/Button';
 import classes from './receipt.module.scss';
 import PageTitleCenter from '@/components/PageTitleCenter';
-function ReceiptElement({
-  title,
-  value,
-}: {
-  title: React.ReactNode;
-  value: React.ReactNode;
-}) {
-  return (
-    <div className={classes.element}>
-      <span className={classes.title}>{title}</span>
-      <span className={classes.value}>{value}</span>
-    </div>
-  );
+import CustomDashedBorder from '@/components/CustomDashedBorder';
+import { commaizeNumber } from '@toss/utils';
+function ReceiptElement({ children }: { children: React.ReactNode }) {
+  return <div className={classes.element}>{children}</div>;
 }
+
 export default function ReceiptPage() {
   const data = {
     fundingId: 1,
@@ -28,31 +20,34 @@ export default function ReceiptPage() {
   return (
     <>
       <PageTitleCenter title={''} description={''}></PageTitleCenter>
-      <main>
+      <main className={classes.container}>
         <div className={classes.receipt}>
-          <h1>{data.fundingId}</h1>
-          <hr />
+          <h1>이음페이 기부 영수증</h1>
+          <CustomDashedBorder />
           <h2>{data.fundingTitle}</h2>
-          <hr />
-          <ReceiptElement title="기부자" value={data.nickname}></ReceiptElement>
-          <ReceiptElement
-            title="배송지"
-            value={data.facilityName}
-          ></ReceiptElement>
-          <ReceiptElement
-            title="기부일시"
-            value={data.historyDate}
-          ></ReceiptElement>
-          <hr />
-          <ReceiptElement
-            title="배송 품목"
-            value={data.fundingSummary}
-          ></ReceiptElement>
-          <hr />
-          <ReceiptElement
-            title="기부금"
-            value={data.donationAmount}
-          ></ReceiptElement>
+          <CustomDashedBorder />
+          <ReceiptElement>
+            <b>기부자</b>
+            <b>{data.nickname}</b>
+          </ReceiptElement>
+          <ReceiptElement>
+            <b>배송지</b>
+            <b>{data.facilityName}</b>
+          </ReceiptElement>
+          <ReceiptElement>
+            <span>기부일시</span>
+            <span>{data.historyDate}</span>
+          </ReceiptElement>
+          <CustomDashedBorder />
+          <ReceiptElement>
+            <span>배송품목</span>
+            <span>{data.fundingSummary}</span>
+          </ReceiptElement>
+          <CustomDashedBorder />
+          <ReceiptElement>
+            <span>기부금</span>
+            <span>{commaizeNumber(data.donationAmount)}원</span>
+          </ReceiptElement>
         </div>
         <Button primary>영수증 공유하기</Button>
       </main>
