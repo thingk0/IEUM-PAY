@@ -86,7 +86,7 @@ export default function QrReader() {
             alt="Qr Frame"
             width={256}
             height={256}
-            className="qr-frame"
+            className={styles.qrFrame}
           />
           <QrFrame />
         </div>
