@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
 import useUserStore from '@/stores/user-store';
 import Button from '@/stories/Button';
+import PageTitleLeft from '@/components/PageTitleLeft';
+import styles from '@/styles/user.module.scss';
 
 export default function Mms() {
   const router = useRouter();
@@ -16,12 +18,13 @@ export default function Mms() {
   }
 
   return (
-    <div>
-      <h1>사용자 인증</h1>
-      <p>문자 메시지를 통해 휴대폰 본인확인을</p>
-      <p>진행합니다</p>
-      <p>문자의 내용을 수정없이 보내주세요</p>
-      <p>이미지 위치</p>
+    <div className={styles.container}>
+      <PageTitleLeft
+        title="사용자 인증"
+        description={'문자 메시지를 통해 휴대폰 본인확인을 진행합니다'}
+        description2={'문자의 내용을 수정없이 보내주세요'}
+      />
+      <img src="/mms_image.png" alt="mss 문자 예시 이미지" />
       <Button primary size="thick" onClick={handleClick}>
         확인
       </Button>
