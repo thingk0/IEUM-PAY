@@ -8,6 +8,7 @@ import Money from '@/components/Money';
 import HeaderMain from '@/stories/HeaderMain';
 import Button from '@/stories/Button';
 import { useRouter } from 'next/router';
+import MainPageDropdown from '@/components/MainPageDropdown';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,6 +21,7 @@ export default function Home() {
     <>
       <HeaderMain />
       <main className={mainStyles.main}>
+        <MainPageDropdown></MainPageDropdown>
         <div className={mainStyles.cardsContainer}>
           <div className={mainStyles.card}>삼성 카드</div>
         </div>
