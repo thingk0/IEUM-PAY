@@ -40,6 +40,7 @@ public interface FundingMembersRepository extends JpaRepository<FundingMembers, 
     void unlinkAllByFundingId(Long fundingId);
 
     @Query("SELECT new com.ieum.funding.response.CurrentFundingResultResponseDTO(" +
+        "f.fundingId, " +
         "fac.facilityName, " +
         "fac.facilityImage, " +
         "fm.fundingTotalAmount,"
@@ -48,5 +49,5 @@ public interface FundingMembersRepository extends JpaRepository<FundingMembers, 
         "JOIN Funding f ON f.fundingId = fm.fundingId " +
         "JOIN Facilities fac ON f.facilityId = fac.facilityId " +
         "WHERE fm.memberId = :memberId AND fm.autoFundingStatus = true ")
-    CurrentFundingResultResponseDTO getCurrnetFunding(Long memberId);
+    CurrentFundingResultResponseDTO getCurrentFunding(Long memberId);
 }

@@ -135,7 +135,7 @@ public class FundingController {
     @GetMapping("/info/current/{memberId}")
     public ResponseEntity<CurrentFundingResultResponseDTO> getCurrentFundingInfo(
         @PathVariable("memberId") Long memberId) {
-        CurrentFundingResultResponseDTO response = fundingMembersRepository.getCurrnetFunding(memberId);
+        CurrentFundingResultResponseDTO response = fundingService.getCurrentFunding(memberId);
         return ResponseEntity.ok(response);
     }
 }

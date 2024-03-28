@@ -10,17 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CurrentFundingResultResponseDTO {
+    private Long fundingId;
     private String facilityName;
     private String facilityImage;
     private Integer fundingTotalAmount;
     private Long fundingCount;
-
-    @Override
-    public String toString() {
-        return "CurrentFundingResultResponseDTO{" +
-            "facilityName='" + facilityName + '\'' +
-            ", facilityImage='" + facilityImage + '\'' +
-            ", fundingTotalAmount=" + fundingTotalAmount +
-            '}';
-    }
 }
