@@ -13,6 +13,8 @@ import com.ieum.common.dto.feign.funding.response.FundingReceiptResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingResultResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingSummaryResponseDTO;
 import com.ieum.common.dto.feign.pay.response.FundingDonationResultResponseDTO;
+import com.ieum.common.dto.request.DirectlyDonationRequestDTO;
+import com.ieum.common.dto.response.DirectlyDonationResponseDTO;
 import com.ieum.common.dto.response.DonationDirectlyResponseDTO;
 import com.ieum.common.dto.response.ReceiptResponseDTO;
 import com.ieum.common.feign.FundingFeignClient;
@@ -28,6 +30,7 @@ import org.springframework.stereotype.Service;
 public class FundingService {
     private final FundingFeignClient fundingFeignClient;
     private final PayFeignClient payFeignClient;
+    private final PayService payService;
     private final MemberService memberService;
 
     // 펀딩 상세 조회
@@ -75,8 +78,21 @@ public class FundingService {
     }
 
     // 직접 기부
-    public FundingDonationResponseDTO donationDirectly(FundingDonationRequestDTO request) {
-        return fundingFeignClient.donationDirectly(request);
+    public DirectlyDonationResponseDTO donationDirectly(DirectlyDonationRequestDTO request, Long memberId) {
+        // 기부
+        FundingDonationRequestDTO funding = FundingDonationRequestDTO.builder()
+            .fundingId(request.getFundingId())
+            .amount(request.getAmount())
+            .memberId(memberId)
+            .build();
+        fundingFeignClient.donationDirectly(funding);
+
+        Members members = memberService.findMemberById(memberId);
+
+        return DirectlyDonationResponseDTO.builder()
+            .historyId(payService.directDonation(memberId, request.getFundingId(), request.getAmount(),
+                members.getPaycardId()))
+            .build();
     }
 
     // 자동 기부 결제 정보 요청

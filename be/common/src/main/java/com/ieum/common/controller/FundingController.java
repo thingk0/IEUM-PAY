@@ -11,8 +11,10 @@ import com.ieum.common.dto.feign.funding.response.FundingResultResponseDTO;
 import com.ieum.common.dto.feign.funding.request.FundingLinkRequestDTO;
 import com.ieum.common.dto.feign.funding.response.FundingDetailResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingSummaryResponseDTO;
+import com.ieum.common.dto.request.DirectlyDonationRequestDTO;
 import com.ieum.common.dto.request.FundingLinkupRequestDTO;
 import com.ieum.common.dto.response.DirectlyDonationInfoResponseDTO;
+import com.ieum.common.dto.response.DirectlyDonationResponseDTO;
 import com.ieum.common.dto.response.DonationDirectlyResponseDTO;
 import com.ieum.common.dto.response.ReceiptResponseDTO;
 import com.ieum.common.feign.FundingFeignClient;
@@ -111,8 +113,9 @@ public class FundingController {
     @Operation(summary = "직접 기부", description = "펀딩에 직접 기부합니다.")
     @ApiResponse(responseCode = "200", description = "펀딩 기부 성공 - 펀딩ID 반환")
     @PostMapping("/donation")
-    public ResponseEntity<?> donationDirectly(@RequestBody FundingDonationRequestDTO request) {
-        FundingDonationResponseDTO res = fundingService.donationDirectly(request);
+    public ResponseEntity<?> donationDirectly(@RequestBody DirectlyDonationRequestDTO request,
+        @CurrentMemberId Long memberId) {
+        DirectlyDonationResponseDTO res = fundingService.donationDirectly(request, memberId);
         return response.success(res, SuccessCode.SUCCESS);
     }
 
