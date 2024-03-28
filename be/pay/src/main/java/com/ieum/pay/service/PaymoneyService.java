@@ -1,6 +1,7 @@
 package com.ieum.pay.service;
 
 import com.ieum.pay.domain.Paymoney;
+import com.ieum.pay.domain.RegisteredCards;
 import com.ieum.pay.repository.PaymoneyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

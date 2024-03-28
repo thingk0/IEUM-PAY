@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class CardMainRequestDTO {
-    int registerCardId;
+    Long registerCardId;
 }

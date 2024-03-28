@@ -17,7 +17,7 @@ public class Paymoney {
     @Column
     private Long memberId;
 
-    @Column(nullable = false, length = 6)
+    @Column(nullable = false)
     private String paymentPassword;
 
     @Column(nullable = false)

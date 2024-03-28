@@ -80,4 +80,6 @@ public class Members extends BaseEntity {
     public void updatePassword(String password) {
         this.password = password;
     }
+
+    public void updatePaycardId(Long paycardId){this.paycardId = paycardId;}
 }
