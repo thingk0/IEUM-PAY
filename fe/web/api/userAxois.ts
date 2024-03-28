@@ -11,8 +11,6 @@ export const customlogin = async (phoneNumber: string, password: string) => {
     .post('api/member/login', {
       phoneNumber: phoneNumber,
       password: password,
-      // phoneNumber: useUserStore.getInitialState().userInfo.phoneNumber,
-      // password: useUserStore.getInitialState().userInfo.userPassword,
     })
     .then((response) => {
       console.log(response.data.data);
@@ -34,7 +32,7 @@ export const requestRandomKey = async (phoneNumber: string) => {
   return await local
     .get(`api/auth?phone-number=${phoneNumber}`)
     .then((response) => {
-      useUserStore.getInitialState().setRandomKey(response.data['mmsAuth']);
+      return response.data;
     })
     .catch((error) => {
       console.log(error.message);
@@ -65,10 +63,11 @@ export const IsRegister = async (nunmber: string) => {
   return await local
     .get(`api/member/exist?phone-number=${nunmber}`)
     .then((response) => {
-      console.log(response.data.data);
+      console.log(response);
       return response.data;
     })
     .catch((error) => {
+      console.log('에러뜸');
       console.log(error.message);
     });
 };
