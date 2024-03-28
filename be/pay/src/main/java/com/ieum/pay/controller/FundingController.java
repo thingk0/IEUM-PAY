@@ -17,6 +17,6 @@ public class FundingController {
     }
     @PostMapping
     public Long directDonation(@RequestBody FundingDonationRequestDTO requestDTO){
-        return historyService.directDonation(requestDTO.getMemberId(), requestDTO.getFundingId(), requestDTO.getDonationAmount());
+        return historyService.directDonation(requestDTO.getMemberId(), requestDTO.getFundingId(), requestDTO.getDonationAmount(), requestDTO.getCardId());
     }
 }
