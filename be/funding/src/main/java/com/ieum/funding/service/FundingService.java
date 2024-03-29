@@ -210,4 +210,13 @@ public class FundingService {
     public CurrentFundingResult2DTO getCurrentFunding2(Long memberId) {
         return fundingMembersRepository.getCurrentFunding2(memberId);
     }
+
+    public List<FundingSummaryResponseDTO> getFundingParticipantList(Long memberId) {
+        List<FundingSummaryResponseDTO> fundingList = fundingRepository.findParticipantFundingList(memberId);
+        // 로그 출력
+        for (FundingSummaryResponseDTO info : fundingList) {
+            log.info("Funding Info: {}", info);
+        }
+        return fundingList;
+    }
 }

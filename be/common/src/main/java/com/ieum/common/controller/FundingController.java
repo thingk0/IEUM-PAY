@@ -77,6 +77,14 @@ public class FundingController {
         return response.success(res, SuccessCode.SUCCESS);
     }
 
+    @Operation(summary = "참여했던 펀딩 목록 조회", description = "참여했던 모든 펀딩의 목록을 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "참여했던 펀딩 목록 조회 성공")
+    @GetMapping("/list/participation")
+    public ResponseEntity<?> getFundingParticipationList(@CurrentMemberId Long memberId) {
+        List<FundingSummaryResponseDTO> res = fundingService.getFundingParticipationList(memberId);
+        return response.success(res, SuccessCode.SUCCESS);
+    }
+
     @Operation(summary = "펀딩 연계", description = "사용자를 특정 펀딩에 연계시킵니다.")
     @ApiResponse(responseCode = "200", description = "펀딩 연계 성공")
     @PostMapping("/linkup")

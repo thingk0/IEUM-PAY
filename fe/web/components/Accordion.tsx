@@ -50,7 +50,9 @@ function Accordion({ history }: AccordionProps) {
           {history.detail
             .filter((e) => e.type === '충전')
             .map((e) => (
-              <div>+{commaizeNumber(e.price)}원 이음페이머니 충전</div>
+              <div key={history.historyId + e.type}>
+                +{commaizeNumber(e.price)}원 이음페이머니 충전
+              </div>
             ))}
         </section>
       )}

@@ -1,9 +1,6 @@
 package com.ieum.common.dto.feign.pay.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Builder
 @Getter
@@ -14,5 +11,6 @@ public class CardDTO {
     Long cardId;
     String cardNickname;
     String cardIssuer;
+    @Setter
     boolean mainCard;
 }
