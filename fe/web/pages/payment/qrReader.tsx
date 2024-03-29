@@ -5,8 +5,9 @@ import styles from './QrStyles.module.scss';
 
 // Qr Scanner
 import QrScanner from 'qr-scanner';
-import qrFrame from './qr-frame.svg';
 import QrFrame from './QRframe';
+import PageTitleCenter from '@/components/PageTitleCenter';
+// import qrFrame from './qr-frame.svg';
 
 export default function QrReader() {
   // QR States
@@ -71,23 +72,24 @@ export default function QrReader() {
     if (!qrOn)
       alert(
         // 'Camera is blocked or not accessible. Please allow camera in your browser permissions and Reload.',
-        '카메라 사용을 허용해주세요.',
+        '카메라에 접근할 수 없습니다.',
       );
   }, [qrOn]);
 
   return (
     <>
+      <PageTitleCenter title={'QR코드 스캔'} description={''} />
       <div className={styles.qrReader}>
         {/* QR */}
         <video ref={videoEl}></video>
         <div ref={qrBoxEl} className={styles.qrBox}>
-          <img
+          {/* <img
             src={qrFrame}
             alt="Qr Frame"
             width={256}
             height={256}
             className={styles.qrFrame}
-          />
+          /> */}
           <QrFrame />
         </div>
 

@@ -18,5 +18,6 @@ export const config = {
     '/history/:path*',
     '/settings/:path*',
     '/my-page/:path*',
+    '/payment/:path*',
   ],
 };
