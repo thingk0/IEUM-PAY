@@ -50,7 +50,7 @@ public interface FundingFeignClient {
     FundingInfoResponseDTO getDirectlyFundingInfo(@PathVariable("fundingId") Long fundingId);
 
     // 자동 기부 결제 정보 요청
-    @GetMapping(value = "/funding/info/directly/{memberId}")
+    @GetMapping(value = "/funding/info/auto/{memberId}")
     FundingInfoResponseDTO getAutoFundingInfo(@PathVariable("memberId") Long memberId);
 
     // 직접 기부
