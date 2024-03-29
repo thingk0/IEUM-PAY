@@ -3,8 +3,6 @@ package com.ieum.common.controller;
 import com.ieum.common.annotation.CurrentMemberId;
 import com.ieum.common.domain.Members;
 import com.ieum.common.dto.request.PayRemittancePaymoneyRequestDTO;
-import com.ieum.common.dto.response.PayHistoryRemittanceResponseDTO;
-import com.ieum.common.dto.response.PayRemittancePaymoneyResponseDTO;
 import com.ieum.common.format.code.SuccessCode;
 import com.ieum.common.format.response.ResponseTemplate;
 import com.ieum.common.service.AuthService;
@@ -49,15 +47,19 @@ public class PayController {
     @Operation(summary = "사용 내역 조회", description = "지정된 기간 동안의 사용 내역을 조회합니다.")
     @ApiResponse(responseCode = "200", description = "사용 내역 조회 성공")
     @GetMapping("history/{period}")
-    public ResponseEntity<?> getHistoryList(@CurrentMemberId Long memberId, @PathVariable("period") String period) {
+    public ResponseEntity<?> getHistoryList(@CurrentMemberId Long memberId,
+                                            @PathVariable("period") String period) {
+
         return response.success(payService.getHistoryList(memberId), SuccessCode.SUCCESS);
     }
 
     @Operation(summary = "송금 내역 조회", description = "특정 송금 내역을 조회합니다.")
     @ApiResponse(responseCode = "200", description = "송금 내역 조회 성공")
     @GetMapping("history/remittance/{historyId}")
-    public ResponseEntity<?> getHistory(@CurrentMemberId Long memberId, @PathVariable("historyId") Long id) {
-        return response.success(payService.getRemittanceHistory(memberId,id), SuccessCode.SUCCESS);
+    public ResponseEntity<?> getHistory(@CurrentMemberId Long memberId,
+                                        @PathVariable("historyId") Long id) {
+
+        return response.success(payService.getRemittanceHistory(memberId, id), SuccessCode.SUCCESS);
     }
 
     @Operation(summary = "페이머니 송금", description = "페이머니를 송금합니다.")
