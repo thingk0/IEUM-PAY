@@ -9,7 +9,7 @@ const axiosAuthApi = (): AxiosInstance => {
   const instance = axios.create({
     baseURL: api,
     headers: { Authorization: 'Bearer ' + accessToken },
-    timeout: 1000,
+    timeout: 10000,
   });
   return instance;
 };

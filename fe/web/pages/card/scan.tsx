@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import classes from './card.module.scss';
 import Button from '@/stories/Button';
+import { postCardImage } from '@/api/paymentAxios';
 
 function ScanCardPage() {
   let videoRef = useRef<HTMLVideoElement>(null);
@@ -84,11 +85,34 @@ function ScanCardPage() {
     link.download = 'card.png';
     link.href = croppedCanvas.toDataURL('image/png');
     var file = new File([link.href], 'card.png');
-    var formData = new FormData();
-    formData.append('media', file);
 
-    console.log(file);
-    link.click();
+    // Data URL을 Blob으로 변환
+    function dataURLtoBlob(dataURL: string): Blob {
+      const arr: string[] = dataURL.split(',');
+      const mime: RegExpMatchArray | null = arr[0].match(/:(.*?);/);
+      if (!mime) {
+        throw new Error('Invalid data URL.');
+      }
+      const mimeType: string = mime[1];
+      const bstr: string = atob(arr[1]);
+      let n: number = bstr.length;
+      const u8arr: Uint8Array = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new Blob([u8arr], { type: mimeType });
+    }
+    const blob: Blob = dataURLtoBlob(link.href);
+
+    // FormData에 Blob 추가
+    const formData: FormData = new FormData();
+    formData.append('img', blob, 'card.png');
+
+    // link.click();
+    postCardImage(formData).then((res) => {
+      console.log(res.data.data);
+      alert('카드번호 ' + res.data.data.cardNumber);
+    });
   }
   function handleClick() {
     takePicture();

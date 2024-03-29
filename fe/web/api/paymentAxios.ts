@@ -43,3 +43,12 @@ export const payment = async (paymentInfo: object) => {
       console.log(error.message);
     });
 };
+
+export async function postCardImage(formData: FormData) {
+  let axiosConfig = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  };
+  return axiosAuthApi().post('/api/card/ocr', formData, axiosConfig);
+}
