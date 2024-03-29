@@ -62,7 +62,9 @@ function WherePage() {
                 {searchResult?.name}님에게 송금하기
               </button>
             ) : (
-              <p>해당 번호는 이음페이에 가입한 적이 없네요 ㅠㅠ</p>
+              query.length > 0 && (
+                <p>해당 번호는 이음페이에 가입한 적이 없네요 ㅠㅠ</p>
+              )
             )}
           </Tab>
           <Tab key="account" title="계좌">
