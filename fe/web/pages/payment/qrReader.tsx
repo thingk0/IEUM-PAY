@@ -7,6 +7,7 @@ import styles from './QrStyles.module.scss';
 import QrScanner from 'qr-scanner';
 // import QrFrame from './QRframe';
 import PageTitleCenter from '@/components/PageTitleCenter';
+import { useRouter } from 'next/router';
 // import qrFrame from '/qr-frame.svg';
 
 export default function QrReader() {
@@ -19,6 +20,14 @@ export default function QrReader() {
   // Result
   const [scannedResult, setScannedResult] = useState<string | undefined>('');
 
+  const router = useRouter();
+
+  const goBack = () => {
+    router.back();
+  };
+  if (scannedResult) {
+    router.push('/payment');
+  }
   // Success
   const onScanSuccess = (result: QrScanner.ScanResult) => {
     // 🖨 Print the "result" to browser console.
@@ -80,8 +89,15 @@ export default function QrReader() {
     <div className={styles.container}>
       {/* <PageTitleCenter title={'QR코드 스캔'} description={''} /> */}
       <div className={styles.qrReader}>
-        {/* QR */}
         <video ref={videoEl}></video>
+        <div className={styles.header}>
+          <div className={styles.headerTop}>
+            <img src={'/longLogo.svg'} alt="logo" className={styles.logo} />
+          </div>
+          <div className={styles.headerBottom}>
+            <p className={styles.title}>QR코드 찍고 간편결제하세요!</p>
+          </div>
+        </div>
         <div ref={qrBoxEl} className={styles.qrBox}>
           <img
             src={'/qrFrame.svg'}
@@ -92,23 +108,18 @@ export default function QrReader() {
           />
           {/* <QrFrame /> */}
         </div>
-
+        <div className={styles.bottom}>
+          <img
+            src={'/qrClose.svg'}
+            alt="Qr Close"
+            className={styles.qrClose}
+            onClick={goBack}
+          />
+        </div>
         {/* Show Data Result if scan is success */}
-        {scannedResult && (
-          <p
-            // style={{
-            //   position: 'absolute',
-            //   top: 0,
-            //   left: 0,
-            //   zIndex: 99999,
-            //   color: 'white',
-            // }}
-            className={styles.result}
-          >
-            {/* Scanned Result: {scannedResult} */}
-            스캔 결과입니다잉 : {scannedResult}
-          </p>
-        )}
+        {/* {scannedResult && (
+          <p className={styles.result}>스캔 결과입니다잉 : {scannedResult}</p>
+        )} */}
       </div>
     </div>
   );
