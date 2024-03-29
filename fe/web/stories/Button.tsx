@@ -13,7 +13,7 @@ interface ButtonProps {
   /**
    * How large should the button be?
    */
-  size?: 'thin' | 'thick';
+  size?: 'thin' | 'thick' | 'small';
   /**
    * Button contents
    */

@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem;
+  height: 100vh;
+  text-align: center;
+  align-items: center;
+
+  h1 {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  .imageBox {
+    margin-top: 5.063rem;
+    margin-bottom: 2.25rem;
+    width: 7.5rem;
+    height: 7.5rem;
+  }
+  .textBox {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 1.25rem;
+  }
+}
+.facilityContainer {
+  width: 18.25rem;
+  height: 11.813rem;
+  background-color: var(--forthary);
+  padding-top: 0.563rem;
+  margin-bottom: 3.688rem;
+  .imageBox {
+    margin: 0 auto 0.5rem auto;
+    height: 6.125rem;
+    width: 10.25rem;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .textContainer {
+    font-size: 1rem;
+  }
+}

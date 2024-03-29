@@ -1,3 +1,22 @@
+.container {
+  margin: 0;
+  padding: 1.25rem;
+  align-items: center;
+}
+.nameContainer {
+  display: flex;
+  padding-left: 1.25rem;
+  padding-bottom: 1rem;
+  span {
+    padding-left: 1.836rem;
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  p {
+    padding-left: 2.313rem;
+    font-size: 1.25rem;
+  }
+}
 .badgeImage {
   width: 28px;
   height: 28px;
@@ -5,4 +24,46 @@
 .progressBar {
   width: 123px;
   height: 123px;
+  margin: 2.165rem auto 2.375rem auto;
+}
+.donateHistory {
+  text-align: center;
+  padding-top: 1.875rem;
+  padding-bottom: 1.813rem;
+  p {
+    font-size: 1rem;
+  }
+  span {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+}
+
+.connectedState {
+  text-align: center;
+  p {
+    font-size: 1rem;
+  }
+}
+.curConnected {
+  margin-bottom: 8rem;
+  padding-top: 1rem;
+  .head {
+    font-weight: bold;
+  }
+  img {
+    margin: 0.75rem auto 2.813rem auto;
+    border-radius: 0.75rem;
+    height: 10.563rem;
+    width: 15.25rem;
+    vertical-align: middle;
+    object-fit: cover;
+  }
+  p {
+    font-size: 1rem;
+  }
+  span {
+    font-size: 2rem;
+    font-weight: bold;
+  }
 }

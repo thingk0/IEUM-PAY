@@ -33,12 +33,14 @@ export default function MyPage() {
   const router = useRouter();
   const [progressValue, setProgressValue] = useState(0);
   const [userInfo, setUserInfo] = useState<userInfoType>({
-    name: '이이름은진짜없겠지',
+    name: '김범수',
     nickname: '기부니가 좋아',
-    gradeCode: 'GR005',
+    gradeCode: 'GR003',
     gradeName: '새싹',
-    totalDonationCnt: 5,
-    totalDonationAmount: 241500,
+    // totalDonationCnt: 0,
+    totalDonationCnt: 3,
+    // totalDonationAmount: 0,
+    totalDonationAmount: 3000,
     list: [
       {
         img: 'https://nextui-docs-v2.vercel.app/images/album-cover.png',
@@ -47,8 +49,9 @@ export default function MyPage() {
         ongoing: false, // true : 진행중 fasle : 종료
       },
     ],
-    autoFundingId: 0,
-    autoFundingTitle: 'btc',
+    autoFundingId: 1,
+    // autoFundingId: 0,
+    autoFundingTitle: 'btc아동센터',
     autoFundingImg: 'https://nextui-docs-v2.vercel.app/images/album-cover.png',
     autoFundingAmount: 2100,
   });
@@ -63,23 +66,9 @@ export default function MyPage() {
   };
 
   const donateState = () => {
-    if (
-      userInfo.totalDonationAmount == 0 &&
-      userInfo.totalDonationCnt == 0 &&
-      userInfo.autoFundingId == 0
-    ) {
-      return (
-        <>
-          <p>아직 기부해본적이 없네요</p>
-          <p>기부를 시작하러 가볼까요 ~ ? </p>
-          <Button size="thin" onClick={() => router.push('/rundraising')}>
-            모금하가기
-          </Button>
-        </>
-      );
-    } else {
-      return (
-        <>
+    return (
+      <>
+        <div className={styels.donateHistory}>
           <p>
             지금까지 <span>{userInfo.totalDonationCnt}개</span>기관에
           </p>
@@ -106,7 +95,12 @@ export default function MyPage() {
               />
             </CircularProgressbarWithChildren>
           </div>
-          <hr />
+          <Button primary size="small" onClick={() => {}}>
+            지난 기부 내역 보기
+          </Button>
+        </div>
+        <hr />
+        <div className={styels.connectedState}>
           {userInfo.autoFundingId == 0 ? (
             <>
               <p>연동되어있는 모금이 없어요</p>
@@ -115,20 +109,28 @@ export default function MyPage() {
               </Button>
             </>
           ) : (
-            <div>
-              <p>기부중인 모금</p>
+            <div className={styels.curConnected}>
+              <p className={styels.head}>기부중인 모금</p>
               <img src={userInfo.autoFundingImg} alt="기부중인 모금 사진" />
-              <p>기부단체 설명</p>
+              <p>{userInfo.autoFundingTitle}에 지금까지</p>
               <p>
                 <span>{commaizeNumber(userInfo.autoFundingAmount)}원</span>
                 나눴어요
               </p>
-              <a href="">버튼자리</a>
+              <Button
+                primary
+                size="small"
+                onClick={() =>
+                  router.push(`/fundraising/${userInfo.autoFundingId}`)
+                }
+              >
+                모금 상세 보기
+              </Button>
             </div>
           )}
-        </>
-      );
-    }
+        </div>
+      </>
+    );
   };
 
   useEffect(() => {
@@ -154,18 +156,19 @@ export default function MyPage() {
     <>
       <HeaderMain />
 
-      <div>
-        <img
-          src={`levelBadges/${userInfo.gradeCode}.svg`}
-          className={styels.badgeImage}
-          alt={`${userInfo.gradeName} 등급 뱃지`}
-        />
-        <span>{userInfo.name}</span>
-        {userInfo.nickname}
+      <div className={styels.container}>
+        <div className={styels.nameContainer}>
+          <img
+            src={`levelBadges/${userInfo.gradeCode}.svg`}
+            className={styels.badgeImage}
+            alt={`${userInfo.gradeName} 등급 뱃지`}
+          />
+          <span>{userInfo.name}</span>
+          <p>{userInfo.nickname}</p>
+        </div>
+        <hr />
+        <div>{donateState()}</div>
       </div>
-      <hr />
-      <div>{donateState()}</div>
-
       <TabBar selected={'myPage'} />
     </>
   );
