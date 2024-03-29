@@ -1,16 +1,17 @@
 import ChevronRightIcon from './icons/ChevronRightIcon';
 import styles from './settingsMenu.module.scss';
-
+import React from 'react';
 interface SettingsMenuProps {
-  title: string;
+  children: string;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => unknown;
 }
-export default function SettingsMenu({ title }: SettingsMenuProps) {
+export default function SettingsMenu({ children, onClick }: SettingsMenuProps) {
   return (
     <>
-      <div className={styles.container}>
-        <p>{title}</p>
+      <button className={styles.container} onClick={onClick}>
+        <p>{children}</p>
         <ChevronRightIcon />
-      </div>
+      </button>
       <hr />
     </>
   );

@@ -31,7 +31,7 @@ function PasswordPage({ id }: { id: string }) {
       router.push({
         pathname: '/password',
         query: {
-          id: 1,
+          id: 2,
         },
       });
     } else if (id == `2`) {

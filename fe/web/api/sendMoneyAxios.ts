@@ -11,3 +11,8 @@ export async function getMemberByPhoneNumber(phoneNumber: number | string) {
       console.log(error.message);
     });
 }
+
+export async function sendPayMoney(phoneNumber: string, amount: number) {
+  let data = { phoneNumber: phoneNumber, amount: amount };
+  return axiosAuthApi().post('/api/pay/remittance/paymoney', data);
+}

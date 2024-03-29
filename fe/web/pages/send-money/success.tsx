@@ -6,20 +6,19 @@ import Button from '@/stories/Button';
 import { commaizeNumber } from '@toss/utils';
 import { sendPayMoney } from '@/api/sendMoneyAxios';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
-function ConfirmPage() {
-  const { sendMoneyInfo, pushNumber, popNumber } = useSendMoneyInfo();
+function SuccessPage() {
+  const { sendMoneyInfo } = useSendMoneyInfo();
   const router = useRouter();
   function handleClick() {
-    sendPayMoney(sendMoneyInfo.수취계좌, sendMoneyInfo.송금금액).then(() =>
-      router.push('/send-money/success'),
-    );
+    router.push('/main');
   }
   return (
     <>
       <Header>이음페이 송금하기</Header>
       <main>
-        <SendMoneyGradientIcon />
+        <img src="/SuccessIcon.svg" alt="보라색 체크표시 아이콘"></img>
         <div className={classes.msg}>
           <p>
             <strong className={classes.name}>{sendMoneyInfo.수취인}</strong>
@@ -27,14 +26,14 @@ function ConfirmPage() {
             <br />
             {commaizeNumber(sendMoneyInfo.송금금액)}원을
             <br />
-            보낼까요?
+            보냈어요
           </p>
           <Button primary size="thick" onClick={handleClick}>
-            확인
+            완료
           </Button>
         </div>
       </main>
     </>
   );
 }
-export default ConfirmPage;
+export default SuccessPage;

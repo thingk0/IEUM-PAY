@@ -8,53 +8,38 @@ import Button from '@/stories/Button';
 import styels from '@/styles/myPage.module.scss';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import GradientSVG from '@/components/gradientSVG';
 
-interface fundingType {
-  img: string;
-  fundingId: number;
-  fundingAmount: number;
-  ongoing: boolean;
-}
 interface userInfoType {
-  name: string;
-  nickname: string;
+  autoFundingId: number;
+  facilityImage: string;
+  facilityName: string;
+  fundingTotalAmount: number;
   gradeCode: string;
   gradeName: string;
-  totalDonationCnt: number;
+  name: string;
+  nickname: string;
   totalDonationAmount: number;
-  list: fundingType[];
-  autoFundingId: number;
-  autoFundingTitle: string;
-  autoFundingImg: string;
-  autoFundingAmount: number;
+  totalDonationCnt: number;
 }
 
 export default function MyPage() {
   const router = useRouter();
   const [progressValue, setProgressValue] = useState(0);
   const [userInfo, setUserInfo] = useState<userInfoType>({
-    name: '김범수',
-    nickname: '기부니가 좋아',
-    gradeCode: 'GR003',
-    gradeName: '새싹',
-    // totalDonationCnt: 0,
-    totalDonationCnt: 3,
-    // totalDonationAmount: 0,
-    totalDonationAmount: 3000,
-    list: [
-      {
-        img: 'https://nextui-docs-v2.vercel.app/images/album-cover.png',
-        fundingId: 1,
-        fundingAmount: 13300,
-        ongoing: false, // true : 진행중 fasle : 종료
-      },
-    ],
     autoFundingId: 1,
-    // autoFundingId: 0,
-    autoFundingTitle: 'btc아동센터',
-    autoFundingImg: 'https://nextui-docs-v2.vercel.app/images/album-cover.png',
-    autoFundingAmount: 2100,
+    facilityImage:
+      'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200124_169%2F1579861444105ksyLS_JPEG%2FHR80O6nA89Q9ZWBHq4KZQL_-.jpeg.jpg',
+    facilityName: '은혜노인복지센터',
+    fundingTotalAmount: 300500,
+    gradeCode: 'GR007',
+    gradeName: '이음',
+    name: '김범수',
+    nickname: '김범수11',
+    totalDonationAmount: 300500,
+    totalDonationCnt: 3,
   });
+  const idCSS = 'hello';
 
   const tearProgress = (value: number, tear: string) => {
     if (tear == 'GR001') return (value / 100) * 100;
@@ -63,6 +48,17 @@ export default function MyPage() {
     else if (tear == 'GR004') return (value / 100000) * 100;
     else if (tear == 'GR005') return (value / 1000000) * 100;
     else if (tear == 'GR006') return (value / 10000000) * 100;
+    else if (tear == 'GR007') return 100;
+  };
+
+  const onclickFunc = () => {
+    console.log(userInfo.gradeCode);
+    router.push({
+      pathname: '/my-page/tear-list',
+      query: {
+        gradeCode: userInfo.gradeCode,
+      },
+    });
   };
 
   const donateState = () => {
@@ -76,13 +72,14 @@ export default function MyPage() {
             총 <span>{commaizeNumber(userInfo.totalDonationAmount)}원</span>을
             나눴어요
           </p>
-          <div className={styels.progressBar}>
+          <div className={styels.progressBar} onClick={onclickFunc}>
+            <GradientSVG />
             <CircularProgressbarWithChildren
               value={progressValue}
               styles={{
                 root: {},
                 path: {
-                  stroke: `rgba(128, 53, 249, ${progressValue})`,
+                  stroke: `url(#${idCSS})`,
                   strokeLinecap: 'butt',
                   transition: 'stroke-dashoffset 0.5s ease 0s',
                   transformOrigin: 'center center',
@@ -96,7 +93,7 @@ export default function MyPage() {
             </CircularProgressbarWithChildren>
           </div>
           <Button primary size="small" onClick={() => {}}>
-            지난 기부 내역 보기
+            나의 기부 내역 보기
           </Button>
         </div>
         <hr />
@@ -111,10 +108,10 @@ export default function MyPage() {
           ) : (
             <div className={styels.curConnected}>
               <p className={styels.head}>기부중인 모금</p>
-              <img src={userInfo.autoFundingImg} alt="기부중인 모금 사진" />
-              <p>{userInfo.autoFundingTitle}에 지금까지</p>
+              <img src={userInfo.facilityImage} alt="기부중인 모금 사진" />
+              <p>{userInfo.facilityName}에 지금까지</p>
               <p>
-                <span>{commaizeNumber(userInfo.autoFundingAmount)}원</span>
+                <span>{commaizeNumber(userInfo.fundingTotalAmount)}원</span>
                 나눴어요
               </p>
               <Button
@@ -137,7 +134,8 @@ export default function MyPage() {
     async function getData() {
       try {
         const userData = await getUserInfo();
-        userData != undefined ? setUserInfo(userData) : '';
+        userData != undefined ? setUserInfo(userData.data) : '';
+        console.log(userData.data);
         setProgressValue(
           Math.floor(
             Number(

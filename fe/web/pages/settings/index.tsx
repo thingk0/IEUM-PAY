@@ -5,8 +5,11 @@ import ChevronRightIcon from '@/components/icons/ChevronRightIcon';
 import HalfButton from '@/components/HalfButton';
 import HeaderMain from '@/stories/HeaderMain';
 import TabBar from '@/stories/TabBar';
+import { eraseCookie } from '@/utils/cookie';
+import { useRouter } from 'next/router';
 
 export default function Settings() {
+  const router = useRouter();
   return (
     <>
       <HeaderMain />
@@ -20,10 +23,17 @@ export default function Settings() {
           <ChevronRightIcon />
         </div>
         <div className={styles.menuBox}>
-          <SettingsMenu title={'비밀번호 변경'} />
-          <SettingsMenu title={'약관 및 정책'} />
-          <SettingsMenu title={'로그아웃'} />
-          <SettingsMenu title={'탈퇴하기'} />
+          <SettingsMenu>비밀번호 변경</SettingsMenu>
+          <SettingsMenu>약관 및 정책</SettingsMenu>
+          <SettingsMenu
+            onClick={() => {
+              eraseCookie('access_token');
+              router.push('/user');
+            }}
+          >
+            로그아웃
+          </SettingsMenu>
+          <SettingsMenu>탈퇴하기</SettingsMenu>
         </div>
       </div>
       <TabBar selected={'none'} />
