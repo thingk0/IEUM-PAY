@@ -3,11 +3,11 @@ import classes from './card.module.scss';
 import Button from '@/stories/Button';
 
 function ScanCardPage() {
-  let rem = parseFloat(
-    window.getComputedStyle(document.documentElement).fontSize,
-  );
   let videoRef = useRef<HTMLVideoElement>(null);
   function takePicture() {
+    let rem = parseFloat(
+      window.getComputedStyle(document.documentElement).fontSize,
+    );
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     if (!videoRef.current) return;
