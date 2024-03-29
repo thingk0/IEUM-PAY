@@ -6,15 +6,23 @@ import com.ieum.common.dto.feign.funding.request.AutoDonationRequestDTO;
 import com.ieum.common.dto.feign.funding.request.FundingDonationRequestDTO;
 import com.ieum.common.dto.feign.funding.request.FundingLinkupRequestDTO;
 import com.ieum.common.dto.feign.funding.request.FundingUnlinkRequestDTO;
-import com.ieum.common.dto.feign.funding.response.*;
+import com.ieum.common.dto.feign.funding.response.AutoFundingResultResponseDTO;
+import com.ieum.common.dto.feign.funding.response.CurrentFundingResultResponseDTO;
+import com.ieum.common.dto.feign.funding.response.FundingDetailResponseDTO;
+import com.ieum.common.dto.feign.funding.response.FundingInfoResponseDTO;
+import com.ieum.common.dto.feign.funding.response.FundingResultResponseDTO;
+import com.ieum.common.dto.feign.funding.response.FundingSummaryResponseDTO;
 import com.ieum.common.dto.feign.pay.response.FundingDonationResultResponseDTO;
 import com.ieum.common.dto.request.DirectlyDonationRequestDTO;
 import com.ieum.common.dto.response.DirectlyDonationResponseDTO;
 import com.ieum.common.dto.response.DonationDirectlyResponseDTO;
 import com.ieum.common.dto.response.ReceiptResponseDTO;
+import com.ieum.common.exception.funding.FundingResultNotFoundException;
+import com.ieum.common.exception.pay.DonationHistoryNotFoundException;
 import com.ieum.common.feign.FundingFeignClient;
 import com.ieum.common.feign.PayFeignClient;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,6 +31,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 public class FundingService {
+
     private final FundingFeignClient fundingFeignClient;
     private final PayFeignClient payFeignClient;
     private final PayService payService;
@@ -64,7 +73,7 @@ public class FundingService {
 
     // 펀딩 결과 조회
     public FundingResultResponseDTO getFundingResult(Long fundingId) {
-        return fundingFeignClient.getPaymentResult(fundingId);
+        return fetchFundingResultByHistory(fundingId);
     }
 
     // 직접 기부 결제 정보 요청
@@ -76,21 +85,22 @@ public class FundingService {
     public DirectlyDonationResponseDTO donationDirectly(DirectlyDonationRequestDTO request, Long memberId) {
         // 기부
         FundingDonationRequestDTO funding = FundingDonationRequestDTO.builder()
-            .fundingId(request.getFundingId())
-            .amount(request.getAmount())
-            .memberId(memberId)
-            .build();
+                                                                     .fundingId(request.getFundingId())
+                                                                     .amount(request.getAmount())
+                                                                     .memberId(memberId)
+                                                                     .build();
 
-        if(!fundingFeignClient.donationDirectly(funding).getFundingResult()){
+        if (!fundingFeignClient.donationDirectly(funding).getFundingResult()) {
             return null;
         }
 
         Members members = memberService.findMemberById(memberId);
 
         return DirectlyDonationResponseDTO.builder()
-            .historyId(payService.directDonation(memberId, request.getFundingId(), request.getAmount(),
-                members.getPaycardId()))
-            .build();
+                                          .historyId(
+                                              payService.directDonation(memberId, request.getFundingId(), request.getAmount(),
+                                                                        members.getPaycardId()))
+                                          .build();
     }
 
     // 자동 기부 결제 정보 요청
@@ -99,45 +109,75 @@ public class FundingService {
     }
 
     // 자동 기부
-    public AutoFundingResultResponseDTO donationAuto (AutoDonationRequestDTO request) {
+    public AutoFundingResultResponseDTO donationAuto(AutoDonationRequestDTO request) {
         return fundingFeignClient.donationAuto(request);
     }
 
     // 영수증
-    public ReceiptResponseDTO getReceiptInfo (Long historyId, Long memberId) {
-        FundingDonationResultResponseDTO history = payFeignClient.getDonationHistory(historyId);
-        FundingReceiptResponseDTO funding = fundingFeignClient.getReceipt(history.getFundingId());
+    public ReceiptResponseDTO getReceiptInfo(Long historyId, Long memberId) {
+        var history = fetchDonationHistoryById(historyId);
+        var funding = fundingFeignClient.getReceipt(history.getFundingId());
         Members member = memberService.findMemberById(memberId);
-
         return ReceiptResponseDTO.builder()
-            .fundingId(history.getFundingId())
-            .fundingTitle(funding.getFundingTitle())
-            .facilityName(funding.getFacilityName())
-            .historyDate(history.getHistoryDate())
-            .name(member.getName())
-            .donationAmount(history.getDonationAmount())
-            .fundingSummary(funding.getProductName())
-            .build();
+                                 .fundingId(history.getFundingId())
+                                 .fundingTitle(funding.getFundingTitle())
+                                 .facilityName(funding.getFacilityName())
+                                 .historyDate(history.getHistoryDate())
+                                 .name(member.getName())
+                                 .donationAmount(history.getDonationAmount())
+                                 .fundingSummary(funding.getProductName())
+                                 .build();
     }
 
     public CurrentFundingResultResponseDTO getCurrentInfo(Long memberId) {
         return fundingFeignClient.getCurrentInfo(memberId);
     }
 
-    public DonationDirectlyResponseDTO getDirectlyResult(Long historyId) {
-        FundingDonationResultResponseDTO history = payFeignClient.getDonationHistory(historyId);
-        FundingResultResponseDTO funding = fundingFeignClient.getPaymentResult(history.getFundingId());
-        return DonationDirectlyResponseDTO.builder()
-            .fundingId(history.getFundingId())
-            .facilityName(funding.getFacilityName())
-            .facilityTitle(funding.getFundingTitle())
-            .facilityImage(funding.getFacilityImage())
-            .fundingAmount(history.getDonationAmount())
-            .build();
-
+    public List<FundingSummaryResponseDTO> getFundingParticipationList(Long memberId) {
+        return fundingFeignClient.getFundingParticipationList(memberId);
     }
 
-    public List<FundingSummaryResponseDTO> getFundingParticipationList(Long memberid) {
-        return fundingFeignClient.getFundingParticipationList(memberid);
+    public CompletableFuture<DonationDirectlyResponseDTO> getDirectlyResult(Long historyId) {
+        var historyFuture =
+            CompletableFuture.supplyAsync(() -> fetchDonationHistoryById(historyId));
+        var fundingFuture =
+            CompletableFuture.supplyAsync(() -> fetchFundingResultByHistory(historyId));
+        return historyFuture
+            .thenCombine(fundingFuture, FundingService::buildDonationDirectlyResponseDTO)
+            .handle((result, throwable) -> {
+                if (throwable != null) {
+                    Throwable cause = throwable.getCause();
+                    if (cause instanceof FundingResultNotFoundException) {
+                        throw (FundingResultNotFoundException) cause;
+                    } else if (cause instanceof DonationHistoryNotFoundException) {
+                        throw (DonationHistoryNotFoundException) cause;
+                    } else {
+                        throw new RuntimeException("Unexpected exception occurred", cause);
+                    }
+                }
+                return result;
+            });
+    }
+
+
+    private FundingResultResponseDTO fetchFundingResultByHistory(Long historyId) {
+        return fundingFeignClient.getPaymentResult(historyId)
+                                 .orElseThrow(FundingResultNotFoundException::new);
+    }
+
+    private FundingDonationResultResponseDTO fetchDonationHistoryById(Long historyId) {
+        return payFeignClient.getDonationHistory(historyId)
+                             .orElseThrow(DonationHistoryNotFoundException::new);
+    }
+
+    private static DonationDirectlyResponseDTO buildDonationDirectlyResponseDTO(FundingDonationResultResponseDTO history,
+                                                                                FundingResultResponseDTO funding) {
+        return DonationDirectlyResponseDTO.builder()
+                                          .fundingId(history.getFundingId())
+                                          .facilityName(funding.getFacilityName())
+                                          .facilityTitle(funding.getFundingTitle())
+                                          .facilityImage(funding.getFacilityImage())
+                                          .fundingAmount(history.getDonationAmount())
+                                          .build();
     }
 }
