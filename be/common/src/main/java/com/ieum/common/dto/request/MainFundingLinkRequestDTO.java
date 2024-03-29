@@ -1,4 +1,4 @@
-package com.ieum.common.dto.feign.funding.request;
+package com.ieum.common.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FundingLinkRequestDTO {
+public class MainFundingLinkRequestDTO {
     private Long fundingId;
-    private Long memberId;
 }

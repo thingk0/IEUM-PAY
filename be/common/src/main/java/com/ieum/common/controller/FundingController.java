@@ -1,19 +1,18 @@
 package com.ieum.common.controller;
 
+import static com.ieum.common.format.code.FailedCode.PAYMENT_REGISTERED_CARD_NULL;
+
 import com.ieum.common.annotation.CurrentMemberId;
 import com.ieum.common.domain.Members;
-import com.ieum.common.dto.feign.funding.request.FundingDonationRequestDTO;
-import com.ieum.common.dto.feign.funding.response.AutoFundingResultResponseDTO;
+import com.ieum.common.dto.feign.funding.request.FundingLinkupRequestDTO;
+import com.ieum.common.dto.feign.funding.request.FundingUnlinkRequestDTO;
 import com.ieum.common.dto.feign.funding.response.CurrentFundingResultResponseDTO;
-import com.ieum.common.dto.feign.funding.response.FundingDonationResponseDTO;
-import com.ieum.common.dto.feign.funding.response.FundingInfoResponseDTO;
-import com.ieum.common.dto.feign.funding.response.FundingReceiptResponseDTO;
-import com.ieum.common.dto.feign.funding.response.FundingResultResponseDTO;
-import com.ieum.common.dto.feign.funding.request.FundingLinkRequestDTO;
 import com.ieum.common.dto.feign.funding.response.FundingDetailResponseDTO;
+import com.ieum.common.dto.feign.funding.response.FundingInfoResponseDTO;
+import com.ieum.common.dto.feign.funding.response.FundingResultResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingSummaryResponseDTO;
 import com.ieum.common.dto.request.DirectlyDonationRequestDTO;
-import com.ieum.common.dto.request.FundingLinkupRequestDTO;
+import com.ieum.common.dto.request.MainFundingLinkRequestDTO;
 import com.ieum.common.dto.response.DirectlyDonationInfoResponseDTO;
 import com.ieum.common.dto.response.DirectlyDonationResponseDTO;
 import com.ieum.common.dto.response.DonationDirectlyResponseDTO;
@@ -31,15 +30,12 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import static com.ieum.common.format.code.FailedCode.PAYMENT_REGISTERED_CARD_NULL;
 
 @Tag(name = "funding", description = "Funding API - 목업")
 @RequiredArgsConstructor
@@ -84,22 +80,23 @@ public class FundingController {
     @Operation(summary = "펀딩 연계", description = "사용자를 특정 펀딩에 연계시킵니다.")
     @ApiResponse(responseCode = "200", description = "펀딩 연계 성공")
     @PostMapping("/linkup")
-    public Boolean fundingLinkup(@RequestBody FundingLinkupRequestDTO request,
+    public Boolean fundingLinkup(@RequestBody MainFundingLinkRequestDTO request,
                                  @CurrentMemberId Long memberId) {
-        log.info(memberId.toString());
-        FundingLinkRequestDTO req = FundingLinkRequestDTO.builder()
-                                                         .fundingId(request.getFundingId())
-                                                         .memberId(memberId)
-                                                         .build();
+        Members member = memberService.findMemberById(memberId);
+        FundingLinkupRequestDTO req = FundingLinkupRequestDTO.builder()
+            .fundingId(request.getFundingId())
+            .memberId(memberId)
+            .nickname(member.getNickname())
+            .build();
         return fundingService.fundingLinkup(req);
     }
 
     @Operation(summary = "펀딩 연계 해제", description = "사용자를 특정 펀딩의 연계를 해제시킵니다.")
     @ApiResponse(responseCode = "200", description = "펀딩 연계 해제 성공")
     @PostMapping("/unlink")
-    public Boolean fundingUnlink(@RequestBody FundingLinkupRequestDTO request,
+    public Boolean fundingUnlink(@RequestBody MainFundingLinkRequestDTO request,
                                  @CurrentMemberId Long memberId) {
-        FundingLinkRequestDTO req = FundingLinkRequestDTO.builder()
+        FundingUnlinkRequestDTO req = FundingUnlinkRequestDTO.builder()
                                                          .fundingId(request.getFundingId())
                                                          .memberId(memberId)
                                                          .build();
