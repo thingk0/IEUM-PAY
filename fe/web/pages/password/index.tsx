@@ -39,7 +39,7 @@ function PasswordPage({ id }: { id: string }) {
       } else if (id == `2`) {
         userInfo.paymentPassword == password.join('')
           ? router.push('user/register/complete')
-          : setIsTrue(false);
+          : (setIsTrue(false), setPassword([]));
       }
     }
   }, [password]);
@@ -59,7 +59,7 @@ function PasswordPage({ id }: { id: string }) {
           </li>
         ))}
       </ul>
-      {isTrue ? <div></div> : <div>다시</div>}
+      {isTrue ? <div></div> : <div>다시 입력해 주세요</div>}
       <PasswordKeyPad
         onClickNumber={(n) => setPassword((prev) => [...prev, n].slice(0, 6))}
         onClickDelete={() => setPassword((prev) => prev.slice(0, -1))}
