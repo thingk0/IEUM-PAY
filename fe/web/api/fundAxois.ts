@@ -64,8 +64,11 @@ export const getFundDetail = async (fundId: string | string[] | undefined) => {
  */
 export const setConnectState = async (currentLink: boolean, fundId: number) => {
   const local = axiosAuthApi();
+
+  console.log(fundId);
+
   return await local
-    .post(currentLink ? 'api/funding/linkup' : 'api/funding/unlink', {
+    .post(currentLink ? 'api/funding/unlink' : 'api/funding/linkup', {
       fundingId: fundId,
     })
     .then((response) => {
