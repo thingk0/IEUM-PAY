@@ -32,6 +32,9 @@ public enum SuccessCode {
     /* 인증 */
     AUTHENTICATION_CODE_ISSUED(HttpStatus.OK, "본인 확인용 인증 코드가 성공적으로 발급되었습니다."),
 
+    /* 기부 */
+    DIRECT_DONATION_RESULT_SUCCESS(HttpStatus.OK, "직접 기부 결과 조회가 성공적으로 완료되었습니다."),
+
     ;
 
     private final HttpStatus status;
