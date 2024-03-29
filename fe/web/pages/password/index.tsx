@@ -3,7 +3,7 @@ import PasswordKeyPad from '@/components/PasswordKeyPad';
 import useUserStore from '@/stores/user-store';
 import classes from '@/styles/PasswordPage.module.scss';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 
 // interface PasswordPage {
@@ -25,21 +25,24 @@ function PasswordPage({ id }: { id: string }) {
   ];
   const router = useRouter();
 
-  if (password.length == 6) {
-    if (id == `1`) {
-      setPaymentPassword(password.join(''));
-      router.push({
-        pathname: '/password',
-        query: {
-          id: 2,
-        },
-      });
-    } else if (id == `2`) {
-      userInfo.paymentPassword == password.join('')
-        ? router.push('user/register/complete')
-        : setIsTrue(false);
+  useEffect(() => {
+    if (password.length == 6) {
+      if (id == `1`) {
+        setPaymentPassword(password.join(''));
+        setPassword([]);
+        router.push({
+          pathname: '/password',
+          query: {
+            id: 2,
+          },
+        });
+      } else if (id == `2`) {
+        userInfo.paymentPassword == password.join('')
+          ? router.push('user/register/complete')
+          : setIsTrue(false);
+      }
     }
-  }
+  }, [password]);
 
   return (
     <main className={classes.main}>
