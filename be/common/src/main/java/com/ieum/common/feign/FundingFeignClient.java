@@ -1,7 +1,9 @@
 package com.ieum.common.feign;
 
+import com.ieum.common.dto.feign.funding.request.AutoDonationRequestDTO;
 import com.ieum.common.dto.feign.funding.request.FundingDonationRequestDTO;
-import com.ieum.common.dto.feign.funding.request.FundingLinkRequestDTO;
+import com.ieum.common.dto.feign.funding.request.FundingLinkupRequestDTO;
+import com.ieum.common.dto.feign.funding.request.FundingUnlinkRequestDTO;
 import com.ieum.common.dto.feign.funding.response.AutoFundingResultResponseDTO;
 import com.ieum.common.dto.feign.funding.response.CurrentFundingResultResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingDetailResponseDTO;
@@ -10,6 +12,7 @@ import com.ieum.common.dto.feign.funding.response.FundingInfoResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingReceiptResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingResultResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingSummaryResponseDTO;
+
 import java.util.List;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,11 +38,11 @@ public interface FundingFeignClient {
 
     // 펀딩 연동
     @PostMapping(value = "/funding/linkup")
-    Boolean linkup(@RequestBody FundingLinkRequestDTO request);
+    Boolean linkup(@RequestBody FundingLinkupRequestDTO request);
 
     // 펀딩 연동 해제
     @PostMapping(value = "/funding/unlink")
-    Boolean unlink(@RequestBody FundingLinkRequestDTO request);
+    Boolean unlink(@RequestBody FundingUnlinkRequestDTO request);
 
     // 직접 기부 결제 정보 요청
     @GetMapping(value = "/funding/info/directly/{fundingId}")
@@ -56,7 +59,7 @@ public interface FundingFeignClient {
 
     // 자동 기부
     @PostMapping(value = "/funding/donation/auto")
-    AutoFundingResultResponseDTO donationAuto(@RequestBody FundingDonationRequestDTO request);
+    AutoFundingResultResponseDTO donationAuto(@RequestBody AutoDonationRequestDTO request);
 
     // 펀딩 결과 정보 조회
     @GetMapping(value = "/funding/result/{fundingId}")
