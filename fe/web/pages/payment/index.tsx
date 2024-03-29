@@ -8,27 +8,15 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 
-// interface dummy {
-//   storeId: number;
-//   cardNickname: string;
-//   price: number;
-//   storeName: string;
-//   paymoneyAmount: number;
-//   chargeAmount: number;
-//   donationMoney: number;
-// }
-
 function Payment({ storeId, Qprice }: { storeId: string; Qprice: string }) {
-  // const [store, setStore] = useState(0);
-  // const [price, setPrice] = useState(0);
   const [info, setInfo] = useState({
     storeId: 1,
-    cardNickname: 'cute',
-    price: 5000,
+    cardNickname: '삼성카드',
+    price: 0,
     storeName: '삼성몰',
-    paymoneyAmount: 400,
-    chargeAmount: 10000,
-    donationMoney: 100,
+    paymoneyAmount: 0,
+    chargeAmount: 0,
+    donationMoney: 0,
   });
 
   console.log('payment :', storeId, Qprice);
@@ -44,16 +32,6 @@ function Payment({ storeId, Qprice }: { storeId: string; Qprice: string }) {
     }
     getdata();
   }, []);
-
-  // const dummy = {
-  //   storeId: 1,
-  //   cardNickname: 'cute',
-  //   price: 5000,
-  //   storeName: '삼성몰',
-  //   paymoneyAmount: 400,
-  //   chargeAmount: 10000,
-  //   donationMoney: 100,
-  // };
 
   const router = useRouter();
 

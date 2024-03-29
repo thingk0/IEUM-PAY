@@ -5,6 +5,7 @@ import classes from '@/styles/PasswordPage.module.scss';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
+import { confirmPassword } from '@/api/paymentAxios';
 
 // interface PasswordPage {
 //   title: string;
@@ -17,6 +18,7 @@ function PasswordPage({ id }: { id: string }) {
   const [password, setPassword] = useState<number[]>([]);
   const { userInfo, setPaymentPassword } = useUserStore();
   const [isTrue, setIsTrue] = useState(true);
+  const [key, setKey] = useState<string | null>(null);
 
   const pageId = [
     ['결제 비밀번호 입력', ''],
@@ -26,22 +28,30 @@ function PasswordPage({ id }: { id: string }) {
   const router = useRouter();
 
   useEffect(() => {
-    if (password.length == 6) {
-      if (id == `1`) {
-        setPaymentPassword(password.join(''));
-        setPassword([]);
-        router.push({
-          pathname: '/password',
-          query: {
-            id: 2,
-          },
-        });
-      } else if (id == `2`) {
-        userInfo.paymentPassword == password.join('')
-          ? router.push('user/register/complete')
-          : (setIsTrue(false), setPassword([]));
+    const just = async () => {
+      if (password.length == 6) {
+        if (id == `1`) {
+          setPaymentPassword(password.join(''));
+          setPassword([]);
+          router.push({
+            pathname: '/password',
+            query: {
+              id: 2,
+            },
+          });
+        } else if (id == `2`) {
+          userInfo.paymentPassword == password.join('')
+            ? router.push('user/register/complete')
+            : (setIsTrue(false), setPassword([]));
+        } else if (id == '0') {
+          password;
+          const check = await confirmPassword(password.join(''));
+          // console.log(check.data.authenticationKey);
+          const key = check.data.authenticationKey;
+        }
       }
-    }
+    };
+    just();
   }, [password]);
 
   return (
