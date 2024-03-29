@@ -69,7 +69,7 @@ public class PaymentService {
         int nowPaymoney = payService.nowMyPaymoney(memberId);
         int chargeMoney = 0;
         if(price > nowPaymoney){
-            chargeMoney = (price - nowPaymoney) / 10000;
+            chargeMoney = (price - nowPaymoney) / 10000 * 10000;
             if(price - nowPaymoney > chargeMoney)
                 chargeMoney += 10000;
         }
