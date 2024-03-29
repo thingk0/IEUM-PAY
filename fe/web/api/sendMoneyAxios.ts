@@ -1,3 +1,4 @@
+'use-clinet';
 import { axiosAuthApi } from '@/utils/instance';
 
 export async function getMemberByPhoneNumber(phoneNumber: number | string) {

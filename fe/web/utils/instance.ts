@@ -1,3 +1,4 @@
+'use client';
 import axios, { AxiosInstance } from 'axios';
 import { getCookie } from './cookie';
 const api = 'https://www.ieum-pay.site/';

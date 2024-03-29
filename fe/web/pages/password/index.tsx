@@ -18,7 +18,6 @@ function PasswordPage({ id }: { id: string }) {
   const [password, setPassword] = useState<number[]>([]);
   const { userInfo, setPaymentPassword } = useUserStore();
   const [isTrue, setIsTrue] = useState(true);
-  const [key, setKey] = useState<string | null>(null);
 
   const pageId = [
     ['결제 비밀번호 입력', ''],
@@ -28,7 +27,7 @@ function PasswordPage({ id }: { id: string }) {
   const router = useRouter();
 
   useEffect(() => {
-    const just = async () => {
+    const checkPassword = async () => {
       if (password.length == 6) {
         if (id == `1`) {
           setPaymentPassword(password.join(''));
@@ -45,12 +44,11 @@ function PasswordPage({ id }: { id: string }) {
             : (setIsTrue(false), setPassword([]));
         } else if (id == '0') {
           const check = await confirmPassword(password.join(''));
-          // console.log(check.data.authenticationKey);
           const key = check.data.authenticationKey;
         }
       }
     };
-    just();
+    checkPassword();
   }, [password]);
 
   return (
