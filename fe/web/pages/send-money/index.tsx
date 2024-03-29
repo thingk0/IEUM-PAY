@@ -8,15 +8,35 @@ import {
   Button,
 } from '@nextui-org/react';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import classes from './index.module.scss';
 import Header from '@/components/Header';
 import HeaderMain from '@/stories/HeaderMain';
+import { getMemberByPhoneNumber } from '@/api/sendMoneyAxios';
 
+interface Member {
+  memberId: number;
+  name: string;
+  phoneNumber: string;
+}
 function WherePage() {
   const [account, setAccount] = useState<string>();
   const [bank, setBank] = useState<Selection>();
   const router = useRouter();
+  const [query, setQuery] = useState('');
+  const [searchResult, setSearchResult] = useState<Member>();
+  // 입력 값이 변경될 때마다 타이머 설정
+  useEffect(() => {
+    const delayDebounceTimer = setTimeout(() => {
+      // 여기에 API 요청 코드 넣으면 됨
+      getMemberByPhoneNumber(query)
+        .then((data) => setSearchResult(data))
+        .catch();
+      // 받아온 값을 setSearchResults에 저장
+    }, 1000); // 1s 디바운스 지연 시간
+    // 이전에 설정한 타이머를 클리어하여 디바운스 취소
+    return () => clearTimeout(delayDebounceTimer);
+  }, [query]);
   return (
     <>
       <HeaderMain />
@@ -32,13 +52,18 @@ function WherePage() {
               inputMode="decimal"
               pattern="[0-9]*"
               className="w-100"
+              onValueChange={setQuery}
             />
-            <button
-              className={classes.send}
-              onClick={() => router.push('/send-money/amount')}
-            >
-              김싸피님에게 송금하기
-            </button>
+            {searchResult?.name ? (
+              <button
+                className={classes.send}
+                onClick={() => router.push('/send-money/amount')}
+              >
+                {searchResult?.name}님에게 송금하기
+              </button>
+            ) : (
+              <p>해당 번호는 이음페이에 가입한 적이 없네요 ㅠㅠ</p>
+            )}
           </Tab>
           <Tab key="account" title="계좌">
             <Input
