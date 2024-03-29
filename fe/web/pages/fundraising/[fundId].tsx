@@ -344,22 +344,22 @@ export default function Detail() {
                     <>
                       <img
                         className={styles.modalImage}
-                        src="/disconnect-icon.svg"
-                        alt="끊어졌다는 뜻의 로고 이미지"
+                        src="/icon-256x256.png"
+                        alt="이어졌다는 뜻의 이미지"
                       />
                       <div className={styles.modalMessage}>
-                        {josa(data.facilityName, '와/과')}의 연결을 끊었어요
+                        {josa(data.facilityName, '와/과')} 이어졌어요!
                       </div>
                     </>
                   ) : (
                     <>
                       <img
                         className={styles.modalImage}
-                        src="/icon-256x256.png"
-                        alt="이어졌다는 뜻의 이미지"
+                        src="/disconnect-icon.svg"
+                        alt="끊어졌다는 뜻의 로고 이미지"
                       />
                       <div className={styles.modalMessage}>
-                        {josa(data.facilityName, '와/과')} 이어졌어요!
+                        {josa(data.facilityName, '와/과')}의 연결을 끊었어요
                       </div>
                     </>
                   )}
