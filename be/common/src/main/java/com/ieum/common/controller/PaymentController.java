@@ -44,15 +44,16 @@ public class PaymentController {
     @PostMapping
     public ResponseEntity<?> payment(@RequestBody PaymentRequestDTO requestDTO,
                                      @CurrentMemberId Long memberId) {
+
         boolean authCheck = authService.checkAuthInRedis(memberId, requestDTO.getAuthenticationKey());
 //        if(!authCheck)
 //            return response.error(INVALID_PRINCIPAL_TYPE);
 
         Members member = memberService.findMemberById(memberId);
-        if(member.getPaycardId() == null){
+        if (member.getPaycardId() == null) {
             return response.error(PAYMENT_REGISTERED_CARD_NULL);
         }
-        return response.success(paymentService.processPayment(memberId,requestDTO),SuccessCode.SUCCESS);
+        return response.success(paymentService.processPayment(memberId, requestDTO), SuccessCode.SUCCESS);
     }
 
     @Operation(summary = "결제 비밀번호 확인", description = "회원의 결제 비밀번호 확인 - 수정 필요")
@@ -75,8 +76,8 @@ public class PaymentController {
 //        if(!authCheck)
 //            return response.error(INVALID_PRINCIPAL_TYPE);
         return response.success(paymentService.updatePaymentPassword(memberId,
-                passwordEncoder.encode(request.getNewPaymentPassword()))
-                , SuccessCode.SUCCESS);
+                                                                     passwordEncoder.encode(request.getNewPaymentPassword()))
+            , SuccessCode.SUCCESS);
     }
 
     @Operation(summary = "결제 내역 조회", description = "특정 결제 내역을 조회합니다.")
@@ -85,7 +86,7 @@ public class PaymentController {
     public ResponseEntity<?> getPaymentHistory(@PathVariable("historyId") Long id,
                                                @CurrentMemberId Long memberId) {
 
-        return response.success(paymentService.getPaymentHistory(memberId,id),SuccessCode.SUCCESS);
+        return response.success(paymentService.getPaymentHistory(memberId, id), SuccessCode.SUCCESS);
 
     }
 
@@ -93,9 +94,9 @@ public class PaymentController {
     @ApiResponse(responseCode = "200", description = "결제 정보 조회 성공")
     @GetMapping("info/{store}/{price}")
     public ResponseEntity<?> getPaymentInfo(@PathVariable("store") Long storeId,
-                                                                 @PathVariable("price") int price,
-                                                                 @CurrentMemberId Long memberId) {
+                                            @PathVariable("price") int price,
+                                            @CurrentMemberId Long memberId) {
 
-        return response.success(paymentService.getPaymentInfo(memberId,storeId, price), SuccessCode.SUCCESS);
+        return response.success(paymentService.getPaymentInfo(memberId, storeId, price), SuccessCode.SUCCESS);
     }
 }
