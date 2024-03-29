@@ -6,13 +6,14 @@
   width: 100%;
   height: 100vh;
   margin: 0 auto;
-  // position: relative;
+  position: fixed;
 }
 
 .qrReader video {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  position: fixed;
 }
 
 .header {
