@@ -5,9 +5,9 @@ import styles from './QrStyles.module.scss';
 
 // Qr Scanner
 import QrScanner from 'qr-scanner';
-import QrFrame from './QRframe';
+// import QrFrame from './QRframe';
 import PageTitleCenter from '@/components/PageTitleCenter';
-// import qrFrame from './qr-frame.svg';
+// import qrFrame from '/qr-frame.svg';
 
 export default function QrReader() {
   // QR States
@@ -77,38 +77,39 @@ export default function QrReader() {
   }, [qrOn]);
 
   return (
-    <>
-      <PageTitleCenter title={'QR코드 스캔'} description={''} />
+    <div className={styles.container}>
+      {/* <PageTitleCenter title={'QR코드 스캔'} description={''} /> */}
       <div className={styles.qrReader}>
         {/* QR */}
         <video ref={videoEl}></video>
         <div ref={qrBoxEl} className={styles.qrBox}>
-          {/* <img
-            src={qrFrame}
+          <img
+            src={'/qrFrame.svg'}
             alt="Qr Frame"
-            width={256}
-            height={256}
+            // width={256}
+            // height={256}
             className={styles.qrFrame}
-          /> */}
-          <QrFrame />
+          />
+          {/* <QrFrame /> */}
         </div>
 
         {/* Show Data Result if scan is success */}
         {scannedResult && (
           <p
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              zIndex: 99999,
-              color: 'white',
-            }}
+            // style={{
+            //   position: 'absolute',
+            //   top: 0,
+            //   left: 0,
+            //   zIndex: 99999,
+            //   color: 'white',
+            // }}
+            className={styles.result}
           >
             {/* Scanned Result: {scannedResult} */}
             스캔 결과입니다잉 : {scannedResult}
           </p>
         )}
       </div>
-    </>
+    </div>
   );
 }
