@@ -82,7 +82,12 @@ export default function inputInfo() {
       setPassword(userPassword);
       setUserName(userName);
       setUserNickname(userNickName);
-      router.push('/user/register/complete');
+      router.push({
+        pathname: '/password',
+        query: {
+          id: 1,
+        },
+      });
     }
   };
 
