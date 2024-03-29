@@ -44,7 +44,6 @@ function PasswordPage({ id }: { id: string }) {
             ? router.push('user/register/complete')
             : (setIsTrue(false), setPassword([]));
         } else if (id == '0') {
-          password;
           const check = await confirmPassword(password.join(''));
           // console.log(check.data.authenticationKey);
           const key = check.data.authenticationKey;
