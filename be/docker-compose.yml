@@ -7,6 +7,8 @@ services:
       - "8081:8081"
     restart: always
     network_mode: "host"
+    environment:
+      - TZ=Asia/Seoul
 
   funding:
     container_name: funding
@@ -15,6 +17,8 @@ services:
       - "8082:8082"
     restart: always
     network_mode: "host"
+    environment:
+      - TZ=Asia/Seoul
 
   pay:
     container_name: pay
@@ -23,6 +27,8 @@ services:
       - "8083:8083"
     restart: always
     network_mode: "host"
+    environment:
+      - TZ=Asia/Seoul
 
 networks:
   default:
