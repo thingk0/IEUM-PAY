@@ -4,7 +4,9 @@ import Accordion from '@/components/Accordion';
 import classes from '@/styles/HistoryPage.module.scss';
 import { getHistory } from '@/api/historyAxios';
 import { useQuery } from '@tanstack/react-query';
+
 import FetchError from '@/components/layouts/FetchError';
+import dayjs from 'dayjs';
 interface Detail {
   type: string;
   name: string;
@@ -31,14 +33,30 @@ function HistoryPage() {
     }
     return (
       <>
-        <h2 className={classes.date}>3월 14일 (목)</h2>
         <ul>
-          <li>
-            {data.map((e: History) => (
-              <Accordion history={e} key={e.historyId}></Accordion>
-            ))}
-            <section></section>
-          </li>
+          {data.map((e: History, i: number) => {
+            console.log(i);
+            let isNewDay = false;
+            if (
+              i === 0 ||
+              (i > 0 &&
+                !dayjs(e.historyDate).isSame(
+                  dayjs(data[i - 1].historyDate),
+                  'day',
+                ))
+            ) {
+              isNewDay = true;
+            }
+            return (
+              <>
+                {isNewDay && <h2>{dayjs(e.historyDate).format('M월 D일')}</h2>}
+                <li>
+                  <Accordion history={e} key={e.historyId}></Accordion>
+                </li>
+              </>
+            );
+          })}
+          <section></section>
         </ul>
       </>
     );
