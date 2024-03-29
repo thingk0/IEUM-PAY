@@ -81,8 +81,13 @@ function ScanCardPage() {
     croppedCtx?.putImageData(imgData, 0, 0);
 
     const link = document.createElement('a');
-    link.download = 'receipt.png';
+    link.download = 'card.png';
     link.href = croppedCanvas.toDataURL('image/png');
+    var file = new File([link.href], 'card.png');
+    var formData = new FormData();
+    formData.append('media', file);
+
+    console.log(file);
     link.click();
   }
   function handleClick() {
