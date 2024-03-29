@@ -1,6 +1,7 @@
 package com.ieum.common.service;
 
 import com.ieum.common.domain.Members;
+import com.ieum.common.dto.feign.funding.request.AutoDonationRequestDTO;
 import com.ieum.common.dto.feign.funding.request.FundingDonationRequestDTO;
 import com.ieum.common.dto.feign.funding.response.AutoFundingResultResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingInfoResponseDTO;
@@ -24,7 +25,8 @@ public class PaymentService {
 
     public PaymentResponseDTO processPayment(Long memberId, PaymentRequestDTO dto) {
         //연동 확인
-        AutoFundingResultResponseDTO funding = fundingFeignClient.donationAuto(FundingDonationRequestDTO.builder()
+        AutoFundingResultResponseDTO funding = fundingFeignClient.donationAuto(
+            AutoDonationRequestDTO.builder()
                         .memberId(memberId)
                         .amount(dto.getDonationMoney())
                 .build());

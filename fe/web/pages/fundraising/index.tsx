@@ -66,56 +66,6 @@ export default function Funding() {
       <CardList fundingList={onGoingList} isOngoing={true} />
     ) : (
       <CardList fundingList={completeList} isOngoing={false} />
-      // const cardList = (fundingList: fundingList[], value: boolean) => {
-      //   return (
-      //     <>
-      //       <div>
-      //         {value
-      //           ? `진행중인 모금 ${fundingList.length}`
-      //           : `완료된 모금 ${fundingList.length}`}
-      //       </div>
-      //       <div className={styles.cardContainer}>
-      //         {fundingList.map((unit) => (
-      //           <Link href={`fundraising/${unit.fundingId}`}>
-      //             <div className={styles.card}>
-      //               <div className={styles.imageBox}>
-      //                 <img
-      //                   className={styles.cardImage}
-      //                   src={unit.facilityImage}
-      //                   alt={`${unit.facilityName} 이미지`}
-      //                 />
-      //               </div>
-      //               <div className={styles.cardTextContiner}>
-      //                 <div>{unit.facilityName}</div>
-      //                 <div>{unit.fundingOpenDate}</div>
-      //                 <div>
-      //                   <div className={styles.cntProgressText}>
-      //                     <div>{unit.fundingPeopleCnt}명 참여중</div>
-      //                     <div>
-      //                       {value ? `${unit.currentAmount}` : `${unit.goalAmount}`}{' '}
-      //                       /{unit.goalAmount}
-      //                     </div>
-      //                   </div>
-      //                   <Progress
-      //                     size="sm"
-      //                     aria-label="기부 모금 정도 표기"
-      //                     classNames={{
-      //                       indicator: `${styles.progressBar}`,
-      //                     }}
-      //                     value={Math.floor(
-      //                       (unit.currentAmount != undefined
-      //                         ? unit.currentAmount / unit.goalAmount
-      //                         : unit.goalAmount / unit.goalAmount) * 100,
-      //                     )}
-      //                   />
-      //                 </div>
-      //               </div>
-      //             </div>
-      //           </Link>
-      //         ))}
-      //       </div>
-      //     </>
-      //   );
     );
   }
 
@@ -148,7 +98,7 @@ export default function Funding() {
     <>
       <HeaderMain />
 
-      {/* <div>
+      <div>
         <nav className={styles.tabContainer}>
           <ul className={styles.ul}>
             <li
@@ -168,7 +118,7 @@ export default function Funding() {
         <div className={styles.cardContainer}>
           <Tab />
         </div>
-      </div> */}
+      </div>
 
       <TabBar selected={'fundraising'} />
     </>

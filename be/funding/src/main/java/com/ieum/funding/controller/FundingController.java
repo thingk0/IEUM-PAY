@@ -4,6 +4,7 @@ import com.ieum.funding.repository.FundingMembersRepository;
 import com.ieum.funding.request.AutoDonationRequestDTO;
 import com.ieum.funding.request.DirectlyDonationRequestDTO;
 import com.ieum.funding.request.FundingLinkRequestDTO;
+import com.ieum.funding.request.FundingLinkupRequestDTO;
 import com.ieum.funding.response.AutoFundingResultResponseDTO;
 import com.ieum.funding.response.CurrentFundingResult1DTO;
 import com.ieum.funding.response.CurrentFundingResult2DTO;
@@ -62,8 +63,8 @@ public class FundingController {
     @Operation(summary = "펀딩 연계", description = "사용자를 특정 펀딩에 연계시킵니다.")
     @ApiResponse(responseCode = "200", description = "펀딩 연계 성공")
     @PostMapping("/linkup")
-    public Boolean fundingLinkup(@RequestBody FundingLinkRequestDTO request) {
-        fundingService.linkupFunding(request.getFundingId(), request.getMemberId());
+    public Boolean fundingLinkup(@RequestBody FundingLinkupRequestDTO request) {
+        fundingService.linkupFunding(request);
         return true;
     }
 

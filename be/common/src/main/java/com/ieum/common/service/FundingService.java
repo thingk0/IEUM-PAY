@@ -2,12 +2,13 @@ package com.ieum.common.service;
 
 import com.ieum.common.domain.Members;
 import com.ieum.common.dto.feign.funding.dto.FundingMemberDTO;
+import com.ieum.common.dto.feign.funding.request.AutoDonationRequestDTO;
 import com.ieum.common.dto.feign.funding.request.FundingDonationRequestDTO;
-import com.ieum.common.dto.feign.funding.request.FundingLinkRequestDTO;
+import com.ieum.common.dto.feign.funding.request.FundingLinkupRequestDTO;
+import com.ieum.common.dto.feign.funding.request.FundingUnlinkRequestDTO;
 import com.ieum.common.dto.feign.funding.response.AutoFundingResultResponseDTO;
 import com.ieum.common.dto.feign.funding.response.CurrentFundingResultResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingDetailResponseDTO;
-import com.ieum.common.dto.feign.funding.response.FundingDonationResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingInfoResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingReceiptResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingResultResponseDTO;
@@ -58,12 +59,12 @@ public class FundingService {
     }
 
     // 펀딩 연동
-    public Boolean fundingLinkup(FundingLinkRequestDTO request) {
+    public Boolean fundingLinkup(FundingLinkupRequestDTO request) {
         return fundingFeignClient.linkup(request);
     }
 
     // 펀딩 연동 해제
-    public Boolean fundingUnlink(FundingLinkRequestDTO request) {
+    public Boolean fundingUnlink(FundingUnlinkRequestDTO request) {
         return fundingFeignClient.unlink(request);
     }
 
@@ -101,7 +102,7 @@ public class FundingService {
     }
 
     // 자동 기부
-    public AutoFundingResultResponseDTO donationAuto (FundingDonationRequestDTO request) {
+    public AutoFundingResultResponseDTO donationAuto (AutoDonationRequestDTO request) {
         return fundingFeignClient.donationAuto(request);
     }
 

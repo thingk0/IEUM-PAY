@@ -27,11 +27,13 @@ function CardList({ fundingList, isOngoing }: CardListProps) {
         {fundingList.map((unit) => (
           <Link href={`fundraising/${unit.fundingId}`} key={unit.fundingId}>
             <div className={styles.card}>
-              <img
-                className={styles.cardImage}
-                src={unit.facilityImage}
-                alt={`${unit.facilityName} 이미지`}
-              />
+              <div className={styles.imageBox}>
+                <img
+                  className={styles.cardImage}
+                  src={unit.facilityImage}
+                  alt={`${unit.facilityName} 이미지`}
+                />
+              </div>
               <div className={styles.cardTextContiner}>
                 <div>{unit.facilityName}</div>
                 <div>{unit.fundingOpenDate}</div>

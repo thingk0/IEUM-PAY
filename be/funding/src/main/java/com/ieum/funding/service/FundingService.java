@@ -12,6 +12,7 @@ import com.ieum.funding.repository.FundingMembersRepository;
 import com.ieum.funding.repository.FundingProductsRepository;
 import com.ieum.funding.repository.FundingRepository;
 import com.ieum.funding.repository.SponsorProductsRepository;
+import com.ieum.funding.request.FundingLinkupRequestDTO;
 import com.ieum.funding.response.AutoFundingResultResponseDTO;
 import com.ieum.funding.response.CurrentFundingResult1DTO;
 import com.ieum.funding.response.CurrentFundingResult2DTO;
@@ -92,9 +93,16 @@ public class FundingService {
                                        .build();
     }
 
-    public void linkupFunding(Long fundingId, Long memberId) {
-        fundingMembersRepository.unlinkAll(memberId);
-        fundingMembersRepository.linkup(fundingId, memberId);
+    public void linkupFunding(FundingLinkupRequestDTO requestDTO) {
+        fundingMembersRepository.unlinkAll(requestDTO.getMemberId());
+        Optional<FundingMembers> checkMember = fundingMembersRepository.findFirstByFundingIdAndMemberId(requestDTO.getFundingId(), requestDTO.getMemberId());
+        if(checkMember.isPresent()) {
+            fundingMembersRepository.linkup(requestDTO.getFundingId(), requestDTO.getMemberId());
+        }
+        else {
+            FundingMembers newLink = new FundingMembers(requestDTO.getFundingId(), requestDTO.getMemberId(), requestDTO.getNickname());
+            fundingMembersRepository.save(newLink);
+        }
     }
 
     public void unlinkFunding(Long fundingId, Long memberId) {
