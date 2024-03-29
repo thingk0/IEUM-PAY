@@ -2,6 +2,8 @@ package com.ieum.common.handle;
 
 import com.ieum.common.exception.cookie.CookieOperationException;
 import com.ieum.common.exception.feign.PaymentServiceUnavailableException;
+import com.ieum.common.exception.funding.FundingResultNotFoundException;
+import com.ieum.common.exception.pay.DonationHistoryNotFoundException;
 import com.ieum.common.exception.member.DuplicateNicknameChangeException;
 import com.ieum.common.exception.member.ExistingPhoneNumberException;
 import com.ieum.common.exception.member.InvalidPhoneNumberException;
@@ -103,6 +105,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(PaymentServiceUnavailableException.class)
     protected ResponseEntity<?> handle(PaymentServiceUnavailableException e) {
         log.error("PaymentServiceUnavailableException = {}", e.getFailedCode().getMessage());
+        return response.error(e.getFailedCode());
+    }
+
+    @ExceptionHandler(DonationHistoryNotFoundException.class)
+    protected ResponseEntity<?> handle(DonationHistoryNotFoundException e) {
+        log.error("DonationHistoryNotFoundException = {}", e.getFailedCode().getMessage());
+        return response.error(e.getFailedCode());
+    }
+
+    @ExceptionHandler(FundingResultNotFoundException.class)
+    protected ResponseEntity<?> handle(FundingResultNotFoundException e) {
+        log.error("FundingResultNotFoundException = {}", e.getFailedCode().getMessage());
         return response.error(e.getFailedCode());
     }
 

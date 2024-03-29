@@ -3,7 +3,6 @@ package com.ieum.common.service;
 import com.ieum.common.domain.Grade;
 import com.ieum.common.domain.Members;
 import com.ieum.common.domain.Paymoney;
-import com.ieum.common.dto.FundingInfoDTO;
 import com.ieum.common.dto.feign.funding.response.CurrentFundingResultResponseDTO;
 import com.ieum.common.dto.feign.pay.dto.CardDTO;
 import com.ieum.common.dto.feign.pay.response.MainSummaryResponseDTO;
@@ -31,8 +30,6 @@ import com.ieum.common.repository.GradeRepository;
 import com.ieum.common.repository.MemberRepository;
 import com.ieum.common.repository.PaymoneyRepository;
 import com.ieum.common.util.CookieUtil;
-
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import javax.servlet.http.HttpServletRequest;
@@ -103,12 +100,12 @@ public class MemberService {
                        grade));
 
         paymoneyRepository.save(Paymoney.builder()
-                .memberId(savedMember.getId())
-                .paymentPassword(passwordEncoder.encode(request.getPaymentPassword()))
-                .paymoneyAmount(0)
-                .donationTotalAmount(0)
-                .donationCount(0)
-                .build());
+                                        .memberId(savedMember.getId())
+                                        .paymentPassword(passwordEncoder.encode(request.getPaymentPassword()))
+                                        .paymoneyAmount(0)
+                                        .donationTotalAmount(0)
+                                        .donationCount(0)
+                                        .build());
 //        payService.createPaymoney(savedMember.getId(),request.getPaymentPassword());
 //        try {
 //            if (!) {
@@ -360,7 +357,7 @@ public class MemberService {
     /**
      * 사용자의 메인카드 변경하는 메서드입니다.
      *
-     * @param id       해당하는 멤버 id
+     * @param id             해당하는 멤버 id
      * @param registerCardId 주거래카드의 id
      */
     public void mainCardUpdate(Long id, Long registerCardId) {
@@ -376,25 +373,26 @@ public class MemberService {
         CurrentFundingResultResponseDTO funding = fundingFeignClient.getCurrentInfo(memberId);
 
         return MemberSummaryResponseDTO.builder()
-                .name(member.getName())
-                .nickname(member.getNickname())
-                .gradeCode(grade.getCode())
-                .gradeName(grade.getName())
-                .totalDonationCnt(funding.getFundingCount())
-                .totalDonationAmount(pay.getTotalDonation())
-                .autoFundingId(funding.getFundingId()) // 수정해야함
-                .facilityName(funding.getFacilityName())
-                .facilityImage(funding.getFacilityImage())
-                .fundingTotalAmount(funding.getFundingTotalAmount())
-                .build();
+                                       .name(member.getName())
+                                       .nickname(member.getNickname())
+                                       .gradeCode(grade.getCode())
+                                       .gradeName(grade.getName())
+                                       .totalDonationCnt(funding.getFundingCount())
+                                       .totalDonationAmount(pay.getTotalDonation())
+                                       .autoFundingId(funding.getFundingId()) // 수정해야함
+                                       .facilityName(funding.getFacilityName())
+                                       .facilityImage(funding.getFacilityImage())
+                                       .fundingTotalAmount(funding.getFundingTotalAmount())
+                                       .build();
     }
 
     public MainSummaryResponseDTO getMainSummary(Long memberId) {
         Long cardId = findMemberById(memberId).getPaycardId();
         MainSummaryResponseDTO responseDTO = payService.getMainPageInfo(memberId);
-        for(CardDTO card : responseDTO.getCardList()){
-            if(cardId == card.getRegisteredCardId())
+        for (CardDTO card : responseDTO.getCardList()) {
+            if (cardId == card.getRegisteredCardId()) {
                 card.setMainCard(true);
+            }
         }
         return responseDTO;
     }
