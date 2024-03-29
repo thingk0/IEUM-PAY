@@ -22,6 +22,10 @@ interface AccordionProps {
 }
 function Accordion({ history }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
+  let canOpen = history.detail.length > 1;
+  function handleClick() {
+    if (canOpen) setIsOpen((prev) => !prev);
+  }
 
   function hasDonation() {
     let has = false;
@@ -35,10 +39,7 @@ function Accordion({ history }: AccordionProps) {
 
   return (
     <div className={`${classes.accordion} ${isOpen && classes.open}`}>
-      <button
-        className={classes.button}
-        onClick={() => setIsOpen((prev) => !prev)}
-      >
+      <button className={classes.button} onClick={handleClick}>
         <div>
           <p className={classes.title}>
             <span className={classes.price}>
@@ -59,9 +60,11 @@ function Accordion({ history }: AccordionProps) {
             {history.type} | {history.title}
           </p>
         </div>
-        <div className={`${classes.chevron} ${isOpen ? classes.open : ''}`}>
-          <ChevronDownIcon />
-        </div>
+        {canOpen && (
+          <div className={`${classes.chevron} ${isOpen ? classes.open : ''}`}>
+            <ChevronDownIcon />
+          </div>
+        )}
       </button>
       {isOpen && (
         <section>
