@@ -45,6 +45,12 @@ public enum FailedCode {
     /* Security */
     INVALID_PRINCIPAL_TYPE(HttpStatus.UNAUTHORIZED, "유효하지 않은 인증 주체 유형입니다."),
 
+    /* Donation */
+    DONATION_HISTORY_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 후원 기록을 찾을 수 없습니다."),
+
+    /* Funding */
+    FUNDING_RESULT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 후원 결과를 찾을 수 없습니다."),
+
     ;
 
 
