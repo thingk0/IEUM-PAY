@@ -1,5 +1,6 @@
 package com.ieum.common.controller;
 
+import static com.ieum.common.format.code.FailedCode.INVALID_PRINCIPAL_TYPE;
 import static com.ieum.common.format.code.FailedCode.PAYMENT_REGISTERED_CARD_NULL;
 
 import com.ieum.common.annotation.CurrentMemberId;
@@ -17,9 +18,9 @@ import com.ieum.common.dto.response.DirectlyDonationInfoResponseDTO;
 import com.ieum.common.dto.response.DirectlyDonationResponseDTO;
 import com.ieum.common.dto.response.DonationDirectlyResponseDTO;
 import com.ieum.common.dto.response.ReceiptResponseDTO;
-import com.ieum.common.feign.FundingFeignClient;
 import com.ieum.common.format.code.SuccessCode;
 import com.ieum.common.format.response.ResponseTemplate;
+import com.ieum.common.service.AuthService;
 import com.ieum.common.service.FundingService;
 import com.ieum.common.service.MemberService;
 import com.ieum.common.service.PayService;
@@ -45,11 +46,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class FundingController {
 
     private final ResponseTemplate response;
-
-    private final FundingFeignClient fundingFeignClient;
     private final MemberService memberService;
     private final FundingService fundingService;
     private final PayService payService;
+    private final AuthService authService;
 
     @Operation(summary = "펀딩 상세 조회", description = "펀딩의 상세 정보를 조회합니다.")
     @ApiResponse(responseCode = "200", description = "펀딩 상세 정보 조회 성공")
@@ -124,6 +124,11 @@ public class FundingController {
     @PostMapping("/donation")
     public ResponseEntity<?> donationDirectly(@RequestBody DirectlyDonationRequestDTO request,
         @CurrentMemberId Long memberId) {
+        //auth Check
+        boolean authCheck = authService.checkAuthInRedis(memberId, request.getAuthenticationKey());
+//        if(!authCheck)
+//            return response.error(INVALID_PRINCIPAL_TYPE);
+
         Members member = memberService.findMemberById(memberId);
         if(member.getPaycardId() == null){
             return response.error(PAYMENT_REGISTERED_CARD_NULL);
