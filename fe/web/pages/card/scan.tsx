@@ -111,7 +111,13 @@ function ScanCardPage() {
     // link.click();
     postCardImage(formData).then((res) => {
       console.log(res.data.data);
-      alert('카드번호 ' + res.data.data.cardNumber);
+      alert(
+        '카드번호 ' +
+          res.data.data.cardNumber +
+          '\n' +
+          '유효기간 ' +
+          res.data.data.validThru,
+      );
     });
   }
   function handleClick() {
