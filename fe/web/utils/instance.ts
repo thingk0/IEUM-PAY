@@ -5,10 +5,6 @@ const api = 'https://www.ieum-pay.site/';
 
 const axiosAuthApi = (): AxiosInstance => {
   const accessToken = getCookie('access_token');
-  // const accessToken =
-  //   typeof window != undefined ? localStorage.getItem('access_token') : '';
-  console.log('1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-  console.log(accessToken);
   const instance = axios.create({
     baseURL: api,
     headers: { Authorization: 'Bearer ' + accessToken },
