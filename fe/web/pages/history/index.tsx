@@ -2,12 +2,12 @@ import HeaderMain from '@/stories/HeaderMain';
 import TabBar from '@/stories/TabBar';
 import Accordion from '@/components/Accordion';
 import classes from '@/styles/HistoryPage.module.scss';
-import { useEffect } from 'react';
 import { getHistory } from '@/api/historyAxios';
 import { useQuery } from '@tanstack/react-query';
+import FetchError from '@/components/layouts/FetchError';
 
 function HistoryPage() {
-  const { data, error, isError, isLoading } = useQuery({
+  const { data, error, isError, isLoading, refetch } = useQuery({
     queryKey: ['fund-ongoing'],
     queryFn: getHistory,
   });
@@ -15,7 +15,7 @@ function HistoryPage() {
     if (isLoading) {
       return <>로딩중...</>;
     } else if (isError) {
-      return <div>{error.message}</div>;
+      return <FetchError onClick={() => refetch()}></FetchError>;
     }
     return (
       <>
