@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Inter } from 'next/font/google';
 import mainStyles from './main.module.scss';
@@ -9,14 +9,24 @@ import HeaderMain from '@/stories/HeaderMain';
 import Button from '@/stories/Button';
 import { useRouter } from 'next/router';
 import MainPageDropdown from '@/components/MainPageDropdown';
+import { getBalance } from '@/api/paymentAxios';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
   const router = useRouter();
+  const [balance, setBalance] = useState<number>();
   const goFund = () => {
     router.push('/fundraising');
   };
+  useEffect(() => {
+    async function fetchBalance() {
+      let { data } = await getBalance();
+      let balance = data.data;
+      setBalance(balance);
+    }
+    fetchBalance();
+  }, []);
   return (
     <>
       <HeaderMain />
@@ -26,7 +36,7 @@ export default function Home() {
           <div className={mainStyles.card}>삼성 카드</div>
         </div>
         <div className={mainStyles.moneyContainer}>
-          <Money text={'이음페이머니'} amount={'3,200'} onClick={goFund} />
+          <Money text={'이음페이머니'} amount={balance} onClick={goFund} />
           <hr />
           <Money text={'기부총액'} amount={'24,200'} onClick={goFund} />
         </div>

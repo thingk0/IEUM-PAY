@@ -1,4 +1,8 @@
-import { axiosApi } from '@/utils/instance';
+import { axiosApi, axiosAuthApi } from '@/utils/instance';
+
+export async function getBalance() {
+  return axiosAuthApi().get('/api/pay/balance');
+}
 
 export const getPaymentInfo = async (store: number, price: number) => {
   const local = axiosApi();
