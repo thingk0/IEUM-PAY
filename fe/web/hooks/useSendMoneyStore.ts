@@ -22,12 +22,13 @@ interface SendMoneyInfoActions {
   addAmount: (amount: number) => void;
   setFullAmount: () => void;
   deleteSendMoneyInfo: () => void;
+  setReceiverInfo: (name: string, phone: string, bank: string) => void;
 }
 
 const defaultState = {
-  수취인: '김싸피',
-  수취은행: '토스뱅크',
-  수취계좌: '123-123-123',
+  수취인: '',
+  수취은행: '',
+  수취계좌: '',
   송금금액: 0,
   송금은행: '이음페이',
   잔액: 30000,
@@ -95,6 +96,18 @@ const useSendMoneyInfo = create<SendMoneyInfoState & SendMoneyInfoActions>(
     },
     deleteSendMoneyInfo: () => {
       set({ sendMoneyInfo: defaultState });
+    },
+    setReceiverInfo: (name: string, phone: string, bank: string) => {
+      set((state) => ({
+        sendMoneyInfo: {
+          수취인: name,
+          수취은행: state.sendMoneyInfo.수취은행,
+          수취계좌: phone,
+          송금금액: state.sendMoneyInfo.송금금액,
+          송금은행: bank,
+          잔액: state.sendMoneyInfo.잔액,
+        },
+      }));
     },
   }),
 );

@@ -13,18 +13,27 @@ import classes from './index.module.scss';
 import Header from '@/components/Header';
 import HeaderMain from '@/stories/HeaderMain';
 import { getMemberByPhoneNumber } from '@/api/sendMoneyAxios';
+import useSendMoneyInfo from '@/hooks/useSendMoneyStore';
 
 interface Member {
   memberId: number;
   name: string;
   phoneNumber: string;
 }
+
 function WherePage() {
   const [account, setAccount] = useState<string>();
   const [bank, setBank] = useState<Selection>();
   const router = useRouter();
   const [query, setQuery] = useState('');
   const [searchResult, setSearchResult] = useState<Member>();
+  const { sendMoneyInfo, setReceiverInfo } = useSendMoneyInfo();
+  function handleClick() {
+    if (searchResult) {
+      setReceiverInfo(searchResult.name, searchResult.phoneNumber, '이음페이');
+      router.push('/send-money/amount');
+    }
+  }
   // 입력 값이 변경될 때마다 타이머 설정
   useEffect(() => {
     const delayDebounceTimer = setTimeout(() => {
@@ -37,6 +46,7 @@ function WherePage() {
     // 이전에 설정한 타이머를 클리어하여 디바운스 취소
     return () => clearTimeout(delayDebounceTimer);
   }, [query]);
+
   return (
     <>
       <HeaderMain />
@@ -55,10 +65,7 @@ function WherePage() {
               onValueChange={setQuery}
             />
             {searchResult?.name ? (
-              <button
-                className={classes.send}
-                onClick={() => router.push('/send-money/amount')}
-              >
+              <button className={classes.send} onClick={handleClick}>
                 {searchResult?.name}님에게 송금하기
               </button>
             ) : (
