@@ -5,6 +5,7 @@ import com.ieum.common.domain.Members;
 import com.ieum.common.domain.Paymoney;
 import com.ieum.common.dto.FundingInfoDTO;
 import com.ieum.common.dto.feign.funding.response.CurrentFundingResultResponseDTO;
+import com.ieum.common.dto.feign.pay.dto.CardDTO;
 import com.ieum.common.dto.feign.pay.response.MainSummaryResponseDTO;
 import com.ieum.common.dto.member.req.LoginRequestDto;
 import com.ieum.common.dto.member.req.NicknameUpdateRequestDto;
@@ -386,5 +387,15 @@ public class MemberService {
                 .facilityImage(funding.getFacilityImage())
                 .fundingTotalAmount(funding.getFundingTotalAmount())
                 .build();
+    }
+
+    public MainSummaryResponseDTO getMainSummary(Long memberId) {
+        Long cardId = findMemberById(memberId).getPaycardId();
+        MainSummaryResponseDTO responseDTO = payService.getMainPageInfo(memberId);
+        for(CardDTO card : responseDTO.getCardList()){
+            if(cardId == card.getRegisteredCardId())
+                card.setMainCard(true);
+        }
+        return responseDTO;
     }
 }

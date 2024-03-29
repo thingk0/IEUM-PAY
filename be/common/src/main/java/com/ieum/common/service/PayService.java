@@ -145,7 +145,7 @@ public class PayService {
         return payFeignClient.getCardName(registeredCardId);
     }
 
-    public Object getMainSummary(Long memberId) {
+    public MainSummaryResponseDTO getMainSummary(Long memberId) {
         return payFeignClient.getMainPageInfo(memberId);
     }
 }
