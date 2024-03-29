@@ -1,14 +1,13 @@
 import { axiosAuthApi } from '@/utils/instance';
 
-export const getHistory = async () => {
-  let instance = axiosAuthApi;
-  return await instance()
+export async function getHistory() {
+  return axiosAuthApi()
     .get('api/pay/history/1')
     .then((response) => {
-      console.log(response);
-      return response.data;
+      console.log(response.data.data);
+      return response.data.data;
     })
     .catch((error) => {
       console.log(error.message);
     });
-};
+}

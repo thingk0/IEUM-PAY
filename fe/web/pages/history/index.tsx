@@ -5,7 +5,19 @@ import classes from '@/styles/HistoryPage.module.scss';
 import { getHistory } from '@/api/historyAxios';
 import { useQuery } from '@tanstack/react-query';
 import FetchError from '@/components/layouts/FetchError';
-
+interface Detail {
+  type: string;
+  name: string;
+  price: number;
+}
+interface History {
+  historyId: number;
+  historyDate: string;
+  type: string;
+  title: string;
+  amount: number;
+  detail: Detail[];
+}
 function HistoryPage() {
   const { data, error, isError, isLoading, refetch } = useQuery({
     queryKey: ['fund-ongoing'],
@@ -22,11 +34,9 @@ function HistoryPage() {
         <h2 className={classes.date}>3월 14일 (목)</h2>
         <ul>
           <li>
-            <Accordion
-              price={-6000}
-              transactionType={'결제'}
-              name={'쿠팡'}
-            ></Accordion>
+            {data.map((e: History) => (
+              <Accordion history={e}></Accordion>
+            ))}
             <section></section>
           </li>
         </ul>
