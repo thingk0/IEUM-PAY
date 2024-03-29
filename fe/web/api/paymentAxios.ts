@@ -4,8 +4,8 @@ export async function getBalance() {
   return axiosAuthApi().get('/api/pay/balance');
 }
 
-export const getPaymentInfo = async (store: number, price: number) => {
-  const local = axiosApi();
+export const getPaymentInfo = async (store: string, price: string) => {
+  const local = axiosAuthApi();
 
   return await local
     .get(`/api/payment/info/${store}/${price}`)

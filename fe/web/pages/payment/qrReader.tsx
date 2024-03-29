@@ -7,7 +7,7 @@ import styles from './qrReader.module.scss';
 import QrScanner from 'qr-scanner';
 import { useRouter } from 'next/router';
 
-export default function QrReader() {
+function QrReader() {
   // QR States
   const scanner = useRef<QrScanner>();
   const videoEl = useRef<HTMLVideoElement>(null);
@@ -22,8 +22,21 @@ export default function QrReader() {
   const goBack = () => {
     router.back();
   };
+
   if (scannedResult) {
-    router.push('/payment');
+    const matches = scannedResult.match(/\/(\d+)\/(\d+)$/);
+    if (matches) {
+      const storeId = matches[1];
+      const Qprice = matches[2];
+      console.log(storeId, Qprice);
+      router.push({
+        pathname: '/payment',
+        query: {
+          storeId,
+          Qprice,
+        },
+      });
+    }
   }
   // Success
   const onScanSuccess = (result: QrScanner.ScanResult) => {
@@ -118,3 +131,4 @@ export default function QrReader() {
     </div>
   );
 }
+export default QrReader;
