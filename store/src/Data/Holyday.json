@@ -1,0 +1,82 @@
+[
+  {
+    "himage": "https://images.samsung.com/kdp/goods/2023/08/03/4f53a2d9-fb83-461b-8daf-664a272f941e.png?$PF_PRD_KDP_PNG$",
+    "hname": "갤러시 Z 플립5 자급제",
+    "hprice": "138,900",
+    "hcutprice": "1,389,000",
+    "hvoucher": "1,250,100",
+    "off": "90",
+    "id": 12,
+    "img": "../../public/assets/qr/1.png"
+  },
+  {
+    "himage": "https://images.samsung.com/kdp/goods/2023/12/27/1b274202-3256-415d-9ddb-e3a40e7c94d2.png?$PF_PRD_KDP_PNG$",
+    "hname": "갤럭시 S24 Ultra 자급제",
+    "hprice": "212,740",
+    "hcutprice": "2,127,400",
+    "hvoucher": "1,914,660",
+    "off": "90",
+    "id": 13,
+    "img": "../../public/assets/qr/2.png"
+  },
+  {
+    "himage": "https://images.samsung.com/kdp/goods/2023/07/06/c81cf206-dd6f-426c-bac0-42abd0c2f950.png?$PF_PRD_PNG$",
+    "hname": "갤럭시 탭 S9 Ultra (Wi-Fi)",
+    "hprice": "159,830",
+    "hcutprice": "1,598,300",
+    "hvoucher": "1,438,470",
+    "off": "90",
+    "id": 14,
+    "img": "../../public/assets/qr/3.png"
+  },
+  {
+    "himage": "https://images.samsung.com/kdp/goods/2023/07/10/b298249b-0252-45e9-a966-b65246d9ef95.png?$PF_PRD_PNG$",
+    "hname": "갤럭시 워치6 44 MM (블루투스)",
+    "hprice": "36,900",
+    "hcutprice": "369,000",
+    "hvoucher": "332,100",
+    "off": "90",
+    "id": 15,
+    "img": "../../public/assets/qr/4.png"
+  },
+  {
+    "himage": "https://images.samsung.com/kdp/goods/2022/08/02/d83ee157-a245-4fdf-9d50-e486a797682d.png?$PF_PRD_PNG$",
+    "hname": "갤럭시 버즈2 프로",
+    "hprice": "27,900",
+    "hcutprice": "279,000",
+    "hvoucher": "251,100",
+    "off": "90",
+    "id": 16,
+    "img": "../../public/assets/qr/5.png"
+  },
+  {
+    "himage": "https://images.samsung.com/kdp/goods/2024/01/09/928c8555-bbcb-41b8-add7-c2d0d6046f7c.png?$PF_PRD_KDP_PNG$",
+    "hname": "갤럭시 S24 Ultra 플립수트 케이스",
+    "hprice": "4,950",
+    "hcutprice": "49,500",
+    "hvoucher": "44,550",
+    "off": "90",
+    "id": 17,
+    "img": "../../public/assets/qr/6.png"
+  },
+  {
+    "himage": "https://images.samsung.com/kdp/goods/2024/01/11/96b830b3-68bd-4c39-9c75-d570b19dfb5c.png?$PF_PRD_KDP_PNG$",
+    "hname": "갤럭시 S24 Ultra 비건 레더케이스",
+    "hprice": "4,400",
+    "hcutprice": "44,000",
+    "hvoucher": "39,600",
+    "off": "90",
+    "id": 18,
+    "img": "../../public/assets/qr/7.png"
+  },
+  {
+    "himage": "https://images.samsung.com/kdp/goods/2024/02/27/6d660c52-4191-4566-be88-a5dd0770b96e.png?$PF_PRD_KDP_PNG$",
+    "hname": "갤럭시 버즈 피크닉 사과 케이스",
+    "hprice": "2,970",
+    "hcutprice": "29,700",
+    "hvoucher": "26,730",
+    "off": "90",
+    "id": 19,
+    "img": "../../public/assets/qr/8.png"
+  }
+]
