@@ -54,6 +54,7 @@ interface dataType {
   // 일단 임의 지정
   content: string;
   products: productType[];
+  fundingFinishDate: string | null;
 }
 
 export default function Detail() {
@@ -73,6 +74,7 @@ export default function Detail() {
       'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200124_169%2F1579861444105ksyLS_JPEG%2FHR80O6nA89Q9ZWBHq4KZQL_-.jpeg.jpg',
     fundingOpenDate: '2024-04-01 00:00:00',
     fundingPeopleCnt: 2,
+    fundingFinishDate: null,
     fundingTitle: '은혜노인복지센터 식사 지원',
     goalAmount: 817600,
     currentAmount: 400800,
@@ -256,6 +258,7 @@ export default function Detail() {
         people: data.people,
         content: data.content,
         products: data.products,
+        fundingFinishDate: data.fundingFinishDate,
       });
       onOpen();
     }
@@ -264,7 +267,7 @@ export default function Detail() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const btnProps = {
-    text: data.currentLink ? '기부 연동하기' : '기부 그만하기',
+    text: data.currentLink ? '기부 그만하기' : '기부 연동하기',
     text2: '직접 후원하기',
     btnStyle: 'recThinFill',
     btnStyle2: 'recThinFill',
@@ -316,12 +319,16 @@ export default function Detail() {
         </div>
         {productList()}
         {donatorList()}
-        <p className={styles.content}>
+        <div className={styles.content}>
           <p>기관으로부터의 편지</p>
           {data.content}
-        </p>
+        </div>
       </div>
-      <div className={styles.footer}>{HalfButton(btnProps)}</div>
+      {data.fundingFinishDate == null ? (
+        <div className={styles.footer}>{HalfButton(btnProps)}</div>
+      ) : (
+        <div></div>
+      )}
 
       <Modal
         className={styles.modalComp}
