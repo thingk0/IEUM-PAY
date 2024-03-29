@@ -382,7 +382,7 @@ public class MemberService {
                 .gradeName(grade.getName())
                 .totalDonationCnt(funding.getFundingCount())
                 .totalDonationAmount(pay.getTotalDonation())
-                .autoFundingId(1L) // 수정해야함
+                .autoFundingId(funding.getFundingId()) // 수정해야함
                 .facilityName(funding.getFacilityName())
                 .facilityImage(funding.getFacilityImage())
                 .fundingTotalAmount(funding.getFundingTotalAmount())
