@@ -1,0 +1,33 @@
+.video {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+}
+.overlay {
+  position: absolute;
+  color: var(--white);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+$cardWidth: 19rem;
+$cardHeight: 12.667rem;
+.card {
+  position: absolute;
+  width: $cardWidth;
+  height: $cardHeight;
+  box-sizing: content-box;
+  flex-shrink: 0;
+  border-left-width: calc((100vw - $cardWidth) / 2);
+  border-left-color: rgba(0, 0, 0, 0.6);
+  border-right-width: calc((100vw - $cardWidth) / 2);
+  border-right-color: rgba(0, 0, 0, 0.6);
+  border-top-width: calc((100vh - $cardHeight) / 2);
+  border-top-color: rgba(0, 0, 0, 0.6);
+  border-bottom-width: calc((100vh - $cardHeight) / 2);
+  border-bottom-color: rgba(0, 0, 0, 0.6);
+}
