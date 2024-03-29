@@ -22,6 +22,17 @@ interface AccordionProps {
 }
 function Accordion({ history }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
+
+  function hasDonation() {
+    let has = false;
+    if (history.type === '기부') return true;
+    else if (
+      history.detail.filter((e) => e.type === '기부').length > 0 &&
+      !isOpen
+    )
+      return true;
+  }
+
   return (
     <div className={`${classes.accordion} ${isOpen && classes.open}`}>
       <button
@@ -31,11 +42,18 @@ function Accordion({ history }: AccordionProps) {
         <div>
           <p className={classes.title}>
             <span className={classes.price}>
-              {commaizeNumber(history.amount)}원
+              {isOpen && history.type === '결제'
+                ? history.detail
+                    .filter((e) => e.type === '결제')
+                    .map((e) => <>{commaizeNumber(e.price)}</>)
+                : commaizeNumber(history.amount)}
+              원
             </span>
-            <span className={classes.donation}>
-              <DonationIcon />
-            </span>
+            {hasDonation() && (
+              <span className={classes.donation}>
+                <DonationIcon />
+              </span>
+            )}
           </p>
           <p className={classes.detail}>
             {history.type} | {history.title}
@@ -47,12 +65,29 @@ function Accordion({ history }: AccordionProps) {
       </button>
       {isOpen && (
         <section>
+          {history.type !== '기부' &&
+            history.detail
+              .filter((e) => e.type === '기부')
+              .map((e) => (
+                <>
+                  <div>
+                    {commaizeNumber(e.price)}원
+                    <span className={classes.donation}>
+                      <DonationIcon />
+                    </span>
+                  </div>
+                  <div>기부 | {e.name}</div>
+                </>
+              ))}
           {history.detail
             .filter((e) => e.type === '충전')
             .map((e) => (
-              <div key={history.historyId + e.type}>
-                +{commaizeNumber(e.price)}원 이음페이머니 충전
-              </div>
+              <>
+                <hr />
+                <div key={history.historyId + e.type}>
+                  +{commaizeNumber(e.price)}원 이음페이머니 충전
+                </div>
+              </>
             ))}
         </section>
       )}
