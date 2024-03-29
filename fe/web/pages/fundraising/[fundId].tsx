@@ -235,27 +235,30 @@ export default function Detail() {
   };
 
   const mamgeLinking = async () => {
-    setData({
-      fundingId: data.fundingId,
-      facilityName: data.facilityName,
-      facilityAddress: data.facilityAddress,
-      facilityPhoneNumber: data.facilityPhoneNumber,
-      facilityRepresentativeName: data.facilityRepresentativeName,
-      facilityRepresentativePhoneNumber: data.facilityRepresentativePhoneNumber,
-      facilityCapacity: data.facilityCapacity,
-      facilityImage: data.facilityImage,
-      fundingOpenDate: data.fundingOpenDate,
-      fundingPeopleCnt: data.fundingPeopleCnt,
-      fundingTitle: data.fundingTitle,
-      goalAmount: data.goalAmount,
-      currentAmount: data.currentAmount,
-      // 여기 바꾸는거
-      currentLink: !data.currentLink,
-      people: data.people,
-      content: data.content,
-      products: data.products,
-    });
-    (await setConnectState(data.currentLink, data.fundingId)) ? onOpen() : '';
+    if (await setConnectState(data.currentLink, data.fundingId)) {
+      setData({
+        fundingId: data.fundingId,
+        facilityName: data.facilityName,
+        facilityAddress: data.facilityAddress,
+        facilityPhoneNumber: data.facilityPhoneNumber,
+        facilityRepresentativeName: data.facilityRepresentativeName,
+        facilityRepresentativePhoneNumber:
+          data.facilityRepresentativePhoneNumber,
+        facilityCapacity: data.facilityCapacity,
+        facilityImage: data.facilityImage,
+        fundingOpenDate: data.fundingOpenDate,
+        fundingPeopleCnt: data.fundingPeopleCnt,
+        fundingTitle: data.fundingTitle,
+        goalAmount: data.goalAmount,
+        currentAmount: data.currentAmount,
+        // 여기 바꾸는거
+        currentLink: !data.currentLink,
+        people: data.people,
+        content: data.content,
+        products: data.products,
+      });
+      onOpen();
+    }
   };
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
