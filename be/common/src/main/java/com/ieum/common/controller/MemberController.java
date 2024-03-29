@@ -124,7 +124,7 @@ public class MemberController {
 
     @Operation(summary = "회원 요약 정보 조회", description = "회원의 요약 정보를 조회합니다. - 수정 필요")
     @ApiResponse(responseCode = "200", description = "회원 정보 요약(기부내역 포함)")
-    @PostMapping("/summary")
+    @GetMapping("/summary")
     public ResponseEntity<?> getMemberSummary(@CurrentMemberId Long memberId) {
         return response.success(memberService.getSummaryInfo(memberId), SuccessCode.SUCCESS);
     }

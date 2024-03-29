@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
 public class AutoFundingResultResponseDTO {
     Long fundingId;
     Integer amount;
