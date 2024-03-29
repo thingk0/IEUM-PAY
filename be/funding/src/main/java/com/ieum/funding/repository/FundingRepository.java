@@ -103,4 +103,11 @@ public interface FundingRepository extends JpaRepository<Funding, Long> {
         "JOIN Facilities fac ON f.facilityId = fac.facilityId " +
         "WHERE f.fundingId = :fundingId ")
     FundingReceiptResponseFromFDTO getReceiptInfo(Long fundingId);
+
+    @Query(BASE_QUERY_INFO_LIST +
+            " WHERE f.fundingId in ( SELECT fmm.fundingId FROM FundingMembers fmm " +
+            " where fmm.memberId = :memberId  And fmm.fundingTotalAmount > 0 " +
+            ") "
+    )
+    List<FundingSummaryResponseDTO> findParticipantFundingList(Long memberId);
 }

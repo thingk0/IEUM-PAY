@@ -144,4 +144,8 @@ public class PayService {
     public String getCardName(Long registeredCardId){
         return payFeignClient.getCardName(registeredCardId);
     }
+
+    public Object getMainSummary(Long memberId) {
+        return payFeignClient.getMainPageInfo(memberId);
+    }
 }

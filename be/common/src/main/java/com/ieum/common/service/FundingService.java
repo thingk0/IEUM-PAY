@@ -139,4 +139,8 @@ public class FundingService {
             .build();
 
     }
+
+    public List<FundingSummaryResponseDTO> getFundingParticipationList(Long memberid) {
+        return fundingFeignClient.getFundingParticipationList(memberid);
+    }
 }

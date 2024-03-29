@@ -160,4 +160,12 @@ public class FundingController {
             .fundingCount(res2.getFundingCount())
             .build());
     }
+
+    @Operation(summary = "참여한 목록 조회", description = "참여한 펀딩의 목록을 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "참여한 목록 조회 성공")
+    @GetMapping("/list/{memberId}")
+    public ResponseEntity<List<FundingSummaryResponseDTO>> getFundingParticipantList(@PathVariable("memberId") Long memberId) {
+        List<FundingSummaryResponseDTO> response = fundingService.getFundingParticipantList(memberId);
+        return ResponseEntity.ok(response);
+    }
 }

@@ -71,4 +71,7 @@ public interface FundingFeignClient {
 
     @GetMapping("/funding/info/current/{memberId}")
     CurrentFundingResultResponseDTO getCurrentInfo(@PathVariable("memberId") Long memberId);
+
+    @GetMapping(value = "/funding/list/{memberId}")
+    List<FundingSummaryResponseDTO> getFundingParticipationList(@PathVariable("memberId") Long memberid);
 }
