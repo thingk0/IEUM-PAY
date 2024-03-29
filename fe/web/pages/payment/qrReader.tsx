@@ -95,7 +95,12 @@ export default function QrReader() {
           </div>
         </div>
         <div ref={qrBoxEl} className={styles.qrBox}>
-          <img src={'/qrFrame.svg'} alt="Qr Frame" className={styles.qrFrame} />
+          <img
+            src={'/qrFrame.svg'}
+            width={224}
+            alt="Qr Frame"
+            className={styles.qrFrame}
+          />
         </div>
         <div className={styles.bottom}>
           <img
