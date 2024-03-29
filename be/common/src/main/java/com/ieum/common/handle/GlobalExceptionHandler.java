@@ -7,6 +7,7 @@ import com.ieum.common.exception.member.ExistingPhoneNumberException;
 import com.ieum.common.exception.member.InvalidPhoneNumberException;
 import com.ieum.common.exception.member.InvalidPrincipalTypeException;
 import com.ieum.common.exception.member.MemberNotFoundByIdException;
+import com.ieum.common.exception.member.MemberNotFoundByPhoneNumberException;
 import com.ieum.common.exception.member.MemberNotFoundException;
 import com.ieum.common.exception.member.PasswordMismatchException;
 import com.ieum.common.exception.token.TokenOperationException;
@@ -48,6 +49,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MemberNotFoundByIdException.class)
     protected ResponseEntity<?> handle(MemberNotFoundByIdException e) {
         log.error("MemberNotFoundByIdException = {}", e.getFailedCode().getMessage());
+        return response.error(e.getFailedCode());
+    }
+
+    @ExceptionHandler(MemberNotFoundByPhoneNumberException.class)
+    protected ResponseEntity<?> handle(MemberNotFoundByPhoneNumberException e) {
+        log.error("MemberNotFoundByPhoneNumberException = {}", e.getFailedCode().getMessage());
         return response.error(e.getFailedCode());
     }
 
