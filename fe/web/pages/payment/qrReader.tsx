@@ -1,14 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 
 // Styles
-import styles from './QrStyles.module.scss';
+import styles from './qrReader.module.scss';
 
 // Qr Scanner
 import QrScanner from 'qr-scanner';
-// import QrFrame from './QRframe';
-import PageTitleCenter from '@/components/PageTitleCenter';
 import { useRouter } from 'next/router';
-// import qrFrame from '/qr-frame.svg';
 
 export default function QrReader() {
   // QR States
@@ -87,7 +84,6 @@ export default function QrReader() {
 
   return (
     <div className={styles.container}>
-      {/* <PageTitleCenter title={'QR코드 스캔'} description={''} /> */}
       <div className={styles.qrReader}>
         <video ref={videoEl}></video>
         <div className={styles.header}>
@@ -99,14 +95,7 @@ export default function QrReader() {
           </div>
         </div>
         <div ref={qrBoxEl} className={styles.qrBox}>
-          <img
-            src={'/qrFrame.svg'}
-            alt="Qr Frame"
-            // width={256}
-            // height={256}
-            className={styles.qrFrame}
-          />
-          {/* <QrFrame /> */}
+          <img src={'/qrFrame.svg'} alt="Qr Frame" className={styles.qrFrame} />
         </div>
         <div className={styles.bottom}>
           <img
