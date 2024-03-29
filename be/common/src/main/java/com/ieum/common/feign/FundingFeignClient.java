@@ -14,6 +14,7 @@ import com.ieum.common.dto.feign.funding.response.FundingResultResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingSummaryResponseDTO;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,7 +64,7 @@ public interface FundingFeignClient {
 
     // 펀딩 결과 정보 조회
     @GetMapping(value = "/funding/result/{fundingId}")
-    FundingResultResponseDTO getPaymentResult(@PathVariable("fundingId") Long fundingId);
+    Optional<FundingResultResponseDTO> getPaymentResult(@PathVariable("fundingId") Long fundingId);
 
     // 영수증
     @GetMapping(value = "/funding/receipt/{fundingId}")
