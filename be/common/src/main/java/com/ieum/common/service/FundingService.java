@@ -6,13 +6,7 @@ import com.ieum.common.dto.feign.funding.request.AutoDonationRequestDTO;
 import com.ieum.common.dto.feign.funding.request.FundingDonationRequestDTO;
 import com.ieum.common.dto.feign.funding.request.FundingLinkupRequestDTO;
 import com.ieum.common.dto.feign.funding.request.FundingUnlinkRequestDTO;
-import com.ieum.common.dto.feign.funding.response.AutoFundingResultResponseDTO;
-import com.ieum.common.dto.feign.funding.response.CurrentFundingResultResponseDTO;
-import com.ieum.common.dto.feign.funding.response.FundingDetailResponseDTO;
-import com.ieum.common.dto.feign.funding.response.FundingInfoResponseDTO;
-import com.ieum.common.dto.feign.funding.response.FundingReceiptResponseDTO;
-import com.ieum.common.dto.feign.funding.response.FundingResultResponseDTO;
-import com.ieum.common.dto.feign.funding.response.FundingSummaryResponseDTO;
+import com.ieum.common.dto.feign.funding.response.*;
 import com.ieum.common.dto.feign.pay.response.FundingDonationResultResponseDTO;
 import com.ieum.common.dto.request.DirectlyDonationRequestDTO;
 import com.ieum.common.dto.response.DirectlyDonationResponseDTO;
@@ -86,7 +80,10 @@ public class FundingService {
             .amount(request.getAmount())
             .memberId(memberId)
             .build();
-        fundingFeignClient.donationDirectly(funding);
+
+        if(!fundingFeignClient.donationDirectly(funding).getFundingResult()){
+            return null;
+        }
 
         Members members = memberService.findMemberById(memberId);
 
