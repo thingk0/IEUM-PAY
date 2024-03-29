@@ -35,7 +35,7 @@ function HistoryPage() {
         <ul>
           <li>
             {data.map((e: History) => (
-              <Accordion history={e}></Accordion>
+              <Accordion history={e} key={e.historyId}></Accordion>
             ))}
             <section></section>
           </li>
