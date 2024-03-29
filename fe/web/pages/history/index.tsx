@@ -64,7 +64,7 @@ function HistoryPage() {
   return (
     <>
       <HeaderMain />
-      <main>
+      <main className={classes.container}>
         <h1 className={classes.title}>사용내역</h1>
         <Content />
       </main>
