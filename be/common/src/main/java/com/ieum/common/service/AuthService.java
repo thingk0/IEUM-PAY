@@ -45,7 +45,7 @@ public class AuthService {
     }
     
     // 2차 비밀번호 확인 인증 - 레디스에 키가 있는지
-    private boolean checkAuthInRedis(Long memberId, String authKey) {
+    public boolean checkAuthInRedis(Long memberId, String authKey) {
         String getAuthKeyFromRedis = stringRedisTemplate.opsForValue().get("2ndAuth:" + memberId);
         return getAuthKeyFromRedis != null && getAuthKeyFromRedis.equals(authKey);
     }
