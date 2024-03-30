@@ -126,10 +126,28 @@ function ScanCardPage() {
   }
   async function getUserMedia() {
     try {
+      let devices = await navigator.mediaDevices.enumerateDevices();
+      const camera = devices
+        .filter((device) => device.kind === 'videoinput')
+        .map((e) => e.deviceId);
+      console.log(camera.length);
       let myStream = await navigator.mediaDevices.getUserMedia({
-        //@ts-expect-error
-        video: { facingMode: 'environment', focusMode: 'continuous' },
+        // OCR 성능 향상을 위한 옵션들 (마지막 카메라가 대부분의 디바이스에서 광각이 아니므로 선명하게 찍을 수 있음)
+        video: {
+          deviceId: camera.length
+            ? { ideal: camera[camera.length - 1] }
+            : undefined,
+          width: { ideal: 1920 },
+          height: { ideal: 1920 },
+          facingMode: { ideal: 'environment' },
+          //@ts-expect-error
+          focusMode: { ideal: 'continuous' },
+          whiteBalanceMode: { ideal: 'continuous' },
+          zoom: { ideal: 1 },
+        },
       });
+      let t = myStream.getVideoTracks()[0].getSettings();
+      console.log(t);
       if (videoRef.current) {
         videoRef.current.srcObject = myStream;
       }
