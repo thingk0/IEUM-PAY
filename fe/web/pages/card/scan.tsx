@@ -1,11 +1,23 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import classes from './card.module.scss';
 import Button from '@/stories/Button';
 import { postCardImage } from '@/api/paymentAxios';
 import CloseIcon from '@/components/icons/CloseIcon';
+import ZapIcon from '@/components/icons/ZapIcon';
+import ZapOffIcon from '@/components/icons/ZapOffIcon';
 
 function ScanCardPage() {
   let videoRef = useRef<HTMLVideoElement>(null);
+  let myStream = useRef<MediaStream>();
+  const [isFlashOn, setIsFlashOn] = useState(false);
+  function toggleFlash() {
+    //@ts-expect-error
+    const newVal = !myStream.current?.getVideoTracks()[0].getSettings()?.torch;
+    myStream.current?.getVideoTracks()[0].applyConstraints({
+      torch: newVal,
+    } as MediaTrackConstraints);
+    setIsFlashOn(newVal);
+  }
   function takePicture() {
     let rem = parseFloat(
       window.getComputedStyle(document.documentElement).fontSize,
@@ -130,8 +142,7 @@ function ScanCardPage() {
       const camera = devices
         .filter((device) => device.kind === 'videoinput')
         .map((e) => e.deviceId);
-      console.log(camera.length);
-      let myStream = await navigator.mediaDevices.getUserMedia({
+      myStream.current = await navigator.mediaDevices.getUserMedia({
         // OCR 성능 향상을 위한 옵션들 (마지막 카메라가 대부분의 디바이스에서 광각이 아니므로 선명하게 찍을 수 있음)
         video: {
           deviceId: camera.length
@@ -140,16 +151,15 @@ function ScanCardPage() {
           width: { ideal: 1920 },
           height: { ideal: 1920 },
           facingMode: { ideal: 'environment' },
-          //@ts-expect-error
           focusMode: { ideal: 'continuous' },
           whiteBalanceMode: { ideal: 'continuous' },
           zoom: { ideal: 1 },
-        },
+        } as MediaTrackConstraints,
       });
-      let t = myStream.getVideoTracks()[0].getSettings();
+      let t = myStream.current.getVideoTracks()[0].getCapabilities();
       console.log(t);
       if (videoRef.current) {
-        videoRef.current.srcObject = myStream;
+        videoRef.current.srcObject = myStream.current;
       }
     } catch (e) {
       console.log(e);
@@ -171,9 +181,11 @@ function ScanCardPage() {
       </div>
       <div className={classes.overlay}>
         <header>
-          <h1>
-            카드 스캔 <CloseIcon color="white" />
-          </h1>
+          <button onClick={toggleFlash}>
+            {isFlashOn ? <ZapOffIcon /> : <ZapIcon />}
+          </button>
+          <h1>카드 스캔</h1>
+          <CloseIcon color="white" />
         </header>
 
         <Button primary onClick={handleClick}>

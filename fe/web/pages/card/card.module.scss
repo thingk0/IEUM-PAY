@@ -17,19 +17,14 @@
   padding: 2.438rem 1.25rem 1rem 1.25rem;
 
   header {
-    position: static;
+    display: flex;
+    justify-content: space-between;
     h1 {
-      position: static;
       font-size: 1.25rem;
       font-weight: bold;
       letter-spacing: -1.6px;
       text-align: center;
       color: var(--real-white);
-      div {
-        position: absolute;
-        display: inline-block;
-        right: 1.25rem;
-      }
     }
   }
 }
