@@ -182,7 +182,7 @@ function ScanCardPage() {
       <div className={classes.overlay}>
         <header>
           <button onClick={toggleFlash}>
-            {isFlashOn ? <ZapOffIcon /> : <ZapIcon />}
+            {isFlashOn ? <ZapIcon /> : <ZapOffIcon />}
           </button>
           <h1>카드 스캔</h1>
           <CloseIcon color="white" />
