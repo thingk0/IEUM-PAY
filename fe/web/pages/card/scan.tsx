@@ -127,7 +127,8 @@ function ScanCardPage() {
   async function getUserMedia() {
     try {
       let myStream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'environment' },
+        //@ts-expect-error
+        video: { facingMode: 'environment', focusMode: 'continuous' },
       });
       if (videoRef.current) {
         videoRef.current.srcObject = myStream;
