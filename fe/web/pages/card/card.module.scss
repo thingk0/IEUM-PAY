@@ -12,6 +12,25 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  padding: 2.438rem 1.25rem 1rem 1.25rem;
+
+  header {
+    position: static;
+    h1 {
+      position: static;
+      font-size: 1.25rem;
+      font-weight: bold;
+      letter-spacing: -1.6px;
+      text-align: center;
+      color: var(--real-white);
+      div {
+        position: absolute;
+        display: inline-block;
+        right: 1.25rem;
+      }
+    }
+  }
 }
 
 $cardWidth: 19rem;
@@ -30,4 +49,17 @@ $cardHeight: 12.667rem;
   border-top-color: rgba(0, 0, 0, 0.6);
   border-bottom-width: calc((100vh - $cardHeight) / 2);
   border-bottom-color: rgba(0, 0, 0, 0.6);
+  &:after {
+    content: url('/card-frame.svg');
+  }
+  p {
+    position: absolute;
+    width: 100%;
+    top: -3rem;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: -1.28px;
+    text-align: center;
+    color: var(--real-white);
+  }
 }

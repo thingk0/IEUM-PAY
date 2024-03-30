@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import classes from './card.module.scss';
 import Button from '@/stories/Button';
 import { postCardImage } from '@/api/paymentAxios';
+import CloseIcon from '@/components/icons/CloseIcon';
 
 function ScanCardPage() {
   let videoRef = useRef<HTMLVideoElement>(null);
@@ -146,10 +147,16 @@ function ScanCardPage() {
         playsInline
         ref={videoRef}
       ></video>
-      <div className={classes.card}></div>
-      <div className={classes.overlay}>
-        <h1>카드 스캔</h1>
+      <div className={classes.card}>
         <p>카드를 사각형 안에 맞춰주세요</p>
+      </div>
+      <div className={classes.overlay}>
+        <header>
+          <h1>
+            카드 스캔 <CloseIcon color="white" />
+          </h1>
+        </header>
+
         <Button primary onClick={handleClick}>
           촬영하기
         </Button>
