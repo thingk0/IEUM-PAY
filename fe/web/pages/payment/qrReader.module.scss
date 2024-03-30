@@ -1,0 +1,90 @@
+.container {
+  background-color: transparent;
+}
+
+.qrReader {
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  position: fixed;
+}
+
+.qrReader video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: fixed;
+  background-color: transparent;
+}
+
+.header {
+  position: fixed;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  top: 0;
+  height: 20%;
+}
+
+.logo {
+  margin-top: 1.25rem;
+  margin-left: 1.25rem;
+}
+
+.title {
+  margin-top: 2rem;
+  font-size: 1.375rem;
+  color: white;
+}
+
+.headerBottom {
+  display: flex;
+  justify-content: center;
+}
+
+// .qrReader .qrBox {
+// width: 100% !important;
+// left: 0 !important;
+// }
+
+.qrReader .qrFrame {
+  position: fixed;
+  fill: none;
+  object-fit: cover;
+  // width: 100vh;
+
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+/* Media Queries for mobile screens */
+// @media (max-width: 426px) {
+//   .qrReader {
+//     width: 100%;
+//   }
+// }
+
+.result {
+  font: 1rem 500 var(--black);
+}
+
+.bottom {
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  height: 20%;
+}
+
+// .qrClose {
+// fill: none;
+// object-fit: cover;
+// width: 100vh; 이음규 바보
+
+// left: 50%;
+// top: 90%;
+// transform: translateX(-50%) translateY(-50%);
+// }

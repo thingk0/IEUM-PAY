@@ -1,0 +1,77 @@
+$heightThick: 3.5rem;
+$heightThin: 3rem;
+$heightSuperThin: 2.5rem;
+
+.container {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.buttonContainer {
+  width: 50%;
+  padding: 0.625rem 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.thickFill {
+  height: $heightThick;
+  width: 100%;
+  background-color: var(--primary-color);
+  border-radius: $heightThick / 2;
+  color: white;
+}
+
+.thickFill:active {
+  background-color: rgb(91, 39, 177);
+}
+
+.thinFill {
+  height: $heightThin;
+  width: 100%;
+  background-color: var(--primary-color);
+  border-radius: $heightThin / 2;
+  color: white;
+}
+
+.thinFill:active {
+  background-color: rgb(91, 39, 177);
+}
+
+.thickLine {
+  height: $heightThick;
+  width: 100%;
+  border: 1px solid rgb(128, 53, 249);
+  background-color: transparent;
+  border-radius: $heightThick / 2;
+  color: rgb(128, 53, 249);
+}
+
+.thickLine:active {
+  background-color: rgb(205, 174, 255);
+}
+
+.thinLine {
+  height: $heightThin;
+  width: 100%;
+  border: 1px solid rgb(128, 53, 249);
+  background-color: transparent;
+  border-radius: $heightThin / 2;
+  color: rgb(128, 53, 249);
+}
+
+.thinLine:active {
+  background-color: rgb(205, 174, 255);
+}
+
+.recThinFill {
+  height: $heightSuperThin;
+  width: 100%;
+  background-color: var(--primary-color);
+  border-radius: 0.5rem;
+  color: white;
+  margin: 0.5rem 0 0.5rem 0;
+}
+.recThinFill:active {
+  background-color: rgb(91, 39, 177);
+}

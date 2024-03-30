@@ -1,0 +1,66 @@
+.video {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  background-color: black;
+}
+.overlay {
+  position: absolute;
+  color: var(--white);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 2.438rem 1.25rem 1rem 1.25rem;
+
+  header {
+    position: static;
+    h1 {
+      position: static;
+      font-size: 1.25rem;
+      font-weight: bold;
+      letter-spacing: -1.6px;
+      text-align: center;
+      color: var(--real-white);
+      div {
+        position: absolute;
+        display: inline-block;
+        right: 1.25rem;
+      }
+    }
+  }
+}
+
+$cardWidth: 19rem;
+$cardHeight: 12.667rem;
+.card {
+  position: absolute;
+  width: $cardWidth;
+  height: $cardHeight;
+  box-sizing: content-box;
+  flex-shrink: 0;
+  border-left-width: calc((100vw - $cardWidth) / 2);
+  border-left-color: rgba(0, 0, 0, 0.6);
+  border-right-width: calc((100vw - $cardWidth) / 2);
+  border-right-color: rgba(0, 0, 0, 0.6);
+  border-top-width: calc((100vh - $cardHeight) / 2);
+  border-top-color: rgba(0, 0, 0, 0.6);
+  border-bottom-width: calc((100vh - $cardHeight) / 2);
+  border-bottom-color: rgba(0, 0, 0, 0.6);
+  &:after {
+    content: url('/card-frame.svg');
+  }
+  p {
+    position: absolute;
+    width: 100%;
+    top: -3rem;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: -1.28px;
+    text-align: center;
+    color: var(--real-white);
+  }
+}

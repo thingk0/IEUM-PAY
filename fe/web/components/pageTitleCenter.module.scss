@@ -1,0 +1,21 @@
+.container {
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.title {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.description {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--sub-text);
+}
+
+.close {
+  display: flex;
+  justify-content: flex-end;
+}

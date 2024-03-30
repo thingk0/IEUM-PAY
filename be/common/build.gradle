@@ -1,50 +1,109 @@
+buildscript {
+    ext {
+        set('springCloudVersion', "2021.0.3")
+        queryDslVersion = "5.0.0"
+    }
+}
+
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '2.7.0'
-	id 'io.spring.dependency-management' version '1.1.4'
+    id 'java'
+    id 'org.springframework.boot' version '2.7.11'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
 }
 
 group = 'com.ieum'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 
 java {
-	sourceCompatibility = '17'
+    sourceCompatibility = '17'
 }
+compileJava.options.encoding = "UTF-8"
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.mongodb:mongodb-driver-core:4.9.1'
-	// swagger 설정
-	implementation 'org.springdoc:springdoc-openapi-ui:1.6.6'
-	implementation 'org.springdoc:springdoc-openapi-webmvc-core:1.6.6'
-	// mail 서버 연결
-	implementation 'com.sun.mail:javax.mail:1.6.2'
-	//DB
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.mariadb.jdbc:mariadb-java-client'
+    // Mvc
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // swagger
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.6'
+    implementation 'org.springdoc:springdoc-openapi-webmvc-core:1.6.6'
+    // mail 서버 연결
+    implementation 'com.sun.mail:javax.mail:1.6.2'
+    // Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    // JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // MariaDB
+    implementation 'org.mariadb.jdbc:mariadb-java-client'
+    // MongoDB
+    implementation 'org.mongodb:mongodb-driver-core:4.9.1'
+    // Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    // JWT
+    compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
+    // Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    // Querydsl
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+    implementation "com.querydsl:querydsl-core:${queryDslVersion}"
+    // etc
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+    // Apache Commons Lang
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    // openfeign
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+}
+
+//querydsl Settings
+def querydslDir = "src/main/generated/querydsl"
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+
+sourceSets {
+    main.java.srcDir querydslDir
+}
 
 
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    querydsl.extendsFrom compileClasspath
 }
 
 tasks.named('bootBuildImage') {
-	builder = 'paketobuildpacks/builder-jammy-base:latest'
+    builder = 'paketobuildpacks/builder-jammy-base:latest'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }

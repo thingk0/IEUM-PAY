@@ -1,0 +1,59 @@
+.container {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  padding-bottom: env(safe-area-inset-bottom);
+  background-color: white;
+  border-top: solid 1px var(--forthary);
+}
+.ul {
+  position: static;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  font-size: 0.75rem;
+  font-family:
+    'Pretendard Variable',
+    Pretendard,
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    Roboto,
+    'Helvetica Neue',
+    'Segoe UI',
+    'Apple SD Gothic Neo',
+    'Noto Sans KR',
+    'Malgun Gothic',
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol',
+    sans-serif;
+  justify-content: space-around;
+  padding: 0.625rem;
+  background: white;
+}
+.link {
+  text-decoration: none;
+  color: black;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.active {
+  color: #8035f9;
+}
+.cameraWrapper {
+  position: absolute;
+  bottom: calc(0.563rem + env(safe-area-inset-bottom));
+  width: 4.25rem;
+  height: 4.25rem;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(143deg, #7835f9 16%, #c576f5 82%);
+}

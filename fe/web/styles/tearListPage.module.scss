@@ -1,0 +1,51 @@
+.table {
+  margin: 0;
+  padding-top: 3rem;
+  padding-left: 1.131rem;
+  padding-right: 1.131rem;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  .lavel {
+    width: 5rem;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+}
+.box {
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 0.5rem;
+  display: flex;
+  text-align: center;
+  padding: 1.063rem 0 1.125rem 0;
+  align-items: center;
+}
+.grade {
+  display: flex;
+  width: 5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  align-items: center;
+  p {
+    margin-left: 1rem;
+  }
+}
+.amount {
+  margin: 0;
+  width: 6.5rem;
+}
+.cnt {
+  width: 2.5rem;
+  margin-left: 2rem;
+}
+.li {
+  display: flex;
+  text-align: center;
+  padding: 1.063rem 0 1.125rem 0;
+  align-items: center;
+  color: var(--black);
+}

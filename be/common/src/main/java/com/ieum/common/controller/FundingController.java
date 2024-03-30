@@ -1,25 +1,39 @@
 package com.ieum.common.controller;
 
-import com.ieum.common.request.FundingDonationRequestDTO;
-import com.ieum.common.request.FundingLinkupRequestDTO;
-import com.ieum.common.request.FundingUnlinkRequestDTO;
-import com.ieum.common.response.FundingCompleteDetailResponseDTO;
-import com.ieum.common.response.FundingCompleteInfoResponseDTO;
-import com.ieum.common.response.FundingDonationResponseDTO;
-import com.ieum.common.response.FundingInfoResponseDTO;
-import com.ieum.common.dto.FundingMemberDTO;
-import com.ieum.common.response.FundingOngoingDetailResponseDTO;
-import com.ieum.common.response.FundingOngoingInfoResponseDTO;
-import com.ieum.common.response.FundingResultResponseDTO;
+import static com.ieum.common.format.code.FailedCode.INVALID_PRINCIPAL_TYPE;
+import static com.ieum.common.format.code.FailedCode.PAYMENT_REGISTERED_CARD_NULL;
+
+import com.ieum.common.annotation.CurrentMemberId;
+import com.ieum.common.domain.Members;
+import com.ieum.common.dto.feign.funding.request.FundingLinkupRequestDTO;
+import com.ieum.common.dto.feign.funding.request.FundingUnlinkRequestDTO;
+import com.ieum.common.dto.feign.funding.response.CurrentFundingResultResponseDTO;
+import com.ieum.common.dto.feign.funding.response.FundingDetailResponseDTO;
+import com.ieum.common.dto.feign.funding.response.FundingInfoResponseDTO;
+import com.ieum.common.dto.feign.funding.response.FundingResultResponseDTO;
+import com.ieum.common.dto.feign.funding.response.FundingSummaryResponseDTO;
+import com.ieum.common.dto.request.DirectlyDonationRequestDTO;
+import com.ieum.common.dto.request.MainFundingLinkRequestDTO;
+import com.ieum.common.dto.response.DirectlyDonationInfoResponseDTO;
+import com.ieum.common.dto.response.DirectlyDonationResponseDTO;
+import com.ieum.common.dto.response.DonationDirectlyResponseDTO;
+import com.ieum.common.dto.response.ReceiptResponseDTO;
+import com.ieum.common.exception.funding.FundingResultNotFoundException;
+import com.ieum.common.exception.pay.DonationHistoryNotFoundException;
+import com.ieum.common.format.code.SuccessCode;
+import com.ieum.common.format.response.ResponseTemplate;
+import com.ieum.common.service.AuthService;
+import com.ieum.common.service.FundingService;
+import com.ieum.common.service.MemberService;
+import com.ieum.common.service.PayService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import org.bson.Document;
-import org.springframework.http.HttpStatus;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,251 +42,153 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "funding", description = "Funding API - 목업")
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/funding")
-@Tag(name = "funding", description = "Funding API - 목업")
+@Slf4j
 public class FundingController {
 
+    private final ResponseTemplate response;
+    private final MemberService memberService;
+    private final FundingService fundingService;
+    private final PayService payService;
+    private final AuthService authService;
 
-    @Operation(summary = "완료된 펀딩 상세 조회", description = "완료된 펀딩의 상세 정보를 조회합니다.")
-    @ApiResponse(responseCode = "200", description = "완료된 펀딩 상세 정보 조회 성공")
+    @Operation(summary = "펀딩 상세 조회", description = "펀딩의 상세 정보를 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "펀딩 상세 정보 조회 성공")
     @GetMapping("/{fundingId}/complete")
-    public ResponseEntity<FundingCompleteDetailResponseDTO> getFundingCompleteDetail(
-        @PathVariable("fundingId") Long fundingId) {
+    public ResponseEntity<?> getFundingCompleteDetail(@PathVariable("fundingId") Long fundingId,
+                                                      @CurrentMemberId Long memberId) {
 
-        FundingMemberDTO fundingMember1 = FundingMemberDTO.builder()
-            .nickname("abc")
-            .amount(100000)
-            .build();
-
-        FundingMemberDTO fundingMember2 = FundingMemberDTO.builder()
-            .nickname("qqq")
-            .amount(200000)
-            .build();
-
-        FundingMemberDTO fundingMember3 = FundingMemberDTO.builder()
-            .nickname("yyy")
-            .amount(300000)
-            .build();
-
-        Document content = new Document()
-            .append("title", "Sample Project")
-            .append("description", "This is a sample MongoDB document")
-            .append("status", "active")
-            .append("budget", 5000)
-            .append("participants", Arrays.asList("John Doe", "Jane Doe", "Steve Smith"))
-            .append("startDate", "2024-01-01")
-            .append("endDate", "2024-12-31")
-            .append("notes",
-                new Document("important", "Remember to update the document regularly"));
-
-        FundingCompleteDetailResponseDTO response = FundingCompleteDetailResponseDTO.builder()
-            .facilityName("btc")
-            .facilityAddress("대전광역시 유성구 oo oo oo")
-            .facilityPhoneNumber("042-000-0000")
-            .facilityRepresentativeName("홍길동")
-            .facilityRepresentativePhoneNumber("010-0123-4567")
-            .facilityCapacity(10)
-            .facilityImage("http://example.com/image")
-            .fundingOpenDate("2023-02-02")
-            .fundingPeopleCnt(3)
-            .fundingTitle("helpMe")
-            .goalAmount(500000)
-            .fundingMemberList(Arrays.asList(fundingMember1, fundingMember2, fundingMember3))
-            .content(content) // MongoDB의 Document를 사용하는 경우
-            .build();
-
-        return ResponseEntity.ok(response); // 생성된 DTO 반환
-
-    }
-
-    @Operation(summary = "진행 중인 펀딩 상세 조회", description = "진행 중인 펀딩의 상세 정보를 조회합니다.")
-    @ApiResponse(responseCode = "200", description = "진행 중인 펀딩 상세 정보 조회 성공")
-    @GetMapping("/{fundingId}/ongoing")
-    public ResponseEntity<FundingOngoingDetailResponseDTO> getFundingOngoingDetail(
-        @PathVariable("fundingId") Long fundingId) {
-
-        FundingMemberDTO fundingMember1 = FundingMemberDTO.builder()
-            .nickname("abc")
-            .amount(100000)
-            .build();
-
-        FundingMemberDTO fundingMember2 = FundingMemberDTO.builder()
-            .nickname("qqq")
-            .amount(200000)
-            .build();
-
-        FundingMemberDTO fundingMember3 = FundingMemberDTO.builder()
-            .nickname("yyy")
-            .amount(300000)
-            .build();
-
-        Document content = new Document()
-            .append("title", "Sample Project")
-            .append("description", "This is a sample MongoDB document")
-            .append("status", "active")
-            .append("budget", 5000)
-            .append("participants", Arrays.asList("John Doe", "Jane Doe", "Steve Smith"))
-            .append("startDate", "2024-01-01")
-            .append("endDate", "2024-12-31")
-            .append("notes",
-                new Document("important", "Remember to update the document regularly"));
-
-        FundingOngoingDetailResponseDTO response = FundingOngoingDetailResponseDTO.builder()
-            .facilityName("btc")
-            .facilityAddress("대전광역시 유성구 oo oo oo")
-            .facilityPhoneNumber("042-000-0000")
-            .facilityRepresentativeName("홍길동")
-            .facilityRepresentativePhoneNumber("010-0123-4567")
-            .facilityCapacity(10)
-            .facilityImage("http://example.com/image")
-            .fundingOpenDate("2023-02-02")
-            .fundingPeopleCnt(3)
-            .fundingTitle("helpMe")
-            .goalAmount(500000)
-            .currentAmount(4000)
-            .fundingMemberList(Arrays.asList(fundingMember1, fundingMember2, fundingMember3))
-            .content(content) // MongoDB의 Document를 사용하는 경우
-            .build();
-
-        return ResponseEntity.ok(response); // 생성된 DTO 반환
-
-    }
-
-    @Operation(summary = "펀딩 기부", description = "펀딩에 직접 기부합니다.")
-    @ApiResponse(responseCode = "200", description = "펀딩 기부 성공 - 펀딩ID 반환")
-    @PostMapping("/donation")
-    public ResponseEntity<FundingDonationResponseDTO> donationDirectly(
-        @RequestBody FundingDonationRequestDTO request) {
-        FundingDonationResponseDTO response = FundingDonationResponseDTO.builder()
-            .fundingId(1L)
-            .build();
-
-        return ResponseEntity.ok(response);
-    }
-
-    @Operation(summary = "펀딩 결과 조회(직접 기부)", description = "직접기부 시 펀딩의 결과를 조회합니다.")
-    @ApiResponse(responseCode = "200", description = "펀딩 결과 조회 성공")
-    @GetMapping("/donation/result/{fundingId}")
-    public ResponseEntity<FundingResultResponseDTO> getFundgingResult(
-        @PathVariable("fundingId") Long fundingId) {
-        FundingResultResponseDTO response = FundingResultResponseDTO.builder()
-            .fundingTitle("떡잎어린이집 후원")
-            .factilityName("떡잎어린이집")
-            .facilityImage(
-                "https://ko.wikipedia.org/wiki/%EC%8B%A0%EC%A7%B1%EA%B5%AC#/media/%ED%8C%8C%EC%9D%BC:%EC%8B%A0%EC%A7%B1%EA%B5%AC.png")
-            .build();
-
-        return ResponseEntity.ok(response);
-    }
-
-    @Operation(summary = "직접기부 결제 정보 요청", description = "직접기부 결제시 해당 결제에 대한 정보 요청")
-    @ApiResponse(responseCode = "200", description = "정보 조회 성공")
-    @GetMapping("/info/{fundingId}/{amount}")
-    public ResponseEntity<FundingInfoResponseDTO> getFundgingInfo(
-        @PathVariable("fundingId") Long fundingId, @PathVariable("amount") int amount) {
-        FundingInfoResponseDTO response = FundingInfoResponseDTO.builder()
-            .fundingId(fundingId)
-            .amount(amount)
-            .facilityName("떡잎어린이집")
-            .paymoneyAmount(400)
-            .chargeAmount(10000)
-            .build();
-
-        return ResponseEntity.ok(response);
-    }
-
-    @Operation(summary = "펀딩 연계", description = "사용자를 특정 펀딩에 연계시킵니다.")
-    @ApiResponse(responseCode = "200", description = "펀딩 연계 성공")
-    @PostMapping("/linkup")
-    public ResponseEntity<HttpStatus> fundingLinkup(@RequestBody FundingLinkupRequestDTO request) {
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @Operation(summary = "완료된 펀딩 목록 조회", description = "완료된 모든 펀딩의 목록을 조회합니다.")
-    @ApiResponse(responseCode = "200", description = "완료된 펀딩 목록 조회 성공")
-    @GetMapping("/list/complete")
-    public ResponseEntity<List<FundingCompleteInfoResponseDTO>> getFundingCompleteList () {
-        List<FundingCompleteInfoResponseDTO> response = new ArrayList<>();
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-        try {
-            FundingCompleteInfoResponseDTO completeInfo1 = FundingCompleteInfoResponseDTO.builder()
-                .fundingId(1L)
-                .facilityName("btc")
-                .fundingTitle("과자를 사주세요")
-                .fundingOpenDate(sdf.parse("2023-02-02"))
-                .fundingFinishDate(sdf.parse("2023-03-02"))
-                .facilityImage("http:FDSAFSDAFDSAF")
-                .fundingPeopleCnt(10)
-                .goalAmount(500000)
-                .build();
-
-            FundingCompleteInfoResponseDTO completeInfo2 = FundingCompleteInfoResponseDTO.builder()
-                .fundingId(2L)
-                .facilityName("btc2")
-                .fundingTitle("과자를 사주세요2")
-                .fundingOpenDate(sdf.parse("2023-02-02"))
-                .fundingFinishDate(sdf.parse("2023-03-02"))
-                .facilityImage("http:FDSAFSDAFDSAF")
-                .fundingPeopleCnt(10)
-                .goalAmount(500000)
-                .build();
-
-            response.add(completeInfo1);
-            response.add(completeInfo2);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return ResponseEntity.ok(response);
+        FundingDetailResponseDTO res = fundingService.getFundingDetail(fundingId, memberId);
+        return response.success(res, SuccessCode.SUCCESS);
     }
 
     @Operation(summary = "진행 중인 펀딩 목록 조회", description = "현재 진행 중인 모든 펀딩의 목록을 조회합니다.")
     @ApiResponse(responseCode = "200", description = "진행 중인 펀딩 목록 조회 성공")
     @GetMapping("/list/ongoing")
-    public ResponseEntity<List<FundingOngoingInfoResponseDTO>> getFundingOngoingList () {
-        List<FundingOngoingInfoResponseDTO> response = new ArrayList<>();
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-        try {
-            FundingOngoingInfoResponseDTO completeInfo1 = FundingOngoingInfoResponseDTO.builder()
-                .fundingId(1L)
-                .facilityName("btc")
-                .fundingTitle("과자를 사주세요")
-                .fundingOpenDate(sdf.parse("2023-02-02"))
-                .fundingFinishDate(sdf.parse("2023-03-02"))
-                .facilityImage("http:FDSAFSDAFDSAF")
-                .fundingPeopleCnt(10)
-                .goalAmount(500000)
-                .currentAmount(1000)
-                .build();
-
-            FundingOngoingInfoResponseDTO completeInfo2 = FundingOngoingInfoResponseDTO.builder()
-                .fundingId(2L)
-                .facilityName("btc2")
-                .fundingTitle("과자를 사주세요2")
-                .fundingOpenDate(sdf.parse("2023-02-02"))
-                .fundingFinishDate(sdf.parse("2023-03-02"))
-                .facilityImage("http:FDSAFSDAFDSAF")
-                .fundingPeopleCnt(10)
-                .goalAmount(500000)
-                .currentAmount(1000)
-                .build();
-
-            response.add(completeInfo1);
-            response.add(completeInfo2);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return ResponseEntity.ok(response);
+    public ResponseEntity<?> getFundingOngoingList() {
+        List<FundingSummaryResponseDTO> res = fundingService.getFundingOngoingList();
+        return response.success(res, SuccessCode.SUCCESS);
     }
 
+    @Operation(summary = "완료된 펀딩 목록 조회", description = "완료된 모든 펀딩의 목록을 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "완료된 펀딩 목록 조회 성공")
+    @GetMapping("/list/complete")
+    public ResponseEntity<?> getFundingCompleteList() {
+        List<FundingSummaryResponseDTO> res = fundingService.getFundingCompleteList();
+        return response.success(res, SuccessCode.SUCCESS);
+    }
+
+    @Operation(summary = "참여했던 펀딩 목록 조회", description = "참여했던 모든 펀딩의 목록을 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "참여했던 펀딩 목록 조회 성공")
+    @GetMapping("/list/participation")
+    public ResponseEntity<?> getFundingParticipationList(@CurrentMemberId Long memberId) {
+        List<FundingSummaryResponseDTO> res = fundingService.getFundingParticipationList(memberId);
+        return response.success(res, SuccessCode.SUCCESS);
+    }
+
+    @Operation(summary = "펀딩 연계", description = "사용자를 특정 펀딩에 연계시킵니다.")
+    @ApiResponse(responseCode = "200", description = "펀딩 연계 성공")
+    @PostMapping("/linkup")
+    public Boolean fundingLinkup(@RequestBody MainFundingLinkRequestDTO request,
+                                 @CurrentMemberId Long memberId) {
+        Members member = memberService.findMemberById(memberId);
+        FundingLinkupRequestDTO req = FundingLinkupRequestDTO.builder()
+                                                             .fundingId(request.getFundingId())
+                                                             .memberId(memberId)
+                                                             .nickname(member.getNickname())
+                                                             .build();
+        return fundingService.fundingLinkup(req);
+    }
+
+    @Operation(summary = "펀딩 연계 해제", description = "사용자를 특정 펀딩의 연계를 해제시킵니다.")
+    @ApiResponse(responseCode = "200", description = "펀딩 연계 해제 성공")
     @PostMapping("/unlink")
-    public ResponseEntity<HttpStatus> fundingUnlink(@RequestBody FundingUnlinkRequestDTO request) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public Boolean fundingUnlink(@RequestBody MainFundingLinkRequestDTO request,
+                                 @CurrentMemberId Long memberId) {
+        FundingUnlinkRequestDTO req = FundingUnlinkRequestDTO.builder()
+                                                             .fundingId(request.getFundingId())
+                                                             .memberId(memberId)
+                                                             .build();
+        return fundingService.fundingUnlink(req);
+    }
+
+    @Operation(summary = "펀딩 연동 결과 조회", description = "펀딩 연동 결과를 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "펀딩 연동 결과 조회 성공")
+    @GetMapping("/link/result/{fundingId}")
+    public ResponseEntity<?> getFundingResult(@PathVariable("fundingId") Long fundingId) {
+        FundingResultResponseDTO res = fundingService.getFundingResult(fundingId);
+        return response.success(res, SuccessCode.SUCCESS);
+    }
+
+    @Operation(summary = "직접 기부", description = "펀딩에 직접 기부합니다.")
+    @ApiResponse(responseCode = "200", description = "펀딩 기부 성공 - 펀딩ID 반환")
+    @PostMapping("/donation")
+    public ResponseEntity<?> donationDirectly(@RequestBody DirectlyDonationRequestDTO request,
+                                              @CurrentMemberId Long memberId) {
+        //auth Check
+        boolean authCheck = authService.checkAuthInRedis(memberId, request.getAuthenticationKey());
+//        if(!authCheck)
+//            return response.error(INVALID_PRINCIPAL_TYPE);
+
+        Members member = memberService.findMemberById(memberId);
+        if (member.getPaycardId() == null) {
+            return response.error(PAYMENT_REGISTERED_CARD_NULL);
+        }
+        DirectlyDonationResponseDTO res = fundingService.donationDirectly(request, memberId);
+        return response.success(res, SuccessCode.SUCCESS);
+    }
+
+    @Operation(summary = "직접기부 결제 정보 요청", description = "직접기부 결제시 해당 결제에 대한 정보 요청")
+    @ApiResponse(responseCode = "200", description = "정보 조회 성공")
+    @GetMapping("/info/directly/{fundingId}")
+    public ResponseEntity<?> getDirectlyFundingInfo(@PathVariable("fundingId") Long fundingId,
+                                                    @CurrentMemberId Long memberId) {
+        FundingInfoResponseDTO funding = fundingService.getDirectlyFundingInfo(fundingId);
+        int paymoney = payService.nowMyPaymoney(memberId);
+        DirectlyDonationInfoResponseDTO res = DirectlyDonationInfoResponseDTO.builder()
+                                                                             .fundingId(fundingId)
+                                                                             .facilityName(funding.getFacilityName())
+                                                                             .amount(funding.getAmount())
+                                                                             .paymoneyAmount(paymoney)
+                                                                             .build();
+        return response.success(res, SuccessCode.SUCCESS);
+    }
+
+    @Operation(summary = "영수증", description = "영수증 정보")
+    @ApiResponse(responseCode = "200", description = "영수증")
+    @GetMapping("/receipt/{historyId}")
+    public ResponseEntity<?> getReceiptInfo(@PathVariable("historyId") Long historyId,
+                                            @CurrentMemberId Long memberId) {
+        ReceiptResponseDTO res = fundingService.getReceiptInfo(historyId, memberId);
+        return response.success(res, SuccessCode.SUCCESS);
+    }
+
+    @Operation(summary = "현재 정보 요청", description = "현재 정보 (기부 관련)")
+    @ApiResponse(responseCode = "200", description = "기부 관련 현재 정보")
+    @GetMapping("/info/current")
+    public ResponseEntity<?> getCurrentInfo(@CurrentMemberId Long memberId) {
+        CurrentFundingResultResponseDTO res = fundingService.getCurrentInfo(memberId);
+        return response.success(res, SuccessCode.SUCCESS);
+    }
+
+    @Operation(summary = "직접 기부 결과 조회", description = "직접 기부 결과를 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "직접 기부 결과 조회 성공")
+    @GetMapping("/donation/directly/result/{history}")
+    public ResponseEntity<?> getDirectlyResult(@PathVariable("history") Long history) {
+        try {
+            DonationDirectlyResponseDTO dto = fundingService.getDirectlyResult(history).join();
+            return response.success(dto, SuccessCode.DIRECT_DONATION_RESULT_SUCCESS);
+        } catch (CompletionException e) {
+            Throwable cause = e.getCause();
+            if (cause instanceof FundingResultNotFoundException) {
+                throw (FundingResultNotFoundException) cause;
+            } else if (cause instanceof DonationHistoryNotFoundException) {
+                throw (DonationHistoryNotFoundException) cause;
+            }
+            throw e;
+        }
     }
 }
