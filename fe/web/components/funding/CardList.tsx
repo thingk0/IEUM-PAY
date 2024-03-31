@@ -33,7 +33,7 @@ export function CardList({ fundingList, isOngoing }: CardListProps) {
     <>
       <div className={styles.cardContainer}>
         {fundingList.map((unit) => (
-          <Link href={`fundraising/${unit.fundingId}`} key={unit.fundingId}>
+          <Link href={`/fundraising/${unit.fundingId}`} key={unit.fundingId}>
             <div className={styles.card}>
               <div className={styles.imageBox}>
                 <img

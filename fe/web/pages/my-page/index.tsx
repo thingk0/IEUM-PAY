@@ -92,7 +92,13 @@ export default function MyPage() {
               />
             </CircularProgressbarWithChildren>
           </div>
-          <Button primary size="small" onClick={() => {}}>
+          <Button
+            primary
+            size="small"
+            onClick={() => {
+              router.push('/my-page/donation-history');
+            }}
+          >
             나의 기부 내역 보기
           </Button>
         </div>

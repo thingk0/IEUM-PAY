@@ -58,6 +58,11 @@ export const getUserInfo = async () => {
     });
 };
 
+/**
+ * 해당 번호로 가입한 적 있는지 판단
+ * @param nunmber 전화번호
+ * @returns response data
+ */
 export const IsRegister = async (nunmber: string) => {
   const local = axiosApi();
 
@@ -112,5 +117,18 @@ export const register = async ({
     .catch((error) => {
       console.log(error);
       return false;
+    });
+};
+
+export const participatedList = async () => {
+  const local = axiosAuthApi();
+
+  return await local
+    .get('api/funding/list/participation')
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
     });
 };
