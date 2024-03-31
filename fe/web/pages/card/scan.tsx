@@ -10,6 +10,7 @@ function ScanCardPage() {
   let videoRef = useRef<HTMLVideoElement>(null);
   let myStream = useRef<MediaStream>();
   const [isFlashOn, setIsFlashOn] = useState(false);
+  const [hasFlash, setHasFlash] = useState(false);
   function toggleFlash() {
     //@ts-expect-error
     const newVal = !myStream.current?.getVideoTracks()[0].getSettings()?.torch;
@@ -156,8 +157,13 @@ function ScanCardPage() {
           zoom: { ideal: 1 },
         } as MediaTrackConstraints,
       });
-      let t = myStream.current.getVideoTracks()[0].getCapabilities();
-      console.log(t);
+      if (
+        //@ts-expect-error
+        myStream.current.getVideoTracks()[0].getCapabilities().torch !==
+        undefined
+      ) {
+        setHasFlash(true);
+      }
       if (videoRef.current) {
         videoRef.current.srcObject = myStream.current;
       }
@@ -182,7 +188,7 @@ function ScanCardPage() {
       <div className={classes.overlay}>
         <header>
           <button onClick={toggleFlash}>
-            {isFlashOn ? <ZapIcon /> : <ZapOffIcon />}
+            {hasFlash && (isFlashOn ? <ZapIcon /> : <ZapOffIcon />)}
           </button>
           <h1>카드 스캔</h1>
           <CloseIcon color="white" />
