@@ -16,7 +16,7 @@ interface CardListProps {
   isOngoing: boolean;
 }
 
-function CardTypeSelectTab({ fundingList, isOngoing }: CardListProps) {
+export function CardTypeSelectTab({ fundingList, isOngoing }: CardListProps) {
   return (
     <>
       <div>
@@ -28,7 +28,7 @@ function CardTypeSelectTab({ fundingList, isOngoing }: CardListProps) {
   );
 }
 
-function CardList({ fundingList, isOngoing }: CardListProps) {
+export function CardList({ fundingList, isOngoing }: CardListProps) {
   return (
     <>
       <div className={styles.cardContainer}>
@@ -77,4 +77,4 @@ function CardList({ fundingList, isOngoing }: CardListProps) {
   );
 }
 
-export { CardList, CardTypeSelectTab };
+// export default { CardList, CardTypeSelectTab };
