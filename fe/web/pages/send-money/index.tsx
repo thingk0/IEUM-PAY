@@ -14,6 +14,7 @@ import Header from '@/components/Header';
 import HeaderMain from '@/stories/HeaderMain';
 import { getMemberByPhoneNumber } from '@/api/sendMoneyAxios';
 import useSendMoneyInfo from '@/hooks/useSendMoneyStore';
+import { useQuery } from '@tanstack/react-query';
 
 interface Member {
   memberId: number;
@@ -23,29 +24,29 @@ interface Member {
 
 function WherePage() {
   const [account, setAccount] = useState<string>();
-  const [bank, setBank] = useState<Selection>();
   const router = useRouter();
   const [query, setQuery] = useState('');
-  const [searchResult, setSearchResult] = useState<Member>();
   const { sendMoneyInfo, setReceiverInfo } = useSendMoneyInfo();
+
+  const { data, isError } = useQuery({
+    queryKey: [query],
+    queryFn: () => getMemberByPhoneNumber(query),
+    enabled: query.length >= 11,
+  });
   function handleClick() {
-    if (searchResult) {
-      setReceiverInfo(searchResult.name, searchResult.phoneNumber, '이음페이');
-      router.push('/send-money/amount');
-    }
+    setReceiverInfo(data.name, data.phoneNumber, '이음페이');
+    router.push('/send-money/amount');
   }
-  // 입력 값이 변경될 때마다 타이머 설정
-  useEffect(() => {
-    const delayDebounceTimer = setTimeout(() => {
-      // 여기에 API 요청 코드 넣으면 됨
-      getMemberByPhoneNumber(query)
-        .then((data) => setSearchResult(data))
-        .catch();
-      // 받아온 값을 setSearchResults에 저장
-    }, 1000); // 1s 디바운스 지연 시간
-    // 이전에 설정한 타이머를 클리어하여 디바운스 취소
-    return () => clearTimeout(delayDebounceTimer);
-  }, [query]);
+  function SearchResult() {
+    if (isError) return <p>해당 번호는 이음페이에 가입한 적이 없네요 ㅠㅠ</p>;
+    else if (data) {
+      return (
+        <button className={classes.send} onClick={handleClick}>
+          {data?.name}님에게 송금하기
+        </button>
+      );
+    } else null;
+  }
 
   return (
     <>
@@ -64,15 +65,8 @@ function WherePage() {
               className="w-100"
               onValueChange={setQuery}
             />
-            {searchResult?.name ? (
-              <button className={classes.send} onClick={handleClick}>
-                {searchResult?.name}님에게 송금하기
-              </button>
-            ) : (
-              query.length > 0 && (
-                <p>해당 번호는 이음페이에 가입한 적이 없네요 ㅠㅠ</p>
-              )
-            )}
+
+            <SearchResult />
           </Tab>
           <Tab key="account" title="계좌">
             <Input
