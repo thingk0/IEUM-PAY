@@ -40,7 +40,7 @@ function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
       <ul className={classes.ul}>
         <li>
           <Link
-            href="history"
+            href="/history"
             className={classes.link}
             onClick={() => vibrate()}
           >
@@ -58,7 +58,7 @@ function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
         </li>
         <li>
           <Link
-            href="fundraising"
+            href="/fundraising"
             className={classes.link}
             onClick={() => vibrate()}
           >
@@ -102,7 +102,7 @@ function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
         </li>
         <li>
           <Link
-            href="send-money"
+            href="/send-money"
             className={classes.link}
             onClick={() => vibrate()}
           >
@@ -120,7 +120,7 @@ function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
         </li>
         <li>
           <Link
-            href="my-page"
+            href="/my-page"
             className={classes.link}
             onClick={() => vibrate()}
           >
