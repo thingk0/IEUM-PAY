@@ -1,9 +1,4 @@
-'use-clinet';
-
-import axios, { AxiosRequestConfig } from 'axios';
 import { axiosApi, axiosAuthApi } from '@/utils/instance';
-import useUserStore from '@/stores/user-store';
-import { cookies } from 'next/headers';
 import { setCookie } from '@/utils/cookie';
 
 /**
@@ -86,7 +81,11 @@ interface registerType {
   passwordConfirm: string;
   paymentPassword: string;
 }
-
+/**
+ * 회원가입 함수
+ * @param param0 회원가입에 필요한 정보
+ * @returns boolean value
+ */
 export const register = async ({
   phoneNumber,
   name,
@@ -99,19 +98,19 @@ export const register = async ({
 
   return await local
     .post('api/member', {
-      phoneNumber,
-      name,
-      nickName,
-      password,
-      passwordConfirm,
-      paymentPassword,
+      phoneNumber: phoneNumber,
+      name: name,
+      nickname: nickName,
+      password: password,
+      passwordConfirm: passwordConfirm,
+      paymentPassword: paymentPassword,
     })
     .then((response) => {
       console.log(response);
       return true;
     })
     .catch((error) => {
-      console.log(error.message);
+      console.log(error);
       return false;
     });
 };
