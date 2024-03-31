@@ -5,7 +5,7 @@ import {
   EyeFilledIcon,
   EyeSlashFilledIcon,
 } from '@/components/icons/PasswordIcon';
-import styes from '@/styles/input-info.module.css';
+import styes from '@/styles/input-info.module.scss';
 import { useRouter } from 'next/router';
 import Button from '@/stories/Button';
 import PageTitleLeft from '@/components/PageTitleLeft';
@@ -100,6 +100,9 @@ export default function inputInfo() {
       <div className={nameVisible ? '' : styes.isVisible}>
         <Input
           label="이름"
+          classNames={{
+            inputWrapper: styes.inputWrapper,
+          }}
           variant="underlined"
           onChange={handlNameValue}
           value={userName}
@@ -111,6 +114,9 @@ export default function inputInfo() {
         <Input
           label="닉네임"
           variant="underlined"
+          classNames={{
+            inputWrapper: styes.inputWrapper,
+          }}
           onChange={handleNicknameValue}
           value={userNickName}
           isInvalid={nicknameIsValid}
@@ -120,6 +126,9 @@ export default function inputInfo() {
       <Input
         label="비밀번호"
         variant="underlined"
+        classNames={{
+          inputWrapper: styes.inputWrapper,
+        }}
         value={userPassword}
         onChange={handlePasswordInput}
         isInvalid={isInValid}
@@ -147,6 +156,9 @@ export default function inputInfo() {
         isDisabled
         type="text"
         label="휴대폰 번호"
+        classNames={{
+          inputWrapper: styes.inputWrapper,
+        }}
         variant="underlined"
         value={userInfo.phoneNumber}
       />

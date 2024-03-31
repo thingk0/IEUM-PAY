@@ -50,6 +50,7 @@ export default function Login() {
         isInvalid={isPasswordValid}
         classNames={{
           label: styles.label,
+          inputWrapper: styles.inputWrapper,
         }}
         autoFocus
         errorMessage={isPasswordValid && '올바른 비밀번호를 입력해주세요'}
@@ -76,6 +77,7 @@ export default function Login() {
         value={userInfo.phoneNumber}
         classNames={{
           label: styles.label,
+          inputWrapper: styles.inputWrapper,
         }}
       />
       <Button primary size="thin" onClick={handleClick}>
