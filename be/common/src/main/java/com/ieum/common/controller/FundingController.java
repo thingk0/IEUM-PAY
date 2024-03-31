@@ -18,6 +18,8 @@ import com.ieum.common.dto.response.DirectlyDonationInfoResponseDTO;
 import com.ieum.common.dto.response.DirectlyDonationResponseDTO;
 import com.ieum.common.dto.response.DonationDirectlyResponseDTO;
 import com.ieum.common.dto.response.ReceiptResponseDTO;
+import com.ieum.common.exception.funding.FundingResultNotFoundException;
+import com.ieum.common.exception.pay.DonationHistoryNotFoundException;
 import com.ieum.common.format.code.SuccessCode;
 import com.ieum.common.format.response.ResponseTemplate;
 import com.ieum.common.service.AuthService;
@@ -28,6 +30,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -92,10 +96,10 @@ public class FundingController {
                                  @CurrentMemberId Long memberId) {
         Members member = memberService.findMemberById(memberId);
         FundingLinkupRequestDTO req = FundingLinkupRequestDTO.builder()
-            .fundingId(request.getFundingId())
-            .memberId(memberId)
-            .nickname(member.getNickname())
-            .build();
+                                                             .fundingId(request.getFundingId())
+                                                             .memberId(memberId)
+                                                             .nickname(member.getNickname())
+                                                             .build();
         return fundingService.fundingLinkup(req);
     }
 
@@ -105,9 +109,9 @@ public class FundingController {
     public Boolean fundingUnlink(@RequestBody MainFundingLinkRequestDTO request,
                                  @CurrentMemberId Long memberId) {
         FundingUnlinkRequestDTO req = FundingUnlinkRequestDTO.builder()
-                                                         .fundingId(request.getFundingId())
-                                                         .memberId(memberId)
-                                                         .build();
+                                                             .fundingId(request.getFundingId())
+                                                             .memberId(memberId)
+                                                             .build();
         return fundingService.fundingUnlink(req);
     }
 
@@ -123,14 +127,14 @@ public class FundingController {
     @ApiResponse(responseCode = "200", description = "펀딩 기부 성공 - 펀딩ID 반환")
     @PostMapping("/donation")
     public ResponseEntity<?> donationDirectly(@RequestBody DirectlyDonationRequestDTO request,
-        @CurrentMemberId Long memberId) {
+                                              @CurrentMemberId Long memberId) {
         //auth Check
         boolean authCheck = authService.checkAuthInRedis(memberId, request.getAuthenticationKey());
 //        if(!authCheck)
 //            return response.error(INVALID_PRINCIPAL_TYPE);
 
         Members member = memberService.findMemberById(memberId);
-        if(member.getPaycardId() == null){
+        if (member.getPaycardId() == null) {
             return response.error(PAYMENT_REGISTERED_CARD_NULL);
         }
         DirectlyDonationResponseDTO res = fundingService.donationDirectly(request, memberId);
@@ -141,15 +145,15 @@ public class FundingController {
     @ApiResponse(responseCode = "200", description = "정보 조회 성공")
     @GetMapping("/info/directly/{fundingId}")
     public ResponseEntity<?> getDirectlyFundingInfo(@PathVariable("fundingId") Long fundingId,
-            @CurrentMemberId Long memberId) {
+                                                    @CurrentMemberId Long memberId) {
         FundingInfoResponseDTO funding = fundingService.getDirectlyFundingInfo(fundingId);
         int paymoney = payService.nowMyPaymoney(memberId);
         DirectlyDonationInfoResponseDTO res = DirectlyDonationInfoResponseDTO.builder()
-            .fundingId(fundingId)
-            .facilityName(funding.getFacilityName())
-            .amount(funding.getAmount())
-            .paymoneyAmount(paymoney)
-            .build();
+                                                                             .fundingId(fundingId)
+                                                                             .facilityName(funding.getFacilityName())
+                                                                             .amount(funding.getAmount())
+                                                                             .paymoneyAmount(paymoney)
+                                                                             .build();
         return response.success(res, SuccessCode.SUCCESS);
     }
 
@@ -157,7 +161,7 @@ public class FundingController {
     @ApiResponse(responseCode = "200", description = "영수증")
     @GetMapping("/receipt/{historyId}")
     public ResponseEntity<?> getReceiptInfo(@PathVariable("historyId") Long historyId,
-        @CurrentMemberId Long memberId) {
+                                            @CurrentMemberId Long memberId) {
         ReceiptResponseDTO res = fundingService.getReceiptInfo(historyId, memberId);
         return response.success(res, SuccessCode.SUCCESS);
     }
@@ -174,7 +178,17 @@ public class FundingController {
     @ApiResponse(responseCode = "200", description = "직접 기부 결과 조회 성공")
     @GetMapping("/donation/directly/result/{history}")
     public ResponseEntity<?> getDirectlyResult(@PathVariable("history") Long history) {
-        DonationDirectlyResponseDTO res = fundingService.getDirectlyResult(history);
-        return response.success(res, SuccessCode.SUCCESS);
+        try {
+            DonationDirectlyResponseDTO dto = fundingService.getDirectlyResult(history).join();
+            return response.success(dto, SuccessCode.DIRECT_DONATION_RESULT_SUCCESS);
+        } catch (CompletionException e) {
+            Throwable cause = e.getCause();
+            if (cause instanceof FundingResultNotFoundException) {
+                throw (FundingResultNotFoundException) cause;
+            } else if (cause instanceof DonationHistoryNotFoundException) {
+                throw (DonationHistoryNotFoundException) cause;
+            }
+            throw e;
+        }
     }
 }

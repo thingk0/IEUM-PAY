@@ -4,6 +4,7 @@ import com.ieum.common.dto.paymoney.PayMoneyCreationRequestDto;
 import com.ieum.common.dto.feign.pay.request.*;
 import com.ieum.common.dto.feign.pay.response.*;
 import com.ieum.common.dto.response.CardOcrResponseDTO;
+import java.util.Optional;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -88,7 +89,7 @@ public interface PayFeignClient {
      * 직접 기부 완료 정보 요청 메서드
      */
     @GetMapping("/funding/donation/result/{historyId}")
-    FundingDonationResultResponseDTO getDonationHistory(@PathVariable("historyId") Long historyId);
+    Optional<FundingDonationResultResponseDTO> getDonationHistory(@PathVariable("historyId") Long historyId);
 
     /**
      * 직접기부 메서드

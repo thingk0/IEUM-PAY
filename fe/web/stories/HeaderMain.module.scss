@@ -6,4 +6,7 @@
   align-items: center;
   width: 100%;
   padding: 0.813rem 1.375rem;
+  position: sticky;
+  border-bottom: 1px solid var(--forthary);
+  top: 0;
 }

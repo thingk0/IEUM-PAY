@@ -51,7 +51,7 @@ export default function User() {
       <div className={styles.container}>
         <PageTitleLeft title="시작하기" />
         <Input
-          type="number"
+          type="tel"
           label="휴대폰 번호"
           variant="underlined"
           pattern="\d*"
@@ -61,6 +61,9 @@ export default function User() {
           onChange={handleInputValue}
           className={styles.inputTag}
           classNames={{ label: styles.labelTag }}
+          required
+          maxLength={11}
+          autoFocus
         />
         <div className={styles.box}></div>
         <div className={chngeBtn ? styles.startBtnTag : styles.btnTagnone}>

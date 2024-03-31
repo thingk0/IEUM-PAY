@@ -51,6 +51,7 @@ export default function Login() {
         classNames={{
           label: styles.label,
         }}
+        autoFocus
         errorMessage={isPasswordValid && '올바른 비밀번호를 입력해주세요'}
         endContent={
           <button
@@ -69,7 +70,7 @@ export default function Login() {
       />
       <Input
         isDisabled
-        type="number"
+        type="tel"
         label="휴대폰 번호"
         variant="underlined"
         value={userInfo.phoneNumber}

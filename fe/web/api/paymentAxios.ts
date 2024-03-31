@@ -1,12 +1,12 @@
+'use-clinet';
 import { axiosApi, axiosAuthApi } from '@/utils/instance';
-
-const local = axiosAuthApi();
 
 export async function getBalance() {
   return axiosAuthApi().get('/api/pay/balance');
 }
 
 export const getPaymentInfo = async (store: string, price: string) => {
+  const local = axiosAuthApi();
   return await local
     .get(`/api/payment/info/${store}/${price}`)
     .then((response) => {
@@ -19,6 +19,7 @@ export const getPaymentInfo = async (store: string, price: string) => {
 };
 
 export const confirmPassword = async (password: string) => {
+  const local = axiosAuthApi();
   return await local
     .post('/api/auth/password', { paymentPassword: password })
     .then((response) => {
@@ -32,6 +33,7 @@ export const confirmPassword = async (password: string) => {
 };
 
 export const payment = async (paymentInfo: object) => {
+  const local = axiosAuthApi();
   return await local
     .post('api/payment', paymentInfo)
     .then((response) => {
@@ -41,3 +43,12 @@ export const payment = async (paymentInfo: object) => {
       console.log(error.message);
     });
 };
+
+export async function postCardImage(formData: FormData) {
+  let axiosConfig = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  };
+  return axiosAuthApi().post('/api/card/ocr', formData, axiosConfig);
+}

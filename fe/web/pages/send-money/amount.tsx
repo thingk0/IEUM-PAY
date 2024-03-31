@@ -1,7 +1,7 @@
 import { AmountButtonList } from '@/components/AmountButtonList';
 import KeyPad from '../_components/KeyPad';
 import useSendMoneyInfo from '@/hooks/useSendMoneyStore';
-import classes from '@/styles/AmountPage.module.css';
+import classes from '@/styles/AmountPage.module.scss';
 import { useRouter } from 'next/router';
 import { commaizeNumber, formatToKRW } from '@toss/utils';
 import Header from '@/components/Header';

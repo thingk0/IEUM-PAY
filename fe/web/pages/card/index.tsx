@@ -3,6 +3,7 @@ import Button from '@/stories/Button';
 import classes from './index.module.scss';
 import { useRef } from 'react';
 import CameraIcon from '@/stories/icons/CameraIcon';
+import Link from 'next/link';
 
 function CardPage() {
   const inputRefs = [
@@ -45,9 +46,11 @@ function CardPage() {
           ))}
         </div>
         <hr />
-        <div className={classes.camera}>
-          <CameraIcon />
-        </div>
+        <Link href="/card/scan">
+          <div className={classes.camera}>
+            <CameraIcon />
+          </div>
+        </Link>
       </form>
       <p className={classes.subtext}>
         가상 서비스이므로 CVC와 비밀번호는 입력하지 않아도 됩니다.
