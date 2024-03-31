@@ -23,6 +23,7 @@ import com.ieum.common.feign.FundingFeignClient;
 import com.ieum.common.feign.PayFeignClient;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -137,11 +138,14 @@ public class FundingService {
         return fundingFeignClient.getFundingParticipationList(memberId);
     }
 
-    public CompletableFuture<DonationDirectlyResponseDTO> getDirectlyResult(Long historyId) {
+    public CompletableFuture<DonationDirectlyResponseDTO> getDirectlyResult(Long historyId)
+        throws ExecutionException, InterruptedException {
         var historyFuture =
             CompletableFuture.supplyAsync(() -> fetchDonationHistoryById(historyId));
+        FundingDonationResultResponseDTO history = historyFuture.get();
+
         var fundingFuture =
-            CompletableFuture.supplyAsync(() -> fetchFundingResultByHistory(historyId));
+            CompletableFuture.supplyAsync(() -> fetchFundingResultByHistory(history.getFundingId()));
         return historyFuture
             .thenCombine(fundingFuture, FundingService::buildDonationDirectlyResponseDTO)
             .handle((result, throwable) -> {
