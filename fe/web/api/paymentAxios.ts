@@ -32,15 +32,28 @@ export const confirmPassword = async (password: string) => {
     });
 };
 
-export const payment = async (paymentInfo: object) => {
+interface paymentInfo {
+  storeId: number;
+  price: number;
+  cardNickname: string;
+  storeName: string;
+  paymoneyAmount: number;
+  chargeAmount: number;
+  donationMoney: number;
+  authenticationKey: string;
+}
+
+export const payment = async (paymentInfo: paymentInfo, key: string) => {
   const local = axiosAuthApi();
+  paymentInfo.authenticationKey = key;
   return await local
     .post('api/payment', paymentInfo)
     .then((response) => {
       console.log(response);
+      return response.data;
     })
     .catch((error) => {
-      console.log(error.message);
+      console.log(error);
     });
 };
 
@@ -51,4 +64,16 @@ export async function postCardImage(formData: FormData) {
     },
   };
   return axiosAuthApi().post('/api/card/ocr', formData, axiosConfig);
+}
+
+export async function getPaymentHistory(historyId: string) {
+  const local = axiosAuthApi();
+  return await local
+    .get(`api/payment/${historyId}`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }

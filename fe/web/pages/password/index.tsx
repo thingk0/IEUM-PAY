@@ -8,6 +8,8 @@ import { GetServerSideProps } from 'next';
 import { confirmPassword } from '@/api/paymentAxios';
 import useDonateMoneyInfo from '@/hooks/useDirectDonationStore';
 import { directDonate } from '@/api/fundAxois';
+import usePaymentInfo from '@/hooks/usePayStore';
+import { payment } from '@/api/paymentAxios';
 
 // interface PasswordPage {
 //   title: string;
@@ -21,7 +23,7 @@ function PasswordPage({ id, pushUrl }: { id: string; pushUrl?: string }) {
   const { userInfo, setPaymentPassword } = useUserStore();
   const [isTrue, setIsTrue] = useState(true);
   const { donateMoneyInfo, setFundingId } = useDonateMoneyInfo();
-  const [hashKey, setKey] = useState('');
+  const { paymentInfo } = usePaymentInfo();
 
   const pageId = [
     ['결제 비밀번호 입력', ''],
@@ -44,8 +46,17 @@ function PasswordPage({ id, pushUrl }: { id: string; pushUrl?: string }) {
           console.log(fundingId.historyId);
           setFundingId(fundingId.historyId);
           router.push('/fundraising/complete');
-        } else {
-          console.log('실패ㅐㅐㅐㅐㅐ');
+        }
+      } else if (pushUrl == 'payment') {
+        const paymentRes = await payment(paymentInfo, key);
+        if (paymentRes != undefined) {
+          console.log(paymentRes.historyId);
+          router.push({
+            pathname: '/payment/PaymentComplete',
+            query: {
+              historyId: paymentRes.historyId,
+            },
+          });
         }
       }
     }
