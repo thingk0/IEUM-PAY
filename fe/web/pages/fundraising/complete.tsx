@@ -31,8 +31,10 @@ export default function CompleteDonation() {
   useEffect(() => {
     async function dataLoad() {
       try {
+        // const getData = await getDirectDonateRes(59);
         const getData = await getDirectDonateRes(donateMoneyInfo.펀딩아이디);
-        getData != undefined ? setData(getData) : '';
+        console.log(getData);
+        getData != undefined ? setData(getData.data) : '';
       } catch (e) {
         console.log(e);
       }
@@ -70,7 +72,7 @@ export default function CompleteDonation() {
             <p>{data.fundingTitle}</p>
           </div>
         </div>
-        <Button primary size="thick" onClick={() => {}}>
+        <Button primary size="thick" onClick={onClickFunc}>
           완료
         </Button>
       </div>

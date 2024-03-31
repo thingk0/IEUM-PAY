@@ -6,6 +6,8 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { confirmPassword } from '@/api/paymentAxios';
+import useDonateMoneyInfo from '@/hooks/useDirectDonationStore';
+import { directDonate } from '@/api/fundAxois';
 
 // interface PasswordPage {
 //   title: string;
@@ -13,11 +15,13 @@ import { confirmPassword } from '@/api/paymentAxios';
 //   queryObj: Object;
 // }
 
-function PasswordPage({ id }: { id: string }) {
+function PasswordPage({ id, pushUrl }: { id: string; pushUrl?: string }) {
   // const [message, setMessage] = useState('');
   const [password, setPassword] = useState<number[]>([]);
   const { userInfo, setPaymentPassword } = useUserStore();
   const [isTrue, setIsTrue] = useState(true);
+  const { donateMoneyInfo, setFundingId } = useDonateMoneyInfo();
+  const [hashKey, setKey] = useState('');
 
   const pageId = [
     ['결제 비밀번호 입력', ''],
@@ -25,6 +29,27 @@ function PasswordPage({ id }: { id: string }) {
     ['결제 비밀번호 확인', '결제 비밀번호를 한번 더 입력해주세요'],
   ];
   const router = useRouter();
+
+  const payLogic = async (key: string) => {
+    if (pushUrl != undefined) {
+      // 여기서 분기점
+      if (pushUrl == 'fundraising-complete') {
+        const fundingId = await directDonate(
+          donateMoneyInfo.기관아이디,
+          donateMoneyInfo.송금금액,
+          donateMoneyInfo.남은금액,
+          key,
+        );
+        if (fundingId != 0) {
+          console.log(fundingId.historyId);
+          setFundingId(fundingId.historyId);
+          router.push('/fundraising/complete');
+        } else {
+          console.log('실패ㅐㅐㅐㅐㅐ');
+        }
+      }
+    }
+  };
 
   useEffect(() => {
     const checkPassword = async () => {
@@ -45,6 +70,7 @@ function PasswordPage({ id }: { id: string }) {
         } else if (id == '0') {
           const check = await confirmPassword(password.join(''));
           const key = check.data.authenticationKey;
+          check.data.auth ? payLogic(key) : (setIsTrue(false), setPassword([]));
         }
       }
     };
@@ -78,6 +104,9 @@ export default PasswordPage;
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   // query 객체 사용
   return {
-    props: { id: query.id },
+    props: {
+      id: query.id,
+      pushUrl: query.pushUrl != undefined ? query.pushUrl : '',
+    },
   };
 };

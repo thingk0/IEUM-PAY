@@ -10,12 +10,14 @@ import Button from '@/stories/Button';
 import { useRouter } from 'next/router';
 import MainPageDropdown from '@/components/MainPageDropdown';
 import { getBalance } from '@/api/paymentAxios';
+import useUserStore from '@/stores/user-store';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
   const router = useRouter();
-  const [balance, setBalance] = useState<number>();
+  const [balance, setMainBalance] = useState<number>();
+  const { setBalance } = useUserStore();
   const goFund = () => {
     router.push('/fundraising');
   };
@@ -23,6 +25,7 @@ export default function Home() {
     async function fetchBalance() {
       let { data } = await getBalance();
       let balance = data.data;
+      setMainBalance(balance);
       setBalance(balance);
     }
     fetchBalance();

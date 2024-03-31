@@ -92,6 +92,7 @@ export const directDonate = async (
   fundId: number,
   amount: number,
   paymoneyAmount: number,
+  key: string,
 ) => {
   const local = axiosAuthApi();
 
@@ -100,6 +101,7 @@ export const directDonate = async (
       fundingId: fundId,
       amount: amount,
       paymoneyAmount: paymoneyAmount,
+      authenticationKey: key,
     })
     .then((response) => {
       console.log(response);
@@ -128,6 +130,6 @@ export const getDirectDonateRes = async (fundId: number | undefined) => {
     })
     .catch((error) => {
       console.log('에러뜸');
-      console.log(error.message);
+      console.log(error);
     });
 };
