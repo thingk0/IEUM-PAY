@@ -15,7 +15,8 @@ interface CardListProps {
   fundingList: fundingList[];
   isOngoing: boolean;
 }
-function CardList({ fundingList, isOngoing }: CardListProps) {
+
+function CardTypeSelectTab({ fundingList, isOngoing }: CardListProps) {
   return (
     <>
       <div>
@@ -23,6 +24,13 @@ function CardList({ fundingList, isOngoing }: CardListProps) {
           ? `진행중인 모금 ${fundingList.length}`
           : `완료된 모금 ${fundingList.length}`}
       </div>
+    </>
+  );
+}
+
+function CardList({ fundingList, isOngoing }: CardListProps) {
+  return (
+    <>
       <div className={styles.cardContainer}>
         {fundingList.map((unit) => (
           <Link href={`fundraising/${unit.fundingId}`} key={unit.fundingId}>
@@ -69,4 +77,4 @@ function CardList({ fundingList, isOngoing }: CardListProps) {
   );
 }
 
-export default CardList;
+export { CardList, CardTypeSelectTab };

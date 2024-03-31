@@ -3,7 +3,7 @@ import HeaderMain from '@/stories/HeaderMain';
 import TabBar from '@/stories/TabBar';
 import { useEffect, useState } from 'react';
 import styles from '@/styles/FundPage.module.scss';
-import CardList from '@/components/funding/CardList';
+import { CardList, CardTypeSelectTab } from '@/components/funding/CardList';
 
 interface fundingList {
   fundingId: number;
@@ -63,9 +63,15 @@ export default function Funding() {
 
   function Tab() {
     return selectedTab ? (
-      <CardList fundingList={onGoingList} isOngoing={true} />
+      <>
+        <CardTypeSelectTab fundingList={onGoingList} isOngoing={true} />
+        <CardList fundingList={onGoingList} isOngoing={true} />
+      </>
     ) : (
-      <CardList fundingList={completeList} isOngoing={false} />
+      <>
+        <CardTypeSelectTab fundingList={completeList} isOngoing={false} />
+        <CardList fundingList={completeList} isOngoing={false} />
+      </>
     );
   }
 
