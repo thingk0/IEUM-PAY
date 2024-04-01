@@ -41,11 +41,33 @@ $cardWidth: 20rem;
   width: $cardWidth;
   height: $cardWidth / 1.58;
   background-color: #fff;
-  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.4);
+  // box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.4);
   border-radius: 0.5rem;
   position: absolute;
   transform-origin: 50% 0%;
   transition: all 0.8s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #b7b7b7;
+  padding: 1rem 0.75rem;
+}
+
+.logo {
+  width: 5.4rem;
+}
+
+.cardBottom {
+  display: flex;
+  justify-content: end;
+}
+
+.nicknameContainer {
+  border-radius: 0.6rem;
+  background-color: var(--black);
+  color: var(--real-white);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
 }
 
 .card1 {
@@ -56,21 +78,21 @@ $cardWidth: 20rem;
 .card2 {
   z-index: 800;
   // transform: scale(0.95);
-  filter: brightness(0.9);
+  // filter: brightness(0.9);
   top: $cardPosition - $cardOffset;
 }
 
 .card3 {
   z-index: 600;
   // transform: scale(0.9);
-  filter: brightness(0.8);
+  // filter: brightness(0.8);
   top: $cardPosition - $cardOffset * 2;
 }
 
 .card4 {
   z-index: 400;
   // transform: scale(0.85);
-  filter: brightness(0.7);
+  // filter: brightness(0.7);
   top: $cardPosition - $cardOffset * 3;
   animation-name: remove;
   animation-duration: 1s;
@@ -93,8 +115,4 @@ $cardWidth: 20rem;
     transform: translateY(0px) scale(1);
     opacity: 1;
   }
-}
-
-.bank1 {
-  background-color: aqua;
 }
