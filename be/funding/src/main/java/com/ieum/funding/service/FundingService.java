@@ -128,12 +128,12 @@ public class FundingService {
         // 펀딩에 current_amount 증가
         Funding checkFunding = fundingRepository.findByFundingId(fundingId);
         // 기부 가능 여부 체크
-        if (checkFunding.getCurrentAmount() >= amount) {
+        if ((checkFunding.getGoalAmount() - checkFunding.getCurrentAmount()) >= amount) {
             fundingRepository.updateFunding(fundingId, amount);
             fundingMembersRepository.updateFundingMember(fundingId, memberId, amount);
 
             // 펀딩 완료 체크
-            if (checkFunding.getCurrentAmount() + amount == checkFunding.getGoalAmount()) {
+            if (checkFunding.getCurrentAmount() + amount >= checkFunding.getGoalAmount()) {
 
                 fundingRepository.updateFinishDate(fundingId);
                 // funding_finish_date 현재시간으로 설정
