@@ -4,6 +4,7 @@ import ChevronDownIcon from './icons/ChevronDownIcon';
 import DonationIcon from './icons/DonationIcon';
 import { commaizeNumber } from '@toss/utils';
 import { useRouter } from 'next/router';
+import Detail from '@/pages/fundraising/[fundId]';
 interface Detail {
   type: string;
   name: string;
@@ -24,7 +25,7 @@ interface AccordionProps {
 function Accordion({ history }: AccordionProps) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  let canOpen = history.type === '기부' || history.type === '결제';
+  let canOpen = history.detail.filter((e) => e.type === '기부').length > 0;
   function handleClick() {
     if (canOpen) setIsOpen((prev) => !prev);
   }
