@@ -15,6 +15,8 @@ import MainPageDropdown from '@/components/MainPageDropdown';
 import { getMainData } from '@/api/userAxois';
 import { useQuery } from '@tanstack/react-query';
 import Card from '@/components/Card';
+import Link from 'next/link';
+import { PlusIcon } from '@/components/icons/PlusIcon';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -111,16 +113,6 @@ export default function Home() {
     fetchBalance();
   }, []);
 
-  useEffect(() => {
-    const initializeCards = () => {
-      const initialCardState = [1, 2, 3, 4];
-      setCardState(initialCardState);
-      setPrevCardState([...initialCardState]);
-    };
-
-    initializeCards();
-  }, []);
-
   const nextCard = () => {
     const updatedCardState = [...cardState];
     updatedCardState.unshift(updatedCardState.pop()!);
@@ -132,6 +124,21 @@ export default function Home() {
     queryKey: ['get-main'],
     queryFn: getMainData,
   });
+
+  useEffect(() => {
+    if (!data) return;
+    const initializeCards = () => {
+      const initialCardState = Array.from(
+        { length: Math.min(4, data.data.cardList.length) },
+        (v, k) => k + 1,
+      );
+      setCardState(initialCardState);
+      setPrevCardState([...initialCardState]);
+    };
+
+    initializeCards();
+  }, [data]);
+  if (!data) return null;
 
   return (
     <>
@@ -153,17 +160,26 @@ export default function Home() {
                   />
                 ))}
           </div>
+          {data.data.cardList.length === 0 && (
+            <Link href="/card">
+              <div className={mainStyles.empty}>
+                <PlusIcon />
+                카드 등록하기
+              </div>
+            </Link>
+          )}
         </div>
+
         <div className={mainStyles.moneyContainer}>
           <Money
             text={'이음페이머니'}
-            amount={info.paymentAmount}
+            amount={data.data.paymentAmount}
             onClick={goFund}
           />
           <hr />
           <Money
             text={'기부총액'}
-            amount={info.totalDonation}
+            amount={data.data.totalDonation}
             onClick={goFund}
           />
         </div>
