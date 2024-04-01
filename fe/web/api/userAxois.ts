@@ -120,12 +120,34 @@ export const register = async ({
     });
 };
 
+/**
+ * 해당 유저의 지난 기부내역 확인
+ * @returns 지난 기부내역 리스트
+ */
 export const participatedList = async () => {
   const local = axiosAuthApi();
 
   return await local
     .get('api/funding/list/participation')
     .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+/**
+ *
+ * @returns 카드 정보, 현재잔액, 기부금 총액
+ */
+export const getMainData = async () => {
+  const local = axiosAuthApi();
+
+  return await local
+    .get('api/main/summary')
+    .then((response) => {
+      console.log(response.data);
       return response.data;
     })
     .catch((error) => {

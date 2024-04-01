@@ -11,8 +11,23 @@ import { useRouter } from 'next/router';
 import MainPageDropdown from '@/components/MainPageDropdown';
 import { getBalance } from '@/api/paymentAxios';
 import useUserStore from '@/stores/user-store';
+import { getMainData } from '@/api/userAxois';
 
 const inter = Inter({ subsets: ['latin'] });
+
+interface cardType {
+  cardId: number;
+  cardIssuer: string;
+  cardNickname: string;
+  mainCard: boolean;
+  registeredCardId: number;
+}
+interface infoType {
+  cardList: cardType[];
+  linked: boolean;
+  paymentAmount: number;
+  totalDonation: number;
+}
 
 export default function Home() {
   const router = useRouter();
@@ -21,12 +36,30 @@ export default function Home() {
   const goFund = () => {
     router.push('/fundraising');
   };
+  const [info, setInfo] = useState<infoType>({
+    cardList: [
+      {
+        cardId: 1318,
+        cardIssuer: 'KB국민카드',
+        cardNickname: 'KB국민카드',
+        mainCard: false,
+        registeredCardId: 12,
+      },
+    ],
+    linked: true,
+    paymentAmount: 8000,
+    totalDonation: 1843490,
+  });
+
   useEffect(() => {
     async function fetchBalance() {
       let { data } = await getBalance();
       let balance = data.data;
       setMainBalance(balance);
       setBalance(balance);
+      const mainData = await getMainData();
+      mainData != undefined ? setInfo(mainData.data) : '';
+      console.log(mainData.data);
     }
     fetchBalance();
   }, []);
