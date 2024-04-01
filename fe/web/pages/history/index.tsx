@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import FetchError from '@/components/layouts/FetchError';
 import dayjs from 'dayjs';
+import { Fragment } from 'react';
 interface Detail {
   type: string;
   name: string;
@@ -41,7 +42,6 @@ function HistoryPage() {
       <>
         <ul>
           {data.map((e: History, i: number) => {
-            console.log(i);
             let isNewDay = false;
             if (
               i === 0 ||
@@ -54,12 +54,12 @@ function HistoryPage() {
               isNewDay = true;
             }
             return (
-              <>
+              <Fragment key={e.historyId}>
                 {isNewDay && <h2>{dayjs(e.historyDate).format('M월 D일')}</h2>}
                 <li>
                   <Accordion history={e} key={e.historyId}></Accordion>
                 </li>
-              </>
+              </Fragment>
             );
           })}
           <section></section>
