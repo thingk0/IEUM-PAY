@@ -46,8 +46,8 @@ public class PaymentController {
                                      @CurrentMemberId Long memberId) {
 
         boolean authCheck = authService.checkAuthInRedis(memberId, requestDTO.getAuthenticationKey());
-//        if(!authCheck)
-//            return response.error(INVALID_PRINCIPAL_TYPE);
+        if(!authCheck)
+            return response.error(INVALID_PRINCIPAL_TYPE);
 
         Members member = memberService.findMemberById(memberId);
         if (member.getPaycardId() == null) {
@@ -73,8 +73,8 @@ public class PaymentController {
                                                    @CurrentMemberId Long memberId) {
 
         boolean authCheck = authService.checkAuthInRedis(memberId, request.getAuthenticationKey());
-//        if(!authCheck)
-//            return response.error(INVALID_PRINCIPAL_TYPE);
+        if(!authCheck)
+            return response.error(INVALID_PRINCIPAL_TYPE);
         return response.success(paymentService.updatePaymentPassword(memberId,
                                                                      passwordEncoder.encode(request.getNewPaymentPassword()))
             , SuccessCode.SUCCESS);
