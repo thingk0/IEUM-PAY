@@ -6,14 +6,17 @@ import {
   DropdownTrigger,
 } from '@nextui-org/react';
 import { useRouter } from 'next/router';
-import classes from './MainPageDropdown.module.scss';
+// import classes from './MainPageDropdown.module.scss';
+import DropdownMenuIcon from './icons/DropdownMenuIcon';
 
 function MainPageDropdown() {
   const router = useRouter();
   return (
     <Dropdown>
       <DropdownTrigger>
-        <button className={classes.button}>...</button>
+        <button>
+          <DropdownMenuIcon />
+        </button>
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions">
         <DropdownItem key="new" onClick={() => router.push('/card')}>

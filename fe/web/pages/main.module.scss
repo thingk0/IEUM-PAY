@@ -1,7 +1,10 @@
 .main {
   padding: 0.625rem 1.25rem;
 }
-
+.top {
+  display: flex;
+  justify-content: end;
+}
 .moneyContainer {
   margin: 0.625rem 0;
   position: absolute;

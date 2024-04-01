@@ -137,7 +137,9 @@ export default function Home() {
     <>
       <HeaderMain />
       <main className={mainStyles.main}>
-        <MainPageDropdown></MainPageDropdown>
+        <div className={mainStyles.top}>
+          <MainPageDropdown></MainPageDropdown>
+        </div>
         <div className={mainStyles.cardsContainer}>
           <div className={mainStyles.cardStack} onClick={nextCard}>
             {isLoading
