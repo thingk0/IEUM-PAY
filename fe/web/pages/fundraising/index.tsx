@@ -1,78 +1,53 @@
 import { getFundListComplete, getFundListOnGoing } from '@/api/fundAxois';
 import HeaderMain from '@/stories/HeaderMain';
 import TabBar from '@/stories/TabBar';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from '@/styles/FundPage.module.scss';
 import { CardList, CardTypeSelectTab } from '@/components/funding/CardList';
-
-interface fundingList {
-  fundingId: number;
-  facilityName: string;
-  fundingTitle: string;
-  fundingOpenDate: string;
-  facilityImage: string;
-  fundingPeopleCnt: number;
-  goalAmount: number;
-  currentAmount?: number;
-}
+import { useQueries } from '@tanstack/react-query';
 
 export default function Funding() {
-  const [onGoingList, setonGoingList] = useState<fundingList[]>([
-    {
-      fundingId: 1,
-      facilityName: 'btc',
-      fundingTitle: '과자를 사주세요',
-      fundingOpenDate: '2023-02-02',
-      facilityImage: 'https://nextui-docs-v2.vercel.app/images/album-cover.png',
-      fundingPeopleCnt: 10,
-      goalAmount: 500000,
-      currentAmount: 100000,
-    },
-    {
-      fundingId: 2,
-      facilityName: 'bhc',
-      fundingTitle: '치킨을 사주새오',
-      fundingOpenDate: '2023-02-02',
-      facilityImage: 'https://nextui-docs-v2.vercel.app/images/album-cover.png',
-      fundingPeopleCnt: 10,
-      goalAmount: 500000,
-      currentAmount: 1000,
-    },
-  ]);
-  const [completeList, setcompleteList] = useState<fundingList[]>([
-    {
-      fundingId: 1,
-      facilityName: 'btc',
-      fundingTitle: '과자를 사주세요',
-      fundingOpenDate: '2023-02-02',
-      facilityImage: 'https://nextui-docs-v2.vercel.app/images/album-cover.png',
-      fundingPeopleCnt: 10,
-      goalAmount: 500000,
-    },
-    {
-      fundingId: 2,
-      facilityName: 'bhc',
-      fundingTitle: '치킨을 사주세요',
-      fundingOpenDate: '2023-02-02',
-      facilityImage: 'https://nextui-docs-v2.vercel.app/images/album-cover.png',
-      fundingPeopleCnt: 10,
-      goalAmount: 500000,
-    },
-  ]);
   const [selectedTab, setSelectedTab] = useState(true);
 
+  const results = useQueries({
+    queries: [
+      {
+        queryKey: ['onGoing-fund-list'],
+        queryFn: getFundListOnGoing,
+      },
+      {
+        queryKey: ['complete-fund-list'],
+        queryFn: getFundListComplete,
+      },
+    ],
+  });
+
   function Tab() {
-    return selectedTab ? (
-      <>
-        <CardTypeSelectTab fundingList={onGoingList} isOngoing={true} />
-        <CardList fundingList={onGoingList} isOngoing={true} />
-      </>
-    ) : (
-      <>
-        <CardTypeSelectTab fundingList={completeList} isOngoing={false} />
-        <CardList fundingList={completeList} isOngoing={false} />
-      </>
-    );
+    if (results[0].isLoading && results[1].isLoading) {
+      return (
+        <>
+          <div>로딩중..</div>
+        </>
+      );
+    } else {
+      return selectedTab ? (
+        <>
+          <CardTypeSelectTab
+            fundingList={results[0].data.data}
+            isOngoing={true}
+          />
+          <CardList fundingList={results[0].data.data} isOngoing={true} />
+        </>
+      ) : (
+        <>
+          <CardTypeSelectTab
+            fundingList={results[1].data.data}
+            isOngoing={false}
+          />
+          <CardList fundingList={results[1].data.data} isOngoing={false} />
+        </>
+      );
+    }
   }
 
   const changeToOnGoing = () => {
@@ -81,24 +56,6 @@ export default function Funding() {
   const changeToComplete = () => {
     setSelectedTab(false);
   };
-
-  useEffect(() => {
-    async function getData() {
-      try {
-        const fundonGoingData = await getFundListOnGoing();
-        const fundcompleteData = await getFundListComplete();
-        fundonGoingData != undefined
-          ? setonGoingList(fundonGoingData.data)
-          : '';
-        fundcompleteData != undefined
-          ? setcompleteList(fundcompleteData.data)
-          : '';
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    getData();
-  }, []);
 
   return (
     <>

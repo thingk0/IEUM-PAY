@@ -10,7 +10,6 @@ export const getFundListOnGoing = async () => {
   return await local
     .get('api/funding/list/ongoing')
     .then((response) => {
-      console.log(response);
       return response.data;
     })
     .catch((error) => {
@@ -28,7 +27,6 @@ export const getFundListComplete = async () => {
   return await local
     .get('api/funding/list/complete')
     .then((response) => {
-      console.log(response);
       return response.data;
     })
     .catch((error) => {
