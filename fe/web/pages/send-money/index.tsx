@@ -14,7 +14,8 @@ import Header from '@/components/Header';
 import HeaderMain from '@/stories/HeaderMain';
 import { getMemberByPhoneNumber } from '@/api/sendMoneyAxios';
 import useSendMoneyInfo from '@/hooks/useSendMoneyStore';
-import { useQuery } from '@tanstack/react-query';
+import { useQueries, useQuery } from '@tanstack/react-query';
+import { getMainData } from '@/api/userAxois';
 
 interface Member {
   memberId: number;
@@ -28,68 +29,96 @@ function WherePage() {
   const [query, setQuery] = useState('');
   const { sendMoneyInfo, setReceiverInfo } = useSendMoneyInfo();
 
-  const { data, isError } = useQuery({
-    queryKey: [query],
-    queryFn: () => getMemberByPhoneNumber(query),
-    enabled: query.length >= 11,
+  const results = useQueries({
+    queries: [
+      {
+        queryKey: [query],
+        queryFn: () => getMemberByPhoneNumber(query),
+        enabled: query.length >= 11,
+      },
+      {
+        queryKey: ['main-data'],
+        queryFn: getMainData,
+      },
+    ],
   });
   function handleClick() {
-    setReceiverInfo(data.name, data.phoneNumber, '이음페이');
+    setReceiverInfo(
+      results[0].data.name,
+      results[0].data.phoneNumber,
+      '이음페이',
+    );
     router.push('/send-money/amount');
   }
   function SearchResult() {
-    if (isError) return <p>해당 번호는 이음페이에 가입한 적이 없네요 ㅠㅠ</p>;
-    else if (data) {
+    if (results[0].isError)
+      return <p>해당 번호는 이음페이에 가입한 적이 없네요 ㅠㅠ</p>;
+    else if (results[0].data) {
       return (
         <button className={classes.send} onClick={handleClick}>
-          {data?.name}님에게 송금하기
+          {results[0].data?.name}님에게 송금하기
         </button>
       );
     } else null;
+  }
+  function Content() {
+    if (results[1].isLoading) return null;
+    else if (results[1].data.data.cardList.length === 0)
+      return (
+        <>
+          <h1>송금하려면 카드를 먼저 등록해주세요</h1>
+        </>
+      );
+    else {
+      return (
+        <>
+          <h1>어디로 돈을 보낼까요?</h1>
+          <Tabs aria-label="Options" disabledKeys={['account']} fullWidth>
+            <Tab key="ieum" title="이음">
+              <Input
+                variant="underlined"
+                label="휴대폰 번호"
+                type="number"
+                inputMode="decimal"
+                pattern="[0-9]*"
+                className="w-100"
+                onValueChange={setQuery}
+              />
+
+              <SearchResult />
+            </Tab>
+            <Tab key="account" title="계좌">
+              <Input
+                variant="underlined"
+                label="계좌번호"
+                type="number"
+                pattern="\d*"
+                value={account}
+                onValueChange={(account) => setAccount(account)}
+              />
+              <Select
+                label="은행 선택"
+                variant="underlined"
+                onSelectionChange={(e) => {
+                  console.log(e);
+                }}
+              >
+                <SelectItem key="NH농협">NH농협</SelectItem>
+                <SelectItem key="하나">하나</SelectItem>
+                <SelectItem key="국민">국민</SelectItem>
+              </Select>
+            </Tab>
+          </Tabs>
+        </>
+      );
+    }
   }
 
   return (
     <>
       <HeaderMain />
       <main className={classes.main}>
-        <h1>어디로 돈을 보낼까요?</h1>
-
-        <Tabs aria-label="Options" disabledKeys={['account']} fullWidth>
-          <Tab key="ieum" title="이음">
-            <Input
-              variant="underlined"
-              label="휴대폰 번호"
-              type="number"
-              inputMode="decimal"
-              pattern="[0-9]*"
-              className="w-100"
-              onValueChange={setQuery}
-            />
-
-            <SearchResult />
-          </Tab>
-          <Tab key="account" title="계좌">
-            <Input
-              variant="underlined"
-              label="계좌번호"
-              type="number"
-              pattern="\d*"
-              value={account}
-              onValueChange={(account) => setAccount(account)}
-            />
-            <Select
-              label="은행 선택"
-              variant="underlined"
-              onSelectionChange={(e) => {
-                console.log(e);
-              }}
-            >
-              <SelectItem key="NH농협">NH농협</SelectItem>
-              <SelectItem key="하나">하나</SelectItem>
-              <SelectItem key="국민">국민</SelectItem>
-            </Select>
-          </Tab>
-        </Tabs>
+        <Content />
       </main>
       <TabBar selected="sendMoney" />
     </>
