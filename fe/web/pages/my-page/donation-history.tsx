@@ -45,7 +45,7 @@ export default function DonationHistory() {
 
   return (
     <>
-      <HeaderHome>내가 이어졌던 흔적들 이라고하면 이상한가?</HeaderHome>
+      <HeaderHome>이음조각</HeaderHome>
       <div className={styles.fundingListBox}>
         <CardList fundingList={fundingInfo} isOngoing={false} />
       </div>
