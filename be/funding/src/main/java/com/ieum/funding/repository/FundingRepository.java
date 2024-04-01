@@ -25,7 +25,7 @@ public interface FundingRepository extends JpaRepository<Funding, Long> {
         "f.fundingOpenDate, " +
         "f.fundingFinishDate, " +
         "fac.facilityImage, " +
-        "(SELECT COUNT(fm) as cnt FROM FundingMembers fm WHERE fm.fundingId = f.fundingId), " +
+        "(SELECT COUNT(fm) as cnt FROM FundingMembers fm WHERE fm.fundingId = f.fundingId AND fm.fundingTotalAmount > 0 ), " +
         "f.goalAmount, " +
         "f.currentAmount) " +
         "FROM Funding f " +
