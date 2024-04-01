@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { useQuery } from '@tanstack/react-query';
 import { getReceipt } from '@/api/historyAxios';
 import FetchError from '@/components/layouts/FetchError';
+import { dataURLtoBlob } from '@/utils/blob';
 
 function ReceiptElement({ children }: { children: React.ReactNode }) {
   return <div className={classes.element}>{children}</div>;
@@ -26,10 +27,26 @@ export default function ReceiptPage() {
   function handleClick() {
     if (receiptRef.current) {
       html2canvas(receiptRef.current).then(function (canvas) {
-        const link = document.createElement('a');
-        link.download = 'receipt.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
+        const dataURL = canvas.toDataURL('image/png');
+        const blob = dataURLtoBlob(dataURL);
+        const data = {
+          files: [
+            new File([blob], 'image.png', {
+              type: blob.type,
+            }),
+          ],
+          title: '이음페이 기부 영수증',
+          text: 'My text',
+        };
+
+        if (navigator.canShare(data)) {
+          navigator.share(data);
+        } else {
+          const link = document.createElement('a');
+          link.download = 'receipt.png';
+          link.href = dataURL;
+          link.click();
+        }
       });
     }
   }
