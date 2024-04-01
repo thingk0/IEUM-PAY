@@ -1,3 +1,7 @@
+.cardContainer {
+  padding: 1.25rem;
+}
+
 .card-number {
   display: flex;
   width: 100%;
@@ -37,5 +41,14 @@
   .svg {
     width: 1.188rem;
     height: 1.188rem;
+  }
+}
+.password {
+  display: flex;
+  justify-content: flex-start;
+  margin: 0;
+  padding: 0;
+  .input {
+    width: 3rem;
   }
 }
