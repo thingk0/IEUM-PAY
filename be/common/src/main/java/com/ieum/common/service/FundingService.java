@@ -22,8 +22,6 @@ import com.ieum.common.exception.pay.DonationHistoryNotFoundException;
 import com.ieum.common.feign.FundingFeignClient;
 import com.ieum.common.feign.PayFeignClient;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -138,34 +136,15 @@ public class FundingService {
         return fundingFeignClient.getFundingParticipationList(memberId);
     }
 
-    public CompletableFuture<DonationDirectlyResponseDTO> getDirectlyResult(Long historyId)
-        throws ExecutionException, InterruptedException {
-        var historyFuture =
-            CompletableFuture.supplyAsync(() -> fetchDonationHistoryById(historyId));
-        FundingDonationResultResponseDTO history = historyFuture.get();
-
-        var fundingFuture =
-            CompletableFuture.supplyAsync(() -> fetchFundingResultByHistory(history.getFundingId()));
-        return historyFuture
-            .thenCombine(fundingFuture, FundingService::buildDonationDirectlyResponseDTO)
-            .handle((result, throwable) -> {
-                if (throwable != null) {
-                    Throwable cause = throwable.getCause();
-                    if (cause instanceof FundingResultNotFoundException) {
-                        throw (FundingResultNotFoundException) cause;
-                    } else if (cause instanceof DonationHistoryNotFoundException) {
-                        throw (DonationHistoryNotFoundException) cause;
-                    } else {
-                        throw new RuntimeException("Unexpected exception occurred", cause);
-                    }
-                }
-                return result;
-            });
+    public DonationDirectlyResponseDTO getDirectDonationResultByHistoryId(Long historyId) {
+        var donationResultResponse = fetchDonationHistoryById(historyId);
+        var fundingResultResponse = fetchFundingResultByHistory(donationResultResponse.getFundingId());
+        return buildDonationDirectlyResponseDTO(donationResultResponse, fundingResultResponse);
     }
 
 
-    private FundingResultResponseDTO fetchFundingResultByHistory(Long historyId) {
-        return fundingFeignClient.getPaymentResult(historyId)
+    private FundingResultResponseDTO fetchFundingResultByHistory(Long fundingId) {
+        return fundingFeignClient.getPaymentResult(fundingId)
                                  .orElseThrow(FundingResultNotFoundException::new);
     }
 
