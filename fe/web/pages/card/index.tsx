@@ -22,6 +22,8 @@ function CardPage({
   ];
   const [validDate, setValidDate] = useState('');
   const [isValidDate, setIsValidDate] = useState(false);
+  const [cvcValue, setCvcValue] = useState('');
+  const [passwordValue, setPassword] = useState('');
 
   useEffect(() => {
     if (cardNum != undefined) {
@@ -58,12 +60,16 @@ function CardPage({
     const newValue = event.target.value;
     if (newValue.length < 1) {
       setIsValidDate(false);
+      setValidDate(newValue);
     }
-    if (newValue.length < 5) {
+    if (newValue.length < 6) {
       setValidDate(newValue);
       setIsValidDate(true);
     }
-    if (newValue.length == 4) {
+    if (newValue.length == 2) {
+      setValidDate(newValue + '/');
+    }
+    if (newValue.length == 5) {
       if (newValue.substr(3, 2) > `24`) {
         setIsValidDate(false);
       } else if (
@@ -75,13 +81,25 @@ function CardPage({
     }
   };
 
+  const handlValidCVC = (event: any) => {
+    const newValue = event.target.value;
+    if (newValue.length < 4) {
+      setCvcValue(newValue);
+    }
+  };
+  const handlePassword = (event: any) => {
+    const newValue = event.target.value;
+    if (newValue.length < 3) {
+      setPassword(newValue);
+    }
+  };
+
   return (
     <>
       <Header>카드 등록</Header>
       <div className={classes.cardContainer}>
-        <div>카드</div>
         <form>
-          <label>카드번호*</label>
+          <label>카드번호</label>
           <div className={classes['card-number']}>
             {inputRefs.map((ref, index) => (
               <>
@@ -98,32 +116,48 @@ function CardPage({
           </div>
           <hr />
         </form>
-        <div className={classes.validDate}>
-          <p>유효기간</p>
+        <div className={classes.dateCvcContainer}>
+          <div className={classes.validDate}>
+            <p>유효기간</p>
+            <Input
+              // pattern="\d*"
+              value={validDate}
+              isInvalid={isValidDate}
+              onChange={handlValidDate}
+              classNames={{ base: classes.input }}
+            />
+          </div>
+          <div className={classes.cvc}>
+            <p>cvc</p>
+            <Input
+              pattern="\d*"
+              classNames={{ base: classes.input }}
+              value={cvcValue}
+              onChange={handlValidCVC}
+            />
+          </div>
+        </div>
+        <p>비밀번호 앞 두자리</p>
+        <div className={classes.password}>
           <Input
             pattern="\d*"
-            value={validDate}
-            isInvalid={isValidDate}
-            onChange={handlValidDate}
+            classNames={{ base: classes.input }}
+            value={passwordValue}
+            onChange={handlePassword}
           />
-        </div>
-        <div className={classes.cvc}>
-          <p>cvc</p>
-          <Input pattern="\d*" />
-        </div>
-        <div className={classes.password}>
-          <p>비밀번호 앞 두자리</p>
-          <Input classNames={{ inputWrapper: classes.input }} /> **
+          <p>**</p>
         </div>
         <Link href="/card/scan">
           <div className={classes.camera}>
             <CameraIcon />
           </div>
         </Link>
-        <p className={classes.subtext}>
-          가상 서비스이므로 CVC와 비밀번호는 입력하지 않아도 됩니다.
-        </p>
-        <Button primary>등록</Button>
+        <div className={classes.btnCont}>
+          <p className={classes.subtext}>
+            가상 서비스이므로 CVC와 비밀번호는 입력하지 않아도 됩니다.
+          </p>
+          <Button primary>등록</Button>
+        </div>
       </div>
     </>
   );

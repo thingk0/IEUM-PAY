@@ -1,5 +1,5 @@
 .cardContainer {
-  padding: 1.25rem;
+  padding: 2rem 1.25rem;
 }
 
 .card-number {
@@ -26,6 +26,7 @@
   }
 }
 .subtext {
+  padding: 1.25rem 0 0 0;
   font-size: 0.75rem;
   text-align: center;
   color: var(--sub-text);
@@ -38,17 +39,38 @@
   justify-content: center;
   align-items: center;
   border-radius: 100%;
+  margin-top: 2rem;
   .svg {
     width: 1.188rem;
     height: 1.188rem;
   }
 }
+.dateCvcContainer {
+  display: flex;
+  justify-content: flex-start;
+  text-align: center;
+  align-items: center;
+  padding: 1.25rem 0;
+  .validDate {
+    margin-right: 2.25rem;
+  }
+  .input {
+    margin: 0;
+    padding: 0;
+    width: 5rem;
+  }
+}
 .password {
   display: flex;
   justify-content: flex-start;
+  align-items: center;
+}
+.input {
   margin: 0;
   padding: 0;
-  .input {
-    width: 3rem;
-  }
+  width: 3rem;
+}
+.btnCont {
+  margin-top: 15rem;
+  bottom: 0;
 }
