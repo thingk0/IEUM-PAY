@@ -58,7 +58,6 @@ export default function Home() {
       <main className={mainStyles.main}>
         <MainPageDropdown></MainPageDropdown>
         <div className={mainStyles.cardsContainer}>
-          {/* <div className={mainStyles.card}>삼성 카드</div> */}
           <div className={mainStyles.cardStack} onClick={nextCard}>
             {cardState.map((card, index) => (
               <div
