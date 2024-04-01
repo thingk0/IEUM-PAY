@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Inter } from 'next/font/google';
 import mainStyles from './main.module.scss';
-import bank from './bank.module.scss';
+// import bank from './bank.module.scss';
 
 import TabBar from '@/stories/TabBar';
 import Money from '@/components/Money';
@@ -19,7 +19,7 @@ import Link from 'next/link';
 import { PlusIcon } from '@/components/icons/PlusIcon';
 import useUserStore from '@/stores/user-store';
 
-const inter = Inter({ subsets: ['latin'] });
+// const inter = Inter({ subsets: ['latin'] });
 
 interface cardType {
   cardId: number;
@@ -34,30 +34,30 @@ interface infoType {
   paymentAmount: number;
   totalDonation: number;
 }
-interface logoUrlType {
-  신한카드: string;
-  KB국민카드: string;
-  광주은행: string;
-  삼성카드: string;
-  수협은행: string;
-  NH농협카드: string;
-  BC카드: string;
-  우리카드: string;
-  롯데카드: string;
-  현대카드: string;
-  하나카드: string;
-  전북은행: string;
-  제주은행: string;
-  씨티카드: string;
-  이음페이: string;
-}
+// interface logoUrlType {
+//   신한카드: string;
+//   KB국민카드: string;
+//   광주은행: string;
+//   삼성카드: string;
+//   수협은행: string;
+//   NH농협카드: string;
+//   BC카드: string;
+//   우리카드: string;
+//   롯데카드: string;
+//   현대카드: string;
+//   하나카드: string;
+//   전북은행: string;
+//   제주은행: string;
+//   씨티카드: string;
+//   이음페이: string;
+// }
 
 export default function Home() {
   const router = useRouter();
   const [cardState, setCardState] = useState<number[]>([]);
   const [prevCardState, setPrevCardState] = useState<number[]>([]);
-  const [focused, setFocused] = useState<number>();
-  const [mainCard, setMainCard] = useState<number>();
+  // const [focused, setFocused] = useState<number>();
+  // const [mainCard, setMainCard] = useState<number>();
   const { setBalance } = useUserStore();
   const [info, setInfo] = useState<infoType>({
     cardList: [
@@ -97,6 +97,9 @@ export default function Home() {
     updatedCardState.unshift(updatedCardState.pop()!);
     setPrevCardState([...cardState]);
     setCardState(updatedCardState);
+    console.log('marking!!!!!', cardState[0]);
+    // 얘가 젤 앞임
+    console.log(info.cardList[cardState[0]]);
   };
 
   const { data, error, isError, isLoading, refetch } = useQuery({
@@ -104,13 +107,13 @@ export default function Home() {
     queryFn: getMainData,
   });
 
-  useEffect(() => {
-    // setFocused(info.cardList[cardState.length - 1].registeredCardId);
-    // console.log(prevCardState[cardState.length - 1]);
-    // console.log(focused);
-    console.log(info.cardList[0]);
-    console.log(cardState[0]);
-  }, [cardState]);
+  // useEffect(() => {
+  //   setFocused(info.cardList[cardState.length - 1].registeredCardId);
+  //   console.log(prevCardState[cardState.length - 1]);
+  //   console.log(focused);
+  //   console.log(info.cardList[0]);
+  //   console.log(cardState[0]);
+  // }, []);
 
   useEffect(() => {
     if (!data) return;
