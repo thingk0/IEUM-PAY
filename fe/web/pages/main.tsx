@@ -101,8 +101,12 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchBalance() {
-      const mainData = await getMainData();
-      mainData != undefined ? setInfo(mainData.data) : '';
+      try {
+        const mainData = await getMainData();
+        setInfo(mainData.data);
+      } catch (e) {
+        console.log(e);
+      }
     }
     fetchBalance();
   }, []);
@@ -142,8 +146,8 @@ export default function Home() {
                   <Card
                     index={index}
                     card={card}
-                    bank={info.cardList[index].cardIssuer}
-                    nickname={info.cardList[index].cardNickname}
+                    bank={info.cardList[index]?.cardIssuer}
+                    nickname={info.cardList[index]?.cardNickname}
                   />
                 ))}
           </div>
