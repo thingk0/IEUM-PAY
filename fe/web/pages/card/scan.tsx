@@ -6,6 +6,15 @@ import CloseIcon from '@/components/icons/CloseIcon';
 import ZapIcon from '@/components/icons/ZapIcon';
 import ZapOffIcon from '@/components/icons/ZapOffIcon';
 import { useRouter } from 'next/router';
+import {
+  CircularProgress,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  useDisclosure,
+} from '@nextui-org/react';
+import { useQuery } from '@tanstack/react-query';
 
 function ScanCardPage() {
   let videoRef = useRef<HTMLVideoElement>(null);
@@ -13,6 +22,13 @@ function ScanCardPage() {
   const [isFlashOn, setIsFlashOn] = useState(false);
   const [hasFlash, setHasFlash] = useState(false);
   const router = useRouter();
+  const [modalValue, setModalValue] = useState(false);
+  const [data, setData] = useState({
+    cardNumber: '',
+    validThru: '',
+  });
+
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   function toggleFlash() {
     //@ts-expect-error
@@ -126,25 +142,11 @@ function ScanCardPage() {
     formData.append('img', blob, 'card.png');
 
     // link.click();
+
+    onOpen();
     postCardImage(formData).then((res) => {
       console.log(res.data.data);
-      router.push(
-        {
-          pathname: '/card',
-          query: {
-            cardNum: res.data.data.cardNumber,
-            validThru: res.data.data.validThru,
-          },
-        },
-        '/card',
-      );
-      // alert(
-      //   '카드번호 ' +
-      //     res.data.data.cardNumber +
-      //     '\n' +
-      //     '유효기간 ' +
-      //     res.data.data.validThru,
-      // );
+      setData(res.data.data);
     });
   }
   function handleClick() {
@@ -211,6 +213,54 @@ function ScanCardPage() {
           촬영하기
         </Button>
       </div>
+      <Modal
+        className={classes.modalComp}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalBody className={classes.modalContainer}>
+                <div>
+                  {data.cardNumber != '' ? (
+                    <div>확인 버튼을 눌러주세요</div>
+                  ) : (
+                    <CircularProgress
+                      color="secondary"
+                      aria-label="Loading..."
+                    />
+                  )}
+                </div>
+              </ModalBody>
+              <ModalFooter className={classes.modalFooter}>
+                {data.cardNumber != '' ? (
+                  <Button
+                    size="thin"
+                    onClick={() => {
+                      onClose;
+                      router.push(
+                        {
+                          pathname: '/card',
+                          query: {
+                            cardNum: data.cardNumber,
+                            validThru: data.validThru,
+                          },
+                        },
+                        '/card',
+                      );
+                    }}
+                  >
+                    확인
+                  </Button>
+                ) : (
+                  ''
+                )}
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </>
   );
 }

@@ -79,3 +79,20 @@ export async function getPaymentHistory(historyId: string) {
       console.log(error);
     });
 }
+
+export async function registerCard(cardNumber: string) {
+  const local = axiosAuthApi();
+
+  return await local
+    .post('api/card/register', {
+      cardNumber: cardNumber,
+      cardNickname: '',
+    })
+    .then((response) => {
+      console.log(response);
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
