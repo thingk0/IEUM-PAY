@@ -92,7 +92,11 @@ function TabBar({ selected = tabBarElementCode.history }: TabBarProps) {
               </div>
             </Link>
           ) : (
-            <Link href="/" className={classes.link} onClick={() => vibrate()}>
+            <Link
+              href="/main"
+              className={classes.link}
+              onClick={() => vibrate()}
+            >
               <div className={`${classes.wrapper}`}>
                 <CreditCardIcon />
                 결제
