@@ -52,6 +52,10 @@ public enum FailedCode {
     /* Funding */
     FUNDING_RESULT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 후원 결과를 찾을 수 없습니다."),
 
+    /* Second Authentication */
+    SECOND_AUTH_INFO_NOT_FOUND(HttpStatus.BAD_REQUEST, "2차 인증 정보가 레디스에 저장되어 있지 않습니다."),
+    SECOND_AUTH_VERIFICATION_FAILED(HttpStatus.BAD_REQUEST, "2차 인증 검증에 실패하였습니다."),
+
     ;
 
 
