@@ -14,6 +14,7 @@ import MainPageDropdown from '@/components/MainPageDropdown';
 // import useUserStore from '@/stores/user-store';
 import { getMainData } from '@/api/userAxois';
 import { useQuery } from '@tanstack/react-query';
+import Card from '@/components/Card';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -138,24 +139,12 @@ export default function Home() {
             {isLoading
               ? null
               : cardState.map((card, index) => (
-                  <div
-                    key={index}
-                    className={`${mainStyles.card} ${mainStyles['card' + card]} ${bank[info.cardList[index].cardIssuer]}`}
-                  >
-                    {/* {index} */}
-                    <div className={mainStyles.logoBox}>
-                      <img
-                        src={logoUrl[info.cardList[index].cardIssuer]}
-                        alt="bankLogo"
-                        className={mainStyles.logo}
-                      />
-                    </div>
-                    <div className={mainStyles.cardBottom}>
-                      <div className={mainStyles.nicknameContainer}>
-                        {info.cardList[index].cardNickname}
-                      </div>
-                    </div>
-                  </div>
+                  <Card
+                    index={index}
+                    card={card}
+                    bank={info.cardList[index].cardIssuer}
+                    nickname={info.cardList[index].cardNickname}
+                  />
                 ))}
           </div>
         </div>

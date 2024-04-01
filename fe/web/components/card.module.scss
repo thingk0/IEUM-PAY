@@ -1,0 +1,83 @@
+$cardPosition: 0;
+$cardOffset: 3rem;
+$cardWidth: 20rem;
+
+.card {
+  width: $cardWidth;
+  height: $cardWidth / 1.58;
+  background-color: #fff;
+  // box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.4);
+  border-radius: 0.5rem;
+  position: absolute;
+  transform-origin: 50% 0%;
+  transition: all 0.8s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #b7b7b7;
+  padding: 1rem 0.75rem;
+}
+
+.logo {
+  width: 5.4rem;
+}
+
+.cardBottom {
+  display: flex;
+  justify-content: end;
+}
+
+.nicknameContainer {
+  border-radius: 0.6rem;
+  background-color: var(--black);
+  color: var(--real-white);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+}
+
+.card1 {
+  z-index: 1000;
+  left: $cardPosition;
+}
+
+.card2 {
+  z-index: 800;
+  // transform: scale(0.95);
+  filter: brightness(0.95);
+  top: $cardPosition - $cardOffset;
+}
+
+.card3 {
+  z-index: 600;
+  // transform: scale(0.9);
+  filter: brightness(0.9);
+  top: $cardPosition - $cardOffset * 2;
+}
+
+.card4 {
+  z-index: 400;
+  // transform: scale(0.85);
+  filter: brightness(0.85);
+  top: $cardPosition - $cardOffset * 3;
+  animation-name: remove;
+  animation-duration: 1s;
+}
+
+@keyframes remove {
+  0% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-80px);
+    opacity: 0;
+  }
+  51% {
+    transform: translateY(10px) scale(1);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0px) scale(1);
+    opacity: 1;
+  }
+}
