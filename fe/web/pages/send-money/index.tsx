@@ -8,14 +8,14 @@ import {
   Button,
 } from '@nextui-org/react';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import classes from './index.module.scss';
-import Header from '@/components/Header';
 import HeaderMain from '@/stories/HeaderMain';
 import { getMemberByPhoneNumber } from '@/api/sendMoneyAxios';
 import useSendMoneyInfo from '@/hooks/useSendMoneyStore';
-import { useQueries, useQuery } from '@tanstack/react-query';
+import { useQueries } from '@tanstack/react-query';
 import { getMainData } from '@/api/userAxois';
+import ChevronRightIcon from '@/components/icons/ChevronRightIcon';
 
 interface Member {
   memberId: number;
@@ -57,68 +57,41 @@ function WherePage() {
       return (
         <button className={classes.send} onClick={handleClick}>
           {results[0].data?.name}님에게 송금하기
+          <ChevronRightIcon />
         </button>
       );
     } else null;
   }
-  function Content() {
-    if (results[1].isLoading) return null;
-    else if (results[1].data.data.cardList.length === 0)
-      return (
-        <>
-          <h1>송금하려면 카드를 먼저 등록해주세요</h1>
-        </>
-      );
-    else {
-      return (
-        <>
-          <h1>어디로 돈을 보낼까요?</h1>
-          <Tabs aria-label="Options" disabledKeys={['account']} fullWidth>
-            <Tab key="ieum" title="이음">
-              <Input
-                variant="underlined"
-                label="휴대폰 번호"
-                type="number"
-                inputMode="decimal"
-                pattern="[0-9]*"
-                className="w-100"
-                onValueChange={setQuery}
-              />
 
-              <SearchResult />
-            </Tab>
-            <Tab key="account" title="계좌">
-              <Input
-                variant="underlined"
-                label="계좌번호"
-                type="number"
-                pattern="\d*"
-                value={account}
-                onValueChange={(account) => setAccount(account)}
-              />
-              <Select
-                label="은행 선택"
-                variant="underlined"
-                onSelectionChange={(e) => {
-                  console.log(e);
-                }}
-              >
-                <SelectItem key="NH농협">NH농협</SelectItem>
-                <SelectItem key="하나">하나</SelectItem>
-                <SelectItem key="국민">국민</SelectItem>
-              </Select>
-            </Tab>
-          </Tabs>
-        </>
-      );
-    }
-  }
+  if (results[1].isLoading) return null;
+  if (results[1].data && results[1].data.data.cardList.length === 0)
+    return (
+      <>
+        <HeaderMain />
+        <main className={classes.main}>
+          <h1>송금하려면 카드를 먼저 등록 해주세요</h1>
+        </main>
+        <TabBar selected="sendMoney" />
+      </>
+    );
 
   return (
     <>
       <HeaderMain />
       <main className={classes.main}>
-        <Content />
+        <h1>어디로 돈을 보낼까요?</h1>
+
+        <Input
+          variant="underlined"
+          label="휴대폰 번호"
+          type="tel"
+          inputMode="decimal"
+          pattern="[0-9]*"
+          className="w-100"
+          onValueChange={setQuery}
+        />
+
+        <SearchResult />
       </main>
       <TabBar selected="sendMoney" />
     </>
