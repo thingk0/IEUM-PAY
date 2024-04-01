@@ -6,6 +6,8 @@ import { commaizeNumber } from '@toss/utils';
 import { useRef } from 'react';
 import html2canvas from 'html2canvas';
 import { useRouter } from 'next/router';
+import { useQuery } from '@tanstack/react-query';
+import { getReceipt } from '@/api/historyAxios';
 const data = {
   fundingId: 1,
   fundingTitle: 'btc 아동센터 아이들 20명에게',
@@ -20,8 +22,13 @@ function ReceiptElement({ children }: { children: React.ReactNode }) {
 }
 
 export default function ReceiptPage() {
-  const receiptRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const receiptId = router.query.receiptId;
+  const { data } = useQuery({
+    queryKey: [receiptId],
+    queryFn: () => getReceipt(receiptId),
+  });
+  const receiptRef = useRef<HTMLDivElement>(null);
 
   function handleClick() {
     if (receiptRef.current) {
@@ -36,7 +43,7 @@ export default function ReceiptPage() {
 
   return (
     <>
-      <PageTitleCenter title={''} description={''}></PageTitleCenter>
+      {/* <PageTitleCenter title={''} description={''}></PageTitleCenter>
       <main className={classes.container}>
         <div className={classes.receipt} ref={receiptRef}>
           <h1>이음페이 기부 영수증</h1>
@@ -69,7 +76,7 @@ export default function ReceiptPage() {
         <Button primary onClick={handleClick}>
           영수증 공유하기
         </Button>
-      </main>
+      </main> */}
     </>
   );
 }

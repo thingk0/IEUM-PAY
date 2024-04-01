@@ -10,6 +10,8 @@ import useDonateMoneyInfo from '@/hooks/useDirectDonationStore';
 import { directDonate } from '@/api/fundAxois';
 import usePaymentInfo from '@/hooks/usePayStore';
 import { payment } from '@/api/paymentAxios';
+import { sendPayMoney } from '@/api/sendMoneyAxios';
+import useSendMoneyInfo from '@/hooks/useSendMoneyStore';
 
 // interface PasswordPage {
 //   title: string;
@@ -24,6 +26,7 @@ function PasswordPage({ id, pushUrl }: { id: string; pushUrl?: string }) {
   const [isTrue, setIsTrue] = useState(true);
   const { donateMoneyInfo, setFundingId } = useDonateMoneyInfo();
   const { paymentInfo } = usePaymentInfo();
+  const { sendMoneyInfo } = useSendMoneyInfo();
 
   const pageId = [
     ['결제 비밀번호 입력', ''],
@@ -59,6 +62,13 @@ function PasswordPage({ id, pushUrl }: { id: string; pushUrl?: string }) {
             },
           });
         }
+      } else if (pushUrl === 'send-money') {
+        const phoneNumber = sendMoneyInfo.수취계좌;
+        const amount = sendMoneyInfo.송금금액;
+        try {
+          const sendMoneyRes = await sendPayMoney(phoneNumber, amount, key);
+          router.push('/send-money/success');
+        } catch (e) {}
       }
     }
   };
