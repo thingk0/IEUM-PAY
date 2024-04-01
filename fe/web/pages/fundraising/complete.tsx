@@ -8,9 +8,10 @@ import { useRouter } from 'next/router';
 
 interface dataType {
   fundingId: number;
-  fundingTitle: string;
+  facilityTitle: string;
   facilityName: string;
   facilityImage: string;
+  fundingAmount: number;
 }
 
 export default function CompleteDonation() {
@@ -18,10 +19,11 @@ export default function CompleteDonation() {
   const router = useRouter();
   const [data, setData] = useState<dataType>({
     fundingId: 1,
-    fundingTitle: '펀딩 제목',
+    facilityTitle: '펀딩 제목',
     facilityName: '은혜노인복지센터',
     facilityImage:
       'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200124_169%2F1579861444105ksyLS_JPEG%2FHR80O6nA89Q9ZWBHq4KZQL_-.jpeg.jpg',
+    fundingAmount: 0,
   });
 
   const onClickFunc = () => {
@@ -61,7 +63,7 @@ export default function CompleteDonation() {
         </div>
         <div className={styles.textBox}>
           <p>{donateMoneyInfo.기관명}에</p>
-          <p>{commaizeNumber(donateMoneyInfo.송금금액)}원을 기부 했어요!</p>
+          <p>{commaizeNumber(data.fundingAmount)}원을 기부 했어요!</p>
         </div>
         <div className={styles.facilityContainer}>
           <div className={styles.imageBox}>
@@ -69,7 +71,7 @@ export default function CompleteDonation() {
           </div>
           <div className={styles.textContainer}>
             <p>{donateMoneyInfo.기관명}</p>
-            <p>{data.fundingTitle}</p>
+            <p>{data.facilityTitle}</p>
           </div>
         </div>
         <Button primary size="thick" onClick={onClickFunc}>
