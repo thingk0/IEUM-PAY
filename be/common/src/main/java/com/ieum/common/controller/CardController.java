@@ -79,7 +79,7 @@ public class CardController {
 
     }
 
-    @Operation(summary = "카드 삭체", description = "카드 정보를 삭제합니다.")
+    @Operation(summary = "카드 삭제", description = "카드 정보를 삭제합니다.")
     @ApiResponse(responseCode = "200", description = "카드 삭제 성공")
     @PutMapping("/update")
     public ResponseEntity<?> cardUpdate(@RequestBody CardUpdateRequestDTO requestDTO,
@@ -89,6 +89,14 @@ public class CardController {
             return response.error(REGISTERED_CARD_DELETE);
         }
         return response.success(payService.updateCard(memberId,requestDTO.getRegisteredCardId()),
-               SuccessCode.SUCCESS);
+                SuccessCode.SUCCESS);
+    }
+
+    @Operation(summary = "카드 회사", description = "카드 회사 정보를 받습니다.")
+    @ApiResponse(responseCode = "200", description = "카드 회사 정보 조회 성공")
+    @GetMapping("/{cardNumber}")
+    public ResponseEntity<?> getCardCompany(@PathVariable("cardNumber") String number) {
+        return response.success(payService.getCardDetail(number),
+                SuccessCode.SUCCESS);
     }
 }

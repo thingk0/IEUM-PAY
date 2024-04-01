@@ -7,6 +7,7 @@ import com.ieum.common.dto.response.CardOcrResponseDTO;
 import java.util.Optional;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -164,4 +165,6 @@ public interface PayFeignClient {
     @GetMapping("/member/pp/{memberId}")
     String getPaymentPassword(@PathVariable("memberId") Long memberId);
 
+    @GetMapping("/card/company/{number}")
+    CardDetailResponseDTO getCardCompany(@PathVariable("number") String cardNum);
 }

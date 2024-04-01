@@ -30,21 +30,21 @@ $cardWidth: 320px;
 
 .card2 {
   z-index: 800;
-  transform: scale(0.99);
+  // transform: scale(0.99);
   filter: brightness(0.9);
   top: $cardPosition - $cardOffset;
 }
 
 .card3 {
   z-index: 600;
-  transform: scale(0.98);
+  // transform: scale(0.98);
   filter: brightness(0.8);
   top: $cardPosition - $cardOffset * 2;
 }
 
 .card4 {
   z-index: 400;
-  transform: scale(0.97);
+  // transform: scale(0.97);
   filter: brightness(0.7);
   top: $cardPosition - $cardOffset * 3;
   animation-name: remove;

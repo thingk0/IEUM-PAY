@@ -150,4 +150,8 @@ public class PayService {
     public MainSummaryResponseDTO getMainSummary(Long memberId) {
         return payFeignClient.getMainPageInfo(memberId);
     }
+
+    public CardDetailResponseDTO getCardDetail(String cardNum) {
+        return payFeignClient.getCardCompany(cardNum);
+    }
 }

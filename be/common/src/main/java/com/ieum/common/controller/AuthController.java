@@ -1,9 +1,12 @@
 package com.ieum.common.controller;
 
+import static com.ieum.common.format.code.FailedCode.AUTHENTICATION_2FA_FAILED;
+
 import com.ieum.common.annotation.CurrentMemberId;
 import com.ieum.common.dto.request.paymentPasswordRequestDTO;
 import com.ieum.common.dto.request.secondaryAuthRequestDTO;
 import com.ieum.common.dto.response.secondaryAuthResponseDTO;
+import com.ieum.common.format.code.FailedCode;
 import com.ieum.common.format.code.SuccessCode;
 import com.ieum.common.format.response.ResponseTemplate;
 import com.ieum.common.service.AuthService;
@@ -16,6 +19,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,7 +63,11 @@ public class AuthController {
             .build();
 
         secondaryAuthResponseDTO res = authService.secondaryAuthentication(reqDto);
-        return response.success(res, SuccessCode.AUTHENTICATION_CODE_ISSUED);
+        if (res.getAuth()) {
+            return response.success(res, SuccessCode.AUTHENTICATION_CODE_ISSUED);
+        }
+        return response.fail(AUTHENTICATION_2FA_FAILED.getMessage(), HttpStatus.BAD_REQUEST);
+
     }
 
 }

@@ -18,41 +18,34 @@
 
 // 카드
 $cardPosition: 0;
-$cardOffset: 1rem;
+$cardOffset: 3rem;
 $cardWidth: 20rem;
 
 .cardsContainer {
   display: flex;
   justify-content: center;
-  // height: 50%;
+  height: 50%;
   margin: 0.625rem 0;
 }
 
-// .card {
-//   width: $cardWidth;
-//   height: $cardWidth / 1.58;
-//   text-align: center;
-//   background-color: rgb(65, 103, 214);
-//   border-radius: 0.6rem;
-// }
+.cardStack {
+  // display: inline-block;
+  text-align: center;
+  // position: relative;
+  // left: 100%;
+  // transform: translateX(-($cardWidth)) translateY(10rem);
+  transform: translateX(-($cardWidth / 2)) translateY(10rem);
+}
 
 .card {
   width: $cardWidth;
-  height: 200px;
+  height: $cardWidth / 1.58;
   background-color: #fff;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.4);
-  border-radius: 5px;
+  border-radius: 0.5rem;
   position: absolute;
   transform-origin: 50% 0%;
-  transition: all 1s ease;
-}
-
-.cardStack {
-  display: inline-block;
-  text-align: center;
-  position: relative;
-  left: 50%;
-  transform: translateX(-($cardWidth)) translateY(5rem);
+  transition: all 0.8s ease;
 }
 
 .card1 {
@@ -93,11 +86,11 @@ $cardWidth: 20rem;
     opacity: 0;
   }
   51% {
-    transform: translateY(10px) scale(0.9);
+    transform: translateY(10px) scale(1);
     opacity: 0;
   }
   100% {
-    transform: translateY(0px) scale(0.85);
+    transform: translateY(0px) scale(1);
     opacity: 1;
   }
 }
