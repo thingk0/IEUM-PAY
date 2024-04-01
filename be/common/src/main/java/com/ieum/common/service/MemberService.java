@@ -4,7 +4,10 @@ import com.ieum.common.domain.Grade;
 import com.ieum.common.domain.Members;
 import com.ieum.common.domain.Paymoney;
 import com.ieum.common.dto.feign.funding.response.CurrentFundingResultResponseDTO;
+import com.ieum.common.dto.feign.funding.response.FundingResultResponseDTO;
 import com.ieum.common.dto.feign.pay.dto.CardDTO;
+import com.ieum.common.dto.feign.pay.dto.HistoryDTO;
+import com.ieum.common.dto.feign.pay.response.HistoryResponseDTO;
 import com.ieum.common.dto.feign.pay.response.MainSummaryResponseDTO;
 import com.ieum.common.dto.member.req.LoginRequestDto;
 import com.ieum.common.dto.member.req.NicknameUpdateRequestDto;
@@ -30,6 +33,9 @@ import com.ieum.common.repository.GradeRepository;
 import com.ieum.common.repository.MemberRepository;
 import com.ieum.common.repository.PaymoneyRepository;
 import com.ieum.common.util.CookieUtil;
+
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import javax.servlet.http.HttpServletRequest;
@@ -395,5 +401,23 @@ public class MemberService {
             }
         }
         return responseDTO;
+    }
+
+    public List<HistoryResponseDTO> getHistoryList(Long memberId) {
+        List<HistoryResponseDTO> responseDTOList = payService.getHistoryList(memberId);
+        for(HistoryResponseDTO h : responseDTOList){
+            if(h.getType().equals("출금") || h.getType().equals("입금")) continue;
+
+            for(HistoryDTO detail : h.getDetail()){
+                if(!detail.getType().equals("기부")) continue;
+                Long fundingId = Long.valueOf(detail.getName());
+                Optional<FundingResultResponseDTO> funding =fundingFeignClient.getPaymentResult(fundingId);
+                if(funding.isPresent()){
+                   String fundingName = funding.get().getFacilityName();
+                   detail.setName(fundingName);
+                }
+            }
+        }
+        return responseDTOList;
     }
 }

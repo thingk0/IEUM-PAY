@@ -50,7 +50,7 @@ public class PayController {
     public ResponseEntity<?> getHistoryList(@CurrentMemberId Long memberId,
                                             @PathVariable("period") String period) {
 
-        return response.success(payService.getHistoryList(memberId), SuccessCode.SUCCESS);
+        return response.success(memberService.getHistoryList(memberId), SuccessCode.SUCCESS);
     }
 
     @Operation(summary = "송금 내역 조회", description = "특정 송금 내역을 조회합니다.")
