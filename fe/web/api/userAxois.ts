@@ -17,6 +17,7 @@ export const customlogin = async (phoneNumber: string, password: string) => {
       // cookies().set('access_token', response.data.data);
       setCookie('access_token', response.data.data, 1);
       localStorage['access_token'] = response.data.data;
+      localStorage['phone_number'] = phoneNumber;
       return true;
     })
     .catch((error) => {

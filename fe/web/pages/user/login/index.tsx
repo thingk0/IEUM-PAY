@@ -32,7 +32,7 @@ export default function Login() {
     setPassword(userPassword);
 
     (await customlogin(userInfo.phoneNumber, userPassword))
-      ? router.push('/')
+      ? router.push('/main')
       : setIsPasswordValid(true);
   };
 

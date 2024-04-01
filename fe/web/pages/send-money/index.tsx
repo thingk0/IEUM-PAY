@@ -20,9 +20,10 @@ import HeaderMain from '@/stories/HeaderMain';
 import { getMemberByPhoneNumber } from '@/api/sendMoneyAxios';
 import useSendMoneyInfo from '@/hooks/useSendMoneyStore';
 import { useQueries } from '@tanstack/react-query';
-import { getMainData } from '@/api/userAxois';
+import { getMainData, getUserInfo } from '@/api/userAxois';
 import ChevronRightIcon from '@/components/icons/ChevronRightIcon';
 import Link from 'next/link';
+import useUserStore from '@/stores/user-store';
 
 interface Member {
   memberId: number;
@@ -31,11 +32,10 @@ interface Member {
 }
 
 function WherePage() {
-  const [account, setAccount] = useState<string>();
   const router = useRouter();
   const [query, setQuery] = useState('');
   const { sendMoneyInfo, setReceiverInfo } = useSendMoneyInfo();
-
+  const [자가송금모달_열렸는가, 자가송금모달_열렸는가_설정] = useState(false);
   const results = useQueries({
     queries: [
       {
@@ -47,9 +47,18 @@ function WherePage() {
         queryKey: ['main-data'],
         queryFn: getMainData,
       },
+      {
+        queryKey: ['user-info'],
+        queryFn: getUserInfo,
+      },
     ],
   });
   function handleClick() {
+    if (localStorage.getItem('phone_number') === results[0].data.phoneNumber) {
+      자가송금모달_열렸는가_설정(true);
+      return;
+    }
+    console.log(results[2].data);
     setReceiverInfo(
       results[0].data.name,
       results[0].data.phoneNumber,
@@ -149,6 +158,30 @@ function WherePage() {
           onValueChange={setQuery}
         />
         <SearchResult />
+        <Modal
+          isOpen={자가송금모달_열렸는가}
+          placement="center"
+          hideCloseButton
+        >
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader className="flex flex-col gap-1"></ModalHeader>
+                <ModalBody>
+                  <p>자신에게는 송금할 수 없어요</p>
+                </ModalBody>
+                <ModalFooter className="w-100 flex-col">
+                  <Button
+                    color="primary"
+                    onClick={() => 자가송금모달_열렸는가_설정(false)}
+                  >
+                    확인
+                  </Button>
+                </ModalFooter>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
       </main>
       <TabBar selected="sendMoney" />
     </>
