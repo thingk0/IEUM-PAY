@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getReceipt } from '@/api/historyAxios';
 import FetchError from '@/components/layouts/FetchError';
 import { dataURLtoBlob } from '@/utils/blob';
+import DashedUnderLine from '@/components/DashedUnderLine';
 
 function ReceiptElement({ children }: { children: React.ReactNode }) {
   return <div className={classes.element}>{children}</div>;
@@ -23,29 +24,34 @@ export default function ReceiptPage() {
     queryFn: () => getReceipt(receiptId),
   });
   const receiptRef = useRef<HTMLDivElement>(null);
-
+  function createShareData(dataURL: string) {
+    const blob = dataURLtoBlob(dataURL);
+    const data = {
+      files: [
+        new File([blob], 'image.png', {
+          type: blob.type,
+        }),
+      ],
+      title: '이음페이 기부 영수증',
+      text: 'My text',
+    };
+    return data;
+  }
+  function downloadLink(dataURL: string) {
+    const link = document.createElement('a');
+    link.download = 'receipt.png';
+    link.href = dataURL;
+    link.click();
+  }
   function handleClick() {
     if (receiptRef.current) {
       html2canvas(receiptRef.current).then(function (canvas) {
         const dataURL = canvas.toDataURL('image/png');
-        const blob = dataURLtoBlob(dataURL);
-        const data = {
-          files: [
-            new File([blob], 'image.png', {
-              type: blob.type,
-            }),
-          ],
-          title: '이음페이 기부 영수증',
-          text: 'My text',
-        };
-
+        const data = createShareData(dataURL);
         if (navigator.canShare(data)) {
           navigator.share(data);
         } else {
-          const link = document.createElement('a');
-          link.download = 'receipt.png';
-          link.href = dataURL;
-          link.click();
+          downloadLink(dataURL);
         }
       });
     }
@@ -60,12 +66,12 @@ export default function ReceiptPage() {
         <main className={classes.container}>
           <div className={classes.receipt} ref={receiptRef}>
             <h1>이음페이 기부 영수증</h1>
-            <CustomDashedBorder />
+            <DashedUnderLine />
             <h2>{data.fundingTitle}</h2>
-            <CustomDashedBorder />
+            <DashedUnderLine />
             <ReceiptElement>
               <b>기부자</b>
-              <b>{data.nickname}</b>
+              <b>{data.name}</b>
             </ReceiptElement>
             <ReceiptElement>
               <b>배송지</b>
@@ -75,12 +81,12 @@ export default function ReceiptPage() {
               <span>기부일시</span>
               <span>{data.historyDate}</span>
             </ReceiptElement>
-            <CustomDashedBorder />
+            <DashedUnderLine />
             <ReceiptElement>
               <span>배송품목</span>
               <span>{data.fundingSummary}</span>
             </ReceiptElement>
-            <CustomDashedBorder />
+            <DashedUnderLine />
             <ReceiptElement>
               <span>기부금</span>
               <span>{commaizeNumber(data.donationAmount)}원</span>

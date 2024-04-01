@@ -3,6 +3,7 @@ package com.ieum.pay.controller;
 import com.ieum.pay.domain.Cards;
 import com.ieum.pay.request.CardRegisterRequestDTO;
 import com.ieum.pay.request.CardValidRequestDTO;
+import com.ieum.pay.response.CardDetailResponseDTO;
 import com.ieum.pay.service.CardService;
 import com.ieum.pay.service.RegisteredCardService;
 import lombok.RequiredArgsConstructor;
@@ -62,6 +63,11 @@ public class CardValidController {
     @GetMapping("{registeredCardId}")
     public String getCardName(@PathVariable("registeredCardId") Long registeredCardId){
         return cardService.getCardName(registeredCardId);
+    }
+
+    @GetMapping("/company/{number}")
+    public CardDetailResponseDTO getCardCompany(@PathVariable("number") String number){
+        return cardService.getCardCompany(number);
     }
 
 }

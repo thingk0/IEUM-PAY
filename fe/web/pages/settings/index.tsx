@@ -14,10 +14,12 @@ import {
   useDisclosure,
 } from '@nextui-org/react';
 import Button from '@/stories/Button';
+import useUserStore from '@/stores/user-store';
 
 export default function Settings() {
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { userInfo } = useUserStore();
 
   return (
     <>
@@ -26,7 +28,7 @@ export default function Settings() {
         <PageTitleLeft title={'설정'} description={''} />
         <div className={styles.myBox}>
           <div className={styles.myBoxText}>
-            <p className={styles.name}>{'김범수'}</p>
+            <p className={styles.name}>{userInfo.userName}</p>
             <p className={styles.subText}>내 정보 수정하기</p>
           </div>
           <ChevronRightIcon />

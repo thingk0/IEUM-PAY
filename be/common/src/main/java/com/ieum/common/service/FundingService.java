@@ -115,7 +115,10 @@ public class FundingService {
     // 영수증
     public ReceiptResponseDTO getReceiptInfo(Long historyId, Long memberId) {
         var history = fetchDonationHistoryById(historyId);
+        log.info("reciept");
+
         var funding = fundingFeignClient.getReceipt(history.getFundingId());
+        log.info("recieptt");
         Members member = memberService.findMemberById(memberId);
         return ReceiptResponseDTO.builder()
                                  .fundingId(history.getFundingId())

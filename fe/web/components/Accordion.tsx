@@ -24,7 +24,7 @@ interface AccordionProps {
 function Accordion({ history }: AccordionProps) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  let canOpen = history.detail.length > 1;
+  let canOpen = history.type === '기부' || history.type === '결제';
   function handleClick() {
     if (canOpen) setIsOpen((prev) => !prev);
   }
@@ -86,31 +86,30 @@ function Accordion({ history }: AccordionProps) {
       </button>
       {isOpen && (
         <section>
-          {history.type !== '기부' &&
-            history.detail
-              .filter((e) => e.type === '기부')
-              .map((e) => (
-                <>
+          {history.detail
+            .filter((e) => e.type === '기부')
+            .map((e) => (
+              <>
+                {history.type !== '기부' && (
                   <div className={classes['donation-wrapper']}>
                     -{commaizeNumber(e.price)}원
                     <span className={classes.donation}>
                       <DonationIcon />
                     </span>
                   </div>
-                  <div className={classes['donation-detail']}>
-                    <span className={classes['donation-detail-text']}>
-                      기부 | {e.name}
-                    </span>
-                    <button
-                      onClick={() =>
-                        router.push('/history/' + history.historyId)
-                      }
-                    >
-                      기부 영수증
-                    </button>
-                  </div>
-                </>
-              ))}
+                )}
+                <div className={classes['donation-detail']}>
+                  <span className={classes['donation-detail-text']}>
+                    기부 | {e.name}
+                  </span>
+                  <button
+                    onClick={() => router.push('/history/' + history.historyId)}
+                  >
+                    기부 영수증
+                  </button>
+                </div>
+              </>
+            ))}
           {history.detail
             .filter((e) => e.type === '충전')
             .map((e) => (
