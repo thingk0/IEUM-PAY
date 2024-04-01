@@ -74,3 +74,23 @@
   margin-top: 15rem;
   bottom: 0;
 }
+.modalComp {
+  position: absolute;
+  text-align: center;
+  width: 90%;
+  height: 30%;
+  top: 30%;
+  .modalContainer {
+    align-items: center;
+    justify-content: center;
+    p {
+      font-size: 1.2rem;
+    }
+  }
+  .fixed {
+    z-index: 1020;
+  }
+  .modalFooter {
+    width: 100%;
+  }
+}

@@ -197,7 +197,7 @@ function CardPage({
           {(onClose) => (
             <>
               <ModalBody className={classes.modalContainer}>
-                <div>잘못된 카드 정보 입니다.</div>
+                <div>유효하지 않은 카드 정보 입니다</div>
               </ModalBody>
               <ModalFooter className={classes.modalFooter}>
                 <Button
