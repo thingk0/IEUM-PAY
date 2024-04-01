@@ -5,12 +5,15 @@ import { postCardImage } from '@/api/paymentAxios';
 import CloseIcon from '@/components/icons/CloseIcon';
 import ZapIcon from '@/components/icons/ZapIcon';
 import ZapOffIcon from '@/components/icons/ZapOffIcon';
+import { useRouter } from 'next/router';
 
 function ScanCardPage() {
   let videoRef = useRef<HTMLVideoElement>(null);
   let myStream = useRef<MediaStream>();
   const [isFlashOn, setIsFlashOn] = useState(false);
   const [hasFlash, setHasFlash] = useState(false);
+  const router = useRouter();
+
   function toggleFlash() {
     //@ts-expect-error
     const newVal = !myStream.current?.getVideoTracks()[0].getSettings()?.torch;
@@ -125,13 +128,23 @@ function ScanCardPage() {
     // link.click();
     postCardImage(formData).then((res) => {
       console.log(res.data.data);
-      alert(
-        '카드번호 ' +
-          res.data.data.cardNumber +
-          '\n' +
-          '유효기간 ' +
-          res.data.data.validThru,
+      router.push(
+        {
+          pathname: '/card',
+          query: {
+            cardNum: res.data.data.cardNumber,
+            validThru: res.data.data.validThru,
+          },
+        },
+        '/card',
       );
+      // alert(
+      //   '카드번호 ' +
+      //     res.data.data.cardNumber +
+      //     '\n' +
+      //     '유효기간 ' +
+      //     res.data.data.validThru,
+      // );
     });
   }
   function handleClick() {
