@@ -154,3 +154,10 @@ export const getMainData = async () => {
       console.log(error);
     });
 };
+
+export function deleteMember() {
+  // let data = {
+  //   AuthenticationKey: key,
+  // };
+  return axiosAuthApi().delete('/api/member');
+}
