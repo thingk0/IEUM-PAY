@@ -71,7 +71,7 @@ export default function ReceiptPage() {
             <DashedUnderLine />
             <ReceiptElement>
               <b>기부자</b>
-              <b>{data.nickname}</b>
+              <b>{data.name}</b>
             </ReceiptElement>
             <ReceiptElement>
               <b>배송지</b>
