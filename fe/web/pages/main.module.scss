@@ -5,7 +5,7 @@
 .moneyContainer {
   margin: 0.625rem 0;
   position: absolute;
-  bottom: 10rem;
+  bottom: 9rem;
   width: calc(100% - 2.5rem);
 }
 
@@ -13,7 +13,7 @@
   width: 100%;
   padding: 0 1.25rem;
   position: fixed;
-  bottom: 5.5rem;
+  bottom: 5rem;
 }
 
 // 카드
@@ -34,5 +34,5 @@ $cardWidth: 20rem;
   // position: relative;
   // left: 100%;
   // transform: translateX(-($cardWidth)) translateY(10rem);
-  transform: translateX(-($cardWidth / 2)) translateY(10rem);
+  transform: translateX(-($cardWidth / 2)) translateY(8rem);
 }
