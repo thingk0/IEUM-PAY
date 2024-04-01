@@ -7,6 +7,7 @@ import com.ieum.common.exception.token.RefreshTokenNotFoundException;
 import com.ieum.common.exception.token.TokenOperationException;
 import com.ieum.common.jwt.TokenProvider;
 import com.ieum.common.repository.MemberRepository;
+import com.ieum.common.util.CookieUtil;
 import com.ieum.common.util.RedisHashUtil;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ public class TokenService {
     private final MemberRepository memberRepository;
     private final TokenProvider tokenProvider;
     private final RedisHashUtil redisHashUtil;
+    private final CookieUtil cookieUtil;
 
     private final String MEMBER_ID = "member-id";
     private final String ACCESS_TOKEN = "access-token";
@@ -70,9 +72,9 @@ public class TokenService {
      * @throws MemberNotFoundException       회원 정보를 찾을 수 없을 경우
      */
     @Transactional(readOnly = true)
-    public String reIssueAccessToken(String refreshTokenValue) {
+    public String reIssueAccessToken(HttpServletRequest servletRequest) {
 
-        String key = REFRESH_TOKEN_KEY + refreshTokenValue;
+        String key = REFRESH_TOKEN_KEY + cookieUtil.getRefreshTokenValue(servletRequest);
 
         // 리프레시 토큰에 해당하는 정보를 Redis에서 조회
         Map<String, Object> refreshTokenHash = redisHashUtil.findByKey(key);
