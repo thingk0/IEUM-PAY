@@ -30,6 +30,12 @@ function HistoryPage() {
       return <>로딩중...</>;
     } else if (isError) {
       return <FetchError onClick={() => refetch()}></FetchError>;
+    } else if (data.length === 0) {
+      return (
+        <>
+          <p>아직 거래 내역이 없어요😥</p>
+        </>
+      );
     }
     return (
       <>
