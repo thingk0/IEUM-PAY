@@ -67,8 +67,8 @@ public class PayController {
     @PostMapping("remittance/paymoney")
     public ResponseEntity<?> sendPaymoney(@CurrentMemberId Long memberId, @RequestBody PayRemittancePaymoneyRequestDTO request) {
         boolean authCheck = authService.checkAuthInRedis(memberId, request.getAuthenticationKey());
-//        if(!authCheck)
-//            return response.error(INVALID_PRINCIPAL_TYPE);
+        if(!authCheck)
+            return response.error(INVALID_PRINCIPAL_TYPE);
 
         Members sender = memberService.findMemberById(memberId);
         if(sender.getPaycardId() == null){

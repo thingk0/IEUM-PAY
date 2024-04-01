@@ -1,5 +1,6 @@
 package com.ieum.common.controller;
 
+import static com.ieum.common.format.code.FailedCode.INVALID_PRINCIPAL_TYPE;
 import static com.ieum.common.format.code.FailedCode.PAYMENT_REGISTERED_CARD_NULL;
 
 import com.ieum.common.annotation.CurrentMemberId;
@@ -116,8 +117,8 @@ public class FundingController {
                                               @CurrentMemberId Long memberId) {
         //auth Check
         boolean authCheck = authService.checkAuthInRedis(memberId, request.getAuthenticationKey());
-//        if(!authCheck)
-//            return response.error(INVALID_PRINCIPAL_TYPE);
+        if(!authCheck)
+            return response.error(INVALID_PRINCIPAL_TYPE);
 
         Members member = memberService.findMemberById(memberId);
         if (member.getPaycardId() == null) {

@@ -11,9 +11,7 @@ function ConfirmPage() {
   const { sendMoneyInfo, pushNumber, popNumber } = useSendMoneyInfo();
   const router = useRouter();
   function handleClick() {
-    sendPayMoney(sendMoneyInfo.수취계좌, sendMoneyInfo.송금금액).then(() =>
-      router.push('/send-money/success'),
-    );
+    router.push(`/password?id=0&pushUrl=send-money`);
   }
   return (
     <>
