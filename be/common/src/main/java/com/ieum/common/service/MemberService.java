@@ -4,6 +4,7 @@ import com.ieum.common.domain.Grade;
 import com.ieum.common.domain.Members;
 import com.ieum.common.domain.Paymoney;
 import com.ieum.common.dto.feign.funding.response.CurrentFundingResultResponseDTO;
+import com.ieum.common.dto.feign.funding.response.FundingInfoResponseDTO;
 import com.ieum.common.dto.feign.funding.response.FundingResultResponseDTO;
 import com.ieum.common.dto.feign.pay.dto.CardDTO;
 import com.ieum.common.dto.feign.pay.dto.HistoryDTO;
@@ -16,6 +17,7 @@ import com.ieum.common.dto.member.req.SignupRequestDto;
 import com.ieum.common.dto.member.res.ProfileResponseDto;
 import com.ieum.common.dto.member.res.RecipientResponseDto;
 import com.ieum.common.dto.member.res.UpdatedNicknameResponseDto;
+import com.ieum.common.dto.response.MainResponseDTO;
 import com.ieum.common.dto.response.MemberSummaryResponseDTO;
 import com.ieum.common.dto.token.TokenInfo;
 import com.ieum.common.exception.PayMoneyCreationFailedException;
@@ -392,15 +394,27 @@ public class MemberService {
                                        .build();
     }
 
-    public MainSummaryResponseDTO getMainSummary(Long memberId) {
+    public MainResponseDTO getMainSummary(Long memberId) {
         Long cardId = findMemberById(memberId).getPaycardId();
-        MainSummaryResponseDTO responseDTO = payService.getMainPageInfo(memberId);
-        for (CardDTO card : responseDTO.getCardList()) {
+        MainSummaryResponseDTO mainPageInfo = payService.getMainPageInfo(memberId);
+        FundingInfoResponseDTO funding = fundingFeignClient.getAutoFundingInfo(memberId);
+
+        for (CardDTO card : mainPageInfo.getCardList()) {
             if (cardId == card.getRegisteredCardId()) {
                 card.setMainCard(true);
             }
         }
+
+        MainResponseDTO responseDTO = new MainResponseDTO();
+        responseDTO.setPaymentAmount(mainPageInfo.getPaymentAmount());
+        responseDTO.setTotalDonation(mainPageInfo.getTotalDonation());
+        responseDTO.setLinked(true);
+        if (funding == null) {
+            responseDTO.setLinked(false);
+        }
+        responseDTO.setCardList(mainPageInfo.getCardList());
         return responseDTO;
+
     }
 
     public List<HistoryResponseDTO> getHistoryList(Long memberId) {
