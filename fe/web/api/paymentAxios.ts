@@ -96,3 +96,17 @@ export async function registerCard(cardNumber: string) {
       console.log(error);
     });
 }
+
+export async function setMainCard(registeredCardId: number) {
+  const local = axiosAuthApi();
+
+  return await local
+    .put('api/card/main', { registerCardId: registeredCardId })
+    .then((response) => {
+      console.log(response);
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}

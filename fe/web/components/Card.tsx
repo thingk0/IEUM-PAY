@@ -60,6 +60,7 @@ export default function Card({ index, card, bank, nickname }: CardProps) {
       <div className={styles.logoBox}>
         <img src={logoUrl[bank]} alt="bankLogo" className={styles.logo} />
       </div>
+      {card}
       <div className={styles.cardBottom}>
         <div className={styles.nicknameContainer}>{nickname}</div>
       </div>

@@ -8,8 +8,12 @@ import {
 import { useRouter } from 'next/router';
 // import classes from './MainPageDropdown.module.scss';
 import DropdownMenuIcon from './icons/DropdownMenuIcon';
+import { setMainCard } from '@/api/paymentAxios';
 
 function MainPageDropdown() {
+  // const setMain = (id:number) => {
+  //   setMainCard(id)
+  // }
   const router = useRouter();
   return (
     <Dropdown>
