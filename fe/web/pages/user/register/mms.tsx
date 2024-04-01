@@ -3,6 +3,7 @@ import useUserStore from '@/stores/user-store';
 import Button from '@/stories/Button';
 import PageTitleLeft from '@/components/PageTitleLeft';
 import styles from '@/styles/user.module.scss';
+import { isMobileWeb } from '@toss/utils';
 
 export default function Mms() {
   const router = useRouter();
@@ -10,11 +11,15 @@ export default function Mms() {
 
   console.log(userInfo.randomKey);
   function handleClick() {
-    const msgLink = `sms:b103ieumpay@gmail.com?body=${userInfo.randomKey}`;
-    window.location.href = msgLink;
-    router.push({
-      pathname: '/user/register/input-info',
-    });
+    if (isMobileWeb()) {
+      const msgLink = `sms:b103ieumpay@gmail.com?body=${encodeURIComponent(userInfo.randomKey)}`;
+      window.location.href = msgLink;
+      router.push({
+        pathname: '/user/register/input-info',
+      });
+    } else {
+      alert('모바일환경에서만 인증 메시지를 보낼 수 있습니다.');
+    }
   }
 
   return (
