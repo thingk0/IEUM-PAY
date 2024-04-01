@@ -1,40 +1,8 @@
-.main {
-  padding: 0.625rem 1.25rem;
-}
+/* styles/Home.module.scss */
 
-.moneyContainer {
-  margin: 0.625rem 0;
-  position: absolute;
-  bottom: 10rem;
-  width: calc(100% - 2.5rem);
-}
-
-.btnContainer {
-  width: 100%;
-  padding: 0 1.25rem;
-  position: fixed;
-  bottom: 5.5rem;
-}
-
-// 카드
 $cardPosition: 0;
-$cardOffset: 1rem;
-$cardWidth: 20rem;
-
-.cardsContainer {
-  display: flex;
-  justify-content: center;
-  // height: 50%;
-  margin: 0.625rem 0;
-}
-
-// .card {
-//   width: $cardWidth;
-//   height: $cardWidth / 1.58;
-//   text-align: center;
-//   background-color: rgb(65, 103, 214);
-//   border-radius: 0.6rem;
-// }
+$cardOffset: 20px;
+$cardWidth: 320px;
 
 .card {
   width: $cardWidth;
@@ -52,7 +20,7 @@ $cardWidth: 20rem;
   text-align: center;
   position: relative;
   left: 50%;
-  transform: translateX(-($cardWidth)) translateY(5rem);
+  transform: translateX(-($cardWidth / 2)) translateY(100px);
 }
 
 .card1 {
@@ -62,21 +30,21 @@ $cardWidth: 20rem;
 
 .card2 {
   z-index: 800;
-  // transform: scale(0.95);
+  transform: scale(0.99);
   filter: brightness(0.9);
   top: $cardPosition - $cardOffset;
 }
 
 .card3 {
   z-index: 600;
-  // transform: scale(0.9);
+  transform: scale(0.98);
   filter: brightness(0.8);
   top: $cardPosition - $cardOffset * 2;
 }
 
 .card4 {
   z-index: 400;
-  // transform: scale(0.85);
+  transform: scale(0.97);
   filter: brightness(0.7);
   top: $cardPosition - $cardOffset * 3;
   animation-name: remove;
@@ -93,15 +61,11 @@ $cardWidth: 20rem;
     opacity: 0;
   }
   51% {
-    transform: translateY(10px) scale(0.9);
+    transform: translateY(10px) scale(0.97);
     opacity: 0;
   }
   100% {
-    transform: translateY(0px) scale(0.85);
+    transform: translateY(0px) scale(0.97);
     opacity: 1;
   }
-}
-
-.bank1 {
-  background-color: aqua;
 }

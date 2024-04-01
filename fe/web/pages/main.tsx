@@ -63,24 +63,51 @@ export default function Home() {
     }
     fetchBalance();
   }, []);
+
+  // 카드 관련
+  const [cardState, setCardState] = useState<number[]>([]);
+  const [prevCardState, setPrevCardState] = useState<number[]>([]);
+
+  useEffect(() => {
+    const initializeCards = () => {
+      const initialCardState = [1, 2, 3, 4];
+      setCardState(initialCardState);
+      setPrevCardState([...initialCardState]);
+    };
+
+    initializeCards();
+  }, []);
+
+  const nextCard = () => {
+    const updatedCardState = [...cardState];
+    updatedCardState.unshift(updatedCardState.pop()!);
+    setPrevCardState([...cardState]);
+    setCardState(updatedCardState);
+  };
   return (
     <>
       <HeaderMain />
       <main className={mainStyles.main}>
         <MainPageDropdown></MainPageDropdown>
         <div className={mainStyles.cardsContainer}>
-          <div className={mainStyles.card}>삼성 카드</div>
+          {/* <div className={mainStyles.card}>삼성 카드</div> */}
+          <div className={mainStyles.cardStack} onClick={nextCard}>
+            {cardState.map((card, index) => (
+              <div
+                key={index}
+                className={`${mainStyles.card} ${mainStyles['card' + card]} ${mainStyles['bank' + index]}`}
+              >
+                {/* {String.fromCharCode(64 + card)} */}
+                {index}
+              </div>
+            ))}
+          </div>
         </div>
         <div className={mainStyles.moneyContainer}>
           <Money text={'이음페이머니'} amount={balance} onClick={goFund} />
           <hr />
           <Money text={'기부총액'} amount={'24,200'} onClick={goFund} />
         </div>
-
-        {/* <Button text={'thickFill'} btnStyle={'thickFill'} btnFunction={print} />
-      <Button text={'thickLine'} btnStyle={'thickLine'} btnFunction={print} />
-      <Button text={'thinFill'} btnStyle={'thinFill'} btnFunction={print} />
-    <Button text={'thinLine'} btnStyle={'thinLine'} btnFunction={print} /> */}
       </main>
       <div className={mainStyles.btnContainer}>
         <Button size="thick" onClick={goFund}>
