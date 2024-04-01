@@ -2,7 +2,9 @@
 import { axiosApi, axiosAuthApi } from '@/utils/instance';
 
 export async function getBalance() {
-  return axiosAuthApi().get('/api/pay/balance');
+  return axiosAuthApi()
+    .get('/api/pay/balance')
+    .then((res) => res.data.data);
 }
 
 export const getPaymentInfo = async (store: string, price: string) => {
