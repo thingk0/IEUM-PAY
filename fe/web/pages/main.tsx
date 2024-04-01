@@ -17,6 +17,7 @@ import { useQuery } from '@tanstack/react-query';
 import Card from '@/components/Card';
 import Link from 'next/link';
 import { PlusIcon } from '@/components/icons/PlusIcon';
+import useUserStore from '@/stores/user-store';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -55,6 +56,7 @@ export default function Home() {
   const router = useRouter();
   const [cardState, setCardState] = useState<number[]>([]);
   const [prevCardState, setPrevCardState] = useState<number[]>([]);
+  const { setBalance } = useUserStore();
   const [info, setInfo] = useState<infoType>({
     cardList: [
       {
@@ -106,6 +108,7 @@ export default function Home() {
       try {
         const mainData = await getMainData();
         setInfo(mainData.data);
+        setBalance(mainData.data.paymentAmount);
       } catch (e) {
         console.log(e);
       }
