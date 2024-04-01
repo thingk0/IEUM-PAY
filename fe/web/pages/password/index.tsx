@@ -50,11 +50,12 @@ function PasswordPage({ id, pushUrl }: { id: string; pushUrl?: string }) {
       } else if (pushUrl == 'payment') {
         const paymentRes = await payment(paymentInfo, key);
         if (paymentRes != undefined) {
-          console.log(paymentRes.historyId);
+          console.log(paymentRes);
+          console.log(paymentRes.data.historyId);
           router.push({
             pathname: '/payment/PaymentComplete',
             query: {
-              historyId: paymentRes.historyId,
+              historyId: paymentRes.data.historyId,
             },
           });
         }
