@@ -43,7 +43,9 @@ export default function Settings() {
             약관 및 정책
           </SettingsMenu>
           <SettingsMenu onClick={() => onOpen()}>로그아웃</SettingsMenu>
-          <SettingsMenu>탈퇴하기</SettingsMenu>
+          <SettingsMenu onClick={() => router.push('/user/delete')}>
+            탈퇴하기
+          </SettingsMenu>
         </div>
       </div>
       <TabBar selected={'none'} />
