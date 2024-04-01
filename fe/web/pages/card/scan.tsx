@@ -15,6 +15,7 @@ import {
   useDisclosure,
 } from '@nextui-org/react';
 import { useQuery } from '@tanstack/react-query';
+import { getOSByUserAgent } from '@toss/utils';
 
 function ScanCardPage() {
   let videoRef = useRef<HTMLVideoElement>(null);
@@ -158,20 +159,30 @@ function ScanCardPage() {
       const camera = devices
         .filter((device) => device.kind === 'videoinput')
         .map((e) => e.deviceId);
-      myStream.current = await navigator.mediaDevices.getUserMedia({
-        // OCR 성능 향상을 위한 옵션들 (마지막 카메라가 대부분의 디바이스에서 광각이 아니므로 선명하게 찍을 수 있음)
-        video: {
-          deviceId: camera.length
-            ? { ideal: camera[camera.length - 1] }
-            : undefined,
-          width: { ideal: 1920 },
-          height: { ideal: 1920 },
-          facingMode: { ideal: 'environment' },
-          focusMode: { ideal: 'continuous' },
-          whiteBalanceMode: { ideal: 'continuous' },
-          zoom: { ideal: 1 },
-        } as MediaTrackConstraints,
-      });
+      if (getOSByUserAgent() === 'ios') {
+        myStream.current = await navigator.mediaDevices.getUserMedia({
+          // OCR 성능 향상을 위한 옵션들 (마지막 카메라가 대부분의 디바이스에서 광각이 아니므로 선명하게 찍을 수 있음)
+          video: {
+            facingMode: { ideal: 'environment' },
+          } as MediaTrackConstraints,
+        });
+      } else {
+        myStream.current = await navigator.mediaDevices.getUserMedia({
+          // OCR 성능 향상을 위한 옵션들 (마지막 카메라가 대부분의 디바이스에서 광각이 아니므로 선명하게 찍을 수 있음)
+          video: {
+            deviceId: camera.length
+              ? { ideal: camera[camera.length - 1] }
+              : undefined,
+            width: { ideal: 1920 },
+            height: { ideal: 1920 },
+            facingMode: { ideal: 'environment' },
+            focusMode: { ideal: 'continuous' },
+            whiteBalanceMode: { ideal: 'continuous' },
+            zoom: { ideal: 1 },
+          } as MediaTrackConstraints,
+        });
+      }
+
       if (
         //@ts-expect-error
         myStream.current.getVideoTracks()[0].getCapabilities().torch !==
