@@ -11,8 +11,13 @@ import DropdownMenuIcon from './icons/DropdownMenuIcon';
 interface CardManageProps {
   focused: number;
   setMain: (id: number) => void;
+  callDeleteCard: (id: number) => void;
 }
-function MainPageDropdown({ focused, setMain }: CardManageProps) {
+function MainPageDropdown({
+  focused,
+  setMain,
+  callDeleteCard,
+}: CardManageProps) {
   const router = useRouter();
   return (
     <Dropdown>
@@ -28,7 +33,12 @@ function MainPageDropdown({ focused, setMain }: CardManageProps) {
         <DropdownItem key="copy" onClick={() => setMain(focused)}>
           대표 카드 등록
         </DropdownItem>
-        <DropdownItem key="delete" className="text-danger" color="danger">
+        <DropdownItem
+          key="delete"
+          onClick={() => callDeleteCard(focused)}
+          className="text-danger"
+          color="danger"
+        >
           카드 삭제
         </DropdownItem>
       </DropdownMenu>

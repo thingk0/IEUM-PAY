@@ -6,11 +6,11 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { confirmPassword } from '@/api/paymentAxios';
-import useDonateMoneyInfo from '@/hooks/useDirectDonationStore';
 import { directDonate } from '@/api/fundAxois';
-import usePaymentInfo from '@/hooks/usePayStore';
 import { payment } from '@/api/paymentAxios';
 import { sendPayMoney } from '@/api/sendMoneyAxios';
+import useDonateMoneyInfo from '@/hooks/useDirectDonationStore';
+import usePaymentInfo from '@/hooks/usePayStore';
 import useSendMoneyInfo from '@/hooks/useSendMoneyStore';
 
 // interface PasswordPage {
@@ -22,8 +22,8 @@ import useSendMoneyInfo from '@/hooks/useSendMoneyStore';
 function PasswordPage({ id, pushUrl }: { id: string; pushUrl?: string }) {
   // const [message, setMessage] = useState('');
   const [password, setPassword] = useState<number[]>([]);
-  const { userInfo, setPaymentPassword } = useUserStore();
   const [isTrue, setIsTrue] = useState(true);
+  const { userInfo, setPaymentPassword } = useUserStore();
   const { donateMoneyInfo, setFundingId } = useDonateMoneyInfo();
   const { paymentInfo } = usePaymentInfo();
   const { sendMoneyInfo } = useSendMoneyInfo();

@@ -1,27 +1,17 @@
 import React, { useEffect, useState } from 'react';
-
-import { Inter } from 'next/font/google';
 import mainStyles from './main.module.scss';
-// import bank from './bank.module.scss';
-
 import TabBar from '@/stories/TabBar';
 import Money from '@/components/Money';
 import HeaderMain from '@/stories/HeaderMain';
 import Button from '@/stories/Button';
 import { useRouter } from 'next/router';
 import MainPageDropdown from '@/components/MainPageDropdown';
-// import { getBalance } from '@/api/paymentAxios';
-// import useUserStore from '@/stores/user-store';
 import { getMainData } from '@/api/userAxois';
-import { useQueries, useQuery } from '@tanstack/react-query';
+import { useQueries } from '@tanstack/react-query';
 import Card from '@/components/Card';
 import Link from 'next/link';
 import { PlusIcon } from '@/components/icons/PlusIcon';
-import { setMainCard } from '@/api/paymentAxios';
-
-import useUserStore from '@/stores/user-store';
-
-// const inter = Inter({ subsets: ['latin'] });
+import { deleteCard, setMainCard } from '@/api/paymentAxios';
 
 interface cardType {
   cardId: number;
@@ -42,6 +32,7 @@ export default function Home() {
   const [cardState, setCardState] = useState<number[]>([]);
   const [prevCardState, setPrevCardState] = useState<number[]>([]);
   const [mainCardId, setMainCardId] = useState<number>(0);
+  const [deletedCardId, setDeletedCardId] = useState<number>(0);
   const [info, setInfo] = useState<infoType>({
     cardList: [
       {
@@ -64,8 +55,6 @@ export default function Home() {
   useEffect(() => {
     async function fetchBalance() {
       try {
-        console.log(info.cardList);
-        // console.log('APi Call');
         const mainData = await getMainData();
         setInfo(mainData.data);
         const firstMainCardId = mainData.data.cardList.find(
@@ -84,6 +73,11 @@ export default function Home() {
   const setMain = (id: number) => {
     setMainCard(id);
     setMainCardId(id);
+  };
+
+  const callDeleteCard = (id: number) => {
+    deleteCard(id);
+    setDeletedCardId(id);
   };
 
   const nextCard = () => {
@@ -128,25 +122,27 @@ export default function Home() {
                 ?.registeredCardId
             }
             setMain={setMain}
-            // mainCardId={mainCardId}
-            // setMainCardId={() => setMainCardId}
+            callDeleteCard={callDeleteCard}
           ></MainPageDropdown>
         </div>
         <div className={mainStyles.cardsContainer}>
           <div className={mainStyles.cardStack} onClick={nextCard}>
-            {results[0].isLoading
-              ? null
-              : cardState.map((card, index) => (
-                  <Card
-                    index={index}
-                    card={card}
-                    bank={info.cardList[index]?.cardIssuer}
-                    nickname={info.cardList[index]?.cardNickname}
-                    isMain={info.cardList[index]?.mainCard}
-                    cardId={info.cardList[index]?.registeredCardId}
-                    mainCardId={mainCardId}
-                  />
-                ))}
+            {results[0].isLoading ? (
+              <>안녕</>
+            ) : (
+              cardState.map((card, index) => (
+                <Card
+                  key={index}
+                  index={index}
+                  card={card}
+                  bank={info.cardList[index]?.cardIssuer}
+                  nickname={info.cardList[index]?.cardNickname}
+                  isMain={info.cardList[index]?.mainCard}
+                  cardId={info.cardList[index]?.registeredCardId}
+                  mainCardId={mainCardId}
+                />
+              ))
+            )}
           </div>
           {results[0].data.data.cardList.length === 0 && (
             <Link href="/card">

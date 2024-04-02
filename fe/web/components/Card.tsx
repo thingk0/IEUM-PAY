@@ -55,12 +55,12 @@ export default function Card({
       </div>
       <div className={styles.bottom}>
         <div>
-          <div className={styles.nicknameContainer}>{nickname}</div>
           <div className={styles.mainMarkBox}>
             {cardId == mainCardId ? (
               <div className={styles.mainMark}>대표 카드</div>
             ) : null}
           </div>
+          <div className={styles.nicknameContainer}>{nickname}</div>
         </div>
       </div>
     </div>

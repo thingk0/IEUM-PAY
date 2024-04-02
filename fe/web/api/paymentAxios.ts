@@ -110,3 +110,17 @@ export async function setMainCard(registeredCardId: number) {
       console.log(error);
     });
 }
+
+export async function deleteCard(registeredCardId: number) {
+  const local = axiosAuthApi();
+
+  return await local
+    .put('api/card/update', { registeredCardId: registeredCardId })
+    .then((response) => {
+      console.log(response);
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
