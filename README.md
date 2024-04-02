@@ -22,7 +22,7 @@
 
 |                                                                                           |                                                                                     |                                                                                    |     |
 | :---------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: | :-: |
-| <img src="./img/profile/김예지.jpg" width="200px" height="200px" /> <br>**[팀장] 김예지** | <img src="./img/profile/이은규.jpeg" width="200px" height="200px" /> <br>**이은규** | <img src="./img/profile/박수형.jpg" width="200px" height="200px" /> <br>**박수형** |
+| <img src="./img/profile/김예지.jpg" width="190px" height="200px" /> <br>**[팀장] 김예지** | <img src="./img/profile/이은규.jpeg" width="190px" height="200px" /> <br>**이은규** | <img src="./img/profile/박수형.jpg" width="190px" height="200px" /> <br>**박수형** |
 
 <br/>
 
@@ -30,7 +30,7 @@
 
 |                                                                                     |                                                                                    |                                                                                    |     |
 | :---------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: | :-: |
-| <img src="./img/profile/고명성.jpeg" width="200px" height="200px" /> <br>**고명성** | <img src="./img/profile/김범수.jpg" width="200px" height="200px" /> <br>**김범수** | <img src="./img/profile/김보경.jpg" width="200px" height="200px" /> <br>**김보경** |
+| <img src="./img/profile/고명성.jpeg" width="190px" height="200px" /> <br>**고명성** | <img src="./img/profile/김범수.jpg" width="190px" height="200px" /> <br>**김범수** | <img src="./img/profile/김보경.jpg" width="190px" height="200px" /> <br>**김보경** |
 
 <br/>
 
@@ -89,49 +89,53 @@
 
 ### 김예지 - Frontend
 
-- **팀장, 프론트엔드 리더**
+- 팀장, 프론트엔드 리더
 - 인프라
--
+- 송금, 내역, 상단하단, 간편 결제 비밀번호 페이지 구현
 
 ### 이은규 - Frontend
 
 - UI/UX 디자인
--
--
+- 결제, 설정, 버튼, 랜딩 페이지 구현
 
 ### 박수형 - Frontend
 
--
--
--
+- 기능 구현
+- 정보, 모금, 로그인/아웃, 회원 페이지 구현
 
 ### 고명성 - Backend
 
+- 백엔드 리더
 - 인프라
--
--
+- 알람 서버 구현
+- 에러 핸들링
+- DB 설계 및 관리
 
 ### 김범수 - Backend
 
--
--
--
+- 인증, 인가 (MAIL, 2FA)
+- 펀딩 서버 구현
+- DB 설계 및 관리
 
 ### 김보경 - Backend
 
--
--
--
+- 카드, 페이 서버 구현
+- Feign Client 연결
+- DB 설계 및 관리
 
 ## 🖥 서비스 화면
 
-<summary>서비스 소개 페이지</summary>
+### 서비스 소개 페이지
+
 <div markdown="1">
 <img src="./img/service/service1.jpg"/>
 <img src="./img/service/service1.jpg"/>
 </div>
 
-<summary>회원가입 페이지</summary>
+---
+
+### 회원가입 페이지
+
 <div markdown="1">
 <img src="./img/service/회원가입1.jpg" width="200px" />
 <img src="./img/service/회원가입2.jpg" width="200px" />
@@ -143,34 +147,48 @@
 <img src="./img/service/회원가입8.jpg" width="200px" />
 </div>
 
-<summary>PWA</summary>
+---
+
+### PWA
+
 <div markdown="1">
 <img src="./img/service/메인화면_Web.png" width="200px" />
 <img src="./img/service/PWA.png" width="200px" />
 <img src="./img/service/PWA_App.png" width="200px" />
 </div>
 
-<summary>로그인 페이지</summary>
+---
+
+### 로그인 페이지
+
 <div markdown="1">
 <img src="./img/service/로그인1.jpg" width="200px" />
 <img src="./img/service/로그인2.jpg" width="200px" />
 </div>
 
-<summary>메인 페이지</summary>
+---
+
+### 메인 페이지
+
 <div markdown="1">
 <img src="./img/service/메인카드등록전.jpg" width="200px" />
 <img src="./img/service/메인카드등록후.jpg" width="200px" />
 <img src="./img/service/메인다중카드.jpg" width="200px" />
 </div>
 
-<summary>카드 연동</summary>
+---
+
+### 카드 연동
+
 <div markdown="1">
 <img src="./img/service/카드입력.jpg" width="200px" />
 <img src="./img/service/카드ocr.jpg" width="200px" />
 <img src="./img/service/카드입력후.jpg" width="200px" />
 </div>
 
-<summary>기부 목록 확인</summary>
+---
+
+### 기부 목록 확인
 
 <div markdown="1">
 <img src="./img/service/기부목록.jpg" width="200px" />
@@ -179,7 +197,10 @@
 <img src="./img/service/기부연동.jpg" width="200px" />
 </div>
 
-<summary>송금</summary>
+---
+
+### 송금
+
 <div markdown="1">
 <img src="./img/service/송금.jpg" width="200px" />
 <img src="./img/service/송금금액.jpg" width="200px" />
@@ -187,7 +208,10 @@
 <img src="./img/service/송금내역.jpg" width="200px" />
 </div>
 
-<summary>기부</summary>
+---
+
+### 기부
+
 <div markdown="1">
 <img src="./img/service/직접기부금액.jpg" width="200px" />
 <img src="./img/service/직접기부완료.jpg" width="200px" />
@@ -197,12 +221,23 @@
 <img src="./img/service/영수증공유.png" width="200px" />
 </div>
 
-<summary>결제</summary>
+---
+
+### 결제
+
+<div>
+<img src="./img/service/shop.PNG" width="600px" />
+<img src="./img/service/shop2.PNG" width="600px" />
+<img src="./img/service/shop3.PNG" width="600px" />
+</div>
+
 <div markdown="1">
 <img src="./img/service/QR스캔.jpg" width="200px" />
 <img src="./img/service/결제진행.jpg" width="200px" />
 <img src="./img/service/결제결과.jpg" width="200px" />
 </div>
+
+---
 
 ## 🛠 기술 스택
 
