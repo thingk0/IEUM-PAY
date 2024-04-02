@@ -7,12 +7,18 @@ import { commaizeNumber, formatToKRW } from '@toss/utils';
 import Header from '@/components/Header';
 import { useQuery } from '@tanstack/react-query';
 import { getBalance } from '@/api/paymentAxios';
+import { useEffect } from 'react';
 
 type KeyElement = string | number | JSX.Element;
 function AmountPage() {
   const router = useRouter();
-  const { sendMoneyInfo, pushNumber, popNumber } = useSendMoneyInfo();
+  const { sendMoneyInfo, pushNumber, popNumber, setBalance } =
+    useSendMoneyInfo();
   const { data } = useQuery({ queryKey: ['balance'], queryFn: getBalance });
+  useEffect(() => {
+    console.log('effect');
+    setBalance(data);
+  }, [data]);
   function handleClickNumber(v: KeyElement) {
     pushNumber(Number(v));
   }
@@ -65,7 +71,7 @@ function AmountPage() {
                 <span className="bank">{sendMoneyInfo.송금은행}</span>
                 <span className="deposit">{commaizeNumber(data)}원</span>
               </div>
-              <AmountButtonList />
+              <AmountButtonList balance={data} />
             </div>
           </div>
         </main>

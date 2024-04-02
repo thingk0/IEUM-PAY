@@ -35,7 +35,7 @@ function PasswordPage({ id, pushUrl }: { id: string; pushUrl?: string }) {
   const { donateMoneyInfo, setFundingId } = useDonateMoneyInfo();
   const { paymentInfo } = usePaymentInfo();
   const { sendMoneyInfo } = useSendMoneyInfo();
-  const [cnt, setCnt] = useState(0);
+  const [cnt, setCnt] = useState(1);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const pageId = [
@@ -126,16 +126,18 @@ function PasswordPage({ id, pushUrl }: { id: string; pushUrl?: string }) {
           title={pageId[parseInt(id)][0]}
           description={pageId[parseInt(id)][1]}
         />
-        <ul className={classes.wrapper}>
-          {Array.from({ length: 6 }).map((v, i) => (
-            <li>
-              <div
-                className={`${classes.circle} ${i < password.length ? classes.active : ''}`}
-              ></div>
-            </li>
-          ))}
-        </ul>
-        {isTrue ? <div></div> : <div>다시 입력해 주세요 {cnt} / 5</div>}
+        <div className={classes.container}>
+          <ul className={classes.wrapper}>
+            {Array.from({ length: 6 }).map((v, i) => (
+              <li>
+                <div
+                  className={`${classes.circle} ${i < password.length ? classes.active : ''}`}
+                ></div>
+              </li>
+            ))}
+          </ul>
+          {isTrue ? <div></div> : <div>다시 입력해 주세요 {cnt} / 5</div>}
+        </div>
         <PasswordKeyPad
           onClickNumber={(n) => setPassword((prev) => [...prev, n].slice(0, 6))}
           onClickDelete={() => setPassword((prev) => prev.slice(0, -1))}
@@ -151,7 +153,7 @@ function PasswordPage({ id, pushUrl }: { id: string; pushUrl?: string }) {
             <>
               <ModalBody className={classes.modalContainer}>
                 <div>
-                  <p>결제 실패했습니다.</p>
+                  <p>결제에 실패했습니다</p>
                 </div>
               </ModalBody>
               <ModalFooter className={classes.modalFooter}>

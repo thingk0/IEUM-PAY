@@ -152,11 +152,13 @@ function CardPage({
               isInvalid={isValidDate}
               onChange={handlValidDate}
               classNames={{ base: classes.input }}
+              variant="underlined"
             />
           </div>
           <div className={classes.cvc}>
             <p>cvc</p>
             <Input
+              variant="underlined"
               pattern="\d*"
               classNames={{ base: classes.input }}
               value={cvcValue}
@@ -167,6 +169,7 @@ function CardPage({
         <p>비밀번호 앞 두자리</p>
         <div className={classes.password}>
           <Input
+            variant="underlined"
             pattern="\d*"
             classNames={{ base: classes.input }}
             value={passwordValue}
