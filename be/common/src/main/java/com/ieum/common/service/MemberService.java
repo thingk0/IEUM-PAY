@@ -44,8 +44,8 @@ import java.util.concurrent.CompletionException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -198,10 +198,17 @@ public class MemberService {
      * 주어진 회원 ID에 해당하는 회원을 삭제합니다.
      *
      * @param memberId 삭제할 회원의 ID
+     * @param req
+     * @param res
      * @return 삭제된 회원의 ID
      */
-    public Long delete(Long memberId) {
-        memberRepository.deleteById(memberId);
+    public Long delete(Long memberId, HttpServletRequest req, HttpServletResponse res) {
+        try {
+            memberRepository.deleteById(memberId);
+        } catch (EmptyResultDataAccessException e) {
+            throw new MemberNotFoundByIdException();
+        }
+        logout(req, res);
         return memberId;
     }
 
@@ -406,29 +413,30 @@ public class MemberService {
         for (CardDTO card : mainPageInfo.getCardList()) {
             if (cardId == card.getRegisteredCardId()) {
                 myCardList.add(CardDTO.builder()
-                        .registeredCardId(card.getRegisteredCardId())
-                        .cardId(card.getCardId())
-                        .cardNickname(card.getCardNickname())
-                        .cardIssuer(card.getCardIssuer())
-                        .mainCard(true)
-                        .build());
+                                      .registeredCardId(card.getRegisteredCardId())
+                                      .cardId(card.getCardId())
+                                      .cardNickname(card.getCardNickname())
+                                      .cardIssuer(card.getCardIssuer())
+                                      .mainCard(true)
+                                      .build());
             }
         }
         int cardCnt = 1;
         for (CardDTO card : mainPageInfo.getCardList()) {
             if (cardId != card.getRegisteredCardId()) {
                 myCardList.add(CardDTO.builder()
-                        .registeredCardId(card.getRegisteredCardId())
-                        .cardId(card.getCardId())
-                        .cardNickname(card.getCardNickname())
-                        .cardIssuer(card.getCardIssuer())
-                        .mainCard(false)
-                        .build());
+                                      .registeredCardId(card.getRegisteredCardId())
+                                      .cardId(card.getCardId())
+                                      .cardNickname(card.getCardNickname())
+                                      .cardIssuer(card.getCardIssuer())
+                                      .mainCard(false)
+                                      .build());
                 cardCnt++;
             }
-            if(cardCnt == 4) break;
+            if (cardCnt == 4) {
+                break;
+            }
         }
-
 
         MainResponseDTO responseDTO = new MainResponseDTO();
         responseDTO.setPaymentAmount(mainPageInfo.getPaymentAmount());
@@ -444,16 +452,20 @@ public class MemberService {
 
     public List<HistoryResponseDTO> getHistoryList(Long memberId) {
         List<HistoryResponseDTO> responseDTOList = payService.getHistoryList(memberId);
-        for(HistoryResponseDTO h : responseDTOList){
-            if(h.getType().equals("출금") || h.getType().equals("입금")) continue;
+        for (HistoryResponseDTO h : responseDTOList) {
+            if (h.getType().equals("출금") || h.getType().equals("입금")) {
+                continue;
+            }
 
-            for(HistoryDTO detail : h.getDetail()){
-                if(!detail.getType().equals("기부")) continue;
+            for (HistoryDTO detail : h.getDetail()) {
+                if (!detail.getType().equals("기부")) {
+                    continue;
+                }
                 Long fundingId = Long.valueOf(detail.getName());
-                Optional<FundingResultResponseDTO> funding =fundingFeignClient.getPaymentResult(fundingId);
-                if(funding.isPresent()){
-                   String fundingName = funding.get().getFacilityName();
-                   detail.setName(fundingName);
+                Optional<FundingResultResponseDTO> funding = fundingFeignClient.getPaymentResult(fundingId);
+                if (funding.isPresent()) {
+                    String fundingName = funding.get().getFacilityName();
+                    detail.setName(fundingName);
                 }
             }
         }

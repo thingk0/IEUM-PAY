@@ -53,13 +53,9 @@ public class SecurityConfig {
                     "/swagger-resources/**",
                     "/api/auth",
                     "/api/member/login",
-                    "/api/member/exist"
+                    "/api/member/exist",
+                    "/api/member"
                 ).permitAll();
-                /* Member */
-                authorize.antMatchers(HttpMethod.POST, "/api/member").permitAll();
-                authorize.antMatchers(HttpMethod.GET, "/api/member").authenticated();
-                authorize.antMatchers(HttpMethod.DELETE, "/api/member").authenticated();
-                authorize.antMatchers(HttpMethod.PUT, "/api/member").authenticated();
                 authorize.anyRequest().authenticated();
             }))
         ;

@@ -4,15 +4,28 @@ import { useQueries, useQuery } from '@tanstack/react-query';
 import { getBalance } from '@/api/paymentAxios';
 import { deleteMember, getMainData, getUserInfo } from '@/api/userAxois';
 import useUserStore from '@/stores/user-store';
+import { useRouter } from 'next/router';
+import { eraseCookie } from '@/utils/cookie';
 
 export default function MemberDeletePage() {
   const { userInfo } = useUserStore();
+  const router = useRouter();
   const results = useQueries({
     queries: [
       { queryKey: ['balance'], queryFn: getBalance },
       { queryKey: ['userinfo'], queryFn: getUserInfo },
     ],
   });
+  function handleClick() {
+    deleteMember()
+      .then(() => {
+        eraseCookie('access_token');
+        eraseCookie('refresh-token');
+        localStorage.removeItem('access_token');
+        router.push('/user/delete/complete');
+      })
+      .catch((e) => alert(e));
+  }
   if (results[1].data && results[0].data)
     return (
       <main className={classes.main}>
@@ -25,12 +38,12 @@ export default function MemberDeletePage() {
             다양한 혜택과 이벤트 기회, 상품권 내역, 할인권이 모두 사라져요.
           </li>
           <li>
-            이음 페이 머니를 다른 계좌로 옮겨주세요.100원보다 적은 금액은 자동으로
-            기부돼요.
+            이음 페이 머니를 다른 계좌로 옮겨주세요.100원보다 적은 금액은
+            자동으로 기부돼요.
           </li>
         </ul>
         <p>{results[0].data}원이 잔고에 남아있습니다</p>
-        <Button primary onClick={() => deleteMember()}>
+        <Button primary onClick={() => handleClick()}>
           탈퇴하기
         </Button>
       </main>
