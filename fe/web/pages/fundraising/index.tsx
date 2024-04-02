@@ -24,7 +24,7 @@ export default function Funding() {
   });
 
   function Tab() {
-    if (results[0].isLoading && results[1].isLoading) {
+    if (results[0].isLoading || results[1].isLoading) {
       return (
         <>
           <div>로딩중..</div>
