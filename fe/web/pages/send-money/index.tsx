@@ -31,6 +31,15 @@ interface Member {
   name: string;
   phoneNumber: string;
 }
+function Layout({ children }: { children?: React.ReactNode }) {
+  return (
+    <>
+      <HeaderMain />
+      <main className={classes.main}>{children}</main>
+      <TabBar selected="sendMoney" />
+    </>
+  );
+}
 
 function WherePage() {
   const router = useRouter();
@@ -93,115 +102,94 @@ function WherePage() {
   //     </>
   //   );
   const [isOpen, setIsOpen] = useState(false);
-  if (results[1].isLoading)
+  if (results[1].isLoading) return <Layout></Layout>;
+  else if (results[1].isError || results[2].isError) {
     return (
-      <>
-        <HeaderMain />
-        <main className={classes.main}></main>
-        <TabBar selected="sendMoney" />
-      </>
-    );
-  else if (results[1].isError) {
-    <>
-      <HeaderMain />
-      <main className={classes.main}>
+      <Layout>
         <FetchError onClick={() => results[1].refetch()} />
-      </main>
-      <TabBar selected="sendMoney" />
-    </>;
+      </Layout>
+    );
   } else if (results[1].data.data.cardList.length === 0) {
     return (
-      <>
-        <HeaderMain />
-        <main className={classes.main}>
-          <h1>어디로 돈을 보낼까요?</h1>
-          <div onClick={() => setIsOpen(true)}>
-            <Input
-              isDisabled
-              variant="underlined"
-              label="휴대폰 번호"
-              type="tel"
-              inputMode="decimal"
-              pattern="[0-9]*"
-              className="w-100"
-            />
-          </div>
-          {results[1].data.data.cardList.length === 0 && (
-            <Modal
-              isOpen={isOpen}
-              placement="center"
-              isDismissable={false}
-              hideCloseButton={true}
-            >
-              <ModalContent>
-                {(onClose) => (
-                  <>
-                    <ModalHeader className="flex flex-col gap-1"></ModalHeader>
-                    <ModalBody>
-                      <p>송금하려면 먼저 카드를 등록하세요</p>
-                    </ModalBody>
-                    <ModalFooter className="w-100 flex-col">
-                      <Button variant="light" onClick={() => setIsOpen(false)}>
-                        나중에 다시하기
-                      </Button>
-                      <Button color="primary" as={Link} href="/card">
-                        등록하기
-                      </Button>
-                    </ModalFooter>
-                  </>
-                )}
-              </ModalContent>
-            </Modal>
-          )}
-        </main>
-        <TabBar selected="sendMoney" />
-      </>
+      <Layout>
+        <h1>어디로 돈을 보낼까요?</h1>
+        <div onClick={() => setIsOpen(true)}>
+          <Input
+            isDisabled
+            variant="underlined"
+            label="휴대폰 번호"
+            type="tel"
+            inputMode="decimal"
+            pattern="[0-9]*"
+            className="w-100"
+          />
+        </div>
+        {results[1].data.data.cardList.length === 0 && (
+          <Modal
+            isOpen={isOpen}
+            placement="center"
+            isDismissable={false}
+            hideCloseButton={true}
+          >
+            <ModalContent>
+              {(onClose) => (
+                <>
+                  <ModalHeader className="flex flex-col gap-1"></ModalHeader>
+                  <ModalBody>
+                    <p>송금하려면 먼저 카드를 등록하세요</p>
+                  </ModalBody>
+                  <ModalFooter className="w-100 flex-col">
+                    <Button variant="light" onClick={() => setIsOpen(false)}>
+                      나중에 다시하기
+                    </Button>
+                    <Button color="primary" as={Link} href="/card">
+                      등록하기
+                    </Button>
+                  </ModalFooter>
+                </>
+              )}
+            </ModalContent>
+          </Modal>
+        )}
+      </Layout>
     );
   }
 
   return (
-    <>
-      <HeaderMain />
-      <main className={classes.main}>
-        <h1>어디로 돈을 보낼까요?</h1>
+    <Layout>
+      <h1>어디로 돈을 보낼까요?</h1>
 
-        <Input
-          variant="underlined"
-          label="휴대폰 번호"
-          type="tel"
-          inputMode="decimal"
-          pattern="[0-9]*"
-          className="w-100"
-          onValueChange={setQuery}
-        />
-        <SearchResult />
-        <Modal
-          isOpen={자가송금모달_열렸는가}
-          placement="center"
-          hideCloseButton
-        >
-          <ModalContent>
-            {(onClose) => (
-              <>
-                <ModalHeader className="flex flex-col gap-1"></ModalHeader>
-                <ModalBody>
-                  <p>자신에게는 송금할 수 없어요</p>
-                </ModalBody>
-                <ModalFooter className="w-100 flex-col">
-                  <Button
-                    color="primary"
-                    onClick={() => 자가송금모달_열렸는가_설정(false)}
-                  >
-                    확인
-                  </Button>
-                </ModalFooter>
-              </>
-            )}
-          </ModalContent>
-        </Modal>
-      </main>
-      <TabBar selected="sendMoney" />
-    </>
+      <Input
+        variant="underlined"
+        label="휴대폰 번호"
+        type="tel"
+        inputMode="decimal"
+        pattern="[0-9]*"
+        className="w-100"
+        onValueChange={setQuery}
+      />
+      <SearchResult />
+      <Modal isOpen={자가송금모달_열렸는가} placement="center" hideCloseButton>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1"></ModalHeader>
+              <ModalBody>
+                <p>자신에게는 송금할 수 없어요</p>
+              </ModalBody>
+              <ModalFooter className="w-100 flex-col">
+                <Button
+                  color="primary"
+                  onClick={() => 자가송금모달_열렸는가_설정(false)}
+                >
+                  확인
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+    </Layout>
   );
 }
 export default WherePage;

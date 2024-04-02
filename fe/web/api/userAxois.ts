@@ -163,8 +163,13 @@ export function deleteMember() {
   return axiosAuthApi().delete('/api/member/delete');
 }
 
-export function chagePassword(prePassword: string, newPassword: string) {
-  return axiosAuthApi()
+export const chagePassword = async (
+  prePassword: string,
+  newPassword: string,
+) => {
+  const local = axiosAuthApi();
+
+  return await local
     .put('api/member/password', {
       prevPassword: prePassword,
       newPassword: newPassword,
@@ -175,4 +180,4 @@ export function chagePassword(prePassword: string, newPassword: string) {
     .catch((error) => {
       console.log(error);
     });
-}
+};
