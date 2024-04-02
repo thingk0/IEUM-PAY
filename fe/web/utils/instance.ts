@@ -21,7 +21,10 @@ const axiosAuthApi = (): AxiosInstance => {
         config,
         response: { status },
       } = error;
-      if (error.response?.status === 401) {
+      if (
+        error.response?.status === 401 &&
+        error.response?.data.data.actionRequired === 'REFRESH_TOKEN'
+      ) {
         const originRequest = config;
         axiosAuthApi()
           .put('/api/auth/token-renew')
