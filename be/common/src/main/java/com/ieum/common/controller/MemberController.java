@@ -60,7 +60,7 @@ public class MemberController {
     @Operation(summary = "회원 탈퇴", description = "회원 탈퇴를 합니다.")
     @ApiResponse(responseCode = "200", description = "회원 탈퇴 성공")
     @ApiResponse(responseCode = "401", description = "인증 실패")
-    @DeleteMapping
+    @DeleteMapping("/delete")
     public ResponseEntity<?> delete(
         @Parameter(hidden = true) @CurrentMemberId Long memberId
     ) {
