@@ -99,9 +99,6 @@ public class CardController {
         @RequestBody CardUpdateRequestDTO requestDTO,
         @Parameter(hidden = true) @CurrentMemberId Long memberId
     ) {
-        if (!authService.checkAuthInRedis(memberId, requestDTO.getAuthenticationKey())) {
-            return response.error(INVALID_PRINCIPAL_TYPE);
-        }
         Members member = memberService.findMemberById(memberId);
         if (member.getPaycardId() == requestDTO.getRegisteredCardId()) {
             return response.error(REGISTERED_CARD_DELETE);
