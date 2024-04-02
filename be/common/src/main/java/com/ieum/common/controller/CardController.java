@@ -1,5 +1,6 @@
 package com.ieum.common.controller;
 
+import static com.ieum.common.format.code.FailedCode.INVALID_PRINCIPAL_TYPE;
 import static com.ieum.common.format.code.FailedCode.REGISTERED_CARD_DELETE;
 
 import com.ieum.common.annotation.CurrentMemberId;
@@ -10,6 +11,7 @@ import com.ieum.common.dto.request.CardUpdateRequestDTO;
 import com.ieum.common.dto.response.CardOcrResponseDTO;
 import com.ieum.common.format.code.SuccessCode;
 import com.ieum.common.format.response.ResponseTemplate;
+import com.ieum.common.service.AuthService;
 import com.ieum.common.service.MemberService;
 import com.ieum.common.service.PayService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,6 +39,7 @@ public class CardController {
     private final PayService payService;
     private final MemberService memberService;
     private final ResponseTemplate response;
+    private final AuthService authService;
 
 
     @Operation(summary = "메인 카드 설정", description = "사용자의 메인 카드를 설정합니다.")
@@ -96,6 +99,9 @@ public class CardController {
         @RequestBody CardUpdateRequestDTO requestDTO,
         @Parameter(hidden = true) @CurrentMemberId Long memberId
     ) {
+        if (!authService.checkAuthInRedis(memberId, requestDTO.getAuthenticationKey())) {
+            return response.error(INVALID_PRINCIPAL_TYPE);
+        }
         Members member = memberService.findMemberById(memberId);
         if (member.getPaycardId() == requestDTO.getRegisteredCardId()) {
             return response.error(REGISTERED_CARD_DELETE);
