@@ -9,6 +9,7 @@ import styels from '@/styles/myPage.module.scss';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import GradientSVG from '@/components/gradientSVG';
+import FetchError from '@/components/layouts/FetchError';
 
 interface userInfoType {
   autoFundingId: number;
@@ -140,6 +141,8 @@ export default function MyPage() {
       <div className={styels.container}>
         {isLoading ? (
           <div>로딩중</div>
+        ) : isError ? (
+          <FetchError onClick={() => refetch()}></FetchError>
         ) : (
           <>
             <div className={styels.nameContainer}>

@@ -5,6 +5,7 @@ import { useState } from 'react';
 import styles from '@/styles/FundPage.module.scss';
 import { CardList, CardTypeSelectTab } from '@/components/funding/CardList';
 import { useQueries } from '@tanstack/react-query';
+import FetchError from '@/components/layouts/FetchError';
 
 export default function Funding() {
   const [selectedTab, setSelectedTab] = useState(true);
@@ -28,6 +29,15 @@ export default function Funding() {
         <>
           <div>로딩중..</div>
         </>
+      );
+    } else if (results[0].isError || results[1].isError) {
+      return (
+        <FetchError
+          onClick={() => {
+            results[0].refetch();
+            results[1].refetch();
+          }}
+        ></FetchError>
       );
     } else {
       return selectedTab ? (
