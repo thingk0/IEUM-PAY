@@ -101,7 +101,7 @@ function WherePage() {
         <TabBar selected="sendMoney" />
       </>
     );
-  else if (results[1].isError) {
+  else if (results[1].isError || results[2].isError) {
     <>
       <HeaderMain />
       <main className={classes.main}>
