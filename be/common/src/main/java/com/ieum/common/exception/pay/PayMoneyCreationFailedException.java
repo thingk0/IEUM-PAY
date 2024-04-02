@@ -1,4 +1,4 @@
-package com.ieum.common.exception;
+package com.ieum.common.exception.pay;
 
 import com.ieum.common.format.code.FailedCode;
 import lombok.Getter;
