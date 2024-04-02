@@ -122,6 +122,7 @@ export default function Home() {
         <main className={mainStyles.main}>
           <FetchError onClick={() => results[0].refetch()} />
         </main>
+        <TabBar selected="payment" />
       </>
     );
   if (!results[0].data) return null;

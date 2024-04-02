@@ -58,7 +58,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MemberService {
 
-    public static final String REFRESH_TOKEN = "refresh-token";
+    public static final String REFRESH_TOKEN = "RefreshToken";
     private final CookieUtil cookieUtil;
     private final TokenService tokenService;
     private final TokenProvider tokenProvider;
@@ -248,14 +248,6 @@ public class MemberService {
         return memberRepository.findById(memberId).orElseThrow(MemberNotFoundByIdException::new);
     }
 
-    /**
-     * 번호를 사용하여 회원을 찾습니다.
-     *
-     * @param phoneNumber phone number
-     */
-    public Members findMemberByPhoneNumber(String phoneNumber) {
-        return memberRepository.findByPhoneNumber(phoneNumber);
-    }
 
     /**
      * 사용자 로그인을 처리하고, 액세스 토큰을 반환합니다.
