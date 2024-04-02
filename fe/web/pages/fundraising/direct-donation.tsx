@@ -39,6 +39,8 @@ function directDonation() {
     }
     if (donateMoneyInfo.송금금액 > donateMoneyInfo.잔액) {
       return <p className={styles.invalid}>출금가능금액 부족</p>;
+    } else if (donateMoneyInfo.송금금액 > donateMoneyInfo.남은금액) {
+      return <p className={styles.invalid}>더 이상 기부 불가</p>;
     } else {
       return <>{formatToKRW(donateMoneyInfo.송금금액)}</>;
     }
@@ -77,7 +79,8 @@ function directDonation() {
         onClickConfirm={handleClickConfirm}
         isValid={
           donateMoneyInfo.송금금액 > 0 &&
-          donateMoneyInfo.송금금액 <= donateMoneyInfo.잔액
+          donateMoneyInfo.송금금액 <= donateMoneyInfo.잔액 &&
+          donateMoneyInfo.송금금액 <= donateMoneyInfo.남은금액
         }
       />
     </div>
