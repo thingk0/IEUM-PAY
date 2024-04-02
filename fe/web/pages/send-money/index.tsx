@@ -24,6 +24,7 @@ import { getMainData, getUserInfo } from '@/api/userAxois';
 import ChevronRightIcon from '@/components/icons/ChevronRightIcon';
 import Link from 'next/link';
 import useUserStore from '@/stores/user-store';
+import FetchError from '@/components/layouts/FetchError';
 
 interface Member {
   memberId: number;
@@ -50,6 +51,7 @@ function WherePage() {
       {
         queryKey: ['user-info'],
         queryFn: getUserInfo,
+        enabled: false,
       },
     ],
   });
@@ -99,7 +101,15 @@ function WherePage() {
         <TabBar selected="sendMoney" />
       </>
     );
-  else if (results[1].data.data.cardList.length === 0) {
+  else if (results[1].isError) {
+    <>
+      <HeaderMain />
+      <main className={classes.main}>
+        <FetchError onClick={() => results[1].refetch()} />
+      </main>
+      <TabBar selected="sendMoney" />
+    </>;
+  } else if (results[1].data.data.cardList.length === 0) {
     return (
       <>
         <HeaderMain />
