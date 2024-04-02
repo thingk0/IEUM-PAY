@@ -1,6 +1,6 @@
 'use client';
 import axios, { AxiosInstance } from 'axios';
-import { getCookie, setCookie } from './cookie';
+import { eraseCookie, getCookie, setCookie } from './cookie';
 const api = 'https://www.ieum-pay.site/';
 // const accessToken = localStorage.getItem('access_token');
 
@@ -41,6 +41,9 @@ const axiosAuthApi = (): AxiosInstance => {
           })
           .catch((e) => {
             window.alert('로그인이 만료되었습니다. 다시 로그인 해주세요');
+            eraseCookie('access_token');
+            localStorage.removeItem('access_token');
+            window.location.href = '/user';
           });
       }
     },
