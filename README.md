@@ -283,7 +283,7 @@
 
 ### API 명세서
 
-<a link="https://www.notion.so/ieum-pay/FE-38af95dd0b6d47aa8ad3182d3b45fdcd">API 명세 노션 링크</a>
+[API 명세 노션 링크](https://www.notion.so/ieum-pay/FE-38af95dd0b6d47aa8ad3182d3b45fdcd)
 
 ---
 
@@ -315,8 +315,10 @@
 
 ### Codding
 
-<a link="https://www.notion.so/ieum-pay/FE-38af95dd0b6d47aa8ad3182d3b45fdcd">FRONT CODING CONVENTION</a> <br/>
-<a link="https://www.notion.so/ieum-pay/Restful-API-79fd07f7b4e44da8a9246045757e7727">BACK CODING CONVENTION</a>
+[FRONT CODING CONVENTION](https://www.notion.so/ieum-pay/FE-38af95dd0b6d47aa8ad3182d3b45fdcd)
+<br/>
+
+[BACK CODING CONVENTION](https://www.notion.so/ieum-pay/Restful-API-79fd07f7b4e44da8a9246045757e7727)
 
 ## 💻 구동 방법
 
