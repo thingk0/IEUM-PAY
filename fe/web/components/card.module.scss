@@ -86,8 +86,8 @@ $cardWidth: 20rem;
   // transform: scale(0.85);
   filter: brightness(0.85);
   top: $cardPosition - $cardOffset * 3;
-  animation-name: remove;
-  animation-duration: 1s;
+  // animation-name: remove;
+  // animation-duration: 1s;
 }
 
 @keyframes remove {

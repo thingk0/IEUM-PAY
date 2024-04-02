@@ -77,13 +77,18 @@ export default function Home() {
   };
 
   const callDeleteCard = (id: number) => {
+    if (id == mainCardId) {
+    }
     deleteCard(id);
     setDeletedCardId(id);
   };
 
   const nextCard = () => {
+    console.log(cardState[0] - 1);
+    console.log(results[0].data.data.cardList[cardState[0] - 1].cardIssuer);
+    // console.log('mark', cardState[0]);
     const updatedCardState = [...cardState];
-    updatedCardState.unshift(updatedCardState.pop()!);
+    updatedCardState.push(updatedCardState.shift()!);
     setPrevCardState([...cardState]);
     setCardState(updatedCardState);
   };
@@ -128,8 +133,7 @@ export default function Home() {
         <div className={mainStyles.top}>
           <MainPageDropdown
             focused={
-              results[0].data.data.cardList[3 - ((cardState[0] + 2) % 4)]
-                ?.registeredCardId
+              results[0].data.data.cardList[cardState[0] - 1]?.registeredCardId
             }
             setMain={setMain}
             callDeleteCard={callDeleteCard}
