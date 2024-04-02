@@ -20,7 +20,9 @@ interface SendMoneyInfoActions {
   pushNumber: (amount: number) => void;
   popNumber: () => void;
   addAmount: (amount: number) => void;
+  setAmount: (amount: number) => void;
   setFullAmount: () => void;
+  setBalance: (balance: number) => void;
   deleteSendMoneyInfo: () => void;
   setReceiverInfo: (name: string, phone: string, bank: string) => void;
 }
@@ -74,6 +76,30 @@ const useSendMoneyInfo = create<SendMoneyInfoState & SendMoneyInfoActions>(
             state.sendMoneyInfo.송금금액 + amount,
             MAX_TRANSFER,
           ),
+          송금은행: state.sendMoneyInfo.송금은행,
+          잔액: state.sendMoneyInfo.잔액,
+        },
+      }));
+    },
+    setAmount: (amount: number) => {
+      set((state) => ({
+        sendMoneyInfo: {
+          수취인: state.sendMoneyInfo.수취인,
+          수취은행: state.sendMoneyInfo.수취은행,
+          수취계좌: state.sendMoneyInfo.수취계좌,
+          송금금액: Math.min(amount, MAX_TRANSFER),
+          송금은행: state.sendMoneyInfo.송금은행,
+          잔액: state.sendMoneyInfo.잔액,
+        },
+      }));
+    },
+    setBalance: (balance: number) => {
+      set((state) => ({
+        sendMoneyInfo: {
+          수취인: state.sendMoneyInfo.수취인,
+          수취은행: state.sendMoneyInfo.수취은행,
+          수취계좌: state.sendMoneyInfo.수취계좌,
+          송금금액: balance,
           송금은행: state.sendMoneyInfo.송금은행,
           잔액: state.sendMoneyInfo.잔액,
         },
