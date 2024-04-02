@@ -69,6 +69,8 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     // openfeign
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    // Kafka
+    implementation 'org.springframework.kafka:spring-kafka'
 }
 
 //querydsl Settings
