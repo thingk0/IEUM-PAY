@@ -21,10 +21,11 @@ const axiosAuthApi = (): AxiosInstance => {
         config,
         response: { status },
       } = error;
-      console.log(error.response?.data.data);
+      console.log(error.response.data);
+      console.log(error.response);
       if (
         error.response?.status === 401 &&
-        error.response?.data.data.actionRequired === 'REFRESH_TOKEN'
+        error.response?.data.actionRequired === 'REFRESH_TOKEN'
       ) {
         const originRequest = config;
         axiosAuthApi()
