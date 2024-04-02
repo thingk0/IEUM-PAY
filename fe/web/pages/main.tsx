@@ -76,7 +76,7 @@ export default function Home() {
   };
 
   const callDeleteCard = (id: number) => {
-    deleteCard(id);
+    // deleteCard(id);
     setDeletedCardId(id);
   };
 
