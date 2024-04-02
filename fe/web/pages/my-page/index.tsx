@@ -29,7 +29,7 @@ export default function MyPage() {
   const router = useRouter();
   const idCSS = 'hello';
   const { data, error, isError, isLoading, refetch } = useQuery({
-    queryKey: ['fund-ongoing'],
+    queryKey: ['my-page'],
     queryFn: getUserInfo,
   });
 
