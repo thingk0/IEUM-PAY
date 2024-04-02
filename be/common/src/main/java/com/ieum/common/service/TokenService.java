@@ -63,23 +63,14 @@ public class TokenService {
     }
 
 
-    /**
-     * 주어진 리프레시 토큰 값으로 새 액세스 토큰을 재발급.
-     *
-     * @param refreshTokenValue 재발급할 리프레시 토큰 값
-     * @return 재발급된 새 액세스 토큰
-     * @throws RefreshTokenNotFoundException 리프레시 토큰이 Redis 에 존재하지 않을 경우
-     * @throws MemberNotFoundException       회원 정보를 찾을 수 없을 경우
-     */
     @Transactional(readOnly = true)
     public String reIssueAccessToken(HttpServletRequest servletRequest) {
 
         String key = REFRESH_TOKEN_KEY + cookieUtil.getRefreshTokenValue(servletRequest);
 
-        // 리프레시 토큰에 해당하는 정보를 Redis에서 조회
+        // 리프레시 토큰에 해당하는 정보를 Redis 에서 조회
         Map<String, Object> refreshTokenHash = redisHashUtil.findByKey(key);
         if (refreshTokenHash.isEmpty()) {
-            // 리프레시 토큰이 존재하지 않는 경우 예외 발생
             throw new RefreshTokenNotFoundException();
         }
 
@@ -102,11 +93,5 @@ public class TokenService {
         return null;
     }
 
-    public String extractAccessToken(String authorization) {
-        if (authorization != null && authorization.startsWith("Bearer ")) {
-            return authorization.substring(7);
-        }
-        return null;
-    }
 
 }

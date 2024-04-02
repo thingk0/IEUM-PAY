@@ -18,7 +18,7 @@ public class FilterResponse {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        String actionRequiredJson = actionRequired.map(action -> ", \"actionRequired\": \"" + action + "\"")
+        String actionRequiredJson = actionRequired.map(action -> "\"actionRequired\": \"" + action + "\"")
                                                   .orElse("");
         String body = String.format("""
                                         {
