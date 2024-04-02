@@ -12,6 +12,14 @@ import { sendPayMoney } from '@/api/sendMoneyAxios';
 import useDonateMoneyInfo from '@/hooks/useDirectDonationStore';
 import usePaymentInfo from '@/hooks/usePayStore';
 import useSendMoneyInfo from '@/hooks/useSendMoneyStore';
+import {
+  Modal,
+  ModalContent,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from '@nextui-org/react';
+import Button from '@/stories/Button';
 
 // interface PasswordPage {
 //   title: string;
@@ -27,6 +35,8 @@ function PasswordPage({ id, pushUrl }: { id: string; pushUrl?: string }) {
   const { donateMoneyInfo, setFundingId } = useDonateMoneyInfo();
   const { paymentInfo } = usePaymentInfo();
   const { sendMoneyInfo } = useSendMoneyInfo();
+  const [cnt, setCnt] = useState(0);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const pageId = [
     ['결제 비밀번호 입력', ''],
@@ -91,8 +101,18 @@ function PasswordPage({ id, pushUrl }: { id: string; pushUrl?: string }) {
             : (setIsTrue(false), setPassword([]));
         } else if (id == '0') {
           const check = await confirmPassword(password.join(''));
-          const key = check.data.authenticationKey;
-          check.data.auth ? payLogic(key) : (setIsTrue(false), setPassword([]));
+          console.log(check);
+          if (check.status == 'SUCCESS') {
+            const key = check.data.authenticationKey;
+            payLogic(key);
+          } else {
+            setCnt(cnt + 1);
+            setIsTrue(false);
+            setPassword([]);
+            if (cnt == 5) {
+              onOpen();
+            }
+          }
         }
       }
     };
@@ -100,26 +120,57 @@ function PasswordPage({ id, pushUrl }: { id: string; pushUrl?: string }) {
   }, [password]);
 
   return (
-    <main className={classes.main}>
-      <PageTitleCenter
-        title={pageId[parseInt(id)][0]}
-        description={pageId[parseInt(id)][1]}
-      />
-      <ul className={classes.wrapper}>
-        {Array.from({ length: 6 }).map((v, i) => (
-          <li>
-            <div
-              className={`${classes.circle} ${i < password.length ? classes.active : ''}`}
-            ></div>
-          </li>
-        ))}
-      </ul>
-      {isTrue ? <div></div> : <div>다시 입력해 주세요</div>}
-      <PasswordKeyPad
-        onClickNumber={(n) => setPassword((prev) => [...prev, n].slice(0, 6))}
-        onClickDelete={() => setPassword((prev) => prev.slice(0, -1))}
-      />
-    </main>
+    <>
+      <main className={classes.main}>
+        <PageTitleCenter
+          title={pageId[parseInt(id)][0]}
+          description={pageId[parseInt(id)][1]}
+        />
+        <ul className={classes.wrapper}>
+          {Array.from({ length: 6 }).map((v, i) => (
+            <li>
+              <div
+                className={`${classes.circle} ${i < password.length ? classes.active : ''}`}
+              ></div>
+            </li>
+          ))}
+        </ul>
+        {isTrue ? <div></div> : <div>다시 입력해 주세요 {cnt} / 5</div>}
+        <PasswordKeyPad
+          onClickNumber={(n) => setPassword((prev) => [...prev, n].slice(0, 6))}
+          onClickDelete={() => setPassword((prev) => prev.slice(0, -1))}
+        />
+      </main>
+      <Modal
+        className={classes.modalComp}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalBody className={classes.modalContainer}>
+                <div>
+                  <p>결제 실패했습니다.</p>
+                </div>
+              </ModalBody>
+              <ModalFooter className={classes.modalFooter}>
+                <Button
+                  primary
+                  size="thin"
+                  onClick={() => {
+                    router.push('/main');
+                    onClose();
+                  }}
+                >
+                  확인
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+    </>
   );
 }
 export default PasswordPage;

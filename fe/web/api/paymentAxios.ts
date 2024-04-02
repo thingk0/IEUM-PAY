@@ -30,7 +30,7 @@ export const confirmPassword = async (password: string) => {
     })
     .catch((error) => {
       console.log(error.message);
-      return null;
+      return error;
     });
 };
 
