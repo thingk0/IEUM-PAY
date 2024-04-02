@@ -18,6 +18,7 @@ import useUserStore from '@/stores/user-store';
 import Button from '@/stories/Button';
 import { Progress } from '@nextui-org/react';
 import { josa } from '@toss/hangul';
+import { GetServerSideProps } from 'next/types';
 
 interface peopleType {
   nickname: string;
@@ -57,7 +58,7 @@ interface dataType {
   fundingFinishDate: string | null;
 }
 
-export default function Detail() {
+export default function Detail({ fundId }: { fundId: string }) {
   const router = useRouter();
   const donateInfo = useDonateMoneyInfo();
   const { userInfo } = useUserStore();
@@ -278,7 +279,7 @@ export default function Detail() {
   useEffect(() => {
     async function getData() {
       try {
-        const fundDetailData = await getFundDetail(router.query['fundId']);
+        const fundDetailData = await getFundDetail(fundId);
         fundDetailData != undefined ? setData(fundDetailData.data) : '';
       } catch (e) {
         console.log(e);
@@ -377,3 +378,13 @@ export default function Detail() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { fundId } = context.query;
+
+  return {
+    props: {
+      fundId: fundId,
+    },
+  };
+};
