@@ -25,7 +25,7 @@ function ScanCardPage() {
   const router = useRouter();
   const [modalValue, setModalValue] = useState(false);
   const [data, setData] = useState({
-    cardNumber: '',
+    cardNumber: 'dummy',
     validThru: '',
   });
 
@@ -234,8 +234,12 @@ function ScanCardPage() {
             <>
               <ModalBody className={classes.modalContainer}>
                 <div>
-                  {data.cardNumber != '' ? (
-                    <div>확인 버튼을 눌러주세요</div>
+                  {data.cardNumber != 'dummy' ? (
+                    data.cardNumber == '' ? (
+                      <div>인식 오류가 발생했습니다 다시 시도해주세요</div>
+                    ) : (
+                      <div>확인 버튼을 눌러주세요</div>
+                    )
                   ) : (
                     <CircularProgress
                       color="secondary"
@@ -245,25 +249,36 @@ function ScanCardPage() {
                 </div>
               </ModalBody>
               <ModalFooter className={classes.modalFooter}>
-                {data.cardNumber != '' ? (
-                  <Button
-                    size="thin"
-                    onClick={() => {
-                      onClose;
-                      router.push(
-                        {
-                          pathname: '/card',
-                          query: {
-                            cardNum: data.cardNumber,
-                            validThru: data.validThru,
+                {data.cardNumber != 'dummy' ? (
+                  data.cardNumber == '' ? (
+                    <Button
+                      size="thin"
+                      onClick={() => {
+                        onClose;
+                      }}
+                    >
+                      다시 촬영하기
+                    </Button>
+                  ) : (
+                    <Button
+                      size="thin"
+                      onClick={() => {
+                        onClose;
+                        router.push(
+                          {
+                            pathname: '/card',
+                            query: {
+                              cardNum: data.cardNumber,
+                              validThru: data.validThru,
+                            },
                           },
-                        },
-                        '/card',
-                      );
-                    }}
-                  >
-                    확인
-                  </Button>
+                          '/card',
+                        );
+                      }}
+                    >
+                      확인
+                    </Button>
+                  )
                 ) : (
                   ''
                 )}
