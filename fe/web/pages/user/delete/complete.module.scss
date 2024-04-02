@@ -15,21 +15,11 @@
     text-align: left;
     color: #000;
   }
-  ul {
-    margin-top: 3rem;
-    list-style: circle;
-    li {
-      font-size: 1rem;
-      font-weight: normal;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: normal;
-      letter-spacing: normal;
-      text-align: left;
-      color: #6e7584;
-    }
+  .subtext {
+    margin-top: 2rem;
+    color: var(--sub-text);
   }
-  footer {
+  button {
     margin-bottom: 1rem;
   }
 }
