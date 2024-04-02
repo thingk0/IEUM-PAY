@@ -1,31 +1,24 @@
 import styles from './card.module.scss';
 import bankColor from './bank.module.scss';
 
-// interface logoUrlType {
-//     신한카드: string;
-//     KB국민카드: string;
-//     광주은행: string;
-//     삼성카드: string;
-//     수협은행: string;
-//     NH농협카드: string;
-//     BC카드: string;
-//     우리카드: string;
-//     롯데카드: string;
-//     현대카드: string;
-//     하나카드: string;
-//     전북은행: string;
-//     제주은행: string;
-//     씨티카드: string;
-//     이음페이: string;
-//   }
-
 interface CardProps {
   index: number;
   card: number;
   bank: any;
   nickname: string;
+  isMain: boolean;
+  cardId: number;
+  mainCardId: number;
 }
-export default function Card({ index, card, bank, nickname }: CardProps) {
+export default function Card({
+  index,
+  card,
+  bank,
+  nickname,
+  isMain,
+  cardId,
+  mainCardId,
+}: CardProps) {
   const logoUrl: any = {
     신한카드: 'https://www.shinhancard.com/pconts/images/shcard/ci-shinhan.png',
     KB국민카드: 'https://img1.kbcard.com/LT/images_r/common/kbcard_Logo_v3.png',
@@ -57,12 +50,18 @@ export default function Card({ index, card, bank, nickname }: CardProps) {
       key={index}
       className={`${styles.card} ${styles['card' + card]} ${bankColor[bank]}`}
     >
-      <div className={styles.logoBox}>
+      <div className={styles.top}>
         <img src={logoUrl[bank]} alt="bankLogo" className={styles.logo} />
       </div>
-      {card}
-      <div className={styles.cardBottom}>
-        <div className={styles.nicknameContainer}>{nickname}</div>
+      <div className={styles.bottom}>
+        <div>
+          <div className={styles.nicknameContainer}>{nickname}</div>
+          <div className={styles.mainMarkBox}>
+            {cardId == mainCardId ? (
+              <div className={styles.mainMark}>대표 카드</div>
+            ) : null}
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -13,10 +13,12 @@ import MainPageDropdown from '@/components/MainPageDropdown';
 // import { getBalance } from '@/api/paymentAxios';
 // import useUserStore from '@/stores/user-store';
 import { getMainData } from '@/api/userAxois';
-import { useQuery } from '@tanstack/react-query';
+import { useQueries, useQuery } from '@tanstack/react-query';
 import Card from '@/components/Card';
 import Link from 'next/link';
 import { PlusIcon } from '@/components/icons/PlusIcon';
+import { setMainCard } from '@/api/paymentAxios';
+
 import useUserStore from '@/stores/user-store';
 
 // const inter = Inter({ subsets: ['latin'] });
@@ -34,31 +36,12 @@ interface infoType {
   paymentAmount: number;
   totalDonation: number;
 }
-// interface logoUrlType {
-//   신한카드: string;
-//   KB국민카드: string;
-//   광주은행: string;
-//   삼성카드: string;
-//   수협은행: string;
-//   NH농협카드: string;
-//   BC카드: string;
-//   우리카드: string;
-//   롯데카드: string;
-//   현대카드: string;
-//   하나카드: string;
-//   전북은행: string;
-//   제주은행: string;
-//   씨티카드: string;
-//   이음페이: string;
-// }
 
 export default function Home() {
   const router = useRouter();
   const [cardState, setCardState] = useState<number[]>([]);
   const [prevCardState, setPrevCardState] = useState<number[]>([]);
-  // const [focused, setFocused] = useState<number>();
-  // const [mainCard, setMainCard] = useState<number>();
-  const { setBalance } = useUserStore();
+  const [mainCardId, setMainCardId] = useState<number>(0);
   const [info, setInfo] = useState<infoType>({
     cardList: [
       {
@@ -81,9 +64,16 @@ export default function Home() {
   useEffect(() => {
     async function fetchBalance() {
       try {
+        console.log(info.cardList);
+        // console.log('APi Call');
         const mainData = await getMainData();
         setInfo(mainData.data);
-        setBalance(mainData.data.paymentAmount);
+        const firstMainCardId = mainData.data.cardList.find(
+          (card: any) => card.mainCard,
+        )?.registeredCardId;
+        if (firstMainCardId) {
+          setMainCardId(firstMainCardId);
+        }
       } catch (e) {
         console.log(e);
       }
@@ -91,35 +81,32 @@ export default function Home() {
     fetchBalance();
   }, []);
 
+  const setMain = (id: number) => {
+    setMainCard(id);
+    setMainCardId(id);
+  };
+
   const nextCard = () => {
     const updatedCardState = [...cardState];
-    // console.log(cardState);
     updatedCardState.unshift(updatedCardState.pop()!);
     setPrevCardState([...cardState]);
     setCardState(updatedCardState);
-    console.log('marking!!!!!', cardState[0]);
-    // 얘가 젤 앞임
-    console.log(info.cardList[cardState[0]]);
   };
 
-  const { data, error, isError, isLoading, refetch } = useQuery({
-    queryKey: ['get-main'],
-    queryFn: getMainData,
+  const results = useQueries({
+    queries: [
+      {
+        queryKey: ['get-main'],
+        queryFn: getMainData,
+      },
+    ],
   });
 
-  // useEffect(() => {
-  //   setFocused(info.cardList[cardState.length - 1].registeredCardId);
-  //   console.log(prevCardState[cardState.length - 1]);
-  //   console.log(focused);
-  //   console.log(info.cardList[0]);
-  //   console.log(cardState[0]);
-  // }, []);
-
   useEffect(() => {
-    if (!data) return;
+    if (!results[0].data) return;
     const initializeCards = () => {
       const initialCardState = Array.from(
-        { length: Math.min(4, data.data.cardList.length) },
+        { length: Math.min(4, results[0].data.data.cardList.length) },
         (v, k) => k + 1,
       );
       setCardState(initialCardState);
@@ -127,19 +114,27 @@ export default function Home() {
     };
 
     initializeCards();
-  }, [data]);
-  if (!data) return null;
+  }, [results[0].data]);
+  if (!results[0].data) return null;
 
   return (
     <>
       <HeaderMain />
       <main className={mainStyles.main}>
         <div className={mainStyles.top}>
-          <MainPageDropdown></MainPageDropdown>
+          <MainPageDropdown
+            focused={
+              results[0].data.data.cardList[3 - ((cardState[0] + 2) % 4)]
+                ?.registeredCardId
+            }
+            setMain={setMain}
+            // mainCardId={mainCardId}
+            // setMainCardId={() => setMainCardId}
+          ></MainPageDropdown>
         </div>
         <div className={mainStyles.cardsContainer}>
           <div className={mainStyles.cardStack} onClick={nextCard}>
-            {isLoading
+            {results[0].isLoading
               ? null
               : cardState.map((card, index) => (
                   <Card
@@ -147,10 +142,13 @@ export default function Home() {
                     card={card}
                     bank={info.cardList[index]?.cardIssuer}
                     nickname={info.cardList[index]?.cardNickname}
+                    isMain={info.cardList[index]?.mainCard}
+                    cardId={info.cardList[index]?.registeredCardId}
+                    mainCardId={mainCardId}
                   />
                 ))}
           </div>
-          {data.data.cardList.length === 0 && (
+          {results[0].data.data.cardList.length === 0 && (
             <Link href="/card">
               <div className={mainStyles.empty}>
                 <PlusIcon />
@@ -163,13 +161,13 @@ export default function Home() {
         <div className={mainStyles.moneyContainer}>
           <Money
             text={'이음페이머니'}
-            amount={data.data.paymentAmount}
+            amount={results[0].data.data.paymentAmount}
             onClick={goFund}
           />
           <hr />
           <Money
             text={'기부총액'}
-            amount={data.data.totalDonation}
+            amount={results[0].data.data.totalDonation}
             onClick={goFund}
           />
         </div>
