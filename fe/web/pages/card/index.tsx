@@ -93,7 +93,7 @@ function CardPage({
       setValidDate(newValue);
       setIsValidDate(true);
     }
-    if (newValue.length == 2) {
+    if (newValue.length == 2 && validDate.length == 1) {
       setValidDate(newValue + '/');
     }
     if (newValue.length == 5) {
