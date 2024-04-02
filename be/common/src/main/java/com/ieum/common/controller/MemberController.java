@@ -62,9 +62,11 @@ public class MemberController {
     @ApiResponse(responseCode = "401", description = "인증 실패")
     @DeleteMapping("/delete")
     public ResponseEntity<?> delete(
+        @Parameter(hidden = true) HttpServletRequest req,
+        @Parameter(hidden = true) HttpServletResponse res,
         @Parameter(hidden = true) @CurrentMemberId Long memberId
     ) {
-        return response.success(memberService.delete(memberId), SuccessCode.MEMBER_WITHDRAWAL_SUCCESSFUL);
+        return response.success(memberService.delete(memberId, req, res), SuccessCode.MEMBER_WITHDRAWAL_SUCCESSFUL);
     }
 
     @Operation(summary = "회원 존재 여부 확인", description = "회원의 존재 여부를 확인합니다.")
