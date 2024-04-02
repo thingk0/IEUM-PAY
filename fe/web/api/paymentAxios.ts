@@ -97,11 +97,11 @@ export async function registerCard(cardNumber: string) {
     });
 }
 
-export async function setMainCard(registeredCardId: number) {
+export async function setMainCard(id: number) {
   const local = axiosAuthApi();
 
   return await local
-    .put('api/card/main', { registerCardId: registeredCardId })
+    .put('api/card/main', { registerCardId: id })
     .then((response) => {
       console.log(response);
       return response.data;
@@ -111,11 +111,11 @@ export async function setMainCard(registeredCardId: number) {
     });
 }
 
-export async function deleteCard(registeredCardId: number) {
+export async function deleteCard(id: number) {
   const local = axiosAuthApi();
 
   return await local
-    .put('api/card/update', { registeredCardId: registeredCardId })
+    .put('api/card/update', { registeredCardId: id })
     .then((response) => {
       console.log(response);
       return response.data;
