@@ -247,12 +247,12 @@
 <img src="https://img.shields.io/badge/-SpringBoot-6DB33F?style=flat-square&logo=spring&logoColor=white">
 <img src="https://img.shields.io/badge/-JPA-FFCA28?style=flat-square&logo=jpa&logoColor=white">
 <img src="https://img.shields.io/badge/-Kafka-231F20?style=flat-square&logo=Apache Kafka&logoColor=white">
-<img src="https://img.shields.io/badge/-Elasticsearch-005571?style=flat-square&logo=Elasticsearch&logoColor=white">
+<img src="https://img.shields.io/badge/-Elasticsearch-005571?style=flat-square&logo=Elasticsearch&logoColor=white"> <br/>
 
 <!-- 데이터베이스 -->
 <img src="https://img.shields.io/badge/-MariaDB-003545?style=flat-square&logo=MariaDB&logoColor=white">
 <img src="https://img.shields.io/badge/-Redis-DC382D?style=flat-square&logo=redis&logoColor=white">
-<img src="https://img.shields.io/badge/-MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white">
+<img src="https://img.shields.io/badge/-MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white"> <br/>
 
 <!-- 프론트엔드 -->
 <img src="https://img.shields.io/badge/-TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white">
@@ -260,7 +260,7 @@
 <img src="https://img.shields.io/badge/-Next.js-000000?style=flat-square&logo=next.js&logoColor=white">
 <img src="https://img.shields.io/badge/-React Query-FF4154?style=flat-square&logo=React Query&logoColor=white">
 <img src="https://img.shields.io/badge/-Next.js-000000?style=flat-square&logo=next.js&logoColor=white">
-<img src="https://img.shields.io/badge/-PWA-5A0FC8?style=flat-square&logo=pwa&logoColor=white">
+<img src="https://img.shields.io/badge/-PWA-5A0FC8?style=flat-square&logo=pwa&logoColor=white"> <br/>
 
 <!-- 인프라 -->
 <img src="https://img.shields.io/badge/-EC2-FF9900?style=flat-square&logo=AmazonEC2&logoColor=white">
@@ -283,12 +283,7 @@
 
 ### API 명세서
 
-<details>
-<summary>전체 문서</summary>
-<div markdown="1">       
-    <img src="./readme-asset/api명세서.png" alt="전체 문서 페이지"/>
-</div>
-</details>
+<a link="https://www.notion.so/ieum-pay/FE-38af95dd0b6d47aa8ad3182d3b45fdcd">API 명세 노션 링크</a>
 
 ---
 
@@ -325,5 +320,5 @@
 
 ## 💻 구동 방법
 
-[포팅메뉴얼 - 빌드 및 배포](./빌드%20및%20배포%20정리.pdf) <br/>
-[포팅매뉴얼 - 외부 서비스](./외부%20서비스%20정리.pdf)
+[포팅메뉴얼 - 빌드 및 배포](./exec/빌드%20및%20배포%20정리.pdf) <br/>
+[포팅매뉴얼 - 외부 서비스](./exec/외부%20서비스%20정리.pdf)
