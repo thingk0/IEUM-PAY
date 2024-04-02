@@ -91,12 +91,7 @@ export default function Settings() {
                   </div>
                 </ModalBody>
                 <ModalFooter className={styles.modalFooter}>
-                  <Button
-                    size="thin"
-                    onClick={() => {
-                      onClose;
-                    }}
-                  >
+                  <Button size="thin" onClick={onClose}>
                     취소
                   </Button>
                   <Button
