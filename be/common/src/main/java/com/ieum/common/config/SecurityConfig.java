@@ -57,6 +57,9 @@ public class SecurityConfig {
                 ).permitAll();
                 /* Member */
                 authorize.antMatchers(HttpMethod.POST, "/api/member").permitAll();
+                authorize.antMatchers(HttpMethod.GET, "/api/member").authenticated();
+                authorize.antMatchers(HttpMethod.DELETE, "/api/member").authenticated();
+                authorize.antMatchers(HttpMethod.PUT, "/api/member").authenticated();
                 authorize.anyRequest().authenticated();
             }))
         ;
