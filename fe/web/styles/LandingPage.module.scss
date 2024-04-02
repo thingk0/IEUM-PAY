@@ -102,6 +102,36 @@
     .img {
       margin: 0 1rem;
     }
+    .imgMove1 {
+      animation: moveXLeft 1s;
+    }
+    .imgMove2 {
+      animation: moveXRight 1s;
+    }
+  }
+}
+.start {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 30% 0;
+  .imgContainer {
+    flex-direction: column;
+    display: flex;
+    margin: 35% auto 50% auto;
+    .img {
+      margin: 0 1rem;
+    }
+    .imgMove1 {
+      animation: smaller 1s;
+    }
+    .imgElem {
+      margin-top: 20%;
+      margin-left: 8%;
+    }
+    .logo {
+      margin-top: 5%;
+    }
   }
 }
 .constainerMove {
@@ -115,6 +145,12 @@
 }
 .disapearGlobal {
   animation: disappear 1s;
+}
+.appearGlobal {
+  animation: appear 1s;
+}
+.btn {
+  padding: 0 1.2rem;
 }
 
 @keyframes moveAndDisappearXLeft {
@@ -150,6 +186,31 @@
     transform: translateX(300px);
   }
 }
+
+@keyframes moveXLeft {
+  0% {
+    transform: translateX(0);
+  }
+  80% {
+    transform: translateX(50px);
+  }
+  100% {
+    transform: translateX(45px);
+  }
+}
+
+@keyframes moveXRight {
+  0% {
+    transform: translateX(0);
+  }
+  80% {
+    transform: translateX(-50px);
+  }
+  100% {
+    transform: translateX(-45px);
+  }
+}
+
 @keyframes disappear {
   0% {
     opacity: 1;
@@ -164,6 +225,9 @@
 @keyframes appear {
   0% {
     opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
   }
   100% {
     opacity: 1;
@@ -211,5 +275,13 @@
   }
   100% {
     transform: translateX(0);
+  }
+}
+@keyframes smaller {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.6);
   }
 }
