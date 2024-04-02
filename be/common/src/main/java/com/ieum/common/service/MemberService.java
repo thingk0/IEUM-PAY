@@ -36,6 +36,7 @@ import com.ieum.common.repository.MemberRepository;
 import com.ieum.common.repository.PaymoneyRepository;
 import com.ieum.common.util.CookieUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -43,6 +44,7 @@ import java.util.concurrent.CompletionException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -399,11 +401,34 @@ public class MemberService {
         MainSummaryResponseDTO mainPageInfo = payService.getMainPageInfo(memberId);
         FundingInfoResponseDTO funding = fundingFeignClient.getAutoFundingInfo(memberId);
 
+        List<CardDTO> myCardList = new ArrayList<>();
+
         for (CardDTO card : mainPageInfo.getCardList()) {
             if (cardId == card.getRegisteredCardId()) {
-                card.setMainCard(true);
+                myCardList.add(CardDTO.builder()
+                        .registeredCardId(card.getRegisteredCardId())
+                        .cardId(card.getCardId())
+                        .cardNickname(card.getCardNickname())
+                        .cardIssuer(card.getCardIssuer())
+                        .mainCard(true)
+                        .build());
             }
         }
+        int cardCnt = 1;
+        for (CardDTO card : mainPageInfo.getCardList()) {
+            if (cardId != card.getRegisteredCardId()) {
+                myCardList.add(CardDTO.builder()
+                        .registeredCardId(card.getRegisteredCardId())
+                        .cardId(card.getCardId())
+                        .cardNickname(card.getCardNickname())
+                        .cardIssuer(card.getCardIssuer())
+                        .mainCard(false)
+                        .build());
+                cardCnt++;
+            }
+            if(cardCnt == 4) break;
+        }
+
 
         MainResponseDTO responseDTO = new MainResponseDTO();
         responseDTO.setPaymentAmount(mainPageInfo.getPaymentAmount());
@@ -412,7 +437,7 @@ public class MemberService {
         if (funding == null) {
             responseDTO.setLinked(false);
         }
-        responseDTO.setCardList(mainPageInfo.getCardList());
+        responseDTO.setCardList(myCardList);
         return responseDTO;
 
     }
