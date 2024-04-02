@@ -20,7 +20,7 @@ import com.ieum.common.dto.member.res.UpdatedNicknameResponseDto;
 import com.ieum.common.dto.response.MainResponseDTO;
 import com.ieum.common.dto.response.MemberSummaryResponseDTO;
 import com.ieum.common.dto.token.TokenInfo;
-import com.ieum.common.exception.PayMoneyCreationFailedException;
+import com.ieum.common.exception.pay.PayMoneyCreationFailedException;
 import com.ieum.common.exception.feign.PaymentServiceUnavailableException;
 import com.ieum.common.exception.member.ExistingPhoneNumberException;
 import com.ieum.common.exception.member.InvalidLoginAttemptException;
