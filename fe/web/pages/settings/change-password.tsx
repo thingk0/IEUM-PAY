@@ -1,5 +1,12 @@
 import HeaderHome from '@/components/HeaderHome';
-import { Input } from '@nextui-org/react';
+import {
+  Input,
+  Modal,
+  ModalContent,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from '@nextui-org/react';
 import styles from './settings.module.scss';
 import { useState } from 'react';
 import {
@@ -8,6 +15,7 @@ import {
 } from '@/components/icons/PasswordIcon';
 import Button from '@/stories/Button';
 import { chagePassword } from '@/api/userAxois';
+import { useRouter } from 'next/router';
 
 export default function ChangePassword() {
   const [password1, setPassword1] = useState('');
@@ -70,14 +78,18 @@ export default function ChangePassword() {
   const toggleVisibility2 = () => setIsVisible2(!isVisible1);
   const toggleVisibility3 = () => setIsVisible3(!isVisible1);
 
+  const router = useRouter();
+
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   async function passwordApi() {
     const res = await chagePassword(password1, password2);
-    console.log(res);
+    return res?.status == 'SUCCESS' ? true : false;
   }
 
-  const handleClick = () => {
+  const handleClick = async () => {
     const res = passwordApi();
-    console.log(res);
+    (await res) ? router.push('/main') : onOpen();
   };
 
   return (
@@ -175,6 +187,28 @@ export default function ChangePassword() {
           </Button>
         </div>
       </div>
+      <Modal
+        className={styles.modalComp}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalBody className={styles.modalContainer}>
+                <div>
+                  <p>비밀번호를 한번 더 확인해주세요!</p>
+                </div>
+              </ModalBody>
+              <ModalFooter className={styles.modalFooter}>
+                <Button primary size="thin" onClick={onClose}>
+                  확인
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </>
   );
 }
