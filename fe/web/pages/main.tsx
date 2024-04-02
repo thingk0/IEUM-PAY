@@ -12,6 +12,7 @@ import Card from '@/components/Card';
 import Link from 'next/link';
 import { PlusIcon } from '@/components/icons/PlusIcon';
 import { deleteCard, setMainCard } from '@/api/paymentAxios';
+import FetchError from '@/components/layouts/FetchError';
 
 interface cardType {
   cardId: number;
@@ -109,6 +110,15 @@ export default function Home() {
 
     initializeCards();
   }, [results[0].data]);
+  if (results[0].isError)
+    return (
+      <>
+        <HeaderMain />
+        <main className={mainStyles.main}>
+          <FetchError onClick={() => results[0].refetch()} />
+        </main>
+      </>
+    );
   if (!results[0].data) return null;
 
   return (
