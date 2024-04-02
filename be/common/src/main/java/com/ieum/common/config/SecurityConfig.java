@@ -54,7 +54,8 @@ public class SecurityConfig {
                     "/api/auth",
                     "/api/member/login",
                     "/api/member/exist",
-                    "/api/member"
+                    "/api/member",
+                    "/api/auth/token-renew"
                 ).permitAll();
                 authorize.anyRequest().authenticated();
             }))
