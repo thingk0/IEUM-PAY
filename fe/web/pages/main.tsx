@@ -33,7 +33,9 @@ export default function Home() {
   const [cardState, setCardState] = useState<number[]>([]);
   const [prevCardState, setPrevCardState] = useState<number[]>([]);
   const [mainCardId, setMainCardId] = useState<number>(0);
+  const [focusedCardId, setFocusedCardId] = useState<number>(0);
   const [deletedCardId, setDeletedCardId] = useState<number>(0);
+  const [cardId, setCardId] = useState<number>(0);
   const [info, setInfo] = useState<infoType>({
     cardList: [
       {
@@ -63,6 +65,7 @@ export default function Home() {
         )?.registeredCardId;
         if (firstMainCardId) {
           setMainCardId(firstMainCardId);
+          setFocusedCardId(firstMainCardId);
         }
       } catch (e) {
         console.log(e);
@@ -84,11 +87,15 @@ export default function Home() {
   };
 
   const nextCard = () => {
-    console.log(cardState[0] - 1);
-    console.log(results[0].data.data.cardList[cardState[0] - 1].cardIssuer);
-    // console.log('mark', cardState[0]);
+    setFocusedCardId(
+      results[0].data.data.cardList[
+        (cardState.length - cardState[0] + 1) % cardState.length
+      ].registeredCardId,
+    );
+    console.log((cardState.length - cardState[0] + 1) % cardState.length);
+    console.log(focusedCardId);
     const updatedCardState = [...cardState];
-    updatedCardState.push(updatedCardState.shift()!);
+    updatedCardState.unshift(updatedCardState.pop()!);
     setPrevCardState([...cardState]);
     setCardState(updatedCardState);
   };
@@ -107,7 +114,7 @@ export default function Home() {
     const initializeCards = () => {
       const initialCardState = Array.from(
         { length: Math.min(4, results[0].data.data.cardList.length) },
-        (v, k) => k + 1,
+        (v, k) => k,
       );
       setCardState(initialCardState);
       setPrevCardState([...initialCardState]);
@@ -133,9 +140,7 @@ export default function Home() {
       <main className={mainStyles.main}>
         <div className={mainStyles.top}>
           <MainPageDropdown
-            focused={
-              results[0].data.data.cardList[cardState[0] - 1]?.registeredCardId
-            }
+            focused={focusedCardId}
             setMain={setMain}
             callDeleteCard={callDeleteCard}
           ></MainPageDropdown>

@@ -50,17 +50,17 @@ export default function Card({
       key={index}
       className={`${styles.card} ${styles['card' + card]} ${bankColor[bank]}`}
     >
-      <div className={styles.top}>
-        <img src={logoUrl[bank]} alt="bankLogo" className={styles.logo} />
-      </div>
-      <div className={styles.bottom}>
-        <div>
-          <div className={styles.mainMarkBox}>
-            {cardId == mainCardId ? (
-              <div className={styles.mainMark}>대표 카드</div>
-            ) : null}
+      <div className={styles.container}>
+        <div className={styles.top}>
+          <img src={logoUrl[bank]} alt="bankLogo" className={styles.logo} />
+        </div>
+        {cardId == mainCardId ? (
+          <div className={styles.mainMark}>대표 카드</div>
+        ) : null}
+        <div className={styles.bottom}>
+          <div>
+            <div className={styles.nicknameContainer}>{nickname}</div>
           </div>
-          <div className={styles.nicknameContainer}>{nickname}</div>
         </div>
       </div>
     </div>
