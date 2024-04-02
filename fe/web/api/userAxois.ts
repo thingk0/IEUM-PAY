@@ -162,3 +162,17 @@ export function deleteMember() {
   // };
   return axiosAuthApi().delete('/api/member');
 }
+
+export function chagePassword(prePassword: string, newPassword: string) {
+  return axiosAuthApi()
+    .put('api/member/password', {
+      prevPassword: prePassword,
+      newPassword: newPassword,
+    })
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}

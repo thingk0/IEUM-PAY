@@ -41,7 +41,13 @@ export default function Settings() {
             <ChevronRightIcon />
           </div>
           <div className={styles.menuBox}>
-            <SettingsMenu>비밀번호 변경</SettingsMenu>
+            <SettingsMenu
+              onClick={() => {
+                router.push('/settings/change-password');
+              }}
+            >
+              비밀번호 변경
+            </SettingsMenu>
             <SettingsMenu
               onClick={() => {
                 router.push('/settings/policy');
