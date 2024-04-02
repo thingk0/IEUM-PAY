@@ -6,6 +6,7 @@ import { deleteMember, getMainData, getUserInfo } from '@/api/userAxois';
 import useUserStore from '@/stores/user-store';
 import { useRouter } from 'next/router';
 import { eraseCookie } from '@/utils/cookie';
+import Header from '@/components/Header';
 
 export default function MemberDeletePage() {
   const { userInfo } = useUserStore();
@@ -43,9 +44,18 @@ export default function MemberDeletePage() {
           </li>
         </ul>
         <p>{results[0].data}원이 잔고에 남아있습니다</p>
-        <Button primary onClick={() => handleClick()}>
-          탈퇴하기
-        </Button>
+        <footer>
+          {results[0].data > 100 ? (
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <Button onClick={() => router.push('/send-money')}>송금</Button>
+              <Button onClick={() => router.push('/fundraising')}>기부</Button>
+            </div>
+          ) : (
+            <Button primary onClick={() => handleClick()}>
+              탈퇴하기
+            </Button>
+          )}
+        </footer>
       </main>
     );
 }

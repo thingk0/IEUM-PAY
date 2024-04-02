@@ -1,5 +1,6 @@
 import styles from '@/styles/FundPage.module.scss';
 import { Progress } from '@nextui-org/react';
+import dayjs from 'dayjs';
 import Link from 'next/link';
 interface fundingList {
   fundingId: number;
@@ -44,7 +45,9 @@ export function CardList({ fundingList, isOngoing }: CardListProps) {
               </div>
               <div className={styles.cardTextContiner}>
                 <div>{unit.facilityName}</div>
-                <div>{unit.fundingOpenDate}</div>
+                <div>
+                  {dayjs(unit.fundingOpenDate).format('YYYY년 M월 D일')}~
+                </div>
                 <div>
                   <div className={styles.cntProgressText}>
                     <div>{unit.fundingPeopleCnt}명 참여중</div>

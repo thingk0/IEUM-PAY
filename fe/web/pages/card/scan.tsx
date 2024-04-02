@@ -251,14 +251,17 @@ function ScanCardPage() {
               <ModalFooter className={classes.modalFooter}>
                 {data.cardNumber != 'dummy' ? (
                   data.cardNumber == '' ? (
-                    <Button
-                      size="thin"
-                      onClick={() => {
-                        onClose;
-                      }}
-                    >
-                      다시 촬영하기
-                    </Button>
+                    <>
+                      {setData({ cardNumber: 'dummy', validThru: '' })}
+                      <Button
+                        size="thin"
+                        onClick={() => {
+                          onClose;
+                        }}
+                      >
+                        다시 촬영하기
+                      </Button>
+                    </>
                   ) : (
                     <Button
                       size="thin"

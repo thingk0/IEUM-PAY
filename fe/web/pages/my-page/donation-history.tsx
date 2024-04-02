@@ -47,7 +47,11 @@ export default function DonationHistory() {
     <>
       <HeaderHome>이음조각</HeaderHome>
       <div className={styles.fundingListBox}>
-        <CardList fundingList={fundingInfo} isOngoing={false} />
+        {fundingInfo.length > 0 ? (
+          <CardList fundingList={fundingInfo} isOngoing={false} />
+        ) : (
+          <p>기부 내역이 아직 없어요🥲</p>
+        )}
       </div>
     </>
   );
