@@ -91,7 +91,14 @@ function WherePage() {
   //     </>
   //   );
   const [isOpen, setIsOpen] = useState(false);
-  if (results[1].isFetching) return null;
+  if (results[1].isLoading)
+    return (
+      <>
+        <HeaderMain />
+        <main className={classes.main}></main>
+        <TabBar selected="sendMoney" />
+      </>
+    );
   else if (results[1].data.data.cardList.length === 0) {
     return (
       <>
