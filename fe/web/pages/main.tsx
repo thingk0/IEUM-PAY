@@ -79,11 +79,14 @@ export default function Home() {
     setMainCardId(id);
   };
 
-  const callDeleteCard = (id: number) => {
+  const callDeleteCard = async (id: number) => {
     if (id == mainCardId) {
+      console.log('대표 카드는 삭제가 불가능합니다.');
+    } else {
+      deleteCard(id);
+      setDeletedCardId(id);
+      window.location.reload();
     }
-    deleteCard(id);
-    setDeletedCardId(id);
   };
 
   const nextCard = () => {
@@ -92,8 +95,8 @@ export default function Home() {
         (cardState.length - cardState[0] + 1) % cardState.length
       ].registeredCardId,
     );
-    console.log((cardState.length - cardState[0] + 1) % cardState.length);
-    console.log(focusedCardId);
+    // console.log((cardState.length - cardState[0] + 1) % cardState.length);
+    // console.log(focusedCardId);
     const updatedCardState = [...cardState];
     updatedCardState.unshift(updatedCardState.pop()!);
     setPrevCardState([...cardState]);
