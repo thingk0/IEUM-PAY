@@ -18,14 +18,37 @@ $cardWidth: 20rem;
   padding: 0.75rem 0.75rem;
 }
 
-.logo {
-  width: 5.4rem;
+.top {
+  display: flex;
+  justify-content: space-between;
 }
 
-.cardBottom {
+.logo {
+  width: 5.4rem;
+  // height: 1.2rem;
+}
+
+.bottom {
   display: flex;
   justify-content: end;
   padding-bottom: 0.2rem;
+}
+
+.mainMarkBox {
+  display: flex;
+  justify-content: end;
+}
+.mainMark {
+  border: none;
+  border-radius: 1rem;
+  border: 1px solid var(--primary-color);
+  background-color: var(--real-white);
+  color: var(--primary-color);
+  padding: 0.3rem 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 1000;
+  margin-top: 0.3rem;
+  width: 5rem;
 }
 
 .nicknameContainer {
@@ -35,7 +58,8 @@ $cardWidth: 20rem;
   color: var(--real-white);
   padding: 0.3rem 0.7rem;
   font-size: 0.8rem;
-  font-weight: 800;
+  font-weight: 600;
+  margin-top: 0.3rem;
 }
 
 .card1 {
