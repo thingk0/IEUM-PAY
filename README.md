@@ -283,7 +283,7 @@
 
 ### API 명세서
 
-[API 명세 노션 링크](https://www.notion.so/ieum-pay/FE-38af95dd0b6d47aa8ad3182d3b45fdcd)
+[API 명세 노션 링크](https://www.notion.so/ieum-pay/API-a95a0fc62f714a6c808d767088e480e4)
 
 ---
 
