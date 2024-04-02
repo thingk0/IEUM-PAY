@@ -17,17 +17,32 @@ import Button from '@/stories/Button';
 import useUserStore from '@/stores/user-store';
 import { useQuery } from '@tanstack/react-query';
 import { getUserInfo } from '@/api/userAxois';
-
+import FetchError from '@/components/layouts/FetchError';
+function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      <HeaderMain />
+      <div className={styles.container}>{children}</div>
+    </>
+  );
+}
 export default function Settings() {
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { userInfo } = useUserStore();
 
-  const { data } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['userinfo'],
     queryFn: getUserInfo,
   });
-  if (data)
+  if (isLoading) return <Layout>로딩중</Layout>;
+  else if (isError)
+    return (
+      <Layout>
+        <FetchError onClick={() => refetch()} />
+      </Layout>
+    );
+  else if (data)
     return (
       <>
         <HeaderMain />
