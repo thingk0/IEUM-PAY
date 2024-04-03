@@ -2,13 +2,21 @@
 import React, { useEffect } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getMessaging, onMessage, getToken } from 'firebase/messaging';
+import Button from '@/stories/Button';
 
 const Index = () => {
-  const onMessageFCM = async () => {
+  function handleClick() {
     // 브라우저에 알림 권한을 요청합니다.
-    const permission = await Notification.requestPermission();
-    if (permission !== 'granted') return;
-
+    async function getPermission() {
+      const permission = await Notification.requestPermission();
+      if (permission !== 'granted') {
+        alert('허용되었습니다');
+      }
+      onMessageFCM();
+    }
+    getPermission();
+  }
+  const onMessageFCM = async () => {
     // 이곳에도 아까 위에서 앱 등록할때 받은 'firebaseConfig' 값을 넣어주세요.
     const firebaseApp = initializeApp({
       apiKey: 'AIzaSyAnHEyqUnFoxudUMWnFvntVMDKZTymOLxw',
@@ -46,13 +54,12 @@ const Index = () => {
     });
   };
 
-  useEffect(() => {
-    onMessageFCM();
-  }, []);
-
   return (
     <div>
       <h1>서비스를 원활하게 이용하기 위해서 알림 권한을 허용해주세요</h1>
+      <Button primary onClick={handleClick}>
+        허용하기
+      </Button>
     </div>
   );
 };

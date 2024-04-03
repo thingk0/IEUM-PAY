@@ -106,7 +106,9 @@ function WherePage() {
   else if (results[1].isError || results[2].isError) {
     return (
       <Layout>
-        <FetchError onClick={() => results[1].refetch()} />
+        <div className={classes.errorContainer}>
+          <FetchError onClick={() => results[1].refetch()} />
+        </div>
       </Layout>
     );
   } else if (results[1].data.data.cardList.length === 0) {

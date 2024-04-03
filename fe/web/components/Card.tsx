@@ -44,6 +44,7 @@ export default function Card({
       'https://www.shinhangroup.com/kr/asset/images/introduce/shinhan_CI_kr_2022-08.png',
     씨티카드: 'https://rasta.co.kr/web/upload/img/card/card_ct.png',
     이음페이: '/longLogo.svg',
+    로딩: '/longLogoBlack.svg',
   };
   return (
     <div
