@@ -15,6 +15,7 @@ import {
 } from '@nextui-org/react';
 import { registerCard } from '@/api/paymentAxios';
 import { useRouter } from 'next/router';
+import CameraIconSmall from '@/stories/icons/CameraIconSmall';
 
 function CardPage({
   cardNum,
@@ -146,7 +147,7 @@ function CardPage({
           </form>
           <Link href="/card/scan">
             <div className={classes.camera}>
-              <CameraIcon />
+              <CameraIconSmall />
             </div>
           </Link>
         </div>
