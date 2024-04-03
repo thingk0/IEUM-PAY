@@ -1,0 +1,51 @@
+package com.ieum.pay.controller;
+
+import com.ieum.pay.domain.Cards;
+import com.ieum.pay.request.CardRegisterRequest;
+import com.ieum.pay.request.CardValidRequest;
+import com.ieum.pay.response.CardDetailResponse;
+import com.ieum.pay.service.CardRegistrationService;
+import com.ieum.pay.service.CardService;
+import com.ieum.pay.service.CardValidationService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/card")
+@RequiredArgsConstructor
+public class CardController {
+
+    private final CardService cardService;
+    private final CardRegistrationService cardRegistrationService;
+    private final CardValidationService cardValidationService;
+
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void registerCard(@RequestBody CardRegisterRequest request) {
+        String cardNumber = request.cardNumber();
+        if (!cardValidationService.isValidCardNumber(cardNumber)) {
+            throw new IllegalArgumentException("Invalid card number");
+        }
+
+        Cards card = cardService.findCardByNumber(cardNumber);
+        String nickname = request.cardNickname() != null ? request.cardNickname() : card.generateDefaultNickname(cardNumber);
+        cardRegistrationService.registerCard(card, request.memberId(), nickname);
+    }
+
+    @DeleteMapping("/{registeredCardId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCard(@PathVariable Long registeredCardId, @RequestBody CardValidRequest request) {
+        cardRegistrationService.deleteCard(request.memberId(), registeredCardId);
+    }
+
+    @GetMapping("/{registeredCardId}/name")
+    public String getCardName(@PathVariable Long registeredCardId) {
+        return cardService.getCardName(registeredCardId);
+    }
+
+    @GetMapping("/company")
+    public CardDetailResponse getCardCompany(@RequestParam String cardNumber) {
+        return cardService.getCardCompany(cardNumber);
+    }
+}

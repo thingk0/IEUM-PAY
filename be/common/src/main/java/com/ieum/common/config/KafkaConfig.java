@@ -1,7 +1,7 @@
 package com.ieum.common.config;
 
+import com.ieum.common.message.FcmConnectionRequestMessage;
 import com.ieum.common.message.FundingCompletedMessage;
-import com.ieum.common.message.SseConnectionRequestMessage;
 import com.ieum.common.message.TransferReceivedMessage;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +21,11 @@ public class KafkaConfig {
     private String bootstrapServers;
 
     @Bean
+    public KafkaTemplate<String, FcmConnectionRequestMessage> FcmPushEventConnectionRequestMessageTemplate() {
+        return new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(kafkaProperties()));
+    }
+
+    @Bean
     public KafkaTemplate<String, TransferReceivedMessage> transferReceivedMessageTemplate() {
         return new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(kafkaProperties()));
     }
@@ -30,13 +35,7 @@ public class KafkaConfig {
         return new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(kafkaProperties()));
     }
 
-    @Bean
-    public KafkaTemplate<String, SseConnectionRequestMessage> sseConnectionRequestMessageTemplate() {
-        return new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(kafkaProperties()));
-    }
-
-    @Bean
-    public Map<String, Object> kafkaProperties() {
+    private Map<String, Object> kafkaProperties() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);

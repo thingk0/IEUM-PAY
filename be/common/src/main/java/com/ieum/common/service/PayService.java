@@ -11,6 +11,7 @@ import com.ieum.common.feign.PayFeignClient;
 import com.ieum.common.format.code.Topic;
 import com.ieum.common.message.TransferReceivedMessage;
 import com.ieum.common.repository.MemberRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -140,12 +141,8 @@ public class PayService {
         return payFeignClient.getRemittanceHistory(memberId, historyId);
     }
 
-    public String getCardName(Long registeredCardId) {
+    public Optional<String> getCardName(Long registeredCardId) {
         return payFeignClient.getCardName(registeredCardId);
-    }
-
-    public MainSummaryResponseDTO getMainSummary(Long memberId) {
-        return payFeignClient.getMainPageInfo(memberId);
     }
 
     public CardDetailResponseDTO getCardDetail(String cardNum) {
@@ -153,27 +150,41 @@ public class PayService {
     }
 
     public Long remmitancePaymoney(Long senderId, PayRemittancePaymoneyRequestDTO request) {
+
         Members sender = memberRepository.findById(senderId).orElseThrow(MemberNotFoundByIdException::new);
         if (sender.getPaycardId() == null) {
             throw new PayCardNotFoundException();
         }
+
         Members receiver = memberRepository.findByPhoneNumber(request.getPhoneNumber());
-        Long result = payFeignClient.remittancePaymoney(RemittanceRequestDTO.builder()
-                                                                            .senderId(senderId)
-                                                                            .senderName(sender.getName())
-                                                                            .receiverId(receiver.getId())
-                                                                            .receiverName(receiver.getName())
-                                                                            .amount(request.getAmount())
-                                                                            .cardId(sender.getPaycardId())
-                                                                            .build());
+        Long result = payFeignClient.remittancePaymoney(getRemittanceRequestDTO(senderId, request, sender, receiver));
 
         transferReceivedMessageTemplate.send(Topic.TRANSFER_RECEIVED.getTopicName(),
-                                             TransferReceivedMessage.builder()
-                                                                    .amount(request.getAmount())
-                                                                    .receiverId(receiver.getId())
-                                                                    .senderId(sender.getId())
-                                                                    .transferId(result)
-                                                                    .build());
+                                             getTransferReceivedMessage(request, receiver, sender, sender.getName()));
+
         return result;
+    }
+
+
+    private static TransferReceivedMessage getTransferReceivedMessage(PayRemittancePaymoneyRequestDTO request,
+                                                                      Members receiver, Members sender, String senderName) {
+        return TransferReceivedMessage.builder()
+                                      .amount(request.getAmount())
+                                      .receiverId(receiver.getId())
+                                      .senderId(sender.getId())
+                                      .senderName(senderName)
+                                      .build();
+    }
+
+    private static RemittanceRequestDTO getRemittanceRequestDTO(Long senderId, PayRemittancePaymoneyRequestDTO request,
+                                                                Members sender, Members receiver) {
+        return RemittanceRequestDTO.builder()
+                                   .senderId(senderId)
+                                   .senderName(sender.getName())
+                                   .receiverId(receiver.getId())
+                                   .receiverName(receiver.getName())
+                                   .amount(request.getAmount())
+                                   .cardId(sender.getPaycardId())
+                                   .build();
     }
 }
