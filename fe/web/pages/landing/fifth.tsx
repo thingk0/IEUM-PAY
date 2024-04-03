@@ -15,13 +15,13 @@ export default function LandingPageFourth() {
     }, 1000);
     const timeout2 = setTimeout(() => {
       setChangeToLogoWire(true);
-    }, 1800);
+    }, 2800);
     const timeout3 = setTimeout(() => {
       setChangeToLogo(true);
-    }, 2700);
+    }, 3700);
     const timeout4 = setTimeout(() => {
       router.push('/landing/start');
-    }, 3700);
+    }, 4700);
     return () => {
       clearTimeout(timeout1);
       clearTimeout(timeout2);
@@ -51,7 +51,11 @@ export default function LandingPageFourth() {
                     alt="원"
                   />
                 ) : (
-                  <img src="/landing/logoEllipse.svg" alt="원" />
+                  <img
+                    className={styles.disapear1}
+                    src="/landing/logoEllipse.svg"
+                    alt="원"
+                  />
                 )}
               </div>
               <div className={styles.img}>
@@ -62,7 +66,11 @@ export default function LandingPageFourth() {
                     alt="원"
                   />
                 ) : (
-                  <img src="/landing/logoEllipse.svg" alt="원" />
+                  <img
+                    className={styles.disapear1}
+                    src="/landing/logoEllipse.svg"
+                    alt="원"
+                  />
                 )}
               </div>
             </>
