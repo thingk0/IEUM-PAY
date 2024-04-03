@@ -323,7 +323,7 @@ public class MemberService {
      */
     private void validatePhoneNumberConfirmation(String phoneNumber) {
         boolean confirmed = isPhoneNumberConfirmed(phoneNumber);
-        if (!confirmed) {
+        if (!confirmed) { // 지우지 말것 이메일 서버 고치면 다시 풀어야함
             throw new InvalidPhoneNumberException();
         }
     }
@@ -338,7 +338,8 @@ public class MemberService {
     private boolean isPhoneNumberConfirmed(String phoneNumber) {
         String redisKey = "confirmed-phone-number:" + phoneNumber;
         String confirmedValue = stringRedisTemplate.opsForValue().get(redisKey);
-        return Boolean.parseBoolean(confirmedValue);
+        // return Boolean.parseBoolean(confirmedValue);
+        return true; // 시연용 true 반환
     }
 
     /**
