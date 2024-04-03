@@ -86,16 +86,14 @@ public interface FundingRepository extends JpaRepository<Funding, Long> {
     FundingResultResponseDTO getFacilityInfo(Long fundingId);
 
 
-    @Query("""
-        SELECT new com.ieum.funding.response.FundingInfoResponseDTO(
-            f.fundingId, 
-            (f.goalAmount - f.currentAmount), 
-            fac.facilityName
-        ) 
-        FROM Funding f 
-        JOIN Facilities fac ON f.facilityId = fac.facilityId 
-        WHERE f.fundingId IN (SELECT fm.fundingId FROM FundingMembers fm WHERE fm.memberId = :memberId AND fm.isAutoFundingStatus = true)
-        """)
+    @Query("SELECT new com.ieum.funding.response.FundingInfoResponseDTO(" +
+            "f.fundingId, " +
+            "(f.goalAmount - f.currentAmount), " +
+            "fac.facilityName) " +
+            "FROM Funding f " +
+            "JOIN Facilities fac ON f.facilityId = fac.facilityId " +
+            "WHERE f.fundingId IN (SELECT fm.fundingId FROM FundingMembers fm WHERE fm.memberId = :memberId AND fm.isAutoFundingStatus = true)"
+    )
     FundingInfoResponseDTO getAutoDonationInfo(Long memberId);
 
     @Query("SELECT new com.ieum.funding.response.FundingReceiptResponseFromFDTO(" +
