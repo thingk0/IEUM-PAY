@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TransferReceivedMessage {
 
-    private int amount;
     private Long senderId;
-    private Long transferId;
+    private String senderName;
     private Long receiverId;
+    private int amount;
 }
