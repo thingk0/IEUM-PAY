@@ -179,7 +179,7 @@ function TabBar({
             <>
               <ModalBody className={classes.modalContainer}>
                 <div>
-                  <p>카드를 등록해주세요.</p>
+                  <p>결제하시려면 카드를 등록해주세요.</p>
                 </div>
               </ModalBody>
               <ModalFooter className={classes.modalFooter}>

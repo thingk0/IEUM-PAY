@@ -81,12 +81,13 @@ public class FundingService {
     }
 
     // 직접 기부
-    public DirectlyDonationResponseDTO donationDirectly(DirectlyDonationRequestDTO request, Long memberId) {
+    public DirectlyDonationResponseDTO donationDirectly(DirectlyDonationRequestDTO request, Long memberId, String nickname) {
         // 기부
         FundingDonationRequestDTO funding = FundingDonationRequestDTO.builder()
                                                                      .fundingId(request.getFundingId())
                                                                      .amount(request.getAmount())
                                                                      .memberId(memberId)
+            .nickname(nickname)
                                                                      .build();
 
         if (!fundingFeignClient.donationDirectly(funding).getFundingResult()) {

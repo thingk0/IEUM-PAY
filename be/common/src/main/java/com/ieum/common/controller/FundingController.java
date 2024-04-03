@@ -139,7 +139,8 @@ public class FundingController {
             return response.error(PAYMENT_REGISTERED_CARD_NULL);
         }
 
-        return response.success(fundingService.donationDirectly(request, memberId),
+        return response.success(fundingService.donationDirectly(request, memberId,
+                member.getNickname()),
                                 SuccessCode.DIRECT_DONATION_SUCCESS);
     }
 

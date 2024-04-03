@@ -1,5 +1,6 @@
 package com.ieum.common.service;
 
+import com.google.gson.Gson;
 import com.ieum.common.domain.Members;
 import com.ieum.common.dto.feign.pay.request.*;
 import com.ieum.common.dto.feign.pay.response.*;
@@ -25,7 +26,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PayService {
 
-    private final KafkaTemplate<String, TransferReceivedMessage> transferReceivedMessageTemplate;
+    private final Gson gson;
+    private final KafkaTemplate<String, String> kafkaTemplate;
     private final PayFeignClient payFeignClient;
     private final MemberRepository memberRepository;
 
@@ -156,8 +158,8 @@ public class PayService {
         Members receiver = memberRepository.findByPhoneNumber(request.getPhoneNumber());
         Long result = payFeignClient.remittancePaymoney(getRemittanceRequestDTO(senderId, request, sender, receiver));
 
-        transferReceivedMessageTemplate.send(Topic.TRANSFER_RECEIVED.getTopicName(),
-                                             getTransferReceivedMessage(request, receiver, sender, sender.getName()));
+        kafkaTemplate.send(Topic.TRANSFER_RECEIVED.getTopicName(),
+                           gson.toJson(getTransferReceivedMessage(request, receiver, sender, sender.getName())));
 
         return result;
     }

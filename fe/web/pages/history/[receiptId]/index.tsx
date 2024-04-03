@@ -62,8 +62,8 @@ export default function ReceiptPage() {
   if (data)
     return (
       <>
-        <PageTitleCenter title={''} description={''}></PageTitleCenter>
         <main className={classes.container}>
+          <PageTitleCenter title={''} description={''}></PageTitleCenter>
           <div className={classes.receipt} ref={receiptRef}>
             <h1>이음페이 기부 영수증</h1>
             <DashedUnderLine />

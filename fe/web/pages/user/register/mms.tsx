@@ -23,16 +23,26 @@ export default function Mms() {
   }
 
   return (
-    <div className={styles.container}>
-      <PageTitleLeft
-        title="사용자 인증"
-        description={'문자 메시지를 통해 휴대폰 본인확인을 진행합니다'}
-        description2={'문자의 내용을 수정없이 보내주세요'}
-      />
-      <img src="/mms_image.png" alt="mss 문자 예시 이미지" />
-      <Button primary size="thick" onClick={handleClick}>
-        확인
-      </Button>
-    </div>
+    <>
+      <div className={styles.container}>
+        <PageTitleLeft
+          title="사용자 인증"
+          description={'문자 메시지를 통해 휴대폰 본인확인을 진행합니다'}
+          description2={'문자의 내용을 수정없이 보내주세요'}
+        />
+        <div className={styles.imageContainer}>
+          <img
+            src="/mms_image.png"
+            alt="mss 문자 예시 이미지"
+            className={styles.image}
+          />
+        </div>
+      </div>
+      <div className={styles.btnTag}>
+        <Button primary size="thick" onClick={handleClick}>
+          확인
+        </Button>
+      </div>
+    </>
   );
 }

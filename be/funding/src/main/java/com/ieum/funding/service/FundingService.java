@@ -22,6 +22,7 @@ import com.ieum.funding.response.FundingReceiptResponseDTO;
 import com.ieum.funding.response.FundingReceiptResponseFromFDTO;
 import com.ieum.funding.response.FundingSummaryResponseDTO;
 import com.ieum.funding.response.FundingResultResponseDTO;
+import java.lang.reflect.Member;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -125,11 +126,23 @@ public class FundingService {
         return fundingRepository.getFacilityInfo(fundingId);
     }
 
-    public Boolean directDonation(Long fundingId, Long memberId, Integer amount) {
+    public Boolean directDonation(Long fundingId, Long memberId, Integer amount, String nickname) {
         // 펀딩에 current_amount 증가
         Funding checkFunding = fundingRepository.findByFundingId(fundingId);
         // 기부 가능 여부 체크
         if ((checkFunding.getGoalAmount() - checkFunding.getCurrentAmount()) >= amount) {
+            Optional<FundingMembers> fm = fundingMembersRepository.findFirstByFundingIdAndMemberId(fundingId, memberId);
+            if (fm.isEmpty()) {
+                FundingMembers fundingMember = FundingMembers.builder()
+                    .fundingId(fundingId)
+                    .memberId(memberId)
+                    .fundingTotalAmount(0)
+                    .isAutoFundingStatus(false)
+                    .nickname(nickname)
+                    .build();
+                fundingMembersRepository.save(fundingMember);
+            }
+
             fundingRepository.updateFunding(fundingId, amount);
             fundingMembersRepository.updateFundingMember(fundingId, memberId, amount);
 

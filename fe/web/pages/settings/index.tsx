@@ -16,7 +16,7 @@ import {
 import Button from '@/stories/Button';
 import useUserStore from '@/stores/user-store';
 import { useQuery } from '@tanstack/react-query';
-import { getUserInfo } from '@/api/userAxois';
+import { getUserInfo, logout } from '@/api/userAxois';
 import FetchError from '@/components/layouts/FetchError';
 function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -48,10 +48,10 @@ export default function Settings() {
         <HeaderMain />
         <div className={styles.container}>
           <PageTitleLeft title={'설정'} description={''} />
-          <div className={styles.myBox}>
+          <div className={styles.myBox} onClick={() => router.push('/my-page')}>
             <div className={styles.myBoxText}>
               <p className={styles.name}>{data.data.name}</p>
-              <p className={styles.subText}>내 정보 수정하기</p>
+              <p className={styles.subText}>내 정보</p>
             </div>
             <ChevronRightIcon />
           </div>
@@ -103,6 +103,7 @@ export default function Settings() {
                     primary
                     size="thin"
                     onClick={() => {
+                      logout();
                       eraseCookie('access_token');
                       router.push('/user');
                       onClose;

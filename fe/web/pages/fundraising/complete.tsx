@@ -70,7 +70,7 @@ export default function CompleteDonation() {
             <img src={data.facilityImage} alt="기관 이미지" />
           </div>
           <div className={styles.textContainer}>
-            <p>{donateMoneyInfo.기관명}</p>
+            <p className={styles.title}>{donateMoneyInfo.기관명}</p>
             <p>{data.facilityTitle}</p>
           </div>
         </div>
