@@ -142,7 +142,9 @@ export default function MyPage() {
         {isLoading ? (
           <div>로딩중</div>
         ) : isError ? (
-          <FetchError onClick={() => refetch()}></FetchError>
+          <div className={styels.errorContainer}>
+            <FetchError onClick={() => refetch()}></FetchError>
+          </div>
         ) : (
           <>
             <div className={styels.nameContainer}>

@@ -1,6 +1,15 @@
+.errorContainer {
+  width: 100vw;
+  height: 40rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .main {
   padding: 0.625rem 1.25rem;
 }
+
 .top {
   padding-top: 0.4rem;
   display: flex;

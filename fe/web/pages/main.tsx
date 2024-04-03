@@ -48,16 +48,37 @@ export default function Home() {
   const [info, setInfo] = useState<infoType>({
     cardList: [
       {
-        cardId: 1318,
-        cardIssuer: 'KB국민카드',
-        cardNickname: 'KB국민카드',
+        cardId: -1,
+        cardIssuer: '로딩',
+        cardNickname: 'Loading...',
         mainCard: false,
-        registeredCardId: 12,
+        registeredCardId: -1,
+      },
+      {
+        cardId: -1,
+        cardIssuer: '로딩',
+        cardNickname: 'Loading...',
+        mainCard: false,
+        registeredCardId: -1,
+      },
+      {
+        cardId: -1,
+        cardIssuer: '로딩',
+        cardNickname: 'Loading...',
+        mainCard: false,
+        registeredCardId: -1,
+      },
+      {
+        cardId: -1,
+        cardIssuer: '로딩',
+        cardNickname: 'Loading...',
+        mainCard: false,
+        registeredCardId: -1,
       },
     ],
-    linked: true,
-    paymentAmount: 8000,
-    totalDonation: 1843490,
+    linked: false,
+    paymentAmount: 0,
+    totalDonation: 0,
   });
 
   const goFund = () => {
@@ -139,7 +160,7 @@ export default function Home() {
     return (
       <>
         <HeaderMain />
-        <main className={mainStyles.main}>
+        <main className={mainStyles.errorContainer}>
           <FetchError onClick={() => results[0].refetch()} />
         </main>
         <TabBar selected="payment" />
