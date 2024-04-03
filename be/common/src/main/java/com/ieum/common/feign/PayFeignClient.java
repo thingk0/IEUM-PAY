@@ -162,7 +162,7 @@ public interface PayFeignClient {
     @GetMapping("/remittance/{memberId}/{historyId}")
     RemittanceHistoryResponseDTO getRemittanceHistory(@PathVariable("memberId") Long memberId, @PathVariable("historyId") Long historyId);
 
-    @GetMapping("/card/{registeredCardId}")
+    @GetMapping("/card/{registeredCardId}/name")
     Optional<String> getCardName(@PathVariable("registeredCardId") Long registeredCardId);
 
     @GetMapping("/member/pp/{memberId}")
