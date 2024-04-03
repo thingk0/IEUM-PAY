@@ -52,15 +52,14 @@
     color: var(--sub-text);
   }
   button {
-    padding: 0.438rem 0.75rem 0.25rem;
-    border-radius: 4px;
+    padding: 0.5rem 0.8rem;
+    border-radius: 0.4rem;
     background-color: var(--primary-color);
     font-size: 0.75rem;
     font-weight: 500;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
-    letter-spacing: -0.96px;
     text-align: left;
     color: var(--white);
   }
@@ -79,3 +78,7 @@
     transform: rotate(-180deg);
   }
 }
+
+// .btn {
+//   height: 2.2rem;
+// }

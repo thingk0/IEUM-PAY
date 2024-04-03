@@ -105,6 +105,7 @@ function Accordion({ history }: AccordionProps) {
                   </span>
                   <button
                     onClick={() => router.push('/history/' + history.historyId)}
+                    className={classes.btn}
                   >
                     기부 영수증
                   </button>

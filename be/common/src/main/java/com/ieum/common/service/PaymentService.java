@@ -34,8 +34,16 @@ public class PaymentService {
                                                                             .build());
 
         Long cardId = memberService.findMemberById(memberId).getPaycardId();
-        Long historyId = payService.payment(memberId, dto.getStoreId(), funding.getFundingId(), cardId,
-                                            dto.getPrice(), funding.getAmount(), dto.getChargeAmount());
+        Long historyId = 0L;
+        if(funding == null){
+            historyId = payService.payment(memberId, dto.getStoreId(), 0L, cardId,
+                    dto.getPrice(), 0, dto.getChargeAmount());
+        }
+        else {
+            historyId = payService.payment(memberId, dto.getStoreId(), funding.getFundingId(), cardId,
+                    dto.getPrice(), funding.getAmount(), dto.getChargeAmount());
+        }
+
 
         return PaymentResponseDTO.builder()
                                  .historyId(historyId)
