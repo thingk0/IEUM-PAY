@@ -15,9 +15,6 @@ interface fundingType {
   fundingTitle: string;
   goalAmount: number;
 }
-// interface stateType {
-//   fundings: fundingType[];
-// }
 
 export default function DonationHistory() {
   const [fundingInfo, setFundingInfo] = useState<fundingType[]>([
@@ -48,7 +45,7 @@ export default function DonationHistory() {
       <HeaderHome>이음조각</HeaderHome>
       <div className={styles.fundingListBox}>
         {fundingInfo.length > 0 ? (
-          <CardList fundingList={fundingInfo} isOngoing={false} />
+          <CardList fundingList={fundingInfo} isOngoing={true} />
         ) : (
           <p>기부 내역이 아직 없어요🥲</p>
         )}
