@@ -94,7 +94,7 @@ function AmountDonateButtonList() {
       },
     },
     {
-      text: '막타',
+      text: '채움',
       onClick: () => {
         setLastAmount();
       },
