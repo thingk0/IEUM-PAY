@@ -21,21 +21,14 @@ import {
 } from '@nextui-org/react';
 import Button from '@/stories/Button';
 
-// interface PasswordPage {
-//   title: string;
-//   description: string;
-//   queryObj: Object;
-// }
-
 function PasswordPage({ id, pushUrl }: { id: string; pushUrl?: string }) {
-  // const [message, setMessage] = useState('');
   const [password, setPassword] = useState<number[]>([]);
   const [isTrue, setIsTrue] = useState(true);
   const { userInfo, setPaymentPassword } = useUserStore();
   const { donateMoneyInfo, setFundingId } = useDonateMoneyInfo();
   const { paymentInfo } = usePaymentInfo();
   const { sendMoneyInfo } = useSendMoneyInfo();
-  const [cnt, setCnt] = useState(1);
+  const [cnt, setCnt] = useState(0);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const pageId = [
@@ -47,7 +40,6 @@ function PasswordPage({ id, pushUrl }: { id: string; pushUrl?: string }) {
 
   const payLogic = async (key: string) => {
     if (pushUrl != undefined) {
-      // 여기서 분기점
       if (pushUrl == 'fundraising-complete') {
         const fundingId = await directDonate(
           donateMoneyInfo.기관아이디,
@@ -63,8 +55,6 @@ function PasswordPage({ id, pushUrl }: { id: string; pushUrl?: string }) {
       } else if (pushUrl == 'payment') {
         const paymentRes = await payment(paymentInfo, key);
         if (paymentRes != undefined) {
-          console.log(paymentRes);
-          console.log(paymentRes.data.historyId);
           router.push({
             pathname: '/payment/PaymentComplete',
             query: {
@@ -101,15 +91,14 @@ function PasswordPage({ id, pushUrl }: { id: string; pushUrl?: string }) {
             : (setIsTrue(false), setPassword([]));
         } else if (id == '0') {
           const check = await confirmPassword(password.join(''));
-          console.log(check);
+          setCnt(cnt + 1);
           if (check.status == 'SUCCESS') {
             const key = check.data.authenticationKey;
             payLogic(key);
           } else {
-            setCnt(cnt + 1);
             setIsTrue(false);
             setPassword([]);
-            if (cnt == 5) {
+            if (cnt == 4) {
               onOpen();
             }
           }
@@ -152,7 +141,7 @@ function PasswordPage({ id, pushUrl }: { id: string; pushUrl?: string }) {
           {(onClose) => (
             <>
               <ModalBody className={classes.modalContainer}>
-                <div>
+                <div className={classes.text}>
                   <p>결제에 실패했습니다</p>
                 </div>
               </ModalBody>
