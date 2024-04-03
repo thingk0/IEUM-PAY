@@ -101,7 +101,8 @@
 ### 박수형 - Frontend
 
 - 기능 구현
-- 정보, 모금, 로그인/아웃, 회원 페이지 구현
+- 정보, 모금, 로그인/아웃 페이지
+- 인트로, 회원 페이지 구현
 
 ### 고명성 - Backend
 
@@ -113,7 +114,7 @@
 
 ### 김범수 - Backend
 
-- 인증, 인가 (MAIL, 2FA)
+- 인증, 인가 관리 (MAIL, 2FA - Redis)
 - 펀딩 서버 구현
 - DB 설계 및 관리
 
@@ -128,8 +129,8 @@
 ### 서비스 소개 페이지
 
 <div markdown="1">
-<img src="./img/service/service1.jpg"/>
-<img src="./img/service/service1.jpg"/>
+<img src="./img/service/service1.png"/>
+<img src="./img/service/service2.png"/>
 </div>
 
 ---
