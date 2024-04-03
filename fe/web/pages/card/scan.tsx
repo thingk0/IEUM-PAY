@@ -14,7 +14,6 @@ import {
   ModalFooter,
   useDisclosure,
 } from '@nextui-org/react';
-import { useQuery } from '@tanstack/react-query';
 import { getOSByUserAgent } from '@toss/utils';
 
 function ScanCardPage() {
@@ -252,11 +251,11 @@ function ScanCardPage() {
                 {data.cardNumber != 'dummy' ? (
                   data.cardNumber == '' ? (
                     <>
-                      {setData({ cardNumber: 'dummy', validThru: '' })}
                       <Button
                         size="thin"
                         onClick={() => {
-                          onClose;
+                          setData({ cardNumber: 'dummy', validThru: '' });
+                          onClose();
                         }}
                       >
                         다시 촬영하기
