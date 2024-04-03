@@ -44,7 +44,7 @@ function Layout({ children }: { children?: React.ReactNode }) {
 function WherePage() {
   const router = useRouter();
   const [query, setQuery] = useState('');
-  const { sendMoneyInfo, setReceiverInfo } = useSendMoneyInfo();
+  const { sendMoneyInfo, setReceiverInfo, setAmount } = useSendMoneyInfo();
   const [자가송금모달_열렸는가, 자가송금모달_열렸는가_설정] = useState(false);
   const results = useQueries({
     queries: [
@@ -75,6 +75,7 @@ function WherePage() {
       results[0].data.phoneNumber,
       '이음페이',
     );
+    setAmount(0);
     router.push('/send-money/amount');
   }
   function SearchResult() {
