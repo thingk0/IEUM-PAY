@@ -16,7 +16,6 @@ import com.ieum.funding.request.FundingLinkupRequestDTO;
 import com.ieum.funding.response.AutoFundingResultResponseDTO;
 import com.ieum.funding.response.CurrentFundingResult1DTO;
 import com.ieum.funding.response.CurrentFundingResult2DTO;
-import com.ieum.funding.response.CurrentFundingResultResponseDTO;
 import com.ieum.funding.response.FundingInfoResponseDTO;
 import com.ieum.funding.response.FundingDetailResponseDTO;
 import com.ieum.funding.response.FundingReceiptResponseDTO;
@@ -60,14 +59,13 @@ public class FundingService {
         return ongoingFundingInfo;
     }
 
-    public FundingDetailResponseDTO getFundingDetail(Long fundingId,
-                                                     Long memberId) {
+    public FundingDetailResponseDTO getFundingDetail(Long fundingId, Long memberId) {
         FundingDetailBaseDTO detail = fundingRepository.findFundingDetail(fundingId);
         List<FundingMemberDTO> members = fundingMembersRepository.findByFundingId(fundingId);
         Optional<FundingMembers> link = fundingMembersRepository.findFirstByFundingIdAndMemberId(fundingId, memberId);
-        Boolean isLinked = false;
+        boolean isLinked = false;
         if (link.isPresent()) {
-            isLinked = link.get().getAutoFundingStatus();
+            isLinked = link.get().isAutoFundingStatus();
         }
         List<FundingProductDTO> products = fundingProductsRepository.findFundingProductDTOByFundingId(fundingId);
 
@@ -95,13 +93,16 @@ public class FundingService {
 
     public void linkupFunding(FundingLinkupRequestDTO requestDTO) {
         fundingMembersRepository.unlinkAll(requestDTO.getMemberId());
-        Optional<FundingMembers> checkMember = fundingMembersRepository.findFirstByFundingIdAndMemberId(requestDTO.getFundingId(), requestDTO.getMemberId());
-        if(checkMember.isPresent()) {
+        Optional<FundingMembers> checkMember = fundingMembersRepository.findFirstByFundingIdAndMemberId(requestDTO.getFundingId(),
+                                                                                                        requestDTO.getMemberId());
+        if (checkMember.isPresent()) {
             fundingMembersRepository.linkup(requestDTO.getFundingId(), requestDTO.getMemberId());
-        }
-        else {
-            FundingMembers newLink = new FundingMembers(requestDTO.getFundingId(), requestDTO.getMemberId(), requestDTO.getNickname());
-            fundingMembersRepository.save(newLink);
+        } else {
+            fundingMembersRepository.save(FundingMembers.builder()
+                                                        .fundingId(requestDTO.getFundingId())
+                                                        .memberId(requestDTO.getMemberId())
+                                                        .nickname(requestDTO.getNickname())
+                                                        .build());
         }
     }
 
@@ -151,7 +152,7 @@ public class FundingService {
     // 자동기부 수행
     public AutoFundingResultResponseDTO autoDonation(Long memberId, Integer amount) {
         // 펀딩에 current_amount 증가
-        Optional<FundingMembers> fundingMember = fundingMembersRepository.findFirstByMemberIdAndAutoFundingStatusTrue(memberId);
+        Optional<FundingMembers> fundingMember = fundingMembersRepository.fetchFundingMembersByMemberId(memberId);
         if (fundingMember.isEmpty()) {
             return null;
         }
@@ -179,7 +180,7 @@ public class FundingService {
             // 모든 멤버 언링크
         }
         return AutoFundingResultResponseDTO.builder()
-                                            .fundingId(checkedFundingId)
+                                           .fundingId(checkedFundingId)
                                            .amount(amount)
                                            .build();
         // 기부 금액 반환
@@ -195,12 +196,12 @@ public class FundingService {
         Long spId = productList.get(0).getSponsorProductId();
         SponsorProducts sp = sponsorProductsRepository.findFirstBySponsorProductId(spId);
 
-        String productName = sp.getProductName() + "외" + Integer.toString(productList.size() -1) + "개";
+        String productName = sp.getProductName() + "외" + (productList.size() - 1) + "개";
         return FundingReceiptResponseDTO.builder()
-            .facilityName(fInfo.getFacilityName())
-            .fundingTitle(fInfo.getFundingTitle())
-            .productName(productName)
-            .build();
+                                        .facilityName(fInfo.getFacilityName())
+                                        .fundingTitle(fInfo.getFundingTitle())
+                                        .productName(productName)
+                                        .build();
     }
 
     public CurrentFundingResult1DTO getCurrentFunding1(Long memberId) {
