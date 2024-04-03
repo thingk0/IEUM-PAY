@@ -9,7 +9,10 @@ const Index = () => {
     // 브라우저에 알림 권한을 요청합니다.
     async function getPermission() {
       const permission = await Notification.requestPermission();
-      if (permission !== 'granted') return;
+      if (permission !== 'granted') {
+        alert('허용되었습니다');
+      }
+      onMessageFCM();
     }
     getPermission();
   }
@@ -50,10 +53,6 @@ const Index = () => {
       console.log('Message received. ', payload);
     });
   };
-
-  useEffect(() => {
-    onMessageFCM();
-  }, []);
 
   return (
     <div>
