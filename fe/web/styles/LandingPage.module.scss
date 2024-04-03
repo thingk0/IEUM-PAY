@@ -1,12 +1,12 @@
-.constainer {
+.container {
   display: flex;
   height: calc(100vh - env(safe-area-inset-bottom));
-  width: 100%;
+  width: 100vw;
 }
 .first {
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background: linear-gradient(0.35turn, #7735f9, #c476f5);
   align-items: center;
   animation: disappear 3.5s forwards;
@@ -46,7 +46,7 @@
 }
 .third {
   height: 100%;
-  width: 100%;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -69,9 +69,10 @@
 }
 .fourth {
   display: flex;
+  width: 100vw;
   flex-direction: column;
   text-align: center;
-  padding: 30% 0;
+  padding: 60% 0;
   .imgContainer {
     display: flex;
     justify-content: center;
@@ -95,54 +96,31 @@
   display: flex;
   flex-direction: column;
   text-align: center;
-  padding: 30% 0;
+  height: 100vh;
+  width: 100vw;
+  padding: 60% 0;
+  // justify-content: center;
+  align-items: center;
   .imgContainer {
+    position: absolute;
+    width: 100vw;
     display: flex;
-    margin: 35% auto 50% auto;
-    .img1 {
-      position: absolute;
-      top: 25%;
-      left: 10%;
+    justify-content: center;
+    align-items: center;
+    gap: 15%;
+
+    .appear2 {
+      opacity: 0;
+      animation: slowAppear 3.5s;
+      opacity: 1;
     }
-    .img2 {
-      position: absolute;
-      top: 25%;
-      right: 10%;
+
+    .appear3 {
+      opacity: 0;
+      animation: appear1 4.5s;
+      opacity: 1;
     }
-    .img3 {
-      position: absolute;
-      top: 25%;
-      left: 10%;
-      z-index: 5;
-    }
-    .img4 {
-      position: absolute;
-      top: 25%;
-      right: 10%;
-      z-index: 5;
-    }
-    .img5 {
-      position: absolute;
-      top: 25%;
-      left: 24%;
-      z-index: 5;
-      .appear2 {
-        opacity: 0;
-        animation: slowAppear 3.2s;
-        opacity: 1;
-      }
-    }
-    .img6 {
-      position: absolute;
-      top: 25%;
-      left: 24%;
-      z-index: 8;
-      .appear2 {
-        opacity: 0;
-        animation: slowAppear 4.9s;
-        opacity: 1;
-      }
-    }
+
     .imgMove1 {
       opacity: 0;
       animation: moveXLeft 2s;
@@ -157,44 +135,37 @@
       animation: disappear1 1s;
       opacity: 0;
     }
-    .appear1 {
-      opacity: 0;
-      animation: appear 1s;
-      opacity: 1;
-    }
   }
 }
 .start {
   display: flex;
   flex-direction: column;
   text-align: center;
-  padding: 30% 0;
+  height: 100vh;
+  width: 100vw;
+  padding: 60% 0;
+  align-items: center;
+
   .imgContainer {
+    position: absolute;
     display: flex;
-    margin: 35% auto 50% auto;
-    .img {
-      position: absolute;
-      top: 25%;
-      left: 24%;
-      z-index: 8;
-    }
+    justify-content: center;
+    flex-direction: column;
+
     .imgElem {
       opacity: 1;
       animation: smaller 1s;
       opacity: 0;
     }
-  }
-  .imgMove1 {
-    position: absolute;
-    top: 28%;
-    left: 34%;
-    animation: appear 1s;
-  }
-  .logo {
-    position: absolute;
-    top: 40%;
-    left: 27%;
-    animation: appear1 2s;
+    .imgMove1 {
+      opacity: 0;
+      animation: appear 1s;
+      margin-bottom: 10%;
+      opacity: 1;
+    }
+    .logo {
+      animation: appear1 2s;
+    }
   }
 }
 .constainerMove {
@@ -269,11 +240,11 @@
     opacity: 1;
   }
   90% {
-    transform: translateX(40%);
+    transform: translateX(50%);
     opacity: 1;
   }
   100% {
-    transform: translateX(40%);
+    transform: translateX(50%);
     opacity: 0;
   }
 }
@@ -291,12 +262,11 @@
     opacity: 1;
   }
   90% {
-    transform: translateX(-40%);
+    transform: translateX(-50%);
     opacity: 1;
   }
   100% {
-    transform: translateX(-40%);
-    // transform: translateX(-45px);
+    transform: translateX(-50%);
     opacity: 0;
   }
 }
@@ -380,17 +350,30 @@
     transform: scale(1);
   }
   50% {
-    transform: scale(0.63);
+    opacity: 0.5;
+    transform: scale(0.9);
   }
   80% {
-    transform: scale(0.63);
+    transform: scale(0.9);
+    opacity: 0;
   }
   100% {
-    transform: scale(0.63);
+    transform: scale(0.9);
     opacity: 0;
   }
 }
 @keyframes slowAppear {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes slowAppear2 {
   0% {
     opacity: 0;
   }

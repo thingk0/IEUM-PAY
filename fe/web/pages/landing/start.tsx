@@ -24,17 +24,17 @@ export default function LandingPageFourth() {
     <div className={styles.container}>
       <div className={styles.start}>
         <div className={styles.imgContainer}>
-          <div className={styles.img}>
-            <img
-              className={styles.imgElem}
-              src="/landing/logoEllipse5.svg"
-              alt="작은 이음페이 로고"
-            />
-          </div>
+          <img
+            className={styles.imgElem}
+            src="/landing/logoEllipse5.svg"
+            alt="이음페이 로고"
+          />
+        </div>
+        <div className={styles.imgContainer}>
           <img
             className={styles.imgMove1}
             src="/landing/logoEllipse6.svg"
-            alt="이음페이 로고"
+            alt="작은 이음페이 로고"
           />
           <img
             className={styles.logo}
