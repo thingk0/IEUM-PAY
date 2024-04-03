@@ -93,7 +93,8 @@ public class FundingController {
                                                                         .fundingId(request.getFundingId())
                                                                         .fundingResult(fundingService.directDonation(request.getFundingId(),
                                                                                                                      request.getMemberId(),
-                                                                                                                     request.getAmount()))
+                                                                                                                     request.getAmount(),
+                                                                            request.getNickname()))
                                                                         .build();
         return ResponseEntity.ok(response);
     }
