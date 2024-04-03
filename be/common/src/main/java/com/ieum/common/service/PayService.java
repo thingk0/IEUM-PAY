@@ -41,11 +41,8 @@ public class PayService {
                                                                       .build());
     }
 
-    public boolean updateCard(Long memberId, Long cardId) {
-        return payFeignClient.deleteCard(CardValidRequestDTO.builder()
-                                                            .memberId(memberId)
-                                                            .registeredCardId(cardId)
-                                                            .build());
+    public Boolean updateCard(Long memberId, Long registeredCardId) {
+        return payFeignClient.deleteCard(registeredCardId, memberId);
     }
 
     public MainSummaryResponseDTO getMainPageInfo(Long memberId) {

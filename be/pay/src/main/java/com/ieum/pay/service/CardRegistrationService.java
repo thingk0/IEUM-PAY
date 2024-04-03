@@ -34,10 +34,11 @@ public class CardRegistrationService {
         return registeredCardRepository.findByMemberIdAndRegisteredCardId(memberId, registeredCardId).isPresent();
     }
 
-    public void deleteCard(Long memberId, Long registeredCardId) {
+    public boolean deleteCard(Long memberId, Long registeredCardId) {
         RegisteredCards registeredCard = registeredCardRepository.findByMemberIdAndRegisteredCardId(memberId, registeredCardId)
                                                                  .orElseThrow(
                                                                      () -> new IllegalArgumentException("Invalid member or registered card"));
         registeredCardRepository.delete(registeredCard);
+        return true;
     }
 }

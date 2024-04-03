@@ -43,36 +43,41 @@ export default function LandingPageFourth() {
             </div>
           ) : (
             <>
-              <div className={styles.img}>
-                {changeCircle ? (
-                  <img
-                    className={styles.imgMove1}
-                    src="/landing/logoEllipse2.svg"
-                    alt="원"
-                  />
-                ) : (
-                  <img
-                    className={styles.disapear1}
-                    src="/landing/logoEllipse.svg"
-                    alt="원"
-                  />
-                )}
-              </div>
-              <div className={styles.img}>
-                {changeCircle ? (
-                  <img
-                    className={styles.imgMove2}
-                    src="/landing/logoEllipse3.svg"
-                    alt="원"
-                  />
-                ) : (
-                  <img
-                    className={styles.disapear1}
-                    src="/landing/logoEllipse.svg"
-                    alt="원"
-                  />
-                )}
-              </div>
+              {changeCircle ? (
+                <>
+                  <div className={styles.img}>
+                    <img
+                      className={styles.imgMove1}
+                      src="/landing/logoEllipse2.svg"
+                      alt="원"
+                    />
+                  </div>
+                  <div className={styles.img}>
+                    <img
+                      className={styles.imgMove2}
+                      src="/landing/logoEllipse3.svg"
+                      alt="원"
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className={styles.img}>
+                    <img
+                      className={styles.disapear1}
+                      src="/landing/logoEllipse.svg"
+                      alt="원"
+                    />
+                  </div>
+                  <div className={styles.img}>
+                    <img
+                      className={styles.disapear1}
+                      src="/landing/logoEllipse.svg"
+                      alt="원"
+                    />
+                  </div>
+                </>
+              )}
             </>
           )}
         </div>

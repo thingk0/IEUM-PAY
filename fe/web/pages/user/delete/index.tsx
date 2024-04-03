@@ -27,13 +27,14 @@ export default function MemberDeletePage() {
       })
       .catch((e) => alert(e));
   }
-  if (results[1].data && results[0].data)
+  if (results[1].data && results[0].data !== undefined)
     return (
       <main className={classes.main}>
         <h1>{results[1].data.data.name}님, 탈퇴하기 전에 확인해주세요</h1>
         <ul>
           <li>
-            이음에서 관리했던 김싸피님의 모든 개인정보를 다시 볼 수 없어요.
+            이음에서 관리했던 {results[1].data.data.name}님의 모든 개인정보를
+            다시 볼 수 없어요.
           </li>
           <li>
             다양한 혜택과 이벤트 기회, 상품권 내역, 할인권이 모두 사라져요.
