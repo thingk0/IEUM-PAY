@@ -91,13 +91,14 @@ const Index = () => {
             primary
             onClick={() => {
               setIsOpen(true);
+              handleClick();
             }}
           >
             동의해요
           </Button>
           <button
             className={classes['btn-negative']}
-            onClick={() => handleClick()}
+            onClick={() => router.push('/main')}
           >
             나중에 할게요
           </button>
