@@ -300,7 +300,7 @@ export default function Detail({ fundId }: { fundId: string }) {
           />
         </div>
         <div className={styles.fundingState}>
-          <div className={styles.title}>모금 현황</div>
+          <div className={styles.title}>{data.facilityName}</div>
           <div className={styles.info}>
             <div>
               마감까지 {commaizeNumber(data.goalAmount - data.currentAmount)}
