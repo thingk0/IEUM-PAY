@@ -77,13 +77,13 @@
     margin: 35% auto 50% auto;
     .img1 {
       position: absolute;
-      top: 177px;
-      left: 40px;
+      top: 25%;
+      left: 10%;
     }
     .img2 {
       position: absolute;
-      top: 177px;
-      right: 40px;
+      top: 25%;
+      right: 10%;
     }
     .imgMove1 {
       animation: appearY1 1s;
@@ -109,30 +109,30 @@
     margin: 35% auto 50% auto;
     .img1 {
       position: absolute;
-      top: 177px;
-      left: 40px;
+      top: 25%;
+      left: 10%;
     }
     .img2 {
       position: absolute;
-      top: 177px;
-      right: 40px;
+      top: 25%;
+      right: 10%;
     }
     .img3 {
       position: absolute;
-      top: 177px;
-      left: 40px;
+      top: 25%;
+      left: 10%;
       z-index: 5;
     }
     .img4 {
       position: absolute;
-      top: 177px;
-      right: 40px;
+      top: 25%;
+      right: 10%;
       z-index: 5;
     }
     .img5 {
       position: absolute;
-      top: 177px;
-      left: 87px;
+      top: 25%;
+      left: 24%;
       z-index: 5;
       .appear2 {
         opacity: 0;
@@ -142,8 +142,8 @@
     }
     .img6 {
       position: absolute;
-      top: 177px;
-      left: 87px;
+      top: 25%;
+      left: 24%;
       z-index: 8;
       .appear2 {
         opacity: 0;
@@ -182,8 +182,8 @@
     margin: 35% auto 50% auto;
     .img {
       position: absolute;
-      top: 177px;
-      left: 87px;
+      top: 25%;
+      left: 24%;
       z-index: 8;
     }
     .imgElem {
@@ -194,14 +194,14 @@
   }
   .imgMove1 {
     position: absolute;
-    top: 201px;
-    left: 122px;
+    top: 28%;
+    left: 34%;
     animation: appear 1s;
   }
   .logo {
     position: absolute;
-    top: 296px;
-    left: 100px;
+    top: 40%;
+    left: 27%;
     animation: appear1 2s;
   }
 }
@@ -277,11 +277,11 @@
     opacity: 1;
   }
   90% {
-    transform: translateX(45px);
+    transform: translateX(40%);
     opacity: 1;
   }
   100% {
-    transform: translateX(45px);
+    transform: translateX(40%);
     opacity: 0;
   }
 }
@@ -299,11 +299,11 @@
     opacity: 1;
   }
   90% {
-    transform: translateX(-45px);
+    transform: translateX(-40%);
     opacity: 1;
   }
   100% {
-    transform: translateX(-45px);
+    transform: translateX(-40%);
     // transform: translateX(-45px);
     opacity: 0;
   }
