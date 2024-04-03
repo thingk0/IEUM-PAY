@@ -25,45 +25,35 @@ export default function LandingPageFourth() {
       <div className={styles.start}>
         <div className={styles.imgContainer}>
           <div className={styles.img}>
-            {changeLogo ? (
-              <img
-                className={styles.imgElem}
-                src="/landing/logoEllipse6.svg"
-                alt="이음페이 로고"
-              />
-            ) : (
-              <img
-                className={styles.imgMove1}
-                src="/landing/logoEllipse5.svg"
-                alt="이음페이 로고"
-              />
-            )}
-          </div>
-          {changeLogo ? (
             <img
-              className={styles.logo}
-              src="/landing/ieumpay-logo-black.svg"
-              alt="이음페이 로고 글자"
+              className={styles.imgElem}
+              src="/landing/logoEllipse5.svg"
+              alt="작은 이음페이 로고"
             />
-          ) : (
-            ''
-          )}
+          </div>
+          <img
+            className={styles.imgMove1}
+            src="/landing/logoEllipse6.svg"
+            alt="이음페이 로고"
+          />
+          <img
+            className={styles.logo}
+            src="/landing/ieumpay-logo-black.svg"
+            alt="이음페이 로고 글자"
+          />
         </div>
       </div>
-      {changeLogo ? (
-        <div className={styles.btn}>
-          <Button
-            primary
-            onClick={() => {
-              router.push('/user');
-            }}
-          >
-            시작하기
-          </Button>
-        </div>
-      ) : (
-        ''
-      )}
+
+      <div className={styles.btn}>
+        <Button
+          primary
+          onClick={() => {
+            router.push('/user');
+          }}
+        >
+          시작하기
+        </Button>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 .constainer {
   display: flex;
-  height: 95vh;
+  height: 100vh;
   width: 100%;
 }
 .first {
@@ -75,8 +75,15 @@
   .imgContainer {
     display: flex;
     margin: 35% auto 50% auto;
-    .img {
-      margin: 0 1rem;
+    .img1 {
+      position: absolute;
+      top: 177px;
+      left: 40px;
+    }
+    .img2 {
+      position: absolute;
+      top: 177px;
+      right: 40px;
     }
     .imgMove1 {
       animation: appearY1 1s;
@@ -86,6 +93,7 @@
     }
   }
   .text {
+    margin-top: 30%;
     font-size: 1.5rem;
     font-weight: bold;
     animation: appear 1s;
@@ -99,17 +107,68 @@
   .imgContainer {
     display: flex;
     margin: 35% auto 50% auto;
-    .img {
-      margin: 0 1rem;
+    .img1 {
+      position: absolute;
+      top: 177px;
+      left: 40px;
+    }
+    .img2 {
+      position: absolute;
+      top: 177px;
+      right: 40px;
+    }
+    .img3 {
+      position: absolute;
+      top: 177px;
+      left: 40px;
+      z-index: 5;
+    }
+    .img4 {
+      position: absolute;
+      top: 177px;
+      right: 40px;
+      z-index: 5;
+    }
+    .img5 {
+      position: absolute;
+      top: 177px;
+      left: 87px;
+      z-index: 5;
+      .appear2 {
+        opacity: 0;
+        animation: slowAppear 3.2s;
+        opacity: 1;
+      }
+    }
+    .img6 {
+      position: absolute;
+      top: 177px;
+      left: 87px;
+      z-index: 8;
+      .appear2 {
+        opacity: 0;
+        animation: slowAppear 4.9s;
+        opacity: 1;
+      }
     }
     .imgMove1 {
+      opacity: 0;
       animation: moveXLeft 2s;
+      opacity: 0;
     }
     .imgMove2 {
+      opacity: 0;
       animation: moveXRight 2s;
+      opacity: 0;
     }
     .disapear1 {
       animation: disappear1 1s;
+      opacity: 0;
+    }
+    .appear1 {
+      opacity: 0;
+      animation: appear 1s;
+      opacity: 1;
     }
   }
 }
@@ -119,29 +178,40 @@
   text-align: center;
   padding: 30% 0;
   .imgContainer {
-    flex-direction: column;
     display: flex;
     margin: 35% auto 50% auto;
     .img {
-      margin: 0 1rem;
-    }
-    .imgMove1 {
-      animation: smaller 1s ease-in-out;
+      position: absolute;
+      top: 177px;
+      left: 87px;
+      z-index: 8;
     }
     .imgElem {
-      margin-top: 18%;
-      margin-left: 6%;
+      opacity: 1;
+      animation: smaller 1s;
+      opacity: 0;
     }
-    .logo {
-      margin-top: 5%;
-    }
+  }
+  .imgMove1 {
+    position: absolute;
+    top: 201px;
+    left: 122px;
+    animation: appear 1s;
+  }
+  .logo {
+    position: absolute;
+    top: 296px;
+    left: 100px;
+    animation: appear1 2s;
   }
 }
 .constainerMove {
   animation: moveAndDisappearXLeft2 1s;
 }
 .nav {
-  margin: 0 auto;
+  position: absolute;
+  bottom: 30px;
+  padding: 0 45%;
 }
 .displayNone {
   opacity: 0;
@@ -153,7 +223,11 @@
   animation: appear 1s;
 }
 .btn {
+  position: absolute;
+  bottom: 2%;
   padding: 0 1.2rem;
+  width: 100%;
+  animation: appear1 2s;
 }
 
 @keyframes moveAndDisappearXLeft {
@@ -192,29 +266,46 @@
 
 @keyframes moveXLeft {
   0% {
+    opacity: 0;
     transform: translateX(0);
-    opacity: 0.5;
   }
   50% {
+    opacity: 1;
     transform: translateX(0);
+  }
+  80% {
+    opacity: 1;
+  }
+  90% {
+    transform: translateX(45px);
     opacity: 1;
   }
   100% {
     transform: translateX(45px);
+    opacity: 0;
   }
 }
 
 @keyframes moveXRight {
   0% {
+    opacity: 0;
     transform: translateX(0);
-    opacity: 0.5;
   }
   50% {
+    opacity: 1;
     transform: translateX(0);
+  }
+  80% {
+    opacity: 1;
+  }
+  90% {
+    transform: translateX(-45px);
     opacity: 1;
   }
   100% {
     transform: translateX(-45px);
+    // transform: translateX(-45px);
+    opacity: 0;
   }
 }
 @keyframes disappear1 {
@@ -222,7 +313,7 @@
     opacity: 1;
   }
   100% {
-    opacity: 0.5;
+    opacity: 0;
   }
 }
 @keyframes disappear {
@@ -293,6 +384,7 @@
 }
 @keyframes smaller {
   0% {
+    opacity: 1;
     transform: scale(1);
   }
   50% {
@@ -300,10 +392,31 @@
   }
   80% {
     transform: scale(0.63);
-    opacity: 1;
   }
   100% {
     transform: scale(0.63);
     opacity: 0;
+  }
+}
+@keyframes slowAppear {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes appear1 {
+  0% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

@@ -25,14 +25,14 @@ export default function LandingPageFourth() {
     <div className={styles.container} onClick={onClickFn}>
       <div className={styles.fourth}>
         <div className={styles.imgContainer}>
-          <div className={styles.img}>
+          <div className={styles.img1}>
             <img
               className={state2 ? styles.disapearGlobal : styles.imgMove1}
               src="/landing/payServiceIcon.svg"
               alt="페이서비스 아이콘"
             />
           </div>
-          <div className={styles.img}>
+          <div className={styles.img2}>
             <img
               className={state2 ? styles.disapearGlobal : styles.imgMove2}
               src="/landing/donationServiceIcon.svg"
