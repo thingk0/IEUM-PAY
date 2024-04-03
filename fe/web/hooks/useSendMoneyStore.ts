@@ -99,9 +99,9 @@ const useSendMoneyInfo = create<SendMoneyInfoState & SendMoneyInfoActions>(
           수취인: state.sendMoneyInfo.수취인,
           수취은행: state.sendMoneyInfo.수취은행,
           수취계좌: state.sendMoneyInfo.수취계좌,
-          송금금액: balance,
+          송금금액: state.sendMoneyInfo.송금금액,
           송금은행: state.sendMoneyInfo.송금은행,
-          잔액: state.sendMoneyInfo.잔액,
+          잔액: balance,
         },
       }));
     },

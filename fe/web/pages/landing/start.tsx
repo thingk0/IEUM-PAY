@@ -43,7 +43,7 @@ export default function LandingPageFourth() {
             <img
               className={styles.logo}
               src="/landing/ieumpay-logo-black.svg"
-              alt="이음페이 로고"
+              alt="이음페이 로고 글자"
             />
           ) : (
             ''
