@@ -48,10 +48,10 @@ export default function Settings() {
         <HeaderMain />
         <div className={styles.container}>
           <PageTitleLeft title={'설정'} description={''} />
-          <div className={styles.myBox}>
+          <div className={styles.myBox} onClick={() => router.push('/my-page')}>
             <div className={styles.myBoxText}>
               <p className={styles.name}>{data.data.name}</p>
-              <p className={styles.subText}>내 정보 수정하기</p>
+              <p className={styles.subText}>내 정보</p>
             </div>
             <ChevronRightIcon />
           </div>
