@@ -49,7 +49,7 @@ function AmountPage() {
       return <>{formatToKRW(sendMoneyInfo.송금금액)}</>;
     }
   }
-  if (data)
+  if (data !== undefined)
     return (
       <div className={classes.container}>
         <Header>이음페이 송금하기</Header>
