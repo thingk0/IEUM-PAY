@@ -16,7 +16,7 @@ import {
 import Button from '@/stories/Button';
 import useUserStore from '@/stores/user-store';
 import { useQuery } from '@tanstack/react-query';
-import { getUserInfo } from '@/api/userAxois';
+import { getUserInfo, logout } from '@/api/userAxois';
 import FetchError from '@/components/layouts/FetchError';
 function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -103,6 +103,7 @@ export default function Settings() {
                     primary
                     size="thin"
                     onClick={() => {
+                      logout();
                       eraseCookie('access_token');
                       router.push('/user');
                       onClose;
