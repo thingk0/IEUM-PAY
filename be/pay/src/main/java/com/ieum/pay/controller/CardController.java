@@ -20,9 +20,9 @@ public class CardController {
     private final CardRegistrationService cardRegistrationService;
     private final CardValidationService cardValidationService;
 
-    @PostMapping("/register")
+    @PostMapping("/valid")
     @ResponseStatus(HttpStatus.CREATED)
-    public void registerCard(@RequestBody CardRegisterRequest request) {
+    public Long registerCard(@RequestBody CardRegisterRequest request) {
         String cardNumber = request.cardNumber();
         if (!cardValidationService.isValidCardNumber(cardNumber)) {
             throw new IllegalArgumentException("Invalid card number");
@@ -30,7 +30,7 @@ public class CardController {
 
         Cards card = cardService.findCardByNumber(cardNumber);
         String nickname = request.cardNickname() != null ? request.cardNickname() : card.generateDefaultNickname(cardNumber);
-        cardRegistrationService.registerCard(card, request.memberId(), nickname);
+        return cardRegistrationService.registerCard(card, request.memberId(), nickname);
     }
 
     @DeleteMapping("/{registeredCardId}")
