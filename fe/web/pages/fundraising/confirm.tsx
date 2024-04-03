@@ -12,18 +12,14 @@ function ConfirmPage() {
   const { donateMoneyInfo, setFundingId } = useDonateMoneyInfo();
   const { userInfo } = useUserStore();
   const router = useRouter();
-  const onClickFunc = async () => {
-    const fundingId = await directDonate(
-      donateMoneyInfo.기관아이디,
-      donateMoneyInfo.송금금액,
-      donateMoneyInfo.남은금액,
-    );
-    if (fundingId != 0) {
-      setFundingId(fundingId);
-      router.push('/fundraising/complete');
-    } else {
-      console.log('실패ㅐㅐㅐㅐㅐ');
-    }
+  const onClickFunc = () => {
+    router.push({
+      pathname: '/password',
+      query: {
+        id: 0,
+        pushUrl: 'fundraising-complete',
+      },
+    });
   };
   return (
     <>

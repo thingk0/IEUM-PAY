@@ -10,7 +10,6 @@ export const getFundListOnGoing = async () => {
   return await local
     .get('api/funding/list/ongoing')
     .then((response) => {
-      console.log(response);
       return response.data;
     })
     .catch((error) => {
@@ -28,7 +27,6 @@ export const getFundListComplete = async () => {
   return await local
     .get('api/funding/list/complete')
     .then((response) => {
-      console.log(response);
       return response.data;
     })
     .catch((error) => {
@@ -92,6 +90,7 @@ export const directDonate = async (
   fundId: number,
   amount: number,
   paymoneyAmount: number,
+  key: string,
 ) => {
   const local = axiosAuthApi();
 
@@ -100,6 +99,7 @@ export const directDonate = async (
       fundingId: fundId,
       amount: amount,
       paymoneyAmount: paymoneyAmount,
+      authenticationKey: key,
     })
     .then((response) => {
       console.log(response);
@@ -128,6 +128,6 @@ export const getDirectDonateRes = async (fundId: number | undefined) => {
     })
     .catch((error) => {
       console.log('에러뜸');
-      console.log(error.message);
+      console.log(error);
     });
 };
