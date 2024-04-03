@@ -25,7 +25,8 @@ public class CardController {
     public Long registerCard(@RequestBody CardRegisterRequest request) {
         String cardNumber = request.cardNumber();
         if (!cardValidationService.isValidCardNumber(cardNumber)) {
-            throw new IllegalArgumentException("Invalid card number");
+            return -1L;
+//            throw new IllegalArgumentException("Invalid card number");
         }
 
         Cards card = cardService.findCardByNumber(cardNumber);
