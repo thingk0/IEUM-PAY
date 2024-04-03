@@ -9,6 +9,7 @@ import Header from '@/components/Header';
 import { useRouter } from 'next/router';
 import Lottie from 'react-lottie-player';
 import notificationLottie from '@/public/lottie/notification.json';
+import { postFCMToken } from '@/api/notificationAxios';
 const Index = () => {
   const router = useRouter();
   function handleClick() {
@@ -46,6 +47,7 @@ const Index = () => {
         if (currentToken) {
           // 정상적으로 토큰이 발급되면 콘솔에 출력합니다.
           console.log(currentToken);
+          postFCMToken(currentToken);
         } else {
           console.log(
             'No registration token available. Request permission to generate one.',

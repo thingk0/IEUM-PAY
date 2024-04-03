@@ -64,6 +64,11 @@ export default function Settings() {
               비밀번호 변경
             </SettingsMenu>
             <SettingsMenu
+              onClick={() => router.push('/user/register/notification')}
+            >
+              알림
+            </SettingsMenu>
+            <SettingsMenu
               onClick={() => {
                 router.push('/settings/policy');
               }}
