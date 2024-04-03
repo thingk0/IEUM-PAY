@@ -227,7 +227,10 @@ export default function Home() {
           모금 연동하러 가기
         </Button>
       </div>
-      <TabBar selected="payment" />
+      <TabBar
+        selected="payment"
+        cardLength={results[0].data?.data.cardList.length}
+      />
       <Modal
         className={mainStyles.modalComp}
         isOpen={isOpen}
