@@ -13,6 +13,14 @@ import Link from 'next/link';
 import { PlusIcon } from '@/components/icons/PlusIcon';
 import { deleteCard, setMainCard } from '@/api/paymentAxios';
 import FetchError from '@/components/layouts/FetchError';
+import {
+  CircularProgress,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  useDisclosure,
+} from '@nextui-org/react';
 
 interface cardType {
   cardId: number;
@@ -30,6 +38,7 @@ interface infoType {
 
 export default function Home() {
   const router = useRouter();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [cardState, setCardState] = useState<number[]>([]);
   const [prevCardState, setPrevCardState] = useState<number[]>([]);
   const [mainCardId, setMainCardId] = useState<number>(0);
@@ -81,6 +90,7 @@ export default function Home() {
 
   const callDeleteCard = async (id: number) => {
     if (id == mainCardId) {
+      onOpen();
       console.log('대표 카드는 삭제가 불가능합니다.');
     } else {
       deleteCard(id);
@@ -197,6 +207,34 @@ export default function Home() {
         </Button>
       </div>
       <TabBar selected="payment" />
+      <Modal
+        className={mainStyles.modalComp}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalBody className={mainStyles.modalContainer}>
+                <div>
+                  <p>대표 카드는 삭제할 수 없습니다.</p>
+                </div>
+              </ModalBody>
+              <ModalFooter className={mainStyles.modalFooter}>
+                <Button
+                  primary
+                  size="thin"
+                  onClick={() => {
+                    onClose();
+                  }}
+                >
+                  확인
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </>
   );
 }
