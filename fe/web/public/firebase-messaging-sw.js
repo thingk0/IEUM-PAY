@@ -8,12 +8,12 @@ importScripts(
 
 // 이곳에 아까 위에서 앱 등록할때 받은 'firebaseConfig' 값을 넣어주세요.
 const config = {
-  apiKey: 'AIzaSyAnHEyqUnFoxudUMWnFvntVMDKZTymOLxw',
-  authDomain: 'webpush-test-f3072.firebaseapp.com',
-  projectId: 'webpush-test-f3072',
-  storageBucket: 'webpush-test-f3072.appspot.com',
-  messagingSenderId: '5581773458',
-  appId: '1:5581773458:web:a0a8db6b8d8a7311d4644b',
+  apiKey: 'AIzaSyBcJe5zVv9psAQ3QrSY3_ePlUUodHnPR3w',
+  authDomain: 'ieum-pay.firebaseapp.com',
+  projectId: 'ieum-pay',
+  storageBucket: 'ieum-pay.appspot.com',
+  messagingSenderId: '991121266334',
+  appId: '1:991121266334:web:e359ed60dbe2c9798f8d8f',
 };
 
 // Initialize Firebase
