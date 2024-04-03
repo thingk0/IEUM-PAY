@@ -74,9 +74,10 @@ public class TokenService {
             throw new RefreshTokenNotFoundException();
         }
 
-        // 회원 ID를 이용하여 회원 정보 조회
-        Members members = memberRepository.findById((Long) refreshTokenHash.get(MEMBER_ID))
+        long memberId = Long.parseLong(refreshTokenHash.get(MEMBER_ID).toString());
+        Members members = memberRepository.findById((memberId))
                                           .orElseThrow(MemberNotFoundException::new);
+
         // 새 액세스 토큰 생성
         String updatedAccessToken = tokenProvider.createAccessToken(members);
         // 새 액세스 토큰 정보 업데이트
