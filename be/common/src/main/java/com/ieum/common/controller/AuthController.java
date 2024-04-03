@@ -2,6 +2,7 @@ package com.ieum.common.controller;
 
 import static com.ieum.common.format.code.FailedCode.AUTHENTICATION_2FA_FAILED;
 
+import com.google.gson.Gson;
 import com.ieum.common.annotation.CurrentMemberId;
 import com.ieum.common.dto.request.paymentPasswordRequestDTO;
 import com.ieum.common.dto.request.secondaryAuthRequestDTO;
@@ -43,7 +44,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final KafkaTemplate<String, FcmConnectionRequestMessage> fcmKafkaTemplate;
+    private final Gson gson;
+    private final KafkaTemplate<String, String> kafkaTemplate;
     private final ResponseTemplate response;
     private final StringRedisTemplate stringRedisTemplate;
     private final AuthService authService;
@@ -98,11 +100,11 @@ public class AuthController {
         @RequestBody FcmTokenRequestDto fcmTokenRequestDTO,
         @Parameter(hidden = true) @CurrentMemberId Long memberId
     ) {
-        fcmKafkaTemplate.send(Topic.FCM_CONNECT.getTopicName(),
-                              FcmConnectionRequestMessage.builder()
-                                                         .fcmToken(fcmTokenRequestDTO.getFcmToken())
-                                                         .memberId(memberId)
-                                                         .build());
+        kafkaTemplate.send(Topic.FCM_CONNECT.getTopicName(),
+                           gson.toJson(FcmConnectionRequestMessage.builder()
+                                                                  .fcmToken(fcmTokenRequestDTO.getFcmToken())
+                                                                  .memberId(memberId)
+                                                                  .build()));
         return response.success(SuccessCode.SUCCESS);
     }
 }
