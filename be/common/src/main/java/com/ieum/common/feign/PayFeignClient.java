@@ -23,11 +23,8 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.security.core.parameters.P;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @FeignClient(name = "pay", url = "${gateway.pay}")
@@ -56,8 +53,8 @@ public interface PayFeignClient {
      * <p>
      * 삭제할 카드 ID
      */
-    @PutMapping(value = "/card/delete")
-    boolean deleteCard(@RequestBody CardValidRequestDTO requestDTO);
+    @DeleteMapping(value = "/card/{registeredCardId}/{memberId}")
+    Boolean deleteCard(@PathVariable("registeredCardId") Long registeredCardId, @PathVariable("memberId") Long memberId);
 
     /**
      * 회원의 결제 정보를 생성합니다.

@@ -29,14 +29,15 @@ public class CardController {
         }
 
         Cards card = cardService.findCardByNumber(cardNumber);
-        String nickname = request.cardNickname() != null ? request.cardNickname() : card.generateDefaultNickname(cardNumber);
+        String nickname = request.cardNickname() != null && !request.cardNickname().equals("") ? request.cardNickname() : card.generateDefaultNickname(cardNumber);
         return cardRegistrationService.registerCard(card, request.memberId(), nickname);
     }
 
-    @DeleteMapping("/{registeredCardId}")
+    @DeleteMapping("/{registeredCardId}/{memberId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCard(@PathVariable Long registeredCardId, @RequestBody CardValidRequest request) {
-        cardRegistrationService.deleteCard(request.memberId(), registeredCardId);
+    public boolean deleteCard(@PathVariable("registeredCardId") Long registeredCardId,
+                           @PathVariable("memberId") Long memberId) {
+        return cardRegistrationService.deleteCard(memberId, registeredCardId);
     }
 
     @GetMapping("/{registeredCardId}/name")
