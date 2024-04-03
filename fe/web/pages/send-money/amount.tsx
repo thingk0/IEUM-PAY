@@ -16,8 +16,8 @@ function AmountPage() {
     useSendMoneyInfo();
   const { data } = useQuery({ queryKey: ['balance'], queryFn: getBalance });
   useEffect(() => {
-    console.log('effect');
-    setBalance(data);
+    console.log('setBalance');
+    if (data) setBalance(data);
   }, [data]);
   function handleClickNumber(v: KeyElement) {
     pushNumber(Number(v));
