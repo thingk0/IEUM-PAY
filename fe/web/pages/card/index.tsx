@@ -125,24 +125,31 @@ function CardPage({
     <>
       <Header>카드 등록</Header>
       <div className={classes.cardContainer}>
-        <form>
-          <label>카드번호</label>
-          <div className={classes['card-number']}>
-            {inputRefs.map((ref, index) => (
-              <>
-                <input
-                  key={index}
-                  type="number"
-                  ref={ref}
-                  maxLength={8}
-                  onChange={(e) => handleChange(index, e)}
-                />
-                {index < 3 && <span>-</span>}
-              </>
-            ))}
-          </div>
-          <hr />
-        </form>
+        <div className={classes.first}>
+          <form>
+            <label>카드번호</label>
+            <div className={classes['card-number']}>
+              {inputRefs.map((ref, index) => (
+                <>
+                  <input
+                    key={index}
+                    type="number"
+                    ref={ref}
+                    maxLength={8}
+                    onChange={(e) => handleChange(index, e)}
+                  />
+                  {index < 3 && <span>-</span>}
+                </>
+              ))}
+            </div>
+            <hr />
+          </form>
+          <Link href="/card/scan">
+            <div className={classes.camera}>
+              <CameraIcon />
+            </div>
+          </Link>
+        </div>
         <div className={classes.dateCvcContainer}>
           <div className={classes.validDate}>
             <p>유효기간</p>
@@ -177,11 +184,7 @@ function CardPage({
           />
           <p>**</p>
         </div>
-        <Link href="/card/scan">
-          <div className={classes.camera}>
-            <CameraIcon />
-          </div>
-        </Link>
+
         <div className={classes.btnCont}>
           <p className={classes.subtext}>
             가상 서비스이므로 CVC와 비밀번호는 입력하지 않아도 됩니다.

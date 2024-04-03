@@ -45,12 +45,12 @@ export default function Login() {
   const onMessageFCM = async () => {
     // 이곳에도 아까 위에서 앱 등록할때 받은 'firebaseConfig' 값을 넣어주세요.
     const firebaseApp = initializeApp({
-      apiKey: 'AIzaSyAnHEyqUnFoxudUMWnFvntVMDKZTymOLxw',
-      authDomain: 'webpush-test-f3072.firebaseapp.com',
-      projectId: 'webpush-test-f3072',
-      storageBucket: 'webpush-test-f3072.appspot.com',
-      messagingSenderId: '5581773458',
-      appId: '1:5581773458:web:a0a8db6b8d8a7311d4644b',
+      apiKey: 'AIzaSyBcJe5zVv9psAQ3QrSY3_ePlUUodHnPR3w',
+      authDomain: 'ieum-pay.firebaseapp.com',
+      projectId: 'ieum-pay',
+      storageBucket: 'ieum-pay.appspot.com',
+      messagingSenderId: '991121266334',
+      appId: '1:991121266334:web:e359ed60dbe2c9798f8d8f',
     });
 
     const messaging = getMessaging(firebaseApp);
@@ -58,7 +58,7 @@ export default function Login() {
     // 이곳 vapidKey 값으로 아까 토큰에서 사용한다고 했던 인증서 키 값을 넣어주세요.
     getToken(messaging, {
       vapidKey:
-        'BM8z7PYWYKIPxbpVckZ-rUqgRNoWV36rgdSLhqefvAHnNjeW_ZRBC87SLDdwz9DcX1w6xtGPR233v3BzgxYkNnQ',
+        'BFWLEt5TzuQgvi0kpKOb6JGRLQ0jzHt6dWXY2vXC3GY53FT9KMHvsC0peUGwY6fFgg7yu6k_FVpcuDRm0jzfxos',
     })
       .then((currentToken) => {
         if (currentToken) {

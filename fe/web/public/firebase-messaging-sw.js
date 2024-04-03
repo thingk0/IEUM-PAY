@@ -8,12 +8,12 @@ importScripts(
 
 // 이곳에 아까 위에서 앱 등록할때 받은 'firebaseConfig' 값을 넣어주세요.
 const config = {
-  apiKey: 'AIzaSyAnHEyqUnFoxudUMWnFvntVMDKZTymOLxw',
-  authDomain: 'webpush-test-f3072.firebaseapp.com',
-  projectId: 'webpush-test-f3072',
-  storageBucket: 'webpush-test-f3072.appspot.com',
-  messagingSenderId: '5581773458',
-  appId: '1:5581773458:web:a0a8db6b8d8a7311d4644b',
+  apiKey: 'AIzaSyBcJe5zVv9psAQ3QrSY3_ePlUUodHnPR3w',
+  authDomain: 'ieum-pay.firebaseapp.com',
+  projectId: 'ieum-pay',
+  storageBucket: 'ieum-pay.appspot.com',
+  messagingSenderId: '991121266334',
+  appId: '1:991121266334:web:e359ed60dbe2c9798f8d8f',
 };
 
 // Initialize Firebase
@@ -52,7 +52,8 @@ self.addEventListener('notificationclick', function (event) {
   // 이동할 url
   // 아래의 event.notification.data는 위의 푸시 이벤트를 한 번 거쳐서 전달 받은 options.data에 해당한다.
   // api에 직접 전달한 데이터와 혼동 주의
-  const urlToOpen = event.notification.data.click_action;
+  // const urlToOpen = event.notification.data.click_action;
+  const urlToOpen = 'https://www.ieum-pay.site/history';
 
   // 클라이언트에 해당 사이트가 열려있는지 체크
   const promiseChain = clients

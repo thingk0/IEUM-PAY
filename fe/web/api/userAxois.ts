@@ -181,3 +181,7 @@ export const chagePassword = async (
       console.log(error);
     });
 };
+
+export async function logout() {
+  return axiosAuthApi().post('/api/member/logout');
+}
