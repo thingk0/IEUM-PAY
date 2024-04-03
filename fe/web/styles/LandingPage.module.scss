@@ -126,11 +126,11 @@
       margin: 0 1rem;
     }
     .imgMove1 {
-      animation: smaller 1s;
+      animation: smaller 1s ease-in-out;
     }
     .imgElem {
-      margin-top: 20%;
-      margin-left: 8%;
+      margin-top: 18%;
+      margin-left: 6%;
     }
     .logo {
       margin-top: 5%;
@@ -199,9 +199,6 @@
     transform: translateX(0);
     opacity: 1;
   }
-  80% {
-    transform: translateX(46px);
-  }
   100% {
     transform: translateX(45px);
   }
@@ -215,9 +212,6 @@
   50% {
     transform: translateX(0);
     opacity: 1;
-  }
-  80% {
-    transform: translateX(-46px);
   }
   100% {
     transform: translateX(-45px);
@@ -302,14 +296,14 @@
     transform: scale(1);
   }
   50% {
-    transform: scale(0.65);
+    transform: scale(0.63);
   }
   80% {
-    transform: scale(0.65);
+    transform: scale(0.63);
     opacity: 1;
   }
   100% {
-    transform: scale(0.65);
+    transform: scale(0.63);
     opacity: 0;
   }
 }
