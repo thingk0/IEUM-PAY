@@ -74,17 +74,9 @@
   padding: 30% 0;
   .imgContainer {
     display: flex;
-    margin: 35% auto 50% auto;
-    .img1 {
-      position: absolute;
-      top: 25%;
-      left: 10%;
-    }
-    .img2 {
-      position: absolute;
-      top: 25%;
-      right: 10%;
-    }
+    justify-content: center;
+    align-items: center;
+    gap: 15%;
     .imgMove1 {
       animation: appearY1 1s;
     }
