@@ -31,6 +31,7 @@
     "@toss/utils": "^1.4.6",
     "axios": "^1.6.8",
     "dayjs": "^1.11.10",
+    "firebase": "^10.10.0",
     "framer-motion": "^11.0.14",
     "html2canvas": "^1.4.1",
     "html5-qrcode": "^2.3.8",
