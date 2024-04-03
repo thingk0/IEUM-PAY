@@ -1,5 +1,6 @@
 package com.ieum.alert.consumer;
 
+import com.google.gson.Gson;
 import com.ieum.alert.document.FcmToken;
 import com.ieum.alert.message.FcmConnectionRequestMessage;
 import com.ieum.alert.repository.FcmTokenRepository;
@@ -14,15 +15,14 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class FcmConnectionRequestConsumer {
 
+    private final Gson gson;
     private final FcmTokenRepository fcmTokenRepository;
 
-    @KafkaListener(topics = "${topic.fcmConnect}",
-                   groupId = "${consumer.fcmConnect}",
-                   containerFactory = "fcmConnectionRequestMessageContainerFactory")
-    public void handleFcmConnectionRequest(@Payload FcmConnectionRequestMessage message) {
+    @KafkaListener(topics = "${topic.fcmConnect}", groupId = "${consumer.fcmConnect}")
+    public void handleFcmConnectionRequest(@Payload String messageJson) {
+        FcmConnectionRequestMessage message = gson.fromJson(messageJson, FcmConnectionRequestMessage.class);
         Long memberId = message.getMemberId();
         String fcmToken = message.getFcmToken();
-
         fcmTokenRepository.findFcmTokenByMemberId(memberId)
                           .ifPresentOrElse(
                               existingToken -> updateFcmToken(existingToken, fcmToken),
