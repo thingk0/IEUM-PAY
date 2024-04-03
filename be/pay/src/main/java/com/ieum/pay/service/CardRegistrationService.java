@@ -16,14 +16,14 @@ public class CardRegistrationService {
 
     private final RegisteredCardRepository registeredCardRepository;
 
-    public void registerCard(Cards card, Long memberId, String cardNickname) {
+    public Long registerCard(Cards card, Long memberId, String cardNickname) {
         RegisteredCards registeredCard = RegisteredCards.builder()
                                                         .cardId(card.getCardId())
                                                         .cardNickname(cardNickname)
                                                         .cardIssuer(card.getIssuer())
                                                         .memberId(memberId)
                                                         .build();
-        registeredCardRepository.save(registeredCard);
+        return registeredCardRepository.save(registeredCard).getRegisteredCardId();
     }
 
     public List<RegisteredCards> getCardList(Long memberId) {
