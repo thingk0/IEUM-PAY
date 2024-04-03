@@ -1,6 +1,5 @@
 package com.ieum.common.controller;
 
-import static com.ieum.common.format.code.FailedCode.INVALID_PRINCIPAL_TYPE;
 import static com.ieum.common.format.code.FailedCode.REGISTERED_CARD_DELETE;
 
 import com.ieum.common.annotation.CurrentMemberId;
@@ -11,7 +10,6 @@ import com.ieum.common.dto.request.CardUpdateRequestDTO;
 import com.ieum.common.dto.response.CardOcrResponseDTO;
 import com.ieum.common.format.code.SuccessCode;
 import com.ieum.common.format.response.ResponseTemplate;
-import com.ieum.common.service.AuthService;
 import com.ieum.common.service.MemberService;
 import com.ieum.common.service.PayService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,8 +37,6 @@ public class CardController {
     private final PayService payService;
     private final MemberService memberService;
     private final ResponseTemplate response;
-    private final AuthService authService;
-
 
     @Operation(summary = "메인 카드 설정", description = "사용자의 메인 카드를 설정합니다.")
     @ApiResponse(responseCode = "200", description = "메인 카드 설정 성공")
@@ -103,8 +99,8 @@ public class CardController {
         if (member.getPaycardId() == requestDTO.getRegisteredCardId()) {
             return response.error(REGISTERED_CARD_DELETE);
         }
-        return response.success(payService.updateCard(memberId,requestDTO.getRegisteredCardId()),
-                SuccessCode.SUCCESS);
+        return response.success(payService.updateCard(memberId, requestDTO.getRegisteredCardId()),
+                                SuccessCode.SUCCESS);
     }
 
     @Operation(summary = "카드 회사", description = "카드 회사 정보를 받습니다.")
@@ -112,6 +108,6 @@ public class CardController {
     @GetMapping("/{cardNumber}")
     public ResponseEntity<?> getCardCompany(@PathVariable("cardNumber") String number) {
         return response.success(payService.getCardDetail(number),
-                SuccessCode.SUCCESS);
+                                SuccessCode.SUCCESS);
     }
 }
