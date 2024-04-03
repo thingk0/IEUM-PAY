@@ -3,15 +3,17 @@ import React, { useEffect } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getMessaging, onMessage, getToken } from 'firebase/messaging';
 import Button from '@/stories/Button';
+import classes from './notification.module.scss';
+import HeaderMain from '@/stories/HeaderMain';
+import Header from '@/components/Header';
 
 const Index = () => {
   function handleClick() {
     // 브라우저에 알림 권한을 요청합니다.
     async function getPermission() {
       const permission = await Notification.requestPermission();
-      if (permission !== 'granted') {
-        alert('허용되었습니다');
-      }
+      if (permission !== 'granted') return;
+      else alert('허용되었습니다');
       onMessageFCM();
     }
     getPermission();
@@ -55,12 +57,19 @@ const Index = () => {
   };
 
   return (
-    <div>
-      <h1>서비스를 원활하게 이용하기 위해서 알림 권한을 허용해주세요</h1>
-      <Button primary onClick={handleClick}>
-        허용하기
-      </Button>
-    </div>
+    <main className={classes.main}>
+      <h1>
+        입출금 및 모금 정보를 받으려면
+        <br /> 알림 권한이 필요해요
+      </h1>
+
+      <div className={classes['btn-group']}>
+        <Button primary onClick={handleClick}>
+          동의해요
+        </Button>
+        <button className={classes['btn-negative']}>동의하지 않아요</button>
+      </div>
+    </main>
   );
 };
 
