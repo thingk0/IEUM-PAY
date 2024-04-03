@@ -177,6 +177,7 @@ export default function Home() {
             focused={focusedCardId}
             setMain={setMain}
             callDeleteCard={callDeleteCard}
+            cardLength={results[0].data?.data.cardList.length}
           ></MainPageDropdown>
         </div>
         <div className={mainStyles.cardsContainer}>
