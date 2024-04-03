@@ -28,7 +28,7 @@ export default function RegisterEnd() {
   const startRegister = async () => {
     if (await register(registerInfo)) {
       (await customlogin(userInfo.phoneNumber, userInfo.userPassword))
-        ? router.push('/main')
+        ? router.push('/notification')
         : '';
     } else {
       onOpen();

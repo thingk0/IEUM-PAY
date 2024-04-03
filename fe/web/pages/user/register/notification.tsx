@@ -6,15 +6,21 @@ import Button from '@/stories/Button';
 import classes from './notification.module.scss';
 import HeaderMain from '@/stories/HeaderMain';
 import Header from '@/components/Header';
-
+import { useRouter } from 'next/router';
+import Lottie from 'react-lottie-player';
+import notificationLottie from '@/public/lottie/notification.json';
 const Index = () => {
+  const router = useRouter();
   function handleClick() {
     // 브라우저에 알림 권한을 요청합니다.
     async function getPermission() {
       const permission = await Notification.requestPermission();
-      if (permission !== 'granted') return;
-      else alert('허용되었습니다');
-      onMessageFCM();
+      if (permission !== 'granted') {
+        alert('알림을 수동으로 허용해야 하는 기기입니다다');
+      } else {
+        await onMessageFCM();
+        router.push('/main');
+      }
     }
     getPermission();
   }
@@ -62,12 +68,22 @@ const Index = () => {
         입출금 및 모금 정보를 받으려면
         <br /> 알림 권한이 필요해요
       </h1>
-
+      <Lottie
+        loop
+        animationData={notificationLottie}
+        play
+        style={{ width: '20rem', height: '20rem' }}
+      />
       <div className={classes['btn-group']}>
         <Button primary onClick={handleClick}>
           동의해요
         </Button>
-        <button className={classes['btn-negative']}>동의하지 않아요</button>
+        <button
+          className={classes['btn-negative']}
+          onClick={() => router.push('/main')}
+        >
+          동의하지 않아요
+        </button>
       </div>
     </main>
   );
