@@ -1,7 +1,8 @@
 .tabContainer {
   width: 100%;
   position: sticky;
-  top: 3.5625rem;
+  z-index: 100;
+  top: 3.56rem;
 }
 .ul {
   display: flex;
