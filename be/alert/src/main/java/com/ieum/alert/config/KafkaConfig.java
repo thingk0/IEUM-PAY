@@ -1,7 +1,6 @@
 package com.ieum.alert.config;
 
-import com.ieum.alert.message.FcmConnectionRequestMessage;
-import com.ieum.alert.message.TransferReceivedMessage;
+import com.google.gson.Gson;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -12,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 @Configuration
 public class KafkaConfig {
@@ -24,25 +22,20 @@ public class KafkaConfig {
     private String groupId;
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, TransferReceivedMessage> transferReceivedMessageListenerContainerFactory() {
-        return kafkaListenerContainerFactory(TransferReceivedMessage.class);
+    public Gson gson() {
+        return new Gson();
     }
+
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, FcmConnectionRequestMessage> fcmConnectionRequestMessageContainerFactory() {
-        return kafkaListenerContainerFactory(FcmConnectionRequestMessage.class);
-    }
-
-    private <T> ConsumerFactory<String, T> consumerFactory(Class<T> messageType) {
-        JsonDeserializer<T> deserializer = new JsonDeserializer<>(messageType);
-        deserializer.addTrustedPackages("*");
-        return new DefaultKafkaConsumerFactory<>(initProps(), new StringDeserializer(), deserializer);
-    }
-
-    private <T> ConcurrentKafkaListenerContainerFactory<String, T> kafkaListenerContainerFactory(Class<T> messageType) {
-        ConcurrentKafkaListenerContainerFactory<String, T> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerFactory(messageType));
+    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory());
         return factory;
+    }
+
+    private ConsumerFactory<String, String> consumerFactory() {
+        return new DefaultKafkaConsumerFactory<>(initProps(), new StringDeserializer(), new StringDeserializer());
     }
 
     private Map<String, Object> initProps() {
@@ -50,7 +43,7 @@ public class KafkaConfig {
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class.getName());
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         return props;
     }
 }

@@ -1,5 +1,6 @@
 package com.ieum.alert.consumer;
 
+import com.google.gson.Gson;
 import com.ieum.alert.document.FcmToken;
 import com.ieum.alert.message.TransferReceivedMessage;
 import com.ieum.alert.repository.FcmTokenRepository;
@@ -18,13 +19,14 @@ public class TransferReceivedConsumer {
 
     private static final String NOTIFICATION_TITLE = "송금";
 
+    private final Gson gson;
     private final FcmService fcmService;
     private final FcmTokenRepository fcmTokenRepository;
 
     @KafkaListener(topics = "${topic.transferReceived}",
-                   groupId = "${consumer.transferReceived}",
-                   containerFactory = "transferReceivedMessageListenerContainerFactory")
-    public void handleTransferReceivedMessage(@Payload TransferReceivedMessage message) {
+                   groupId = "${consumer.transferReceived}")
+    public void handleTransferReceivedMessage(@Payload String messageJson) {
+        TransferReceivedMessage message = gson.fromJson(messageJson, TransferReceivedMessage.class);
         fcmTokenRepository.findFcmTokenByMemberId(message.getReceiverId())
                           .ifPresentOrElse(
                               fcmToken -> sendFcmNotification(fcmToken, message),

@@ -213,13 +213,13 @@ export default function Home() {
           <Money
             text={'이음페이머니'}
             amount={results[0].data.data.paymentAmount}
-            onClick={goFund}
+            destination={'/history'}
           />
           <hr />
           <Money
             text={'기부총액'}
             amount={results[0].data.data.totalDonation}
-            onClick={goFund}
+            destination={'/my-page'}
           />
         </div>
       </main>
