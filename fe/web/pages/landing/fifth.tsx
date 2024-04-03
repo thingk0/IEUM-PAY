@@ -8,7 +8,7 @@ export default function LandingPageFourth() {
   useEffect(() => {
     const timeout1 = setTimeout(() => {
       router.push('/landing/start');
-    }, 6000);
+    }, 4000);
     return () => {
       console.log('test');
     };
