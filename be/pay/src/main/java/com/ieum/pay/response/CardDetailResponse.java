@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CardDetailResponseDTO {
+public class CardDetailResponse {
     String issuer;
     String product;
 }

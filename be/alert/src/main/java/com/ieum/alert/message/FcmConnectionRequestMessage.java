@@ -1,4 +1,4 @@
-package com.ieum.common.message;
+package com.ieum.alert.message;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SseConnectionRequestMessage {
+public class FcmConnectionRequestMessage {
 
+    private String fcmToken;
     private Long memberId;
 }

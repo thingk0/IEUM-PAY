@@ -33,8 +33,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class PaymentController {
 
-    private final PaymentService paymentService;
     private final PasswordEncoder passwordEncoder;
+    private final PaymentService paymentService;
     private final ResponseTemplate response;
     private final MemberService memberService;
     private final AuthService authService;
@@ -58,16 +58,6 @@ public class PaymentController {
         return response.success(paymentService.processPayment(memberId, requestDTO), SuccessCode.PAYMENT_PROCESS_SUCCESSFUL);
     }
 
-    @Operation(summary = "결제 비밀번호 확인", description = "회원의 결제 비밀번호 확인 - 수정 필요")
-    @ApiResponse(responseCode = "200", description = "결제 비밀번호 인증 성공")
-    @GetMapping("/password/verify")
-    public ResponseEntity<?> checkPaymentPassword(
-        @Parameter(hidden = true) @CurrentMemberId Long memberId
-    ) {
-        paymentService.verifyPaymentPassword();
-        return response.success(SuccessCode.PAYMENT_PASSWORD_VERIFICATION_SUCCESS);
-    }
-
 
     @Operation(summary = "결제 비밀번호 변경", description = "회원의 결제 비밀번호를 변경합니다. - 수정 필요")
     @ApiResponse(responseCode = "200", description = "결제 비밀번호 변경 성공")
@@ -85,6 +75,7 @@ public class PaymentController {
             SuccessCode.PAYMENT_PASSWORD_UPDATE_SUCCESS);
     }
 
+
     @Operation(summary = "결제 내역 조회", description = "특정 결제 내역을 조회합니다.")
     @ApiResponse(responseCode = "200", description = "결제 내역 조회 성공")
     @GetMapping("{historyId}")
@@ -94,6 +85,7 @@ public class PaymentController {
     ) {
         return response.success(paymentService.getPaymentHistory(memberId, id), SuccessCode.PAYMENT_HISTORY_FETCHED);
     }
+
 
     @Operation(summary = "결제 정보 조회", description = "특정 매장과 가격에 따른 결제 정보를 조회합니다.")
     @ApiResponse(responseCode = "200", description = "결제 정보 조회 성공")

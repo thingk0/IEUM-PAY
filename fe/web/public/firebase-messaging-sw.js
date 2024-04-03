@@ -23,14 +23,15 @@ const messaging = firebase.messaging();
 
 // 푸시 내용을 처리해서 알림으로 띄운다.
 self.addEventListener('push', function (event) {
-  console.log('푸시이벤트트');
   if (event.data) {
     // 알림 메세지일 경우엔 event.data.json().notification;
-    const data = event.data.json().data;
+    const data = event.data.json().notification;
+    console.log('link');
+    console.log(data);
     const options = {
       body: data.body,
-      icon: data.image,
-      image: data.image,
+      icon: 'https://www.ieum-pay.site/icon-192x192.png',
+      image: 'https://www.ieum-pay.site/icon-256x256.png',
       data: {
         click_action: data.click_action, // 이 필드는 밑의 클릭 이벤트 처리에 사용됨
       },

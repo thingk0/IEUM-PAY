@@ -6,10 +6,11 @@ import com.ieum.common.annotation.CurrentMemberId;
 import com.ieum.common.dto.request.paymentPasswordRequestDTO;
 import com.ieum.common.dto.request.secondaryAuthRequestDTO;
 import com.ieum.common.dto.response.secondaryAuthResponseDTO;
+import com.ieum.common.dto.token.FcmTokenRequestDto;
 import com.ieum.common.format.code.SuccessCode;
 import com.ieum.common.format.code.Topic;
 import com.ieum.common.format.response.ResponseTemplate;
-import com.ieum.common.message.SseConnectionRequestMessage;
+import com.ieum.common.message.FcmConnectionRequestMessage;
 import com.ieum.common.service.AuthService;
 import com.ieum.common.service.TokenService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,7 +43,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final KafkaTemplate<String, SseConnectionRequestMessage> sseConnectionRequestMessageTemplate;
+    private final KafkaTemplate<String, FcmConnectionRequestMessage> fcmKafkaTemplate;
     private final ResponseTemplate response;
     private final StringRedisTemplate stringRedisTemplate;
     private final AuthService authService;
@@ -90,13 +91,18 @@ public class AuthController {
         return response.fail(AUTHENTICATION_2FA_FAILED.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/subscribe")
-    public ResponseEntity<?> subscribeToSse(
+    @Operation(summary = "FCM 토큰 등록", description = "로그인 후 클라이언트로부터 받은 FCM 토큰을 등록합니다.")
+    @ApiResponse(responseCode = "200", description = "FCM 토큰 등록 성공")
+    @PostMapping("/register-fcm-token")
+    public ResponseEntity<?> registerFcmToken(
+        @RequestBody FcmTokenRequestDto fcmTokenRequestDTO,
         @Parameter(hidden = true) @CurrentMemberId Long memberId
     ) {
-        SseConnectionRequestMessage message = new SseConnectionRequestMessage(memberId);
-        sseConnectionRequestMessageTemplate.send(Topic.SSE_CONNECTION_REQUEST.getTopicName(), message);
-        return response.success(HttpStatus.OK);
+        fcmKafkaTemplate.send(Topic.FCM_CONNECT.getTopicName(),
+                              FcmConnectionRequestMessage.builder()
+                                                         .fcmToken(fcmTokenRequestDTO.getFcmToken())
+                                                         .memberId(memberId)
+                                                         .build());
+        return response.success(SuccessCode.SUCCESS);
     }
-
 }

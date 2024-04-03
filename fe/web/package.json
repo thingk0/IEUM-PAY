@@ -44,6 +44,7 @@
     "react-animated-numbers": "^0.18.0",
     "react-circular-progressbar": "^2.1.0",
     "react-dom": "^18",
+    "react-lottie-player": "^2.0.0",
     "sass": "^1.72.0",
     "zustand": "^4.5.2"
   },

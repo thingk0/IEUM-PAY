@@ -9,7 +9,7 @@ public enum Topic {
 
     TRANSFER_RECEIVED("transfer-received"),
     FUNDING_COMPLETED("funding-completed"),
-    SSE_CONNECTION_REQUEST("sse-connection-request"),
+    FCM_CONNECT("fcm-connect"),
     ;
 
     private final String topicName;
