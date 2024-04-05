@@ -378,7 +378,7 @@ export default function Detail({ fundId }: { fundId: string }) {
                 </div>
               </ModalBody>
               <ModalFooter className={styles.modalFooter}>
-                <Button primary size="thick" onClick={onClose}>
+                <Button primary size="thin" onClick={onClose}>
                   확인
                 </Button>
               </ModalFooter>
