@@ -8,7 +8,7 @@ import Header from '@/components/Header';
 import { useQuery } from '@tanstack/react-query';
 import { getBalance } from '@/api/paymentAxios';
 import { useEffect } from 'react';
-
+const MAX_TRANSFER = 2000000;
 type KeyElement = string | number | JSX.Element;
 function AmountPage() {
   const router = useRouter();
@@ -41,12 +41,20 @@ function AmountPage() {
   }
   function 송금금액_설명() {
     if (sendMoneyInfo.송금금액 === 0) {
-      return;
+      return <p className={classes.description}>부족금액 자동충전</p>;
     }
-    if (sendMoneyInfo.송금금액 > data) {
-      return <p className={classes.invalid}>출금가능금액 부족</p>;
+    if (sendMoneyInfo.송금금액 > MAX_TRANSFER) {
+      return (
+        <p className={classes.invalid}>
+          {commaizeNumber(MAX_TRANSFER)}원 송금 가능 (1회 한도 초과)
+        </p>
+      );
     } else {
-      return <>{formatToKRW(sendMoneyInfo.송금금액)}</>;
+      return (
+        <p className={classes.description}>
+          {formatToKRW(sendMoneyInfo.송금금액)}
+        </p>
+      );
     }
   }
   if (data !== undefined)
@@ -79,7 +87,9 @@ function AmountPage() {
           onClickNumber={handleClickNumber}
           onClickDelete={handleClickDelete}
           onClickConfirm={handleClickConfirm}
-          isValid={sendMoneyInfo.송금금액 > 0 && sendMoneyInfo.송금금액 <= data}
+          isValid={
+            sendMoneyInfo.송금금액 > 0 && sendMoneyInfo.송금금액 <= MAX_TRANSFER
+          }
         />
       </div>
     );
