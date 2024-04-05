@@ -62,7 +62,7 @@ interface dataType {
 export default function Detail({ fundId }: { fundId: string }) {
   const router = useRouter();
   const donateInfo = useDonateMoneyInfo();
-  const { userInfo } = useUserStore();
+  const { userInfo, setBalance } = useUserStore();
 
   const [detailData, setData] = useState<dataType>({
     fundingId: 1,
@@ -281,7 +281,9 @@ export default function Detail({ fundId }: { fundId: string }) {
     async function getData() {
       try {
         const fundDetailData = await getFundDetail(fundId);
+        const userBalance = await getBalance();
         fundDetailData != undefined ? setData(fundDetailData.data) : '';
+        setBalance(userBalance);
       } catch (e) {
         console.log(e);
       }
