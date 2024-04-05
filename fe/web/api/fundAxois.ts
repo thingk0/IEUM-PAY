@@ -44,10 +44,7 @@ export const getFundDetail = async (fundId: string | string[] | undefined) => {
 
   return await local
     .get(`api/funding/${fundId}/complete`)
-    .then((response) => {
-      console.log(response.data.data);
-      return response.data;
-    })
+    .then((res) => res.data.data)
     .catch((error) => {
       console.log(error.message);
     });
