@@ -37,7 +37,7 @@ public class CardOcrController {
         RestTemplate restTemplate = new RestTemplate();
         ObjectMapper objectMapper = new ObjectMapper();
 
-        byte[] imageBytes = img.getBytes();
+        byte[] imageBytes =img.getBytes();
 
         // byte 배열을 Base64 문자열로 인코딩
         String base64Image = Base64.encodeBase64String(imageBytes);
