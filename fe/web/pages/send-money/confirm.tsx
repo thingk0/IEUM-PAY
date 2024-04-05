@@ -38,9 +38,12 @@ function ConfirmPage() {
               <span>충전금액</span>
               <span>
                 {commaizeNumber(
-                  ceilToUnit(
-                    sendMoneyInfo.송금금액 - sendMoneyInfo.잔액,
-                    10000,
+                  Math.max(
+                    ceilToUnit(
+                      sendMoneyInfo.송금금액 - sendMoneyInfo.잔액,
+                      10000,
+                    ),
+                    0,
                   ),
                 )}
                 원
