@@ -178,7 +178,7 @@ export default function Detail({ fundId }: { fundId: string }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const btnProps = {
-    text: results[1].data?.currentLink ? '기부 그만하기' : '기부 연동하기',
+    text: results[1].data?.currentLink ? '기부 연동하기' : '기부 그만하기',
     text2: '직접 후원하기',
     btnStyle: 'recThinFill',
     btnStyle2: 'recThinFill',
