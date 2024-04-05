@@ -237,7 +237,19 @@ function ScanCardPage() {
                     data.cardNumber == '' ? (
                       <div>인식 오류가 발생했습니다 다시 시도해주세요</div>
                     ) : (
-                      <div>확인 버튼을 눌러주세요</div>
+                      <>
+                        {router.push(
+                          {
+                            pathname: '/card',
+                            query: {
+                              cardNum: data.cardNumber,
+                              validThru: data.validThru,
+                            },
+                          },
+                          '/card',
+                        )}
+                        {onClose()}
+                      </>
                     )
                   ) : (
                     <CircularProgress
