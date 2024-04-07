@@ -41,8 +41,10 @@ export default function RegisterEnd() {
         <div className={styles.complete}>
           <img src="/icon-192x192.png" alt="이음페이 로고" />
           <p>회원가입 완료</p>
-          <strong>{userInfo.userNickname}님</strong>
-          <strong>환영해요!</strong>
+          <div className={styles.strongs}>
+            <strong>{userInfo.userNickname}님</strong>
+            <strong>환영해요!</strong>
+          </div>
           <div className={styles.btnComp}>
             <Button primary onClick={startRegister}>
               시작하기
