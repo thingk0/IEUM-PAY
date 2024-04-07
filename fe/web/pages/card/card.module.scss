@@ -63,10 +63,10 @@ $cardHeight: 12.667rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: absolute;
+    bottom: -5rem;
+    z-index: 10;
     .link {
-      position: absolute;
-      bottom: -5rem;
-      height: 2.625rem;
       border-radius: 23px;
       color: white;
       display: flex;
@@ -79,7 +79,7 @@ $cardHeight: 12.667rem;
       letter-spacing: -1.6px;
       text-align: center;
       color: var(--real-white);
-      padding: 1rem;
+      padding: 0.25rem 1rem;
     }
   }
 }
