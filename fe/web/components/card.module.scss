@@ -6,7 +6,7 @@ $cardWidth: 20rem;
   width: $cardWidth;
   height: $cardWidth / 1.58;
   background-color: #fff;
-  // box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.4);
+  box-shadow: 1px 2px 2px 0px rgba(0, 0, 0, 0.4);
   border-radius: 0.6rem;
   position: absolute;
   transform-origin: 50% 0%;
@@ -106,13 +106,13 @@ $cardWidth: 20rem;
     opacity: 0;
   }
   50% {
-    transform: translateY(0px) scale(0.7);
-    opacity: 0;
-  }
-  51% {
     transform: translateY(10px) scale(0.7);
     opacity: 0;
   }
+  // 51% {
+  //   transform: translateY(10px) scale(0.7);
+  //   opacity: 0;
+  // }
   100% {
     transform: translateY(0px) scale(0.7);
     opacity: 1;
@@ -121,17 +121,17 @@ $cardWidth: 20rem;
 
 @keyframes down {
   0% {
-    transform: translateY(-40px) scale(0.9);
+    transform: translateY(-1.4rem) scale(0.9);
     opacity: 1;
   }
   50% {
     transform: translateY(0px) scale(1);
     opacity: 1;
   }
-  51% {
-    transform: translateY(0px) scale(1);
-    opacity: 1;
-  }
+  // 51% {
+  //   transform: translateY(0px) scale(1);
+  //   opacity: 1;
+  // }
   100% {
     transform: translateY(0px) scale(1);
     opacity: 1;
