@@ -15,8 +15,11 @@ export default function LandingPageSecond() {
 
   return (
     <div className={styles.container}>
-      <div className={state1 ? styles.disapearsecond : ''} onClick={onClickFn}>
-        <div className={styles.second}>
+      <div className={styles.second}>
+        <div
+          className={state1 ? styles.disapearsecond : ''}
+          onClick={onClickFn}
+        >
           <img
             className={styles.top}
             src="/landing/simplePayment.svg"
