@@ -11,14 +11,15 @@
 }
 
 .top {
-  padding-top: 0.4rem;
+  margin-top: 2rem;
   display: flex;
   justify-content: end;
+  align-content: center;
 }
 .moneyContainer {
   margin: 0.625rem 0;
   position: absolute;
-  bottom: 10.2rem;
+  bottom: 10.6rem;
   width: calc(100% - 2.5rem);
 }
 
@@ -47,7 +48,7 @@ $cardWidth: 20rem;
   // position: relative;
   // left: 100%;
   // transform: translateX(-($cardWidth)) translateY(10rem);
-  transform: translateX(-($cardWidth / 2)) translateY(8.5rem);
+  transform: translateX(-($cardWidth / 2)) translateY(6rem);
 }
 
 .empty {

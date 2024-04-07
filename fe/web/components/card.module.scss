@@ -1,5 +1,5 @@
 $cardPosition: 0;
-$cardOffset: 2.8rem;
+// $cardOffset: 2.6rem;
 $cardWidth: 20rem;
 
 .card {
@@ -55,7 +55,7 @@ $cardWidth: 20rem;
   // margin-top: 0.3rem;
   width: 5rem;
   position: absolute;
-  top: -0.1rem;
+  top: -0.2rem;
   right: 0;
 }
 
@@ -79,23 +79,23 @@ $cardWidth: 20rem;
 
 .card1 {
   z-index: 800;
-  // transform: scale(0.95);
+  transform: scale(0.9);
   filter: brightness(0.95);
-  top: $cardPosition - $cardOffset;
+  top: $cardPosition - 1.4rem;
 }
 
 .card2 {
   z-index: 600;
-  // transform: scale(0.9);
+  transform: scale(0.8);
   filter: brightness(0.9);
-  top: $cardPosition - $cardOffset * 2;
+  top: $cardPosition - 2.7rem;
 }
 
 .card3 {
   z-index: 400;
-  // transform: scale(0.85);
+  transform: scale(0.7);
   filter: brightness(0.85);
-  top: $cardPosition - $cardOffset * 3;
+  top: $cardPosition - 3.9rem;
   animation-name: remove;
   animation-duration: 0.7s;
 }
@@ -106,22 +106,22 @@ $cardWidth: 20rem;
     opacity: 0;
   }
   50% {
-    transform: translateY(-60px);
+    transform: translateY(-60px) scale(0.65);
     opacity: 0;
   }
   51% {
-    transform: translateY(-15px) scale(1);
+    transform: translateY(-15px) scale(0.65);
     opacity: 0;
   }
   100% {
-    transform: translateY(0px) scale(1);
+    transform: translateY(0px) scale(0.7);
     opacity: 1;
   }
 }
 
 @keyframes down {
   0% {
-    transform: translateY(-40px) scale(1);
+    transform: translateY(-40px) scale(0.9);
     opacity: 1;
   }
   50% {
