@@ -77,3 +77,13 @@
   width: 95%;
   // height: 30%;
 }
+.imgBox {
+  display: flex;
+  height: 60vh;
+  align-items: center;
+
+  .img {
+    width: 45%;
+    margin: 0 auto;
+  }
+}
