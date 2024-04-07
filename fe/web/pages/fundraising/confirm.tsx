@@ -5,12 +5,9 @@ import Button from '@/stories/Button';
 import { commaizeNumber } from '@toss/utils';
 import DirectDonationIcon from '@/components/icons/DirectDonationIcon';
 import { useRouter } from 'next/router';
-import useUserStore from '@/stores/user-store';
-import { directDonate } from '@/api/fundAxois';
 
 function ConfirmPage() {
-  const { donateMoneyInfo, setFundingId } = useDonateMoneyInfo();
-  const { userInfo } = useUserStore();
+  const { donateMoneyInfo } = useDonateMoneyInfo();
   const router = useRouter();
   const onClickFunc = () => {
     router.push({
@@ -36,9 +33,11 @@ function ConfirmPage() {
             {commaizeNumber(donateMoneyInfo.송금금액)}원 기부하기
           </p>
         </div>
-        <Button primary size="thick" onClick={onClickFunc}>
-          기부하기
-        </Button>
+        <div className={styles.btn}>
+          <Button primary size="thick" onClick={onClickFunc}>
+            기부하기
+          </Button>
+        </div>
       </main>
     </>
   );
