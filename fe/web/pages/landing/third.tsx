@@ -33,8 +33,8 @@ export default function LandingPageThird() {
             />
           </div>
           <div className={state1 ? styles.text : styles.displayNone}>
-            <p>결제 시 발생하는 돈을</p>
-            <p>부담없이 기부하세요</p>
+            <p>결제 후 남은 잔돈을</p>
+            <p>부담없이 기부해 보세요</p>
           </div>
         </div>
       </div>
