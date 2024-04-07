@@ -56,6 +56,10 @@
   justify-content: center;
   align-items: center;
   background: linear-gradient(143deg, #7835f9 16%, #c576f5 82%);
+  // outline: 10px solid white;
+  box-shadow:
+    0 0 0 5px var(--real-white),
+    0px -0.4px 0px 4.7px rgb(155, 155, 155);
 }
 
 .modalComp {
