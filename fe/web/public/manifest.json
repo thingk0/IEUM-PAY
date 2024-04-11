@@ -6,6 +6,7 @@
   "start_url": "/",
   "name": "ieumpay",
   "short_name": "ieum",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "/icon-192x192.png",
