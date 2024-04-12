@@ -74,9 +74,11 @@ export default function CompleteDonation() {
             <p>{data.facilityTitle}</p>
           </div>
         </div>
-        <Button primary size="thick" onClick={onClickFunc}>
-          완료
-        </Button>
+        <div className={styles.btn}>
+          <Button primary size="thick" onClick={onClickFunc}>
+            완료
+          </Button>
+        </div>
       </div>
     </>
   );

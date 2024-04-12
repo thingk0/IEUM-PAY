@@ -15,6 +15,7 @@ import {
   useDisclosure,
 } from '@nextui-org/react';
 import { getOSByUserAgent } from '@toss/utils';
+import Link from 'next/link';
 
 function ScanCardPage() {
   let videoRef = useRef<HTMLVideoElement>(null);
@@ -196,8 +197,23 @@ function ScanCardPage() {
       console.log(e);
     }
   }
+
+  const stopStream = (stream: MediaStream | null) => {
+    if (stream) {
+      stream.getTracks().forEach((track) => {
+        stream.removeTrack(track);
+        track.stop();
+      });
+    }
+  };
+
   useEffect(() => {
     getUserMedia();
+    return () => {
+      if (myStream.current) {
+        stopStream(myStream.current);
+      }
+    };
   }, []);
   return (
     <>
@@ -209,6 +225,11 @@ function ScanCardPage() {
       ></video>
       <div className={classes.card}>
         <p>카드를 사각형 안에 맞춰주세요</p>
+        <div className={classes['link-wrapper']}>
+          <Link href="/card" className={classes.link}>
+            번호 직접입력
+          </Link>
+        </div>
       </div>
       <div className={classes.overlay}>
         <header>
@@ -237,7 +258,19 @@ function ScanCardPage() {
                     data.cardNumber == '' ? (
                       <div>인식 오류가 발생했습니다 다시 시도해주세요</div>
                     ) : (
-                      <div>확인 버튼을 눌러주세요</div>
+                      <>
+                        {router.push(
+                          {
+                            pathname: '/card',
+                            query: {
+                              cardNum: data.cardNumber,
+                              validThru: data.validThru,
+                            },
+                          },
+                          '/card',
+                        )}
+                        {onClose()}
+                      </>
                     )
                   ) : (
                     <CircularProgress

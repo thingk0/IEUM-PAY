@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-const MAX_TRANSFER = 100000000;
+const MAX_TRANSFER = 2000000;
 
 interface sendMoneyInfoType {
   수취인: string;

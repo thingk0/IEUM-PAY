@@ -3,7 +3,7 @@ import classes from '@/styles/ConfirmPage.module.scss';
 import SendMoneyGradientIcon from '@/components/icons/SendMoneyGradientIcon';
 import Header from '@/components/Header';
 import Button from '@/stories/Button';
-import { commaizeNumber, formatPhoneNumber } from '@toss/utils';
+import { ceilToUnit, commaizeNumber, formatPhoneNumber } from '@toss/utils';
 import { sendPayMoney } from '@/api/sendMoneyAxios';
 import { useRouter } from 'next/router';
 
@@ -33,6 +33,21 @@ function ConfirmPage() {
             <li>
               <span>출금</span>
               <span>이음페이머니</span>
+            </li>
+            <li>
+              <span>충전금액</span>
+              <span>
+                {commaizeNumber(
+                  Math.max(
+                    ceilToUnit(
+                      sendMoneyInfo.송금금액 - sendMoneyInfo.잔액,
+                      10000,
+                    ),
+                    0,
+                  ),
+                )}
+                원
+              </span>
             </li>
             <li>
               <span>입금할 연락처</span>

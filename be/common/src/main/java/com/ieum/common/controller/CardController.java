@@ -10,6 +10,7 @@ import com.ieum.common.dto.request.CardUpdateRequestDTO;
 import com.ieum.common.dto.response.CardOcrResponseDTO;
 import com.ieum.common.format.code.SuccessCode;
 import com.ieum.common.format.response.ResponseTemplate;
+import com.ieum.common.service.CardService;
 import com.ieum.common.service.MemberService;
 import com.ieum.common.service.PayService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,6 +38,7 @@ public class CardController {
     private final PayService payService;
     private final MemberService memberService;
     private final ResponseTemplate response;
+    private final CardService cardService;
 
     @Operation(summary = "메인 카드 설정", description = "사용자의 메인 카드를 설정합니다.")
     @ApiResponse(responseCode = "200", description = "메인 카드 설정 성공")
@@ -56,8 +58,11 @@ public class CardController {
     @ApiResponse(responseCode = "200", description = "OCR 처리 성공 - OCR 통해 읽은 카드 정보 반환")
     @PostMapping("/ocr")
     public ResponseEntity<?> cardOcr(
-        @RequestParam("img") MultipartFile img
+        @RequestParam("img") MultipartFile img, @CurrentMemberId Long memberId
     ) {
+        if(cardService.ocrCount(memberId)){
+            return response.success(CardOcrResponseDTO.builder().build(),SuccessCode.SUCCESS);
+        }
         CardOcrResponseDTO cardOcrResponseDTO = payService.getOcr(img);
         return response.success(cardOcrResponseDTO, SuccessCode.CARD_OCR_PROCESS_SUCCESSFUL);
     }
